@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from . import Occupation, Company
+from . import Occupation, Company, Role
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     occupation = models.ForeignKey(Occupation)
     work_address = models.CharField(max_length = 255, default = '')
     company = models.ForeignKey(Company)
-    
+    roles = models.ManyToManyField(Role, through = 'UserHasRole')
 
     def __str__(self):
         return "Perfil de %s" % self.user
