@@ -1,9 +1,8 @@
 from django.db import models
 
-class Region(models.Model):
-    number = models.IntegerField()
+class Province(models.Model):
     name = models.CharField(max_length = 100)
-    capital = models.ForeignKey('Commune')
+    region = models.ForeignKey('Region')
     
     def __str__(self):
         return self.name
