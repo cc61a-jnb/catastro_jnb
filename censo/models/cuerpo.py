@@ -1,10 +1,8 @@
 from django.db import models
 
-class Company(models.Model):
+class Cuerpo(models.Model):
     name = models.CharField(max_length = 100, default = '')
     rut = models.CharField(max_length = 10, default = '')
-    region = models.ForeignKey('Region')
-    cuerpo = models.ForeignKey('Cuerpo')
     
     def __str__(self):
         return self.name
