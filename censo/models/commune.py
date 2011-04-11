@@ -5,8 +5,8 @@ class Commune(models.Model):
     url = models.CharField(max_length = 100)
     province = models.ForeignKey('Province')
     
-    def __str__(self):
-        return self.name
+    def __unicode__(self):
+        return self.name + ' (' + unicode(self.province) + ')'
 
     class Meta:
         ordering = ['name']
