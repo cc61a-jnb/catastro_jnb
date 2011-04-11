@@ -4,6 +4,9 @@ from django.db.models.signals import post_save
 
 class Company(models.Model):
     name = models.CharField(max_length = 100, default = '')
+    rut = models.IntegerField()
+    region = models.ForeignKey('Region')
+    name = models.CharField(max_length = 100, default = '')
     
     def __str__(self):
         return self.name
