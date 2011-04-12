@@ -7,6 +7,21 @@ import psycopg2
 import re
 from datetime import *
 
+months = (
+    ('enero', 1),
+    ('febrero', 2),
+    ('marzo', 3),
+    ('abril', 4),
+    ('mayo', 5),
+    ('junio', 6),
+    ('julio', 7),
+    ('agosto', 8),
+    ('septiembre', 9),
+    ('octubre', 10),
+    ('noviembre', 11),
+    ('diciembre', 12),
+)
+
 def main():
     conn_string = "host='127.0.0.1' dbname='mydb' port='5432' user='cc61a' password='cc61a'"
     
@@ -108,23 +123,12 @@ def main():
             cuerpo.url = url
         cuerpo.save()
         
-        date_string = row[17]
+        # fecha fundacion
+
+        date_string = row[11]
+
         if date_string:
             date_string = date_string.lower()
-            months = [
-                ['enero', 1],
-                ['febrero', 2],
-                ['marzo', 3],
-                ['abril', 4],
-                ['mayo', 5],
-                ['junio', 6],
-                ['julio', 7],
-                ['agosto', 8],
-                ['septiembre', 9],
-                ['octubre', 10],
-                ['noviembre', 11],
-                ['diciembre', 12],
-            ]
             
             for month_name, value in months:
                 date_string = date_string.replace(month_name, str(value))
@@ -138,11 +142,46 @@ def main():
                 print date_string.encode('ascii', 'ignore')
                 print d
             else:
-                print 'No parseable'
+                print 'No parseable, {0}'.format(date_string)
+        
+            cuerpo.foundation_date = d
+            cuerpo.save()
+        
+        lemma = row[12]
+        
+        if lemma:
+            # http://stackoverflow.com/questions/2872512/python-truncate-a-long-string
+            cuerpo.lemma = lemma[:252] + (lemma[252:] and '...')
+            # cuerpo.lemma = lemma
+            cuerpo.save()
+
+        alarm_central_phone = row[13]
+        if alarm_central_phone:
+            cuerpo.alarm_central_phone = alarm_central_phone
+
+        date_string = row[17]
+
+        if date_string:
+            date_string = date_string.lower()
             
+            for month_name, value in months:
+                date_string = date_string.replace(month_name, str(value))
+            
+            m = re.search('(\d+)\D+(\d+)\D+(\d+)', date_string)
+            if m:
+                day = int(m.group(1))
+                month = int(m.group(2))
+                year = int(m.group(3))
+                d = date(year, month, day)
+                print date_string.encode('ascii', 'ignore')
+                print d
+            else:
+                print 'No parseable, {0}'.format(date_string)
         
-        
-        
+            cuerpo.decree_date = d
+            cuerpo.save()
+
+
         '''
         foundation_date = models.DateField(blank=True, null=True)
         lemma = models.CharField(max_length=255)
