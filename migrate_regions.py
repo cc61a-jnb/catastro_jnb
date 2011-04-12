@@ -30,6 +30,7 @@ def main():
 
     cursor.execute("SELECT * FROM regiones")
     
+    Role.objects.all().delete()
     Cuerpo.objects.all().delete()
     Region.objects.all().delete()
     Province.objects.all().delete()
@@ -194,6 +195,21 @@ def main():
         # TODO: logo
         cuer_npers_juri = models.IntegerField(blank=True, null=True) # No estamos seguros de para que es, borrar si no sirve para nada
         '''
+
+    print 'Migrando Roles'
+    cursor.execute("SELECT * FROM cargo")
+    rows = cursor.fetchall()
+    for row in rows:
+        name = row[1]
+        if name:
+            role = Role()
+            role.name = name
+            role.save()
+            print role
+
+    print 'Migrando Usuarios'
+
+    print 'Migrando Roles de Usuario'
 
 if __name__ == '__main__':
     print datetime.now()
