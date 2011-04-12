@@ -30,7 +30,9 @@ def main():
 
     cursor.execute("SELECT * FROM regiones")
     
+    UserHasRole.objects.all().delete()
     Role.objects.all().delete()
+    UserProfile.objects.all().delete()
     Cuerpo.objects.all().delete()
     Region.objects.all().delete()
     Province.objects.all().delete()
@@ -208,6 +210,10 @@ def main():
             print role
 
     print 'Migrando Usuarios'
+    cursor.execute("SELECT * FROM usuarios")
+    rows = cursor.fetchall()
+    for row in rows:
+        pass
 
     print 'Migrando Roles de Usuario'
 
