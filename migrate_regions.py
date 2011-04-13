@@ -43,7 +43,7 @@ def main():
     Company.objects.all().delete()
 
 
-    print 'Migrando regiones'
+    #print 'Migrando regiones'
     cursor.execute("SELECT * FROM regiones")
     rows = cursor.fetchall()
     for row in rows:
@@ -53,10 +53,10 @@ def main():
         region = Region()
         region.number = num_region
         region.name = name_region
-        print region
+        #print region
         region.save()
         
-    print 'Migrando provincias'
+    #print 'Migrando provincias'
     cursor.execute("SELECT * FROM provincias")
     rows = cursor.fetchall()
     for row in rows:
@@ -68,10 +68,10 @@ def main():
         province.name = name
         province.region = region
         province.old_id = old_id
-        print province
+        #print province
         province.save()
         
-    print 'Migrando comunas'
+    #print 'Migrando comunas'
     cursor.execute("SELECT * FROM comuna")
     rows = cursor.fetchall()
     for row in rows:
@@ -84,10 +84,10 @@ def main():
             url = ''
         commune.url = url
         commune.province = province
-        print commune
+        #print commune
         commune.save()
         
-    print 'Migrando cuerpos'
+    #print 'Migrando cuerpos'
     cursor.execute("SELECT * FROM cuerpos")
     rows = cursor.fetchall()
     
@@ -201,10 +201,10 @@ def main():
         
             cuerpo.decree_date = d
             
-        print cuerpo
+        #print cuerpo
         cuerpo.save()
         
-    print 'Migrando Companias'
+    #print 'Migrando Companias'
     pending_companies_communes = []
     pending_companies_attend_communes = []
     pending_companies_foundation_dates = []
@@ -295,11 +295,11 @@ def main():
             except:
                 pending_companies_foundation_dates.append([company, date_string])
                 
-        print company
+        #print company
         company.save()
     '''
             
-    print 'Migrando Roles'
+    #print 'Migrando Roles'
     cursor.execute("SELECT * FROM cargo")
     rows = cursor.fetchall()
     for row in rows:
@@ -311,9 +311,9 @@ def main():
             if not Role.objects.filter(old_id = sid):
                 role.old_id = sid
                 role.save()
-                print role
+                #print role
 
-    print 'Migrando Usuarios'
+    #print 'Migrando Usuarios'
     cursor.execute("SELECT * FROM usuarios")
     rows = cursor.fetchall()
     pending_user_roles = []
@@ -377,11 +377,11 @@ def main():
             profile.gender = row[19][0]
         else:
             profile.gender = 'M'
-        print profile
+        #print profile
         profile.save()
         u.save()
 
-    print 'Migrando Roles de Usuario'
+    #print 'Migrando Roles de Usuario'
     cursor.execute("SELECT * FROM usu_cargo")
     rows = cursor.fetchall()
     for row in rows:
@@ -391,7 +391,7 @@ def main():
         uhr.cuerpo = Cuerpo.objects.get(old_id = row[4])
         uhr.start_date = row[5]
         uhr.end_date = row[6]
-        print uhr
+        #print uhr
         uhr.save()
         
     print 'Informes de error de migracion'
