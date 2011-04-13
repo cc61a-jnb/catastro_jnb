@@ -15,11 +15,7 @@ def display_portada_form(request):
                 )
     company = Company.objects.all()[11]
     initial_data = {
-        'number': company.number,
         'address': company.address,
-        'commune': company.commune,
-        'province': company.commune.province,
-        'region': company.commune.province.region,
         'phone': company.phone,
         'foundation_date': company.foundation_date,
     }
@@ -28,5 +24,6 @@ def display_portada_form(request):
 
     return render_to_response('censo/censo.html', {
         'form': form,
+        'company': company,
         }, context_instance=RequestContext(request),
         )

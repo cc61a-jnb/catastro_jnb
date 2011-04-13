@@ -33,6 +33,7 @@ def main():
     
     print 'Deleting UserHasRole'
     UserHasRole.objects.all().delete()
+    
     print 'Deleting UserProfile'
     UserProfile.objects.all().delete()
     print 'Deleting Role'
@@ -40,7 +41,6 @@ def main():
     print 'Deleting Users'
     User.objects.filter(is_superuser = False).delete()
     
-    '''
     Cuerpo.objects.all().delete()
     Region.objects.all().delete()
     Province.objects.all().delete()
@@ -302,7 +302,7 @@ def main():
                 
         #print company
         company.save()
-    '''
+    
             
     #print 'Migrando Roles'
     cursor.execute("SELECT * FROM cargo")
@@ -317,9 +317,9 @@ def main():
                 role.old_id = sid
                 role.save()
                 #print role
-
+                
     #print 'Migrando Usuarios'
-    cursor.execute("SELECT * FROM usuarios")
+    cursor.execute("SELECT * FROM usuarios OFFSET 39000")
     rows = cursor.fetchall()
     pending_user_roles = []
     pending_user_companies = []
@@ -393,25 +393,42 @@ def main():
         profile.save()
         u.save()
         
+    transaction.commit()
     transaction.leave_transaction_management()
 
     transaction.enter_transaction_management()
     transaction.managed(True)
     #print 'Migrando Roles de Usuario'
+    uhr_missing_data = []
     cursor.execute("SELECT * FROM usu_cargo")
     rows = cursor.fetchall()
+    len_rows = len(rows)
     for idx, row in enumerate(rows):
         if idx % 1000 == 0:
             print str(idx) + ' de ' + str(len_rows)
             transaction.commit()
         uhr = UserHasRole()
-        uhr.profile = UserProfile.objects.get(old_id = row[2])
-        uhr.role = Role.objects.get(old_id = row[1])
-        uhr.cuerpo = Cuerpo.objects.get(old_id = row[4])
+        try:
+            uhr.profile = UserProfile.objects.get(old_id = row[2])
+        except UserProfile.DoesNotExist:
+            uhr_missing_data.append('Usuario ' + row[2])
+            continue
+        try:
+            uhr.role = Role.objects.get(old_id = row[1])
+        except Role.DoesNotExist:
+            uhr_missing_data.append('Cargo ' + row[1])
+            continue
+        try:
+            uhr.cuerpo = Cuerpo.objects.get(old_id = row[4])
+        except Cuerpo.DoesNotExist:
+            uhr_missing_data.append('Cuerpo ' + row[4])
+            continue
         uhr.start_date = row[5]
         uhr.end_date = row[6]
         #print uhr
         uhr.save()
+            
+    transaction.commit()
     transaction.leave_transaction_management()
         
     print 'Informes de error de migracion'
@@ -455,6 +472,10 @@ def main():
     print '10. Usuarios con compania invalida'
     for user, rolename in pending_user_companies:
         print 'Usuario ' + str(user.id) + ' Perfil ' + str(user.get_profile().id) + ': ' + rolename
+        
+    print '11. Errores en UHR'
+    for error in uhr_missing_data:
+        print error
 
 if __name__ == '__main__':
     print datetime.now()
