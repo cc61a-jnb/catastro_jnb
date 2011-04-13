@@ -6,6 +6,8 @@ import sys
 import psycopg2
 import re
 from datetime import *
+from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
 
 months = (
     ('enero', 1),
@@ -27,18 +29,22 @@ def main():
     
     conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM regiones")
     
     UserHasRole.objects.all().delete()
-    Role.objects.all().delete()
     UserProfile.objects.all().delete()
+    Role.objects.all().delete()
+    User.objects.filter(is_superuser = False).delete()
+    
+    '''
     Cuerpo.objects.all().delete()
     Region.objects.all().delete()
     Province.objects.all().delete()
     Commune.objects.all().delete()
+    Company.objects.all().delete()
+
 
     print 'Migrando regiones'
+    cursor.execute("SELECT * FROM regiones")
     rows = cursor.fetchall()
     for row in rows:
         num_region = row[0]
@@ -87,9 +93,13 @@ def main():
     
     pending_cuerpos_communes = []
     pending_cuerpos_attend_communes = []
+    pending_cuerpos_foundation_dates = []
+    pending_cuerpos_decree_dates = []
+    pending_cuerpos_cuer_nper_juris = []
     
     for row in rows:
         cuerpo = Cuerpo()
+        cuerpo.old_id = row[0]
         cuerpo.name = row[1]
         cuerpo.rut = row[2].replace('.', '').replace('-', '').lower()
         cuerpo.address = row[4]
@@ -120,7 +130,9 @@ def main():
         postal_box = row[8]
         if postal_box:
             cuerpo.postal_box = postal_box
-        cuerpo.mail = row[9]
+        mail = row[9]
+        if mail:
+            cuerpo.mail = mail
         url = row[10]
         if url:
             cuerpo.url = url
@@ -139,16 +151,14 @@ def main():
             m = re.search('(\d+)\D+(\d+)\D+(\d+)', date_string)
             if m:
                 day = int(m.group(1))
+                if day > 31:
+                    raise Exception
                 month = int(m.group(2))
                 year = int(m.group(3))
                 d = date(year, month, day)
-                print date_string.encode('ascii', 'ignore')
-                print d
+                cuerpo.foundation_date = d
             else:
-                print 'No parseable, {0}'.format(date_string)
-        
-            cuerpo.foundation_date = d
-            cuerpo.save()
+                pending_cuerpos_foundation_dates.append([cuerpo, date_string])
         
         lemma = row[12]
         
@@ -161,6 +171,14 @@ def main():
         alarm_central_phone = row[13]
         if alarm_central_phone:
             cuerpo.alarm_central_phone = alarm_central_phone
+            
+        cuer_npers_juri = row[16]
+        if cuer_npers_juri:
+            try:
+                cuer_npers_juri_num = int(cuer_npers_juri)
+                cuerpo.cuer_npers_juri = cuer_npers_juri_num
+            except ValueError, e:
+                pending_cuerpos_cuer_nper_juris.append([cuerpo, cuer_npers_juri])
 
         date_string = row[17]
 
@@ -173,31 +191,114 @@ def main():
             m = re.search('(\d+)\D+(\d+)\D+(\d+)', date_string)
             if m:
                 day = int(m.group(1))
+                if day > 31:
+                    raise Exception
                 month = int(m.group(2))
                 year = int(m.group(3))
                 d = date(year, month, day)
-                print date_string.encode('ascii', 'ignore')
-                print d
             else:
-                print 'No parseable, {0}'.format(date_string)
+                pending_cuerpos_decree_dates.append([cuerpo, date_string])
         
             cuerpo.decree_date = d
-            cuerpo.save()
-
-
-        '''
-        foundation_date = models.DateField(blank=True, null=True)
-        lemma = models.CharField(max_length=255)
-        alarm_central_phone = models.CharField(max_length=100)
-        communes = models.ManyToManyField('Commune', blank=True, null=True)
-        decree_date = models.DateField(blank=True, null=True) # fecha decreto
-    
-        # De aca para abajo: Cosas pendientes y dudosas
+            
+        print cuerpo
+        cuerpo.save()
         
-        # TODO: logo
-        cuer_npers_juri = models.IntegerField(blank=True, null=True) # No estamos seguros de para que es, borrar si no sirve para nada
-        '''
+    print 'Migrando Companias'
+    pending_companies_communes = []
+    pending_companies_attend_communes = []
+    pending_companies_foundation_dates = []
+    
+    cursor.execute('SELECT * FROM companias')
+    rows = cursor.fetchall()
+    for row in rows:
+        company = Company()
+        company.old_id = row[0]
+        company.number = int(row[1])
+        
+        company.name = row[2]
+        
+        cuerpo_id = row[3]
+        cuerpo = Cuerpo.objects.get(old_id = cuerpo_id)
+        company.cuerpo = cuerpo
+        
+        phone = row[5]
+        if phone:
+            company.phone = phone
+        mail = row[6]
+        if mail:
+            company.mail = mail
+        address = row[8]
+        if address:
+            company.address = address
+        
+        commune_name = row[9]
+        
+        try:
+            commune = Commune.objects.get(name__iexact = commune_name)
+            company.commune = commune
+        except Commune.DoesNotExist:
+            pending_companies_communes.append([company, commune_name])
+        except ValueError:
+            pending_companies_communes.append([company, commune_name])
+        
+        fax = row[10]
+        if fax:
+            company.fax = fax
+        postal_box = row[11]
+        if postal_box:
+            company.postal_box = postal_box
+        website = row[12]
+        if website:
+            company.website = website
+        alarm_central = row[13]
+        if alarm_central:
+            company.alarm_central = alarm_central
+        lemma = row[14]
+        if lemma:
+            company.lemma = lemma
+        
+        company.save()
+        
+        commune_names = row[16]
+        if commune_names:
+            communes = [commune.strip() for commune in commune_names.split(',')]
+            for commune_name in communes:
+                try:
+                    commune = Commune.objects.get(name__iexact = commune_name)
+                    company.communes.add(commune)
+                except:
+                    pending_companies_attend_communes.append([company, commune_name])
+        
+        # fecha fundacion
 
+        date_string = row[17]
+
+        if date_string:
+            date_string = date_string.lower()
+            
+            for month_name, value in months:
+                date_string = date_string.replace(month_name, str(value))
+            
+            m = re.search('(\d+)\D+(\d+)\D+(\d+)', date_string)
+            try:
+                if m:
+                    day = int(m.group(1))
+                    month = int(m.group(2))
+                    year = int(m.group(3))
+                    if day > 31 or month > 12:
+                        raise Exception
+                    d = date(year, month, day)
+                    company.foundation_date = d
+                else:
+                    pending_companies_foundation_dates.append([company, date_string])
+            except:
+                pending_companies_foundation_dates.append([company, date_string])
+                
+        print company
+        company.save()
+    '''
+            
     print 'Migrando Roles'
     cursor.execute("SELECT * FROM cargo")
     rows = cursor.fetchall()
@@ -206,19 +307,135 @@ def main():
         if name:
             role = Role()
             role.name = name
-            role.save()
-            print role
+            sid = row[0]
+            if not Role.objects.filter(old_id = sid):
+                role.old_id = sid
+                role.save()
+                print role
 
     print 'Migrando Usuarios'
     cursor.execute("SELECT * FROM usuarios")
     rows = cursor.fetchall()
+    pending_user_roles = []
+    pending_user_companies = []
     for row in rows:
-        pass
+        u = User()
+        u.save()
+        profile = u.get_profile()
+        profile.old_id = row[0]
+        profile.first_name = row[1]
+        profile.first_last_name = row[2]
+        profile.second_last_name = row[3]
+        rut = row[4]
+        if rut:
+            rut = rut.replace('.', '').replace(':', '')
+            try:
+                profile.rut = str(int(rut))[:9]
+            except ValueError:
+                profile.rut = ''
+        u.username = str(u.id)
+        u.save()
+        
+        address = row[7]
+        if address:
+            profile.address = address
+
+        phone = row[8]
+        if phone:
+            profile.phone = phone
+            
+        cellphone = row[9]
+        if cellphone:
+            profile.cell_phone = cellphone
+            
+        on = row[11]
+        if on:
+            occupation_name = on[:252] + (on[252:] and '...')
+            profile.occupation, created = Occupation.objects.get_or_create(name = occupation_name)
+            
+        work_phone = row[12]
+        if work_phone:
+            profile.work_phone = work_phone
+            
+        work_address = row[13]
+        if work_address:
+            profile.work_address = work_address
+
+        company_id = row[14]
+        if company_id:
+            try:
+                profile.company = Company.objects.get(old_id = company_id)
+            except Company.DoesNotExist:
+                pending_user_companies.append([u, company_id])
+                
+        try:
+            profile.current_role = Role.objects.get(old_id = row[16])
+        except Role.DoesNotExist:
+            pending_user_roles.append([u, row[16]])
+        gender = row[19]
+        if gender:
+            profile.gender = row[19][0]
+        else:
+            profile.gender = 'M'
+        print profile
+        profile.save()
+        u.save()
 
     print 'Migrando Roles de Usuario'
+    cursor.execute("SELECT * FROM usu_cargo")
+    rows = cursor.fetchall()
+    for row in rows:
+        uhr = UserHasRole()
+        uhr.profile = UserProfile.objects.get(old_id = row[2])
+        uhr.role = Role.objects.get(old_id = row[1])
+        uhr.cuerpo = Cuerpo.objects.get(old_id = row[4])
+        uhr.start_date = row[5]
+        uhr.end_date = row[6]
+        print uhr
+        uhr.save()
+        
+    print 'Informes de error de migracion'
+    
+    print '1. Cuerpos con comunas invalidas'
+    for cuerpo, commune_name in pending_cuerpos_communes:
+        print str(cuerpo.id) + ' ' + unicode(cuerpo) + ': ' + commune_name
+
+    print '2. Cuerpos con comunas atendidas invalidas'
+    for cuerpo, commune_name in pending_cuerpos_attend_communes:
+        print str(cuerpo.id) + ' ' + unicode(cuerpo) + ': ' + commune_name  
+              
+    print '3. Cuerpos con fechas de fundacion invalidas'
+    for cuerpo, date_string in pending_cuerpos_foundation_dates:
+        print str(cuerpo.id) + ' ' + unicode(cuerpo) + ': ' + date_string
+
+    print '4. Cuerpos con fechas de decreto invalidas'
+    for cuerpo, date_string in pending_cuerpos_decree_dates:
+        print str(cuerpo.id) + ' ' + unicode(cuerpo) + ': ' + date_string
+
+    print '5. Cuerpos con nper_juris invalido'
+    for cuerpo, cuer_nper_juris in pending_cuerpos_cuer_nper_juris:
+        print str(cuerpo.id) + ' ' + unicode(cuerpo) + ': ' + cuer_nper_juris
+
+    print '6. Companias con comunas invalidas'
+    for company, commune_name in pending_companies_communes:
+        print str(company.id) + ' ' + unicode(company) + ': ' + commune_name
+
+    print '7. Companias con comunas atendidas invalidas'
+    for company, commune_name in pending_companies_attend_communes:
+        print str(company.id) + ' ' + unicode(company) + ': ' + commune_name
+        
+    print '8. Companias con fechas de fundacion invalidas'
+    for company, date_string in pending_companies_foundation_dates:
+        print str(company.id) + ' ' + unicode(company) + ': ' + date_string
+
+    print '9. Usuarios con roles invalidos'
+    for user, rolename in pending_user_roles:
+        print 'Usuario ' + str(user.id) + ' Perfil ' + str(user.get_profile().id) + ': ' + rolename
+        
+    print '10. Usuarios con compania invalida'
+    for user, rolename in pending_user_companies:
+        print 'Usuario ' + str(user.id) + ' Perfil ' + str(user.get_profile().id) + ': ' + rolename
 
 if __name__ == '__main__':
     print datetime.now()
     main()
-
-

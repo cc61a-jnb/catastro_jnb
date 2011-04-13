@@ -4,8 +4,11 @@ from . import Role, UserProfile
 class UserHasRole(models.Model):
     profile = models.ForeignKey(UserProfile)
     role = models.ForeignKey(Role)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    cuerpo = models.ForeignKey('Cuerpo', blank = True, null = True)
     
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     class Meta:
