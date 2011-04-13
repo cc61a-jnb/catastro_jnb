@@ -1,3 +1,4 @@
+from speciality import Speciality
 from role import Role
 from occupation import Occupation
 from commune import Commune

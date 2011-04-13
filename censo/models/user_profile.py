@@ -4,20 +4,24 @@ from django.db.models.signals import post_save
 from . import Occupation, Company, Role
 
 class UserProfile(models.Model):
+    old_id = models.IntegerField(default = 0)
     user = models.OneToOneField(User)
+    first_name = models.CharField(max_length = 100, default = '')
     first_last_name = models.CharField(max_length = 40, default = '')
-    second_last_lane = models.CharField(max_length = 40, default = '')
+    second_last_name = models.CharField(max_length = 40, default = '')
     rut = models.CharField(max_length = 10, default = '')
     address = models.CharField(max_length = 255, default = '')
     phone = models.CharField(max_length = 40, default = '')
     cell_phone = models.CharField(max_length = 40, default = '')
     work_phone = models.CharField(max_length = 40, default = '')
-    occupation = models.ForeignKey(Occupation)
+    occupation = models.ForeignKey(Occupation, blank = True, null = True)
     work_address = models.CharField(max_length = 255, default = '')
-    company = models.ForeignKey(Company)
+    company = models.ForeignKey(Company, blank = True, null = True)
     roles = models.ManyToManyField(Role, through = 'UserHasRole')
+    current_role = models.ForeignKey(Role, related_name='+', blank = True, null = True)
+    gender = models.CharField(max_length = 1)
 
-    def __str__(self):
+    def __unicode__(self):
         return "Perfil de %s" % self.user
 
     class Meta:

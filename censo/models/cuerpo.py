@@ -3,6 +3,7 @@
 from django.db import models
 
 class Cuerpo(models.Model):
+    old_id = models.IntegerField()
     name = models.CharField(max_length=100, default='')
     rut = models.CharField(max_length=10, default='')
     address = models.CharField(max_length=255, default='')

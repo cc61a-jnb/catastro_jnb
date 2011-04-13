@@ -1,8 +1,9 @@
-from django.db import models
-from django.contrib.auth.models import User
+# coding: utf-8
 
-class Occupation(models.Model):
-    name = models.CharField(max_length = 255, default = '')
+from django.db import models
+
+class Speciality(models.Model):
+    name = models.CharField(max_length = 255)
     
     def __unicode__(self):
         return self.name
