@@ -8,6 +8,6 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 )
 
-urlpatterns += patterns('jnb_spike.censo.views_spike_form',
-    (r'^$', 'display_spike_form'),
+urlpatterns += patterns('jnb_spike.censo.views_company',
+    (r'^$', 'display_portada_form'),
 )

@@ -8,6 +8,7 @@ import re
 from datetime import *
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
+from django.db import transaction
 
 months = (
     ('enero', 1),
@@ -30,9 +31,13 @@ def main():
     conn = psycopg2.connect(conn_string)
     cursor = conn.cursor()
     
+    print 'Deleting UserHasRole'
     UserHasRole.objects.all().delete()
+    print 'Deleting UserProfile'
     UserProfile.objects.all().delete()
+    print 'Deleting Role'
     Role.objects.all().delete()
+    print 'Deleting Users'
     User.objects.filter(is_superuser = False).delete()
     
     '''
@@ -318,7 +323,14 @@ def main():
     rows = cursor.fetchall()
     pending_user_roles = []
     pending_user_companies = []
-    for row in rows:
+    len_rows = len(rows)
+    
+    transaction.enter_transaction_management()
+    transaction.managed(True)
+    for idx, row in enumerate(rows):
+        if idx % 1000 == 0:
+            print str(idx) + ' de ' + str(len_rows)
+            transaction.commit()
         u = User()
         u.save()
         profile = u.get_profile()
@@ -380,11 +392,18 @@ def main():
         #print profile
         profile.save()
         u.save()
+        
+    transaction.leave_transaction_management()
 
+    transaction.enter_transaction_management()
+    transaction.managed(True)
     #print 'Migrando Roles de Usuario'
     cursor.execute("SELECT * FROM usu_cargo")
     rows = cursor.fetchall()
-    for row in rows:
+    for idx, row in enumerate(rows):
+        if idx % 1000 == 0:
+            print str(idx) + ' de ' + str(len_rows)
+            transaction.commit()
         uhr = UserHasRole()
         uhr.profile = UserProfile.objects.get(old_id = row[2])
         uhr.role = Role.objects.get(old_id = row[1])
@@ -393,6 +412,7 @@ def main():
         uhr.end_date = row[6]
         #print uhr
         uhr.save()
+    transaction.leave_transaction_management()
         
     print 'Informes de error de migracion'
     

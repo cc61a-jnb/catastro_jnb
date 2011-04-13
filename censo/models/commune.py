@@ -6,7 +6,7 @@ class Commune(models.Model):
     province = models.ForeignKey('Province')
     
     def __unicode__(self):
-        return self.name + ' (' + unicode(self.province) + ')'
+        return self.name
 
     class Meta:
         ordering = ['name']

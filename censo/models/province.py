@@ -6,7 +6,7 @@ class Province(models.Model):
     old_id = models.IntegerField()
     
     def __unicode__(self):
-        return self.name + ' (' + unicode(self.region) + ')'
+        return self.name
 
     class Meta:
         ordering = ['name']
