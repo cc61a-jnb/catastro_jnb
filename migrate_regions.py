@@ -411,17 +411,17 @@ def main():
         try:
             uhr.profile = UserProfile.objects.get(old_id = row[2])
         except UserProfile.DoesNotExist:
-            uhr_missing_data.append('Usuario ' + row[2])
+            uhr_missing_data.append('Usuario ' + str(row[2]))
             continue
         try:
-            uhr.role = Role.objects.get(old_id = row[1])
+            uhr.role = Role.objects.get(old_id = str(row[1]))
         except Role.DoesNotExist:
-            uhr_missing_data.append('Cargo ' + row[1])
+            uhr_missing_data.append('Cargo ' + str(row[1]))
             continue
         try:
-            uhr.cuerpo = Cuerpo.objects.get(old_id = row[4])
+            uhr.cuerpo = Cuerpo.objects.get(old_id = str(row[4]))
         except Cuerpo.DoesNotExist:
-            uhr_missing_data.append('Cuerpo ' + row[4])
+            uhr_missing_data.append('Cuerpo ' + str(row[4]))
             continue
         uhr.start_date = row[5]
         uhr.end_date = row[6]
