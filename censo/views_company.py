@@ -9,7 +9,7 @@ def display_portada_form(request):
         if form.is_valid():
             return HttpResponseRedirect('/thanks/') # Redirect after POST
         else:
-            return render_to_response('censo/censo.html', {
+            return render_to_response('censo/censo-new.html', {
                 'form': form,
                 }, context_instance=RequestContext(request),
                 )
@@ -22,7 +22,7 @@ def display_portada_form(request):
     
     form = CompanyPortadaForm(initial=initial_data) # si no lo pasamos como intitial, se activa la validacion
 
-    return render_to_response('censo/censo.html', {
+    return render_to_response('censo/censo-new.html', {
         'form': form,
         'company': company,
         }, context_instance=RequestContext(request),

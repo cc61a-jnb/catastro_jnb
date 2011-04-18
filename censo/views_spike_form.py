@@ -10,14 +10,14 @@ def display_spike_form(request):
             # ...
             return HttpResponseRedirect('/thanks/') # Redirect after POST
         else:
-            return render_to_response('censo/censo.html', {
+            return render_to_response('censo/censo-new.html', {
                 'form': form,
                 }, context_instance=RequestContext(request),
                 )
             
     form = SpikeForm() # An unbound form
 
-    return render_to_response('censo/censo.html', {
+    return render_to_response('censo/censo-new.html', {
         'form': form,
         }, context_instance=RequestContext(request),
         )

@@ -77,7 +77,7 @@ a {
 a:hover {text-decoration: underline;}
 
 a.feed {
-	background: url('img/icon-feed.gif') no-repeat left center;
+	background: url('/media/img/icon-feed.gif') no-repeat left center;
 	padding-left: 18px;
 }
 a.more {
@@ -438,7 +438,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 .comment-list ul.children ul.children {margin-left: 15px;}
 
 .comment-list ul.children li {
-	background: url('img/comment-reply.gif') no-repeat left top;
+	background: url('/media/img/comment-reply.gif') no-repeat left top;
 	margin: 0;
 	padding: 10px 0 0 15px;
 }
@@ -459,7 +459,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 .comment .post-date .right a:hover {color: #234;}
 
 .comment-arrow {
-	background: url('img/comment-arrow.gif') no-repeat left top;
+	background: url('/media/img/comment-arrow.gif') no-repeat left top;
 	display: block;
 	float: left;
 	height: 45px;
@@ -484,7 +484,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 	margin-bottom: 0;
 }
 #comments #respond ul {
-	background: url('img/comment-reply.gif') no-repeat left top;
+	background: url('/media/img/comment-reply.gif') no-repeat left top;
 	padding: 10px 0 0 15px;
 }
 #comments ul.children #respond ul {
@@ -572,8 +572,8 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 /* Main */
 .main {margin: 24px 0;}
 
-.main#main-two-columns {background: url('img/main-two-columns.gif') repeat-y right top;}
-.main#main-two-columns-left {background: url('img/main-two-columns-left.gif') repeat-y left top;}
+.main#main-two-columns {background: url('/media/img/main-two-columns.gif') repeat-y right top;}
+.main#main-two-columns-left {background: url('/media/img/main-two-columns-left.gif') repeat-y left top;}
 .main#main-two-columns #main-content, .main#main-two-columns-left #main-content {width: 620px;}
 
 /* Sidebar */
