@@ -547,7 +547,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 #main-nav {padding-top: 72px;}
 #main-nav li {margin: 0 1.5em;}
 #main-nav a {
-	font-size: 1.8em;
+	font-size: 1.6em;
 	line-height: 2em;
 	padding-bottom: 2px;
 }
@@ -654,3 +654,18 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 * html .navigation, * html #footer, * html #splash, * html .comment ul {height: 0.01%;}
 * html #footer-left {width: 500px;}
 .navigation, #splash, .comment ul {min-height: 0.01%;}
+
+
+/* Nuestras reglas */
+
+#login_form input[type=text], #login_form input[type=password] {
+    border: 1px solid gray;
+    height: 18px;
+}
+
+#login_form input[type=submit] {
+    background-color: #e0e0e0;
+    height: 25px;
+    width: 70px;
+    border: 1px solid #b0b0b0;
+}

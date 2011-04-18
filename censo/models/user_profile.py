@@ -23,6 +23,13 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return "Perfil de %s" % self.user
+        
+    def latest_role(self):
+        roles = self.roles.order_by('old_id')
+        if roles:
+            return roles[0]
+        else:
+            return None
 
     class Meta:
         ordering = ['user']

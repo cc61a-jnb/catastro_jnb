@@ -12,5 +12,11 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('jnb_spike.censo.views_company',
-    (r'^$', 'display_portada_form'),
+    (r'^company/$', 'display_portada_form'),
+)
+
+urlpatterns += patterns('jnb_spike.censo.views',
+    (r'^$', 'index'),
+    (r'^login/$', 'login'),
+    (r'^logout/$', 'logout'),
 )

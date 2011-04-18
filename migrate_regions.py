@@ -319,7 +319,24 @@ def main():
                 #print role
                 
     #print 'Migrando Usuarios'
-    cursor.execute("SELECT * FROM usuarios OFFSET 39000")
+    
+    # Primero, encontrar usernames y passwords en la tabla mailbox
+    print 'Fetching passwords'
+    cursor.execute("SELECT * FROM mailbox")
+    rows = cursor.fetchall()
+    usu_dict = {}
+    usernames = []
+    for row in rows:
+        username = row[0].split('@')[0]
+        password = row[1]
+        id_usu = row[12]
+        if username not in usernames:
+            usu_dict[id_usu] = [username, password]     
+            usernames.append(username)
+    
+    # Segundo, migrar sus datos
+    print 'Creating users'
+    cursor.execute("SELECT * FROM usuarios")
     rows = cursor.fetchall()
     pending_user_roles = []
     pending_user_companies = []
@@ -393,6 +410,13 @@ def main():
         profile.save()
         u.save()
         
+        if profile.old_id not in usu_dict:
+            continue
+        username, password = usu_dict[profile.old_id]
+        u.username = username
+        u.set_password(password)
+        u.save() 
+
     transaction.commit()
     transaction.leave_transaction_management()
 
@@ -419,7 +443,7 @@ def main():
             uhr_missing_data.append('Cargo ' + str(row[1]))
             continue
         try:
-            uhr.cuerpo = Cuerpo.objects.get(old_id = str(row[4]))
+            uhr.cuerpo = Cuerpo.objects.get(old_id = row[4])
         except Cuerpo.DoesNotExist:
             uhr_missing_data.append('Cuerpo ' + str(row[4]))
             continue
