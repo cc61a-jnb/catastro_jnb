@@ -1,3 +1,6 @@
 from spike_form import SpikeForm
 from login_form import LoginForm
 from company_portada_form import CompanyPortadaForm
+from company_portada_form import CompanyPortadaPartialForm
+from company_volunteer_form import CompanyVolunteerPartialForm
+from company_volunteer_form import CompanyVolunteerForm

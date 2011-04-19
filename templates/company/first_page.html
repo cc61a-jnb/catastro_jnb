@@ -10,8 +10,6 @@
 		<li><b>Comuna:</b> {{ company.commune }}</li>
 		<li><b>Provincia:</b> {{ company.commune.province }}</li>
 		<li><b>Región:</b> {{ company.commune.province.region }}</li>
-		<li><b>Dirección:</b> {{ company.address }}</li>
-		<li><b>Teléfono:</b> {{ company.phone }}</li>
 	</ul>
 	<form method="post">
 	{% csrf_token %}

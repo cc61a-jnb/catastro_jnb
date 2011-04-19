@@ -1,0 +1,93 @@
+{% extends "company/base.html" %}
+
+{% block nav_menu %}
+	<ul class="tabbed">
+		<li><a href="/company/">Portada</a></li>
+		<li class="current-tab"><a href="/company/volunteers">Voluntarios</a></li>
+		<li><a href="/company/infrastructure">Infraestructura</a></li>
+		<li><a href="/company/minor_material">Material Menor</a></li>
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<h2>Catastro de compañía de bomberos</h2>
+	<br />
+	<h3>Voluntarios</h3>
+	<br />
+	<ul>
+		<li><b>Número de compañía:</b> {{ company.number }}</li>
+		<li><b>Especialidades:</b>
+			<ul>
+			{% for speciality in company.specialities.all %}
+				<li>{{ speciality.name }}</li>
+			{% empty %}
+				<li>ninguna</li>
+			{% endfor %}
+			</ul>
+		</li>
+	</ul>
+	<form method="post">
+	{% csrf_token %}
+	{% for field in form %}
+		{% if forloop.counter == 1 %}
+	<p></p>
+	<h3>Soporte Tecnológico</h3>
+		{%endif%}
+		{% if forloop.counter == 7 %}
+	<p></p>
+	<h3>Uso de Tecnologías de Internet</h3>
+		{%endif%}
+		{% if forloop.counter == 11 %}
+	<p></p>
+	<h3>N° Total Voluntarios</h3>
+		{%endif%}
+		{% if forloop.counter == 13 %}
+	<p></p>
+	<h3>N° Voluntarios Honorarios</h3>
+		{%endif%}
+		{% if forloop.counter ==  16%}
+	<p></p>
+	<h3>N° Voluntarios Activos</h3>
+		{%endif%}
+		{% if forloop.counter ==  18%}
+	<p></p>
+	<h3>Rango de Edad Voluntarios</h3>
+		{%endif%}
+		{% if forloop.counter ==  27%}
+	<p></p>
+	<h3>Educación Voluntarios</h3>
+		{%endif%}
+		{% if forloop.counter ==  32%}
+	<p></p>
+	<h3>Formación Bomberil - ANB</h3>
+	<p></p>
+	<h4>Cursos del Cuerpo</h4>
+		{%endif%}
+		{% if forloop.counter ==  34%}
+	<p></p>
+	<h4>Cursos de la Academia</h4>
+		{%endif%}
+		{% if forloop.counter ==  36%}
+	<p></p>
+	<h3>Conductores clase F</h3>
+		{%endif%}
+		{% if forloop.counter ==  38%}
+	<p></p>
+	<h3>Oficial o Voluntario a Cargo de Hoja de Vida</h3>
+		{%endif%}
+		{% if forloop.counter ==  42%}
+	<p></p>
+	<h3>Brigada Juvenil de Compañía</h3>
+		{%endif%}
+		{% if forloop.counter ==  47%}
+	<hr />
+		{%endif%}
+		<div class="fieldWrapper">
+			{{ field.errors }}
+			{{ field.label_tag }}: {{ field }}
+		</div>
+	{% endfor %}
+	<p><input type="submit" value="Enviar" /></p>
+</form>
+	
+{% endblock %}

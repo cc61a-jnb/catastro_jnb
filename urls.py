@@ -13,6 +13,9 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('jnb_spike.censo.views_company',
     (r'^company/$', 'display_portada_form'),
+    (r'^company/volunteers$', 'display_volunteers_form'),
+    (r'^company/infrastructure$', 'display_infrastructure_form'),
+    (r'^company/minor_material$', 'display_minor_material_form'),
 )
 
 urlpatterns += patterns('jnb_spike.censo.views',

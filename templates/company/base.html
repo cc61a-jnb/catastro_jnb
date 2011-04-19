@@ -7,6 +7,12 @@
 	<meta name="keywords" content="" />
 	<meta name="author" content="" />
 	<link rel="stylesheet" type="text/css" href="/media/style.css" media="screen" />
+	<link rel="stylesheet" href="/media/css/blueprint/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="/media/css/blueprint/print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="/media/css/blueprint/src/forms.css" type="text/css" media="screen, projection">
+	<!--[if lt IE 8]>
+	<link rel="stylesheet" href="/media/css/blueprint/ie.css" type="text/css" media="screen, projection">
+	<![endif]-->
 	<title>Catastro de compañía de bomberos</title>
 </head>
 
@@ -19,17 +25,20 @@
 		<div id="top">
 
 			<div class="left" id="logo">
-				<a href="index.html"><img src="/media/img/logo_bomberos.jpg" alt="" /></a>
+				<a href="/company"><img src="/media/img/logo_bomberos.jpg" alt="" /></a>
 			</div>
 
 			<div class="left navigation" id="main-nav">
 
+				
+			{% block nav_menu %}
 				<ul class="tabbed">
-					<li class="current-tab"><a href="index.html">Portada</a></li>
-					<li><a href="#">Voluntarios</a></li>
-					<li><a href="#">Infraestructura</a></li>
-					<li><a href="#">Material Menor</a></li>
+					<li class="current-tab"><a href="/company/">Portada</a></li>
+					<li><a href="/company/volunteers">Voluntarios</a></li>
+					<li><a href="/company/infrastructure">Infraestructura</a></li>
+					<li><a href="/company/minor_material">Material Menor</a></li>
 				</ul>
+			{% endblock %}
 
 				<div class="clearer">&nbsp;</div>
 
@@ -44,8 +53,8 @@
 	<div class="main" id="main-two-columns">
 
 		<div class="left" id="main-content">
-            {% block content %}
-            {% endblock %}
+			{% block content %}
+			{% endblock %}
 		</div>
 
 		<div class="clearer">&nbsp;</div>

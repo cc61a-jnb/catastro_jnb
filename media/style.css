@@ -16,7 +16,7 @@ http://templates.arcsin.se/license/
    Reset
 ------------------------------------------------------------------- */
 
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, textarea, input, select {margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline;}
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, textarea, select {margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline;}
 table {border-collapse: collapse; border-spacing: 0;}
 caption, th, td {text-align: left; font-weight: normal;}
 table, td, th {vertical-align: middle;}
@@ -244,6 +244,7 @@ legend {
 	font-size: 1.2em;
 }
 textarea {overflow: auto;}
+/*
 input.text, textarea, select {
 	background: #FCFCFC;
 	border: 1px inset #AAA;
@@ -257,7 +258,7 @@ input.button {
 	border: 1px outset #AAA;
 	padding: 4px 5px;
 }
-input.button:active {border-style: inset;}
+input.button:active {border-style: inset;}*/
 
 
 /* Specific */

@@ -1,10 +1,17 @@
 # coding: utf-8
 
 from censo.forms import CompanyPortadaForm
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from censo.forms import CompanyVolunteerPartialForm
+from censo.forms import CompanyVolunteerForm
 from censo.models import Company
+from censo.models import VolunteerData
+
 from django.http import HttpResponseRedirect
+from django.template import RequestContext
+from django.shortcuts import render_to_response
+
+from django.core.exceptions import ObjectDoesNotExist
+
 
 def company_login_required(f):
     def wrap(request, *args, **kwargs):
@@ -28,26 +35,75 @@ def company_login_required(f):
 
 @company_login_required
 def display_portada_form(request):
-    if request.method == 'POST': # If the form has been submitted...
-        form = SpikeForm(request.POST) # A form bound to the POST data
-        if form.is_valid():
-            return HttpResponseRedirect('/thanks/') # Redirect after POST
-        else:
-            return render_to_response('censo/company/first_page.html', {
-                'form': form,
-                }, context_instance=RequestContext(request),
-                )
-    company = Company.objects.all()[11]
+    profile = request.user.get_profile()
+    company = profile.company
     initial_data = {
         'address': company.address,
         'phone': company.phone,
         'foundation_date': company.foundation_date,
     }
+
+    if request.method == 'POST': # If the form has been submitted...
+        form = CompanyPortadaForm(request.POST) # A form bound to the POST data
+        if form.is_valid():
+            company.address = form.cleaned_data['address']
+            company.phone = form.cleaned_data['phone']
+            company.foundation_date = form.cleaned_data['foundation_date']
+            company.save()
+            return HttpResponseRedirect('/company/volunteers') # Redirect after POST
+        else:
+            return render_to_response('company/first_page.html', {
+                'form': form,
+                }, context_instance=RequestContext(request),
+                )
     
     form = CompanyPortadaForm(initial=initial_data) # si no lo pasamos como intitial, se activa la validacion
 
     return render_to_response('company/first_page.html', {
-        'form': form,
-        'company': company,
-        }, context_instance=RequestContext(request),
+            'form': form,
+            'company': company,
+            }, context_instance=RequestContext(request),
+        )
+
+@company_login_required
+def display_volunteers_form(request):
+    profile = request.user.get_profile()
+    company = profile.company
+    volunteer_data = None
+    try:
+        volunteer_data = company.volunteerdata
+    except ObjectDoesNotExist:
+        volunteer_data = VolunteerData()
+        volunteer_data.company = company
+        volunteer_data.save()
+
+    if request.method == 'POST': # If the form has been submitted...
+        form = CompanyVolunteerPartialForm(request.POST, instance=volunteer_data) # A form bound to the POST data
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/company/infrastructure') # Redirect after POST
+        else:
+            return render_to_response('company/second_page.html', {
+                'form': form,
+                }, context_instance=RequestContext(request),
+                )
+
+    form = CompanyVolunteerPartialForm(instance=volunteer_data) # si no lo pasamos como intitial, se activa la validacion
+
+    return render_to_response('company/second_page.html', {
+            'form': form,
+            'company': company,
+            }, context_instance=RequestContext(request),
+        )
+
+@company_login_required
+def display_infrastructure_form(request):
+    return render_to_response('company/third_page.html', {
+            }, context_instance=RequestContext(request),
+        )
+
+@company_login_required
+def display_minor_material_form(request):
+    return render_to_response('company/fourth_page.html', {
+            }, context_instance=RequestContext(request),
         )
