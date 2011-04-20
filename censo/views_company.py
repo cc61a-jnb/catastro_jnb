@@ -1,11 +1,7 @@
 # coding: utf-8
 
-from censo.forms import CompanyPortadaForm
-from censo.forms import CompanyVolunteerPartialForm
-from censo.forms import CompanyVolunteerForm
-from censo.models import Company
-from censo.models import VolunteerData
-
+from censo.forms import CompanyPortadaPartialForm, CompanyVolunteerPartialForm
+from censo.models import Company, VolunteerData
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -37,27 +33,20 @@ def company_login_required(f):
 def display_portada_form(request):
     profile = request.user.get_profile()
     company = profile.company
-    initial_data = {
-        'address': company.address,
-        'phone': company.phone,
-        'foundation_date': company.foundation_date,
-    }
 
     if request.method == 'POST': # If the form has been submitted...
-        form = CompanyPortadaForm(request.POST) # A form bound to the POST data
+        form = CompanyPortadaPartialForm(request.POST, instance=company) # A form bound to the POST data
         if form.is_valid():
-            company.address = form.cleaned_data['address']
-            company.phone = form.cleaned_data['phone']
-            company.foundation_date = form.cleaned_data['foundation_date']
-            company.save()
+            form.save()
             return HttpResponseRedirect('/company/volunteers') # Redirect after POST
         else:
             return render_to_response('company/first_page.html', {
                 'form': form,
+                'company': company,
                 }, context_instance=RequestContext(request),
                 )
     
-    form = CompanyPortadaForm(initial=initial_data) # si no lo pasamos como intitial, se activa la validacion
+    form = CompanyPortadaPartialForm(instance=company)
 
     return render_to_response('company/first_page.html', {
             'form': form,

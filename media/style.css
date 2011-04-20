@@ -670,3 +670,11 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
     width: 70px;
     border: 1px solid #b0b0b0;
 }
+
+.errorlist {
+    font-weight: bold;
+    font-size: 10px;
+    list-style: none;
+    color: #b30a0a;
+    margin-bottom: 2px;
+}

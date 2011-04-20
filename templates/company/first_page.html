@@ -6,6 +6,7 @@
     <h3>Portada</h3>
     <br />
 	<ul>
+	    <li><b>Nombre de compañía:</b> {{ company.name }}</li>
 		<li><b>Número de compañía:</b> {{ company.number }}</li>
 		<li><b>Comuna:</b> {{ company.commune }}</li>
 		<li><b>Provincia:</b> {{ company.commune.province }}</li>
@@ -14,7 +15,7 @@
 	<form method="post">
 	{% csrf_token %}
 	{{ form.as_p }}
-	<input type="submit" value="Submit" />
+	<input type="submit" value="Guardar" />
 	</form>
 	
 {% endblock %}

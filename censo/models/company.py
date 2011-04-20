@@ -9,7 +9,7 @@ class Company(models.Model):
     cuerpo = models.ForeignKey('Cuerpo', related_name='cuerpo_company')
     phone = models.CharField(max_length=255, default = '', verbose_name='teléfono')
     mail = models.EmailField(max_length=255, default = '')
-    address = models.EmailField(max_length=255, default = '', verbose_name='dirección')
+    address = models.CharField(max_length=255, default = '', verbose_name='dirección')
     commune = models.ForeignKey('Commune', related_name='+', blank=True, null=True)
     fax = models.CharField(max_length=255, default = '')
     postal_box = models.CharField(max_length=255, default = '')
