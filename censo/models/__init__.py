@@ -9,3 +9,4 @@ from company import Company
 from user_profile import UserProfile
 from user_has_role import UserHasRole
 from province import Province
+from internet_provider import InternetProvider

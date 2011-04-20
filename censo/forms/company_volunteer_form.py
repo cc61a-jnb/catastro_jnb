@@ -9,6 +9,13 @@ from datetime import date
 
 class CompanyVolunteerPartialForm(ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(CompanyVolunteerPartialForm, self).__init__(*args, **kwargs)
+        self.fields['fk_internet_provider'].empty_label = 'No posee'
+
+
     class Meta:
         model = VolunteerData
         exclude = ('company',)
+        
+        

@@ -20,8 +20,7 @@ class VolunteerData(models.Model):
     notebooks_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° notebooks')
     projectors_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° proyectores')
     printers_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° impresoras') 
-    has_internet = models.NullBooleanField(verbose_name='tiene internet') 
-    internet_provider = models.CharField(max_length=50, null=True, blank=True, verbose_name='proveedor internet')
+    fk_internet_provider = models.ForeignKey('InternetProvider', verbose_name='Internet', blank=True, null=True)
     
     # segunda parte: redes sociales
 

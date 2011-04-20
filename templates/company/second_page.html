@@ -32,7 +32,28 @@
 		{% if forloop.counter == 1 %}
 	<p></p>
 	<h3>Soporte Tecnológico</h3>
-		{%endif%}
+	    <table class="table_quantities">
+	        <tr>
+	            <th></th>
+	            <th>Computadores</th>
+	            <th>Notebooks</th>	            
+	            <th>Proyectores</th>
+	            <th>Impresoras</th>
+            </tr>
+            <tr>
+                <th>N°</th>
+		{% endif %}               
+		
+		{% if forloop.counter > 0 %}
+		    {% if forloop.counter < 5 %}
+		        <td>{{ field }}</td>
+		    {% endif %}
+	    {% endif %}     
+
+        {% if forloop.counter == 5 %}                
+            </tr>
+        </table>
+		{% endif %}
 		{% if forloop.counter == 7 %}
 	<p></p>
 	<h3>Uso de Tecnologías de Internet</h3>
