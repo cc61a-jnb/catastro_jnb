@@ -33,20 +33,29 @@ class VolunteerData(models.Model):
 
     volunteer_total_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios totales mujeres')
     volunteer_total_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios totales hombres')
-    volunteer_paid_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios a honorarios mujeres')
-    volunteer_paid_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios a honorarios hombres')
-    volunteer_antiquity_required_to_be_paid = models.IntegerField(null=True, blank=True, verbose_name='antigüedad requerida para honorarios')
+    volunteer_honorary_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios honorarios mujeres')
+    volunteer_honorary_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios honorarios hombres')
+    volunteer_antiquity_required_to_honorary = models.IntegerField(null=True, blank=True, verbose_name='antigüedad requerida para ser honorario')
     volunteer_active_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios activos mujeres')
-    volunteer_active_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios totales hombres')
-    volunteer_age_between_18_25_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios entre 18 y 25 años')
-    volunteer_age_between_26_30_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios entre 26 y 30 años')
-    volunteer_age_between_31_35_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios entre 31 y 35 años')
-    volunteer_age_between_36_40_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios entre 36 y 40 años')
-    volunteer_age_between_41_45_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios entre 41 y 45 años')
-    volunteer_age_between_46_50_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios entre 46 y 50 años')
-    volunteer_age_between_51_55_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios entre 51 y 55 años')
-    volunteer_age_between_56_60_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios entre 56 y 60 años')
-    volunteer_age_60_or_more_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios con mas de 60 años')
+    volunteer_active_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios activos hombres')
+    volunteer_age_between_18_25_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios hombres entre 18 y 25 años')
+    volunteer_age_between_18_25_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios mujeres entre 18 y 25 años')
+    volunteer_age_between_26_30_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios hombres entre 26 y 30 años')
+    volunteer_age_between_26_30_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios mujeres entre 26 y 30 años')
+    volunteer_age_between_31_35_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios hombres entre 31 y 35 años')
+    volunteer_age_between_31_35_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios mujeres entre 31 y 35 años')
+    volunteer_age_between_36_40_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios hombres entre 36 y 40 años')
+    volunteer_age_between_36_40_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios mujeres entre 36 y 40 años')
+    volunteer_age_between_41_45_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios hombres entre 41 y 45 años')
+    volunteer_age_between_41_45_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios mujeres entre 41 y 45 años')
+    volunteer_age_between_46_50_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios hombres entre 46 y 50 años')
+    volunteer_age_between_46_50_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios mujeres entre 46 y 50 años')
+    volunteer_age_between_51_55_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios hombres entre 51 y 55 años')
+    volunteer_age_between_51_55_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios mujeres entre 51 y 55 años')
+    volunteer_age_between_56_60_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios hombres entre 56 y 60 años')
+    volunteer_age_between_56_60_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios mujeres entre 56 y 60 años')
+    volunteer_age_60_or_more_men_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios hombres con mas de 60 años')
+    volunteer_age_60_or_more_women_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios mujeres con mas de 60 años')
 
     # cuarta parte: educación y trabajo
 
@@ -58,10 +67,10 @@ class VolunteerData(models.Model):
 
     # quinta parte: formación bomberil
 
-    volunteer_lt_than_3_years_cuerpo_course_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios con menos de 3 años de experiencia en cursos del cuerpo')
-    volunteer_gt_than_3_years_cuerpo_course_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios con más de 3 años de experiencia en cursos del cuerpo')
-    volunteer_lt_than_3_years_academia_course_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios con menos de 3 años de experiencia en cursos de la academia')
-    volunteer_gt_than_3_years_academia_course_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios con más de 3 años de experiencia cursos de la academia')
+    volunteer_lt_than_3_years_cuerpo_course_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios con menos de 3 años de experiencia')
+    volunteer_gt_than_3_years_cuerpo_course_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios con más de 3 años de experiencia')
+    volunteer_lt_than_3_years_academia_course_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios con menos de 3 años de experiencia')
+    volunteer_gt_than_3_years_academia_course_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° voluntarios con más de 3 años de experiencia')
 
     # sexta parte: conductores clase F
 
