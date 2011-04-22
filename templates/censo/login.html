@@ -29,9 +29,12 @@
 			    {% if notice %}
 			        <div class="notice">{{ notice }}</div>
 			    {% endif %}
+			    
                 <form method="post" id="login_form">
                     {% csrf_token %}
-				    {{ form.as_p }}
+                    <table>
+    				    {{ form.as_table }}
+				    </table>
 				    <input type="submit" value="Entrar" />
 			    </form>
 				<div class="clearer">&nbsp;</div>

@@ -25,6 +25,20 @@ months = (
     ('diciembre', 12),
 )
 
+def binary_search(a, x, lo=0, hi=None):
+    if hi is None:
+        hi = len(a)
+    while lo < hi:
+        mid = (lo+hi)//2
+        midval = a[mid]
+        if midval < x:
+            lo = mid+1
+        elif midval > x: 
+            hi = mid
+        else:
+            return mid
+    return -1
+
 def main():
     conn_string = "host='127.0.0.1' dbname='mydb' port='5432' user='cc61a' password='cc61a'"
     
@@ -420,41 +434,80 @@ def main():
     transaction.commit()
     transaction.leave_transaction_management()
 
-    transaction.enter_transaction_management()
-    transaction.managed(True)
+    #transaction.enter_transaction_management()
+    #transaction.managed(True)
     #print 'Migrando Roles de Usuario'
     uhr_missing_data = []
     cursor.execute("SELECT * FROM usu_cargo")
     rows = cursor.fetchall()
+    
+    profiles = UserProfile.objects.order_by('old_id')
+    profile_ids = [p.old_id for p in profiles]
+    
+    roles = Role.objects.order_by('old_id')
+    role_ids = [p.old_id for p in roles]
+    
+    cuerpos = Cuerpo.objects.order_by('old_id')
+    cuerpo_ids = [p.old_id for p in cuerpos]
+    
+    counter = 0
+    
     len_rows = len(rows)
     for idx, row in enumerate(rows):
-        if idx % 1000 == 0:
+        if idx % 100 == 0:
             print str(idx) + ' de ' + str(len_rows)
-            transaction.commit()
+            #transaction.commit()
+        if counter % 10 == 0:
+            print 'Coounter=' + str(counter)
         uhr = UserHasRole()
+        
         try:
-            uhr.profile = UserProfile.objects.get(old_id = row[2])
-        except UserProfile.DoesNotExist:
-            uhr_missing_data.append('Usuario ' + str(row[2]))
+            old_id = int(row[2])
+            fidx = binary_search(profile_ids, old_id)
+            if fidx == -1:
+                counter += 1
+                continue
+            else:
+                uhr.profile = profiles[fidx]
+                
+        except TypeError, e:
+            counter += 1
             continue
+            
         try:
-            uhr.role = Role.objects.get(old_id = str(row[1]))
-        except Role.DoesNotExist:
-            uhr_missing_data.append('Cargo ' + str(row[1]))
+            old_id = int(row[1])
+            fidx = binary_search(role_ids, old_id)
+            if fidx == -1:
+                counter += 1
+                continue
+            else:
+                uhr.role = roles[fidx]
+                
+        except TypeError, e:
+            counter += 1
             continue
+            
         try:
-            uhr.cuerpo = Cuerpo.objects.get(old_id = row[4])
-        except Cuerpo.DoesNotExist:
-            uhr_missing_data.append('Cuerpo ' + str(row[4]))
+            old_id = int(row[4])
+            fidx = binary_search(cuerpo_ids, old_id)
+            if fidx == -1:
+                counter += 1
+                continue
+            else:
+                uhr.cuerpo = cuerpos[fidx]
+                
+        except TypeError, e:
+            counter += 1
             continue
+            
         uhr.start_date = row[5]
         uhr.end_date = row[6]
-        #print uhr
         uhr.save()
             
-    transaction.commit()
-    transaction.leave_transaction_management()
-        
+    #transaction.commit()
+    #transaction.leave_transaction_management()
+   
+    
     print 'Informes de error de migracion'
     
     print '1. Cuerpos con comunas invalidas'
@@ -500,7 +553,7 @@ def main():
     print '11. Errores en UHR'
     for error in uhr_missing_data:
         print error
-
+    
 if __name__ == '__main__':
     print datetime.now()
     main()
