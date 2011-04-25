@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response
 
 from django.core.exceptions import ObjectDoesNotExist
 
+from uni_form.helpers import FormHelper, Submit, Reset
 
 def company_login_required(f):
     def wrap(request, *args, **kwargs):
@@ -36,6 +37,7 @@ def display_portada_form(request):
 
     if request.method == 'POST': # If the form has been submitted...
         form = CompanyPortadaPartialForm(request.POST, instance=company) # A form bound to the POST data
+        
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/company/volunteers') # Redirect after POST
@@ -58,6 +60,7 @@ def display_portada_form(request):
 def display_volunteers_form(request):
     profile = request.user.get_profile()
     company = profile.company
+    
     volunteer_data = None
     try:
         volunteer_data = company.volunteerdata

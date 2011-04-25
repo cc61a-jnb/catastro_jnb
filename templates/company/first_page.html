@@ -12,7 +12,7 @@
 		<li><b>Provincia:</b> {{ company.commune.province }}</li>
 		<li><b>Región:</b> {{ company.commune.province.region }}</li>
 	</ul>
-	<form method="post">
+	<form method="post" class="uniForm">
 	{% csrf_token %}
 	{{ form.as_p }}
 	<input type="submit" value="Guardar" />
