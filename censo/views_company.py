@@ -25,7 +25,7 @@ def company_login_required(f):
         # If user's role has access to /cuerpo/, redirect
         elif role.old_id in [1, 2]:
             return HttpResponseRedirect('/cuerpo/')
-        # If user's role has access to /company/, validate
+        # If user's role has access to /company/, validate and grant access
         elif role.old_id in [4]:
             return f(request, *args, **kwargs)
         # If user's role doesn't have access, error
