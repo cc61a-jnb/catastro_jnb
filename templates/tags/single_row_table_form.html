@@ -1,0 +1,14 @@
+<table class="table_quantities">
+    <tr>
+        <th></th>
+        {% for field in table_data.1 %}
+            <th>{{ field.label }}</th>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>{{ table_data.0 }}</th>
+        {% for field in table_data.1 %}
+            <th>{{ field }}</th>
+        {% endfor %}
+    </tr>
+</table>

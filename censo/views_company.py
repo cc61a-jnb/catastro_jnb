@@ -5,9 +5,7 @@ from censo.models import Company, VolunteerData
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-
 from django.core.exceptions import ObjectDoesNotExist
-
 
 def company_login_required(f):
     def wrap(request, *args, **kwargs):
@@ -74,6 +72,7 @@ def display_volunteers_form(request):
         else:
             return render_to_response('company/second_page.html', {
                 'form': form,
+                'company': company,
                 }, context_instance=RequestContext(request),
                 )
 

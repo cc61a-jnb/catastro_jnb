@@ -1,0 +1,21 @@
+<table class="table_quantities">
+    <tr>
+        <th></th>
+        {% for label in column_labels %}
+            <th>{{ label }}</th>
+        {% endfor %}
+    </tr>
+    {% for field_row in fields %}
+        <tr>
+            {% for field in field_row %}
+                <td>
+                    {% if forloop.counter == 1 %}
+                        <b>{{ field }}</b>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
