@@ -83,6 +83,7 @@ def display_volunteers_form(request):
     # If it fails, create blank data
     except ObjectDoesNotExist:
         volunteer_data = VolunteerData()
+        # Add company to blank data
         volunteer_data.company = company
         volunteer_data.save()
     
