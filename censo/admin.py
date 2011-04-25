@@ -11,3 +11,6 @@ admin.site.register(UserProfile)
 admin.site.register(UserHasRole)
 admin.site.register(Province)
 admin.site.register(InternetProvider)
+admin.site.register(Speciality)
+admin.site.register(VolunteerData)
+

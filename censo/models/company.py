@@ -16,7 +16,6 @@ class Company(models.Model):
     website = models.CharField(max_length=255, default = '')
     alarm_central = models.CharField(max_length=255, default = '')
     lemma = models.CharField(max_length=255, default = '')
-    specialities = models.ManyToManyField('Speciality', blank = True, null = True)
     communes = models.ManyToManyField('Commune', blank=True, null=True)
     foundation_date = models.DateField(blank = True, null = True, verbose_name='fecha fundación')
     

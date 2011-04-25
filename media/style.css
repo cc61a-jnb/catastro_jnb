@@ -172,7 +172,7 @@ table.data-table th {
 	text-align: left;
 }
 table.data-table tr {border-bottom: 1px solid #DDD;}
-table.data-table td, table th {padding: 10px;}
+/*table.data-table td, table th {padding: 10px;}*/
 table.data-table td {
 	background: #F6F6F6;
 	border: 1px solid #DDD;
@@ -679,6 +679,10 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
     margin-bottom: 2px;
 }
 
+.table_quantities {
+    width: inherit;
+}
+
 .table_quantities input {
     width: 50px;
 }
@@ -691,4 +695,12 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 .table_quantities td {
     text-align: center;
     width: 70px;
+}
+
+form.catastro_form ul li label {
+    font-weight: normal;
+}
+
+form.catastro_form ul {
+    list-style: none;
 }
