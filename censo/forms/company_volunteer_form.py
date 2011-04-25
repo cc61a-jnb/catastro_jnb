@@ -11,6 +11,7 @@ class CompanyVolunteerPartialForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CompanyVolunteerPartialForm, self).__init__(*args, **kwargs)
+        # Define empty label for ISP question
         self.fields['fk_internet_provider'].empty_label = 'No posee'
 
 

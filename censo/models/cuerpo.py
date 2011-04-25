@@ -19,11 +19,12 @@ class Cuerpo(models.Model):
     communes = models.ManyToManyField('Commune', blank=True, null=True)
     decree_date = models.DateField(blank=True, null=True) # fecha decreto
     
-    # De aca para abajo: Cosas pendientes y dudosas
+    # TODO: logo cuerpo
     
-    # TODO: logo
-    cuer_npers_juri = models.IntegerField(blank=True, null=True) # No estamos seguros de para que es, borrar si no sirve para nada
-    company = models.ForeignKey('Company', null=True, related_name='company_cuerpo') # en caso que un cuerpo sea también compañía
+    # No se está seguro para qué sirve
+    cuer_npers_juri = models.IntegerField(blank=True, null=True)
+    # En caso de que un cuerpo sea también compañia
+    company = models.ForeignKey('Company', null=True, related_name='company_cuerpo')
 
     def __unicode__(self):
         return self.name
