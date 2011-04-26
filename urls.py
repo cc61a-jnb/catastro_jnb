@@ -18,6 +18,10 @@ urlpatterns += patterns('jnb_spike.censo.views_company',
     (r'^company/minor_material$', 'display_minor_material_form'),
 )
 
+urlpatterns += patterns('jnb_spike.censo.views_regional_operations_manager',
+    (r'^regional_operations_manager/$', 'basic_view'),
+)
+
 urlpatterns += patterns('jnb_spike.censo.views',
     (r'^$', 'index'),
     (r'^login/$', 'login'),
