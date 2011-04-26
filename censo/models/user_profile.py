@@ -20,6 +20,8 @@ class UserProfile(models.Model):
     roles = models.ManyToManyField(Role, through = 'UserHasRole')
     current_role = models.ForeignKey(Role, related_name='+', blank = True, null = True)
     gender = models.CharField(max_length = 1)
+    # if the user is a regional operations manager
+    region = models.ForeignKey('Region', blank = True, null = True)
 
     def __unicode__(self):
         return "Perfil de %s" % self.user

@@ -9,7 +9,7 @@ class UserHasRole(models.Model):
     cuerpo = models.ForeignKey('Cuerpo', blank = True, null = True)
     
     def __unicode__(self):
-        return self.profile.user.username + ' - ' + str(self.role)
+        return u''.join((self.profile.user.username,' - ',str(self.role)))
 
     class Meta:
         ordering = ['profile', 'role']
