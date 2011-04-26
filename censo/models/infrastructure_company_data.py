@@ -36,8 +36,8 @@ class InfrastructureCompanyData(models.Model):
     
     # Construcción
     
-    # Use ChoiceField in form!
-    building_material_type = models.CharField(max_length=255, null=True, blank=True, verbose_name='Tipo de material') # Falta validar si se pueden elegir varios (en cuyo caso habría que hacer algo como lo de las especialidades
+    # Se pueden elegir varios materiales, hacer nueva tabla para materiales?
+    # building_material_type
     building_initial_construction_year = models.IntegerField(null=True, blank=True, verbose_name='Año construcción inicial')
     building_initial_construction_legal = models.NullBooleanField(verbose_name='Regularizado')
     building_extension_construction_year = models.IntegerField(null=True, blank=True, verbose_name='Año construcción ampliación')
