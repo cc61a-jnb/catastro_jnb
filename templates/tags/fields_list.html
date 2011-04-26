@@ -1,9 +1,9 @@
-<table>
+<table class="{{ css_class_name }}">
     {% for field in fields %}
         <tr>
-            <td>
+            <th>
                 {{ field.label_tag }}
-            </td>
+            </th>
             <td>
                 {{ field }}
             </td>                        

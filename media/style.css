@@ -697,6 +697,24 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
     width: 70px;
 }
 
+.list_quantities {
+    width: inherit;
+}
+
+.list_quantities input {
+    width: 50px;
+}
+
+.list_quantities th {
+    text-align: left;
+    /*width: 200px;*/
+}
+
+.list_quantities td {
+    text-align: center;
+    width: 70px;
+}
+
 form.catastro_form ul li label {
     font-weight: normal;
 }

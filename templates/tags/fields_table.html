@@ -1,4 +1,4 @@
-<table class="table_quantities">
+<table class="{{ css_class_name }}">
     <tr>
         <th></th>
         {% for label in column_labels %}
@@ -8,13 +8,11 @@
     {% for field_row in fields %}
         <tr>
             {% for field in field_row %}
-                <td>
                     {% if forloop.counter == 1 %}
-                        <b>{{ field }}</b>
+                        <th>{{ field }}</th>
                     {% else %}
-                        {{ field }}
+                        <td>{{ field }}</td>
                     {% endif %}
-                </td>
             {% endfor %}
         </tr>
     {% endfor %}

@@ -1,6 +1,6 @@
 from django.template import Context, loader
 
-def render_fields_as_table(fields, column_labels, row_labels):
+def render_fields_as_table(fields, column_labels, row_labels, css_class_name='table_fields'):
     template = loader.get_template('tags/fields_table.html')
     
     for idx, row_fields in enumerate(fields):
@@ -9,14 +9,16 @@ def render_fields_as_table(fields, column_labels, row_labels):
     c = Context({
         'fields': fields,
         'column_labels': column_labels,
+        'css_class_name': css_class_name,
     })
     return template.render(c)
     
-def render_fields_as_list(fields):
+def render_fields_as_list(fields, css_class_name='list_fields'):
     template = loader.get_template('tags/fields_list.html')
         
     c = Context({
         'fields': fields,
+        'css_class_name': css_class_name,
     })
     return template.render(c)
     

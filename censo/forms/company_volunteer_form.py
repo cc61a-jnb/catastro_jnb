@@ -81,7 +81,7 @@ class CompanyVolunteerPartialForm(ModelForm):
         column_labels = [field.label for field in fields]
         row_labels = ['Cantidad']
         
-        return render_fields_as_table(table_fields, column_labels, row_labels)
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
     
     # Display total volunteers questions as a table    
     def render_total_volunteers_to_table(self):
@@ -91,7 +91,7 @@ class CompanyVolunteerPartialForm(ModelForm):
         column_labels = [field.label for field in fields]
         row_labels = ['Cantidad']
         
-        return render_fields_as_table(table_fields, column_labels, row_labels)        
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')        
     
     # Display active + honorary volunteers questions as a table    
     def render_detailed_volunteers_to_table(self):
@@ -103,7 +103,7 @@ class CompanyVolunteerPartialForm(ModelForm):
         column_labels = [field.label for field in first_row_fields]
         row_labels = ['Activos', 'Honorarios']
         
-        return render_fields_as_table(table_fields, column_labels, row_labels)
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
     
     # Display ANB volunteer formation questions as a table    
     def render_formation_to_table(self):
@@ -115,7 +115,7 @@ class CompanyVolunteerPartialForm(ModelForm):
         column_labels = [field.label for field in first_row_fields]
         row_labels = ['Cursos del Cuerpo', 'Cursos de la academia']
         
-        return render_fields_as_table(table_fields, column_labels, row_labels)
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
     
     # Display volunteer age range questions as a table    
     def render_volunteers_age_range_to_table(self):
@@ -125,7 +125,7 @@ class CompanyVolunteerPartialForm(ModelForm):
         row_labels = [row_field[0].label for row_field in table_fields]
         col_labels = ['Hombres', 'Mujeres']
         
-        return render_fields_as_table(table_fields, col_labels, row_labels)    
+        return render_fields_as_table(table_fields, col_labels, row_labels, 'table_quantities')    
     
     # Display ISP question    
     def render_isp_to_list(self):
@@ -137,7 +137,7 @@ class CompanyVolunteerPartialForm(ModelForm):
     def render_antiquity_to_list(self):
         fields = [self['volunteer_antiquity_required_to_honorary']]
         
-        return render_fields_as_list(fields)
+        return render_fields_as_list(fields, 'list_quantities')
     
     # Display website/social pages questions as a list    
     def render_social_technologies_to_list(self):
@@ -149,7 +149,7 @@ class CompanyVolunteerPartialForm(ModelForm):
     def render_drivers_to_list(self):
         fields = self._field_range('volunteer_class_f_bomberos_driver_quantity', 'volunteer_class_f_cuarteleros_driver_quantity')
         
-        return render_fields_as_list(fields)
+        return render_fields_as_list(fields, 'list_quantities')
     
     # Display life sheet manager questions as a list    
     def render_life_sheet_to_list(self):
@@ -158,8 +158,13 @@ class CompanyVolunteerPartialForm(ModelForm):
         return render_fields_as_list(fields)
     
     # Display brigade questions as a list    
-    def render_brigade_to_list(self):
-        fields = self._field_range('volunteer_brigada_juvenil_antiquity', 'volunteer_brigada_juvenil_responsible_email')
+    def render_brigade_number_to_list(self):
+        fields = self._field_range('volunteer_brigada_juvenil_antiquity', 'volunteer_brigada_juvenil_members_quantity')
+        
+        return render_fields_as_list(fields, 'list_quantities')
+    
+    def render_brigade_data_to_list(self):
+        fields = self._field_range('volunteer_brigada_juvenil_name', 'volunteer_brigada_juvenil_responsible_email')
         
         return render_fields_as_list(fields)
     
@@ -173,7 +178,7 @@ class CompanyVolunteerPartialForm(ModelForm):
     def render_volunteer_education_to_list(self):
         fields = self._field_range('volunteer_education_basica_complete_quantity', 'volunteer_with_work_quantity')
         
-        return render_fields_as_list(fields)
+        return render_fields_as_list(fields, 'list_quantities')
     
     # Get a range of fields (ordered) between the given field names   
     def _field_range(self, start_field_name, end_field_name):
