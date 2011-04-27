@@ -5,6 +5,7 @@ from django.forms import ModelForm
 from censo.models import *
 from django.forms.extras.widgets import SelectDateWidget
 from datetime import date
+from censo.utils import combine_fields_errors
 
 class BaseForm(ModelForm):
     # Get a range of fields (ordered) between the given field names   
