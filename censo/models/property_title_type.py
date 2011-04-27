@@ -2,7 +2,7 @@
 
 from django.db import models
 
-class InternetProvider(models.Model):
+class PropertyTitleType(models.Model):
     name = models.CharField(max_length = 100)
     ordering = models.IntegerField(default = 0)
     

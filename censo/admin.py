@@ -13,4 +13,7 @@ admin.site.register(Province)
 admin.site.register(InternetProvider)
 admin.site.register(Speciality)
 admin.site.register(VolunteerData)
+admin.site.register(InfrastructureCompanyData)
+admin.site.register(BuildingMaterialType)
+admin.site.register(PropertyTitleType)
 

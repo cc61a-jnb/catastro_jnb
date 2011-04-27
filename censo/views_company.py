@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from censo.forms import CompanyPortadaPartialForm, CompanyVolunteerPartialForm
-from censo.models import Company, VolunteerData
+from censo.forms import CompanyPortadaPartialForm, CompanyVolunteerPartialForm, CompanyInfrastructureForm
+from censo.models import Company, VolunteerData, InfrastructureCompanyData
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -117,9 +117,48 @@ def display_volunteers_form(request):
 # Show infrastructure form (stub)
 @company_login_required
 def display_infrastructure_form(request):
+    profile = request.user.get_profile()
+    company = profile.company
+    infrastructure_company_data = None
+    # Attempt to load previously submitted data
+    try:
+        infrastructure_company_data = company.infrastructurecompanydata
+    # If it fails, create blank data
+    except ObjectDoesNotExist:
+        infrastructure_company_data = InfrastructureCompanyData()
+        # Add company to blank data
+        infrastructure_company_data.company = company
+        infrastructure_company_data.save()
+    
+    # If the form has been submitted
+    if request.method == 'POST':
+        # A form bound to the POST data
+        form = CompanyInfrastructureForm(request.POST, instance=infrastructure_company_data)
+        # If the form is correctly validated
+        if form.is_valid():
+            form.save()
+            # Redirect after POST
+            return HttpResponseRedirect('/company/minor_material')
+        # Else render the form again
+        else:
+            return render_to_response('company/third_page.html', {
+                'form': form,
+                'company': company,
+                }, context_instance=RequestContext(request),
+                )
+
+    # If the form hasn't been submitted
+    
+    # Load already submitted data as initial, to avoid triggering validation
+    form = CompanyInfrastructureForm(instance=infrastructure_company_data)
+
+    # Render the form
     return render_to_response('company/third_page.html', {
+            'form': form,
+            'company': company,
             }, context_instance=RequestContext(request),
         )
+
 
 # Show minor material form (stub)
 @company_login_required
