@@ -10,7 +10,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 
 # Show first stub
-@authorize
+@authorize(roles=('regional_operations_manager',))
 def basic_view(request):
     profile = request.user.get_profile()
     region = profile.region # this shouldn't fail

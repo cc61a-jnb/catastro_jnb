@@ -12,14 +12,14 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('jnb_spike.censo.views_company',
-    (r'^company/$', 'display_portada_form'),
+    url(r'^company/$', 'display_portada_form', name='company'),
     (r'^company/volunteers$', 'display_volunteers_form'),
     (r'^company/infrastructure$', 'display_infrastructure_form'),
     (r'^company/minor_material$', 'display_minor_material_form'),
 )
 
 urlpatterns += patterns('jnb_spike.censo.views_regional_operations_manager',
-    (r'^regional_operations_manager/$', 'basic_view'),
+    url(r'^regional_operations_manager/$', 'basic_view', name='regional_operations_manager'),
 )
 
 urlpatterns += patterns('jnb_spike.censo.views',
