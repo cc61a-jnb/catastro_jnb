@@ -20,18 +20,60 @@ class CompanyInfrastructureForm(ModelForm):
         
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
         
-    # Display street questions as a list    
-    def render_street_questions_to_list(self):
-        fields = self._field_range('main_street_name', 'narrow_street_name')
+    # Display land questions as a list    
+    def render_land_questions_to_list(self):
+        fields = self._field_range('main_street_name', 'rol_sii')
         
         return render_fields_as_list(fields)
         
-    # Display Property Title Type question    
-    def render_property_title_type_to_list(self):
-        fields = [self['fk_property_title_type']]
-        #fields = self._field_range('fk_property_title_type', 'property_title_type_other')
+    # Display inscription data questions as a list    
+    def render_inscription_data_questions_to_list(self):
+        fields = self._field_range('inscription_fojas', 'inscription_owner_name')
         
         return render_fields_as_list(fields)
+    
+    # Display building material type as a list  
+    def render_building_material_type_to_list(self):
+        fields = [self['building_material_type']]
+        
+        return render_fields_as_list(fields, 'multiple_choice_field')
+    
+    # Display building initial construction questions as a list    
+    def render_building_initial_construction_to_list(self):
+        fields = self._field_range('building_initial_construction_year', 'building_initial_construction_legal')
+        
+        return render_fields_as_list(fields)
+    
+     # Display building extension construction questions as a list    
+    def render_building_extension_construction_to_list(self):
+        fields = self._field_range('building_extension_construction_year', 'building_extension_construction_legal')
+        
+        return render_fields_as_list(fields)
+    
+    # Display distribution rooms questions as a list    
+    def render_distribution_rooms_to_list(self):
+        fields = self._field_range('terrain_machine_room_m2', 'terrain_session_room_m2')
+        
+        return render_fields_as_list(fields)
+    
+    # Display distribution offices questions as a list    
+    def render_distribution_offices_to_list(self):
+        fields = self._field_range('director_office', 'common_offices')
+        
+        return render_fields_as_list(fields)    
+    
+    # Display night_guard_office questions as a list    
+    def render_night_guard_office_to_list(self):
+        fields = self._field_range('night_guard_office_men_beds', 'night_guard_office_kitchen')
+        
+        return render_fields_as_list(fields)
+    
+    # Display observations area    
+    def render_observations_to_list(self):
+        fields = [self['observations']]
+        
+        return render_fields_as_list(fields)
+        
         
     # Get a range of fields (ordered) between the given field names   
     def _field_range(self, start_field_name, end_field_name):

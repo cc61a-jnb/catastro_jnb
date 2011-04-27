@@ -16,7 +16,7 @@ class InfrastructureCompanyData(models.Model):
     # Terreno
     built_area_front_m2 = models.IntegerField(null=True, blank=True, verbose_name='Frente')
     built_area_back_m2 = models.IntegerField(null=True, blank=True, verbose_name='Fondo')
-    built_area_total_m2 = models.IntegerField(null=True, blank=True, verbose_name='Total')
+    built_area_total_m2 = models.IntegerField(null=True, blank=True, verbose_name='Area construida')
     
     main_street_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Calle Principal')
     secondary_street_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Calle Secundaria')
@@ -24,7 +24,6 @@ class InfrastructureCompanyData(models.Model):
     
     # Use ChoiceField in form!
     fk_property_title_type = models.ForeignKey('PropertyTitleType', verbose_name='Título de propiedad', blank=True, null=True)
-    property_title_type_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otro')
     #models.CharField(max_length=255, null=True, blank=True, verbose_name='Título de propiedad')
     property_commodatum_end_year = models.IntegerField(null=True, blank=True, verbose_name='Año término comodato')
     
@@ -40,25 +39,24 @@ class InfrastructureCompanyData(models.Model):
     
     # Se pueden elegir varios materiales
     building_material_type = models.ManyToManyField('BuildingMaterialType', blank = True, null = True, verbose_name='Tipo de Material')
-    building_material_type_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otros')
     building_initial_construction_year = models.IntegerField(null=True, blank=True, verbose_name='Año construcción inicial')
-    building_initial_construction_legal = models.NullBooleanField(verbose_name='Regularizado')
+    building_initial_construction_legal = models.NullBooleanField(verbose_name='Construcción inicial regularizada')
     building_extension_construction_year = models.IntegerField(null=True, blank=True, verbose_name='Año construcción ampliación')
-    building_extension_construction_legal = models.NullBooleanField(verbose_name='Regularizado')
+    building_extension_construction_legal = models.NullBooleanField(verbose_name='Construcción ampliación regularizada')
     
-    # Superficie
+    # Distribución (Ex seccion Superficie)
     
     terrain_machine_room_m2 = models.IntegerField(null=True, blank=True, verbose_name='Sala de máquinas (m2)')
-    terrain_session_room_m2 = models.IntegerField(null=True, blank=True, verbose_name='Sala de sesiones (m2)')
+    terrain_session_room_m2 = models.NullBooleanField(verbose_name='Sala de sesiones')
     
     # Oficinas
-    director_office = models.NullBooleanField(verbose_name='Director')
-    captain_office = models.NullBooleanField(verbose_name='Capitán')
-    lieutenant_office = models.NullBooleanField(verbose_name='Teniente')
-    secretary_office = models.NullBooleanField(verbose_name='Secretaria')
-    treasurer_office = models.NullBooleanField(verbose_name='Tesorero')
-    officers_office = models.NullBooleanField(verbose_name='Oficiales')
-    common_offices = models.NullBooleanField(verbose_name='Comunes')
+    director_office = models.NullBooleanField(verbose_name='Oficina de Director')
+    captain_office = models.NullBooleanField(verbose_name='Oficina de Capitán')
+    lieutenant_office = models.NullBooleanField(verbose_name='Oficina de Teniente')
+    secretary_office = models.NullBooleanField(verbose_name='Oficina de Secretaria(o)')
+    treasurer_office = models.NullBooleanField(verbose_name='Oficina de Tesorero')
+    officers_office = models.NullBooleanField(verbose_name='Oficina de Oficiales')
+    common_offices = models.NullBooleanField(verbose_name='Oficinas Comunes')
     
     night_guard_office_men_beds = models.IntegerField(null=True, blank=True, verbose_name='N° de camas (Hombres)')
     night_guard_office_men_bathroom = models.IntegerField(null=True, blank=True, verbose_name='N° de baños (Hombres)')
@@ -85,4 +83,4 @@ class InfrastructureCompanyData(models.Model):
     
     # Fotografías requeridas. Al final las fotos SI se suben. Vijay vera esta parte
     
-    observations = models.TextField(null=True, blank=True, verbose_name='Observaciones')
+    observations = models.TextField(null=True, blank=True, verbose_name='')
