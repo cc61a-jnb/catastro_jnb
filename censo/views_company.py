@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from censo.forms import CompanyPortadaPartialForm, CompanyVolunteerPartialForm, CompanyInfrastructureForm
+from censo.forms import CompanyPortadaForm, CompanyVolunteerForm, CompanyInfrastructureForm
 from censo.models import Company, VolunteerData, InfrastructureCompanyData
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
@@ -44,7 +44,7 @@ def display_portada_form(request):
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
-        form = CompanyPortadaPartialForm(request.POST, instance=company)
+        form = CompanyPortadaForm(request.POST, instance=company)
         # If the form is correctly validated
         if form.is_valid():
             form.save()
@@ -60,7 +60,7 @@ def display_portada_form(request):
     # If the form hasn't been submitted
     
     # Load already submitted data as initial, to avoid triggering validation
-    form = CompanyPortadaPartialForm(instance=company)
+    form = CompanyPortadaForm(instance=company)
 
     # Render the form
     return render_to_response('company/first_page.html', {
@@ -88,7 +88,7 @@ def display_volunteers_form(request):
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
-        form = CompanyVolunteerPartialForm(request.POST, instance=volunteer_data)
+        form = CompanyVolunteerForm(request.POST, instance=volunteer_data)
         # If the form is correctly validated
         if form.is_valid():
             form.save()
@@ -105,7 +105,7 @@ def display_volunteers_form(request):
     # If the form hasn't been submitted
     
     # Load already submitted data as initial, to avoid triggering validation
-    form = CompanyVolunteerPartialForm(instance=volunteer_data)
+    form = CompanyVolunteerForm(instance=volunteer_data)
 
     # Render the form
     return render_to_response('company/second_page.html', {
