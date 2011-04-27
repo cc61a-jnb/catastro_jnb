@@ -3,7 +3,6 @@
 from django.db import models
 
 class VolunteerData(models.Model):
-    
     company = models.OneToOneField('censo.Company', blank=True)
 
     def __unicode__(self):
