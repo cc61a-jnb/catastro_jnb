@@ -10,3 +10,6 @@ from user_profile import UserProfile
 from user_has_role import UserHasRole
 from province import Province
 from internet_provider import InternetProvider
+from infrastructure_company_data import InfrastructureCompanyData
+from building_material_type import BuildingMaterialType
+from property_title_type import PropertyTitleType

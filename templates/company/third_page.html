@@ -10,4 +10,19 @@
 {% endblock %}
 
 {% block content %}
+{% csrf_token %}
+	<h2>Infraestrucura</h2>
+	<h4>Compañía {{ company.number }}</h4>
+<h3>Terreno</h3>
+{{ form.render_built_area_to_table }}
+
+{{ form.render_street_questions_to_list }}
+
+{{ form.render_property_title_type_to_list }}
+
+<h3>Construcción</h3>
+<h3>Superficie</h3>
+<h3>Fotografías Requeridas</h3>
+<h3>Observaciones</h3>
+{{ form.as_p }}
 {% endblock %}

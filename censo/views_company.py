@@ -1,9 +1,14 @@
 # coding: utf-8
 
+<<<<<<< HEAD
 from utils import authorize
 
 from censo.forms import CompanyPortadaPartialForm, CompanyVolunteerPartialForm
 from censo.models import Company, VolunteerData
+=======
+from censo.forms import CompanyPortadaForm, CompanyVolunteerForm, CompanyInfrastructureForm
+from censo.models import Company, VolunteerData, InfrastructureCompanyData
+>>>>>>> 42e82a3610dcb1a336db0cc274ed25ac7bd2c54f
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -19,7 +24,7 @@ def display_portada_form(request):
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
-        form = CompanyPortadaPartialForm(request.POST, instance=company)
+        form = CompanyPortadaForm(request.POST, instance=company)
         # If the form is correctly validated
         if form.is_valid():
             form.save()
@@ -35,7 +40,7 @@ def display_portada_form(request):
     # If the form hasn't been submitted
     
     # Load already submitted data as initial, to avoid triggering validation
-    form = CompanyPortadaPartialForm(instance=company)
+    form = CompanyPortadaForm(instance=company)
 
     # Render the form
     return render_to_response('company/first_page.html', {
@@ -63,7 +68,7 @@ def display_volunteers_form(request):
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
-        form = CompanyVolunteerPartialForm(request.POST, instance=volunteer_data)
+        form = CompanyVolunteerForm(request.POST, instance=volunteer_data)
         # If the form is correctly validated
         if form.is_valid():
             form.save()
@@ -80,7 +85,7 @@ def display_volunteers_form(request):
     # If the form hasn't been submitted
     
     # Load already submitted data as initial, to avoid triggering validation
-    form = CompanyVolunteerPartialForm(instance=volunteer_data)
+    form = CompanyVolunteerForm(instance=volunteer_data)
 
     # Render the form
     return render_to_response('company/second_page.html', {
@@ -92,9 +97,48 @@ def display_volunteers_form(request):
 # Show infrastructure form (stub)
 @authorize(roles=('company',))
 def display_infrastructure_form(request):
+    profile = request.user.get_profile()
+    company = profile.company
+    infrastructure_company_data = None
+    # Attempt to load previously submitted data
+    try:
+        infrastructure_company_data = company.infrastructurecompanydata
+    # If it fails, create blank data
+    except ObjectDoesNotExist:
+        infrastructure_company_data = InfrastructureCompanyData()
+        # Add company to blank data
+        infrastructure_company_data.company = company
+        infrastructure_company_data.save()
+    
+    # If the form has been submitted
+    if request.method == 'POST':
+        # A form bound to the POST data
+        form = CompanyInfrastructureForm(request.POST, instance=infrastructure_company_data)
+        # If the form is correctly validated
+        if form.is_valid():
+            form.save()
+            # Redirect after POST
+            return HttpResponseRedirect('/company/minor_material')
+        # Else render the form again
+        else:
+            return render_to_response('company/third_page.html', {
+                'form': form,
+                'company': company,
+                }, context_instance=RequestContext(request),
+                )
+
+    # If the form hasn't been submitted
+    
+    # Load already submitted data as initial, to avoid triggering validation
+    form = CompanyInfrastructureForm(instance=infrastructure_company_data)
+
+    # Render the form
     return render_to_response('company/third_page.html', {
+            'form': form,
+            'company': company,
             }, context_instance=RequestContext(request),
         )
+
 
 # Show minor material form (stub)
 @authorize(roles=('company',))

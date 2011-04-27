@@ -1,9 +1,17 @@
-<table>
+{% if errors %}
+    <ul class="errorlist">
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<table class="{{ css_class_name }}">
     {% for field in fields %}
         <tr>
-            <td>
+            <th>
                 {{ field.label_tag }}
-            </td>
+            </th>
             <td>
                 {{ field }}
             </td>                        
