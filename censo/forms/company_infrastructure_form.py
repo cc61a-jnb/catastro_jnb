@@ -6,8 +6,9 @@ from django.forms.extras.widgets import SelectDateWidget
 from datetime import date
 from django.template import Context, loader
 from censo.utils import render_fields_as_table, render_fields_as_list, split_list
+from . import BaseForm
 
-class CompanyInfrastructureForm(ModelForm):
+class CompanyInfrastructureForm(BaseForm):
     building_material_type = forms.ModelMultipleChoiceField(queryset=BuildingMaterialType.objects.all(), label='Tipo de Material', widget=forms.CheckboxSelectMultiple(), required=False)
     
     # Display built area questions as a table    

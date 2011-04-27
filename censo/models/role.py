@@ -7,6 +7,9 @@ class Role(models.Model):
     
     def __unicode__(self):
         return self.name
+        
+    def is_regional_operations_manager(self):
+        return "Jefe Operaciones" in self.name
 
     class Meta:
         ordering = ['name']

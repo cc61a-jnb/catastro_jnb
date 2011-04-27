@@ -36,6 +36,11 @@ def login(request):
                 django_login(request, user)
                 url = '/company/'
                 return HttpResponseRedirect(url)
+            # Is regional operations manager
+            elif role.is_regional_operations_manager():
+                django_login(request, user)
+                url = '/regional_operations_manager/'
+                return HttpResponseRedirect(url)
             # If user's role doesn't grant access, error
             else:
                 error = 'Usted no tiene permisos para acceder al sistema'

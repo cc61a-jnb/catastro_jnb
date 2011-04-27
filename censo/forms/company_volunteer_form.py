@@ -6,32 +6,15 @@ from django.forms.extras.widgets import SelectDateWidget
 from datetime import date
 from django.template import Context, loader
 from censo.utils import render_fields_as_table, render_fields_as_list, split_list, combine_fields_errors
+from . import BaseForm
 
-class CompanyVolunteerPartialForm(ModelForm):
+class CompanyVolunteerForm(BaseForm):
     specialities = forms.ModelMultipleChoiceField(queryset=Speciality.objects.all(), label='Especialidades Compañía', widget=forms.CheckboxSelectMultiple(), required=False)
 
     def __init__(self, *args, **kwargs):
-        super(CompanyVolunteerPartialForm, self).__init__(*args, **kwargs)
+        super(CompanyVolunteerForm, self).__init__(*args, **kwargs)
         # Define empty label for ISP question
         self.fields['fk_internet_provider'].empty_label = 'No posee'
-        
-    def reset_field_errors(self, fields):
-        '''
-        Method that clears the errors for a given list of boundfields
-        This is used to display only one error per form table
-        '''
-        for field in fields:
-            self._errors[field.name] = []
-            
-    def validate_field_range(self, start_field_name, end_field_name, global_error_message, local_error_message='Estos campos son obligatorios'): 
-        fields = self._field_range('volunteer_total_men_quantity', 'volunteer_total_women_quantity')
-        local_errors = combine_fields_errors(fields)
-        if local_errors:
-            self.reset_field_errors(fields)
-            self._errors[fields[0].name] = self.error_class([local_error_message])
-            self.custom_errors.append(global_error_message)
-        return local_errors
-        
     
     # Define custom form validation    
     def clean(self):
@@ -40,40 +23,38 @@ class CompanyVolunteerPartialForm(ModelForm):
         # List of all the global errors found in the form so we can display them all at once at the end
         self.custom_errors = []
         
+        # First validation: We need the total men and women
         local_errors = self.validate_field_range('volunteer_total_men_quantity', 'volunteer_total_women_quantity', 'Por favor defina el total de hombres y mujeres de la compañía')
         
         if local_errors:
-            # We invalidate the possible error messages of the numeric fields, because we won't
-            # be able to check if, for example, many of them on a table are not supplied and thus evading
-            # the possible display of multiple "field required" messages for a table.
+            # The required numbers were not supplied, so we invalidate the possible error messages of the 
+            # numeric fields because the logic that controls the number of messages per table will not be
+            # executed (because we can't check the sums)
             fields = self._field_range('volunteer_active_men_quantity', 'volunteer_with_work_quantity')
             self.reset_field_errors(fields)            
         else:
             # We run the rest of the numeric validations ONLY if the user specified the total
-            # number of men and women, otherwise we wouldn't be able to check
+            # number of men and women, otherwise we wouldn't be able to check the sums
             total_men = data['volunteer_total_men_quantity']
             total_women = data['volunteer_total_women_quantity']
         
             # Active + Honorary must equal total
-            
-            fields = self._field_range('', '')
-            local_errors = combine_fields_errors(fields)
-            
             local_errors = self.validate_field_range('volunteer_active_men_quantity', 'volunteer_honorary_women_quantity', 'Por favor defina el número de voluntarios activos y honorarios')
 
             if not local_errors:
                 # Active + Honorary must equal total (men)
                 if data['volunteer_active_men_quantity'] + data['volunteer_honorary_women_quantity'] != total_men:
                     error_message = 'Suma de voluntarios activos y honorarios hombres no calza con el total'
-                    self._errors[fields[0].name] = self.error_class([error_message])
+                    self._errors['volunteer_active_men_quantity'] = self.error_class([error_message])
                     self.custom_errors.append(error_message)
             
                 # Active + Honorary must equal total (women)
                 if data['volunteer_active_women_quantity'] + data['volunteer_honorary_women_quantity'] != total_women:
                     error_message = 'Suma de voluntarios activos y honorarios mujeres no calza con el total'
-                    self._errors[fields[0].name] = self.error_class([error_message])
-                    errors.append(error_message)
-                    
+                    self._errors['volunteer_active_men_quantity'] = self.error_class([error_message])
+                    self.custom_errors.append(error_message)
+            
+            # Sum of age-range volunteers must equal total        
             local_errors = self.validate_field_range('volunteer_age_between_18_25_men_quantity', 'volunteer_age_60_or_more_women_quantity', 'Por favor defina el número de voluntarios por rango de edad')
 
             if not local_errors:
@@ -88,7 +69,7 @@ class CompanyVolunteerPartialForm(ModelForm):
                     
                 if sum_men_age_fields != total_men:
                     error_message = 'Suma de voluntarios hombres por edad no calza con el total'
-                    self._errors[fields[0].name] = self.error_class([error_message])
+                    self._errors['volunteer_age_between_18_25_men_quantity'] = self.error_class([error_message])
                     self.custom_errors.append(error_message)
                 
                 # Sum of age-range volunteers must equal total (men)    
@@ -98,11 +79,10 @@ class CompanyVolunteerPartialForm(ModelForm):
                     
                 if sum_women_age_fields != total_women:
                     error_message = 'Suma de voluntarios mujeres por edad no calza con el total'
-                    self._errors[fields[0].name] = self.error_class([error_message])
-                    errors.append(error_message)
+                    self._errors['volunteer_age_between_18_25_men_quantity'] = self.error_class([error_message])
+                    self.custom_errors.append(error_message)
             
             # Sum of volunteer education must equal total    
-            
             local_errors = self.validate_field_range('volunteer_education_basica_complete_quantity', 'volunteer_with_work_quantity', 'Por favor defina el número de voluntarios por educación / oficio')
             
             if not local_errors:
@@ -113,12 +93,12 @@ class CompanyVolunteerPartialForm(ModelForm):
                     
                 if sum_education_fields != total_men + total_women:
                     error_message = 'Suma de voluntarios por educación no calza con el total'
-                    self._errors[fields[0].name] = self.error_class([error_message])
-                    errors.append(error_message)
+                    self._errors['volunteer_education_basica_complete_quantity'] = self.error_class([error_message])
+                    self.custom_errors.append(error_message)
 
         # Company must have at least 1 specialty    
         if not data['specialities'] and not data['specialities_other']:
-            self.custom_errors.append('Debe especificar por lo menos una especialidad')
+            self._errors['specialities'] = self.error_class(['Debe especificar por lo menos una especialidad'])
         
         # If any validation fails, raise error
         if self.custom_errors:
@@ -232,29 +212,9 @@ class CompanyVolunteerPartialForm(ModelForm):
         fields = self._field_range('volunteer_education_basica_complete_quantity', 'volunteer_with_work_quantity')
         
         return render_fields_as_list(fields, 'list_quantities')
-    
-    # Get a range of fields (ordered) between the given field names   
-    def _field_range(self, start_field_name, end_field_name):
-        fields = self.fields.items()
-        return_fields = []
-        
-        indexing = False;
-        
-        for idx, field in enumerate(fields):
-            if field[0] == start_field_name:
-                indexing = True
-                
-            if indexing:
-                return_fields.append(field[0])
-                
-            if field[0] == end_field_name:
-                indexing = False
-                
-        return [self[field] for field in return_fields]
         
     def render_internet_technology_use_section(self):
-        return CompanyVolunteerPartialForm.render_fields_as_table()
-        
+        return CompanyVolunteerForm.render_fields_as_table()
     
     def render_technology_support_form(self):
         fields = self.fields.items()
