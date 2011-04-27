@@ -1,14 +1,9 @@
 # coding: utf-8
 
-<<<<<<< HEAD
 from utils import authorize
 
-from censo.forms import CompanyPortadaPartialForm, CompanyVolunteerPartialForm
-from censo.models import Company, VolunteerData
-=======
 from censo.forms import CompanyPortadaForm, CompanyVolunteerForm, CompanyInfrastructureForm
 from censo.models import Company, VolunteerData, InfrastructureCompanyData
->>>>>>> 42e82a3610dcb1a336db0cc274ed25ac7bd2c54f
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
