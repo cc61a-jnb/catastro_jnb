@@ -28,8 +28,7 @@
 <h3>Construcción</h3>
 {{ form.render_building_material_type_to_list }}
 
-{{form.render_building_initial_construction_to_list}}
-{{form.render_building_extension_construction_to_list}}
+{{form.render_building_construction_to_table}}
 
 <br/>
 <hr/>
@@ -43,7 +42,11 @@
 
 <h3>Oficina Guardia Nocturna</h3>
 
-{{form.render_night_guard_office_to_list}}
+<h4>Hombres</h4>
+{{form.render_night_guard_office_men_to_table}}
+<h4>Mujeres</h4>
+{{form.render_night_guard_office_women_to_table}}
+{{form.render_night_guard_office_kitchen_to_list}}
 
 <br/>
 <hr/>

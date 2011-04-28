@@ -38,24 +38,21 @@ class CompanyInfrastructureForm(BaseForm):
         fields = [self['building_material_type']]
         
         return render_fields_as_list(fields, 'multiple_choice_field')
-    
-    # Display building initial construction questions as a list    
-    def render_building_initial_construction_to_list(self):
-        fields = self._field_range('building_initial_construction_year', 'building_initial_construction_legal')
         
-        return render_fields_as_list(fields)
-    
-     # Display building extension construction questions as a list    
-    def render_building_extension_construction_to_list(self):
-        fields = self._field_range('building_extension_construction_year', 'building_extension_construction_legal')
+    # Display building construction questions as a table
+    def render_building_construction_to_table(self):
+        fields = self._field_range('building_initial_construction_year', 'building_extension_construction_legal')
+        table_fields = split_list(fields, 2)
+        col_labels = ['Año construcción', 'Regularizado']
+        row_labels = ['Inicial', 'Ampliación (si hay)']
         
-        return render_fields_as_list(fields)
+        return render_fields_as_table(table_fields, col_labels, row_labels, 'table_quantities')
     
     # Display distribution rooms questions as a list    
     def render_distribution_rooms_to_list(self):
         fields = self._field_range('terrain_machine_room_m2', 'terrain_session_room_m2')
         
-        return render_fields_as_list(fields)
+        return render_fields_as_list(fields, 'list_quantities')
     
     # Display distribution offices questions as a list    
     def render_distribution_offices_to_list(self):
@@ -63,11 +60,30 @@ class CompanyInfrastructureForm(BaseForm):
         
         return render_fields_as_list(fields)    
     
-    # Display night_guard_office questions as a list    
-    def render_night_guard_office_to_list(self):
-        fields = self._field_range('night_guard_office_men_beds', 'night_guard_office_kitchen')
+    # Display night guard office men questions as a table
+    def render_night_guard_office_men_to_table(self):
+        fields = self._field_range('night_guard_office_men_beds', 'night_guard_office_men_bathroom_urinary')
+        table_fields = [fields]
+        col_names = ['Camas', 'Baños', 'Duchas', 'WC', 'Urinarios']
+        row_names = ['N°']
         
-        return render_fields_as_list(fields, 'list_quantities')
+        return render_fields_as_table(table_fields, col_names, row_names, 'table_quantities')
+    
+    # Display night guard office women questions as a table
+    def render_night_guard_office_women_to_table(self):
+        fields = self._field_range('night_guard_office_women_beds', 'night_guard_office_women_bathroom_wc')
+        table_fields = [fields]
+        col_names = ['Camas', 'Baños', 'Duchas', 'WC']
+        row_names = ['N°']
+        
+        return render_fields_as_table(table_fields, col_names, row_names, 'table_quantities')
+    
+    # Display night_guard_office kitchen as a list    
+    def render_night_guard_office_kitchen_to_list(self):
+        # fields = self._field_range('night_guard_office_men_beds', 'night_guard_office_kitchen')
+        fields = [self['night_guard_office_kitchen']]
+        
+        return render_fields_as_list(fields)
     
     # Display observations area    
     def render_observations_to_list(self):
