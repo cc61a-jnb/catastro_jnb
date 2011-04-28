@@ -12,12 +12,16 @@
 {% block content %}
 <form method="post" class="catastro_form">
 	{% csrf_token %}
-	<h2>Infraestrucura</h2>
+	<h2>Infraestructura</h2>
 	<h4>Compañía {{ company.number }}</h4>
 <h3>Terreno</h3>
 {{ form.render_built_area_to_table }}
 
 {{ form.render_land_questions_to_list }}
+<small>Responder sólo si el título de propiedad es un comodato</small>
+{{ form.render_commodatum_end_year_to_list }}
+
+{{ form.render_rol_sii_to_list }}
 
 <h3>Datos de inscripción</h3>
 

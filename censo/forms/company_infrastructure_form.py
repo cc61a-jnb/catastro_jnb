@@ -22,8 +22,26 @@ class CompanyInfrastructureForm(BaseForm):
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
         
     # Display land questions as a list    
+    # def render_land_questions_to_list(self):
+    #     fields = self._field_range('main_street_name', 'rol_sii')
+    #     
+    #     return render_fields_as_list(fields)
+    
+    # Display land questions as a list
     def render_land_questions_to_list(self):
-        fields = self._field_range('main_street_name', 'rol_sii')
+        fields = self._field_range('main_street_name', 'fk_property_title_type')
+        
+        return render_fields_as_list(fields)
+        
+    # Display commodatum year end
+    def render_commodatum_end_year_to_list(self):
+        fields = [self['property_commodatum_end_year']]
+        
+        return render_fields_as_list(fields, 'list_quantities')
+    
+    # Display rol sii
+    def render_rol_sii_to_list(self):
+        fields = [self['rol_sii']]
         
         return render_fields_as_list(fields)
         
