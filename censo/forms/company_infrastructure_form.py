@@ -67,7 +67,7 @@ class CompanyInfrastructureForm(BaseForm):
     def render_night_guard_office_to_list(self):
         fields = self._field_range('night_guard_office_men_beds', 'night_guard_office_kitchen')
         
-        return render_fields_as_list(fields)
+        return render_fields_as_list(fields, 'list_quantities')
     
     # Display observations area    
     def render_observations_to_list(self):
