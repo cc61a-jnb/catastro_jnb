@@ -2,8 +2,8 @@
 
 from utils import authorize
 
-from censo.forms import CuerpoPortadaForm, CuerpoGeneralForm
-from censo.models import Cuerpo, Company, CuerpoGeneralData
+from censo.forms import CuerpoPortadaForm, CuerpoGeneralForm, CuerpoANBForm
+from censo.models import Cuerpo, Company, CuerpoGeneralData, CuerpoANBData
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response

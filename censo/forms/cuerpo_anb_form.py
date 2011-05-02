@@ -26,12 +26,12 @@ class CuerpoANBForm(BaseForm):
 
     # Display brigade questions as a list    
     def render_brigade_number_to_list(self):
-        fields = self._field_range('volunteer_brigada_juvenil_antiquity', 'volunteer_brigada_juvenil_members_quantity')
+        fields = self._field_range('cuerpo_brigada_juvenil_antiquity', 'cuerpo_brigada_juvenil_members_quantity')
         
         return render_fields_as_list(fields, 'list_quantities')
     
     def render_brigade_data_to_list(self):
-        fields = self._field_range('volunteer_brigada_juvenil_name', 'volunteer_brigada_juvenil_responsible_email')
+        fields = self._field_range('cuerpo_brigada_juvenil_name', 'cuerpo_brigada_juvenil_responsible_email')
         
         return render_fields_as_list(fields)
 
