@@ -103,6 +103,31 @@ class CompanyInfrastructureForm(BaseForm):
         
         return render_fields_as_list(fields)
     
+    #Display rooms as a list
+    def render_rooms_to_list(self):
+        fields = self._field_range('cafeteria', 'living_room')
+        return render_fields_as_list(fields)
+
+    #Display barrack house rooms as a list
+    def render_barrack_house_to_list(self):
+        fields = self._field_range('barrack_house_bedroom', 'barrack_house_bathroom')
+        return render_fields_as_list(fields)
+
+    #Display bathrooms as a table
+    def render_bathrooms_to_table(self):
+        fields = self._field_range('common_bathrooms', 'women_bathroom')
+        table_fields = [fields]
+        col_names = ['Comunes', 'Hombres', 'Mujeres']
+        row_names = ['Baños']
+        
+        return render_fields_as_table(table_fields, col_names, row_names, 'table_quantities')
+
+    #Display other areas as a list
+    def render_other_areas_to_list(self):
+        fields = self._field_range('storage', 'others')
+        return render_fields_as_list(fields)
+    
+
     # Display observations area    
     def render_observations_to_list(self):
         fields = [self['observations']]
