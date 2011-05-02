@@ -14,16 +14,17 @@ class InfrastructureCompanyData(models.Model):
         app_label = 'censo'
         
     # Terreno
-    built_area_front_m2 = models.IntegerField(null=True, blank=True, verbose_name='Frente')
-    built_area_back_m2 = models.IntegerField(null=True, blank=True, verbose_name='Fondo')
-    built_area_total_m2 = models.IntegerField(null=True, blank=True, verbose_name='Area construida')
+    built_area_surface_m2 = models.IntegerField(null=True, blank=True, verbose_name='Superficie (m2)')
+    built_area_front_m2 = models.IntegerField(null=True, blank=True, verbose_name='Frente (m)')
+    built_area_back_m2 = models.IntegerField(null=True, blank=True, verbose_name='Fondo (m)')
+    built_area_total_m2 = models.IntegerField(null=True, blank=True, verbose_name='Area construida (m2)')
     
     main_street_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Calle Principal')
     secondary_street_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Calle Secundaria')
     narrow_street_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Pasaje')
     
     # Use ChoiceField in form!
-    fk_property_title_type = models.ForeignKey('PropertyTitleType', verbose_name='Título de propiedad', null=True, blank=False, default=6)
+    fk_property_title_type = models.ForeignKey('PropertyTitleType', verbose_name='Título de propiedad', null=True, blank=False)
     #models.CharField(max_length=255, null=True, blank=True, verbose_name='Título de propiedad')
     property_commodatum_end_year = models.IntegerField(null=True, blank=True, verbose_name='Año término comodato')
     
