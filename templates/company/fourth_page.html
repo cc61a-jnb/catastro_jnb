@@ -10,4 +10,30 @@
 {% endblock %}
 
 {% block content %}
+<form method="post" class="catastro_form">
+{% csrf_token %}
+	<h2>Material Menor</h2>
+	<h4>Compañía {{ company.number }}</h4>
+
+<h3>Uniformes Normados</h3>
+{{ form.render_uniforms_regulated_to_table}}
+
+<br/>
+<hr/>
+
+<h3>Equipamiento ERA</h3>
+{{ form.render_era_equipment_to_table}}
+
+<br/>
+<hr/>
+
+<h3>Equipamiento menor</h3>
+{{ form.render_hosepipe_minor_equipment_to_table}}
+
+<br/>
+<hr/>
+
+<p><input type="submit" value="Guardar" /></p>
+</form>
+
 {% endblock %}

@@ -13,3 +13,4 @@ from internet_provider import InternetProvider
 from infrastructure_company_data import InfrastructureCompanyData
 from building_material_type import BuildingMaterialType
 from property_title_type import PropertyTitleType
+from minor_material_company_data import MinorMaterialCompanyData
