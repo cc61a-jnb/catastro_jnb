@@ -13,11 +13,11 @@ class CompanyInfrastructureForm(BaseForm):
     
     # Display built area questions as a table    
     def render_built_area_to_table(self):
-        fields = self._field_range('built_area_front_m2', 'built_area_total_m2')
+        fields = self._field_range('built_area_surface_m2', 'built_area_total_m2')
         table_fields = [fields]
         
         column_labels = [field.label for field in fields]
-        row_labels = ['Superficie (m2)']
+        row_labels = ['Metros']
         
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
         
