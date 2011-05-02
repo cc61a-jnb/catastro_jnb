@@ -9,7 +9,6 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 
-## TODO
 # Show main form
 @authorize(roles=('cuerpo',))
 def display_portada_form(request):
@@ -84,6 +83,51 @@ def display_general_form(request):
 
     # Render the form
     return render_to_response('cuerpo/second_page.html', {
+            'form': form,
+            'cuerpo': cuerpo,
+            }, context_instance=RequestContext(request),
+        )
+        
+# Show ANB info form
+@authorize(roles=('cuerpo',))
+def display_anb_form(request):
+    profile = request.user.get_profile()
+    cuerpo = profile.company.cuerpo
+    anb_data = None
+    # Attempt to load previously submitted data
+    try:
+        anb_data = cuerpo.cuerpoanbdata
+    # If it fails, create blank data
+    except ObjectDoesNotExist:
+        anb_data = CuerpoANBData()
+        # Add cuerpo to blank data
+        anb_data.cuerpo = cuerpo
+        anb_data.save()
+    
+    # If the form has been submitted
+    if request.method == 'POST':
+        # A form bound to the POST data
+        form = CuerpoANBForm(request.POST, instance=anb_data)
+        # If the form is correctly validated
+        if form.is_valid():
+            form.save()
+            # Redirect after POST
+            return HttpResponseRedirect('/cuerpo/anb')
+        # Else render the form again
+        else:
+            return render_to_response('cuerpo/third_page.html', {
+                'form': form,
+                'cuerpo': cuerpo,
+                }, context_instance=RequestContext(request),
+                )
+
+    # If the form hasn't been submitted
+    
+    # Load already submitted data as initial, to avoid triggering validation
+    form = CuerpoANBForm(instance=anb_data)
+
+    # Render the form
+    return render_to_response('cuerpo/third_page.html', {
             'form': form,
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),
