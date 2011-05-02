@@ -19,7 +19,7 @@ def display_portada_form(request):
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
-        form = CompanyPortadaForm(request.POST, instance=cuerpo)
+        form = CuerpoPortadaForm(request.POST, instance=cuerpo)
         # If the form is correctly validated
         if form.is_valid():
             form.save()
@@ -35,7 +35,7 @@ def display_portada_form(request):
     # If the form hasn't been submitted
     
     # Load already submitted data as initial, to avoid triggering validation
-    form = CompanyPortadaForm(instance=cuerpo)
+    form = CuerpoPortadaForm(instance=cuerpo)
 
     # Render the form
     return render_to_response('cuerpo/first_page.html', {

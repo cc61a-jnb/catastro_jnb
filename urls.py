@@ -19,8 +19,8 @@ urlpatterns += patterns('catastro_jnb.censo.views_company',
 )
 
 urlpatterns += patterns('catastro_jnb.censo.views_cuerpo',
-    url(r'^company/$', 'display_portada_form', name='cuerpo'),
-    (r'^company/general$', 'display_general_form'),
+    url(r'^cuerpo/$', 'display_portada_form', name='cuerpo'),
+    (r'^cuerpo/general$', 'display_general_form'),
 )
 
 urlpatterns += patterns('catastro_jnb.censo.views_regional_operations_manager',

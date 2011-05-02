@@ -48,10 +48,20 @@ class CuerpoGeneralForm(BaseForm):
         fields = self._field_range('personnel_guard', 'personnel_junior')
         table_fields = split_list(fields, 9)
         
-        row_labels = []
+        row_labels = [
+            'Cuarteleros cuidadores', 
+            'Cuarteleros conductores', 
+            'Secretarios', 
+            'Contadores', 
+            'Operadores Central de Alarmas', 
+            'Administrativos', 
+            'Mecánicos de planta', 
+            'Personal de Aseo', 
+            'Servicios generales/Junior'
+        ]
         column_labels = ['N°']
-        for loop_fields in table_fields
-            row_labels = [loop_fields[0].label]
+        # for loop_fields in table_fields
+        #     row_labels = [loop_fields[0].label]
         
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
 
