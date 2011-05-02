@@ -1,0 +1,64 @@
+{% extends "cuerpo/base.html" %}
+
+{% block nav_menu %}
+	<ul class="tabbed">
+		<li><a href="/cuerpo/">Portada</a></li>
+		<li class="current-tab"><a href="/company/general">Inf. General</a></li>
+		<!-- <li><a href="/company/infrastructure">Infraestructura</a></li>
+		<li><a href="/company/minor_material">Material Menor</a></li> -->
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<form method="post" class="catastro_form">
+	{% csrf_token %}
+	<h2>Información General</h2>
+	<!-- <h4>Compañía {{ company.number }}</h4> -->
+	
+	{% if form.non_field_errors %}
+	    <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+	    </ul>
+	{% endif %}
+	
+	<h3>Hardware</h3>
+	
+	{{ form.render_hardware_to_table }}
+	
+	{{ form.render_isp_to_list }}
+	
+	<br />
+	<hr />
+	<h3>Uso de tecnologías de Internet</h3>
+	<p><small>Deje en blanco si no tiene</small></p>
+	
+	{{ form.render_web_to_list }}
+	
+	<br />
+	<hr />
+	
+	<h3>Sistema Contable</h3>
+	
+	{{ form.render_accounting_system_to_list }}
+	<small>Ponga un nombre sólo si usa un sistema computacional distinto al de la JNB</small>
+	
+	<br />
+	<hr />
+	
+	<h3>Personal Rentado</h3>
+	
+	{{ form.render_personnel_to_table }}
+	
+	<br />
+	<hr />
+	
+	<h3>Observaciones</h3>
+	
+	{{ form.render_observations_to_list }}
+	
+	<p><input type="submit" value="Guardar" /></p>
+</form>
+	
+{% endblock %}

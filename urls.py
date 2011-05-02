@@ -18,6 +18,11 @@ urlpatterns += patterns('catastro_jnb.censo.views_company',
     (r'^company/minor_material$', 'display_minor_material_form'),
 )
 
+urlpatterns += patterns('catastro_jnb.censo.views_cuerpo',
+    url(r'^company/$', 'display_portada_form', name='cuerpo'),
+    (r'^company/general$', 'display_general_form'),
+)
+
 urlpatterns += patterns('catastro_jnb.censo.views_regional_operations_manager',
     url(r'^regional_operations_manager/$', 'basic_view', name='regional_operations_manager'),
 )

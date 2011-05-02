@@ -1,0 +1,94 @@
+{% extends "cuerpo/base.html" %}
+
+{% block content %}
+    <h2>Catastro de Cuerpo de bomberos</h2>
+    <br />
+    <h3>Portada</h3>
+    <br />
+    
+    
+    <form method="post">
+	{% csrf_token %}
+	
+	<table>
+        <tr>
+            <th>
+                Nombre de cuerpo
+            </th>
+            <td>
+                {{ cuerpo.name }}
+            </td>                        
+        </tr>
+        <tr>
+            <th>
+                Comuna
+            </th>
+            <td>
+                {{ cuerpo.commune }}
+            </td>                        
+        </tr>
+        <tr>
+        <tr>
+            <th>
+                Provincia
+            </th>
+            <td>
+                {{ cuerpo.commune.province }}
+            </td>                        
+        </tr>
+        <tr>
+            <th>
+                Región
+            </th>
+            <td>
+                {{ cuerpo.commune.province.region }}
+            </td>                        
+        </tr>
+        <tr>
+            <th>
+                Teléfono
+            </th>
+            <td>
+                {{ cuerpo.phone }}
+            </td>                        
+        </tr>
+        <tr>
+            <th>
+                Dirección Cuartel General
+            </th>
+            <td>
+                {{ cuerpo.address }}
+            </td>                        
+        </tr>
+        <tr>
+            <th>
+                Fecha de Fundación
+            </th>
+            <td>
+                {{ cuerpo.foundation_date }}
+            </td>                        
+        </tr>
+        <tr>
+            <th>
+                N° Personalidad Jurídica
+            </th>
+            <td>
+                {{ cuerpo.cuer_npers_juri }}
+            </td>                        
+        </tr>
+        <tr>
+            <th>
+                Fecha de Decreto
+            </th>
+            <td>
+                {{ cuerpo.decree_date }}
+            </td>                        
+        </tr>
+    </table>
+	
+	{{ form.as_p }}
+	
+	<input type="submit" value="Guardar" />
+	</form>
+	
+{% endblock %}
