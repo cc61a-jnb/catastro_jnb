@@ -5,16 +5,48 @@
     <br />
     <h3>Portada</h3>
     <br />
-	<ul>
-	    <li><b>Nombre de compañía:</b> {{ company.name }}</li>
-		<li><b>Número de compañía:</b> {{ company.number }}</li>
-		<li><b>Comuna:</b> {{ company.commune }}</li>
-		<li><b>Provincia:</b> {{ company.commune.province }}</li>
-		<li><b>Región:</b> {{ company.commune.province.region }}</li>
-	</ul>
+    
 	<form method="post">
 	{% csrf_token %}
-	{{ form.as_p }}
+	
+	<table>
+        <tr>
+            <th>
+                Nombre de compañia
+            </th>
+            <td>
+                {{ company.name }}
+            </td>                        
+        </tr>
+    </table>
+	
+	{{ form.render_company_number }}
+	
+	{{ form.render_company_address }}
+	
+	<table>
+        <tr>
+            <th>
+                Provincia
+            </th>
+            <td>
+                {{ company.commune.province }}
+            </td>                        
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>
+                Región
+            </th>
+            <td>
+                {{ company.commune.province.region }}
+            </td>                        
+        </tr>
+    </table>
+	
+	{{ form.render_company_data }}
+	
 	<input type="submit" value="Guardar" />
 	</form>
 	
