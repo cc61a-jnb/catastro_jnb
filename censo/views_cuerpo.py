@@ -14,6 +14,8 @@ from django.core.exceptions import ObjectDoesNotExist
 def display_portada_form(request):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
+    # companies = cuerpo
+    # TODO: add company selector
 
     # If the form has been submitted
     if request.method == 'POST':
