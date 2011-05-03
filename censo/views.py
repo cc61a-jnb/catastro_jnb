@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import logging
+
 from censo.forms import LoginForm
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -19,6 +21,7 @@ def login(request):
         form = LoginForm(request.POST)
         username = request.POST['username']
         password = request.POST['password']
+        logging.info('intentando autentificación de usuario')
         user = authenticate(username=username, password=password)
         # Check if user correct
         if user is not None:
@@ -47,6 +50,7 @@ def login(request):
                 error = 'Usted no tiene permisos para acceder al sistema'
         #If user is incorrect, error
         else:
+            logging.error('El usuario no existe en la db')
             error = 'Nombre de usuario o contraseña incorrectos'
     # If it hasn't been submitted, display any pending notices
     else:   
