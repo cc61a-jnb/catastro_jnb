@@ -30,6 +30,6 @@ urlpatterns += patterns('catastro_jnb.censo.views_regional_operations_manager',
 
 urlpatterns += patterns('catastro_jnb.censo.views',
     (r'^$', 'index'),
-    (r'^login/$', 'login'),
-    (r'^logout/$', 'logout'),
+    url(r'^login/$', 'login', name='login'),
+    url(r'^logout/$', 'logout', name='logout'),
 )

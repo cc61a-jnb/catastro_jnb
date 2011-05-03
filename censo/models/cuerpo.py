@@ -21,10 +21,12 @@ class Cuerpo(models.Model):
     
     # TODO: logo cuerpo
     
-    # No se está seguro para qué sirve
+    # TODO: Not sure what this is
     cuer_npers_juri = models.IntegerField(blank=True, null=True)
-    # En caso de que un cuerpo sea también compañia
+    # In case that cuerpo is also a company
     company = models.ForeignKey('Company', null=True, related_name='company_cuerpo')
+
+    # TODO: associate cuerpo with companies
 
     def __unicode__(self):
         return u'%d %s' % (self.old_id, self.name)
