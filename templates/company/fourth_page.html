@@ -28,10 +28,36 @@
 <hr/>
 
 <h3>Equipamiento menor</h3>
+<h4>Mangueras</h4>
 {{ form.render_hosepipe_minor_equipment_to_table}}
+
+<h4>Pitones</h4>
+{{ form.render_python_minor_equipment_to_table}}
+
+<h4>Otro equipamiento</h4>
+{{ from.render_other_minor_equipment_to_list }}
 
 <br/>
 <hr/>
+
+<h3>Compresores de aire</h3>
+{{ form.render_air_compressor_to_list}}
+
+<br/>
+<hr/>
+
+<h3>Cascadas</h3>
+{{ form.render_cascade_to_list}}
+
+<br/>
+<hr/>
+
+<h3>Generadores Eléctricos</h3>
+{{ form.render_electric_generator_questions_to_table}}
+
+<br/>
+<hr/>
+
 
 <p><input type="submit" value="Guardar" /></p>
 </form>
