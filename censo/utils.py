@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import logging
+
 from functools import wraps
 from django.template import Context, loader
 from django.core.urlresolvers import reverse
@@ -31,6 +33,7 @@ class authorize(object):
                 
             # If user doesn't have roles, error
             if not role:
+                logging.error("User {0} doesn't have a role".format(request.user.username))
                 request.flash['error'] = 'Usted no tiene roles asociados'
                 return HttpResponseRedirect(reverse('login'))
 
