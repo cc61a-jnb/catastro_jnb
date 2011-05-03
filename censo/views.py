@@ -30,7 +30,8 @@ def login(request):
             # If user's role can access /cuerpos/, redirect
             elif role.old_id in [1, 2]:
                 django_login(request, user)
-                error = 'Encuesta de cuerpos aun no implementada'
+                url = '/cuerpo/'
+                return HttpResponseRedirect(url)
             # If user's role can access /company/, redirect
             elif role.old_id in [4]:
                 django_login(request, user)

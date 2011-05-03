@@ -1,0 +1,56 @@
+{% extends "cuerpo/base.html" %}
+
+{% block nav_menu %}
+	<ul class="tabbed">
+		<li><a href="/cuerpo/">Portada</a></li>
+		<li><a href="/cuerpo/general">Inf. General</a></li>
+		<li class="current-tab"><a href="/cuerpo/anb">Inf. ANB</a></li>
+		<!-- <li><a href="/company/infrastructure">Infraestructura</a></li>
+		<li><a href="/company/minor_material">Material Menor</a></li> -->
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<form method="post" class="catastro_form">
+	{% csrf_token %}
+	<h2>Información General</h2>
+	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+	
+	{% if form.non_field_errors %}
+	    <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+	    </ul>
+	{% endif %}
+	
+	<h3>Número de instructores</h3>
+	
+	{{ form.render_instructors_to_table }}
+	
+	<br />
+	<hr />
+	<h3>Infrastructura para capacitación</h3>
+	
+	{{ form.render_infrastructure_to_list }}
+	
+	<br />
+	<hr />
+	
+	<h3>Brigada Juvenil de Cuerpo</h3>
+	
+	{{ form.render_brigade_number_to_list }}
+	
+	{{ form.render_brigade_data_to_list }}
+	
+	<br />
+	<hr />
+	
+	<h3>Observaciones</h3>
+	
+	{{ form.render_observations_to_list }}
+	
+	<p><input type="submit" value="Guardar" /></p>
+</form>
+	
+{% endblock %}
