@@ -2,8 +2,8 @@
 
 from utils import authorize
 
-from censo.forms import CompanyPortadaForm, CompanyVolunteerForm, CompanyInfrastructureForm
-from censo.models import Company, VolunteerData, InfrastructureCompanyData
+from censo.forms import CompanyPortadaForm, CompanyVolunteerForm, CompanyInfrastructureForm, CompanyMinorMaterialForm
+from censo.models import Company, VolunteerData, InfrastructureCompanyData, MinorMaterialCompanyData
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -138,6 +138,44 @@ def display_infrastructure_form(request):
 # Show minor material form (stub)
 @authorize(roles=('company',))
 def display_minor_material_form(request):
+    profile = request.user.get_profile()
+    company = profile.company
+    minor_material_company_data = None
+    # Attempt to load previously submitted data
+    try:
+        minor_material_company_data = company.minormaterialcompanydata
+    # If it fails, create blank data
+    except ObjectDoesNotExist:
+        minor_material_company_data = MinorMaterialCompanyData()
+        # Add company to blank data
+        minor_material_company_data.company = company
+        minor_material_company_data.save()
+    
+    # If the form has been submitted
+    if request.method == 'POST':
+        # A form bound to the POST data
+        form = CompanyMinorMaterialForm(request.POST, instance=minor_material_company_data)
+        # If the form is correctly validated
+        if form.is_valid():
+            form.save()
+            # Redirect after POST
+            return HttpResponseRedirect('/company/')
+        # Else render the form again
+        else:
+            return render_to_response('company/fourth_page.html', {
+                'form': form,
+                'company': company,
+                }, context_instance=RequestContext(request),
+                )
+
+    # If the form hasn't been submitted
+    
+    # Load already submitted data as initial, to avoid triggering validation
+    form = CompanyMinorMaterialForm(instance=minor_material_company_data)
+
+    # Render the form    
     return render_to_response('company/fourth_page.html', {
+                'form': form,
+                'company': company,
             }, context_instance=RequestContext(request),
         )
