@@ -2,7 +2,7 @@
 
 from django.db import models
 
-class PortableRadioEquipment(models.Model):
+class AntennaEquipment(models.Model):
     minor_material_company = models.ForeignKey('MinorMaterialCompanyData', null=True, blank=True)
     ## Material Mayor Cuerpo (ForeignKey)
     manufacturer = models.CharField(max_length = 100, verbose_name='Marca', null=True, blank=True)
