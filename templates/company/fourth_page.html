@@ -35,7 +35,7 @@
 {{ form.render_python_minor_equipment_to_table}}
 
 <h4>Otro equipamiento</h4>
-{{ from.render_other_minor_equipment_to_list }}
+{{ form.render_other_minor_equipment_to_list }}
 
 <br/>
 <hr/>
@@ -55,9 +55,19 @@
 <h3>Generadores Eléctricos</h3>
 {{ form.render_electric_generator_questions_to_table}}
 
+
 <br/>
 <hr/>
 
+<h3>Otros</h3>
+{{ form.render_other_equipment_questions_to_list}}
+
+
+<br/>
+<hr/>
+
+<h3>Observaciones</h3>
+{{form.render_observations_to_list}}
 
 <p><input type="submit" value="Guardar" /></p>
 </form>

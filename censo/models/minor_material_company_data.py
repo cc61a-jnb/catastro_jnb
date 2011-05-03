@@ -21,14 +21,14 @@ class MinorMaterialCompanyData(models.Model):
     short_capes_quantity = models.IntegerField(null=True, blank=True, verbose_name='Esclavinas')
     fireman_shoes_company_quantity = models.IntegerField(null=True, blank=True, verbose_name='Botas, bototos ó zapatos de Compañía')
     fireman_shoes_volunteer_quantity = models.IntegerField(null=True, blank=True, verbose_name='Botas, bototos ó zapatos de Voluntarios')
-    
+
     # Equipamiento ERA
-    scott_after_2004_quantity = models.IntegerField(null=True, blank=True, verbose_name='Scott desde el 2004 en adelante)')
+    scott_after_2004_quantity = models.IntegerField(null=True, blank=True, verbose_name='Scott (desde 2004 en adelante)')
     racal_quantity = models.IntegerField(null=True, blank=True, verbose_name='Racal y otros antiguos')
     fensy_quantity = models.IntegerField(null=True, blank=True, verbose_name='Fensy')
     scott_before_2004_quantity = models.IntegerField(null=True, blank=True, verbose_name='Scott antes del 2004')
     mSA_quantity = models.IntegerField(null=True, blank=True, verbose_name='MSA')
- 
+
     #Equipamiento menor
     hosepipe_38mm_quantity = models.IntegerField(null=True, blank=True, verbose_name='Mangueras de 38mm')
     hosepipe_50mm_quantity = models.IntegerField(null=True, blank=True, verbose_name='Mangueras de 50mm')
@@ -43,17 +43,17 @@ class MinorMaterialCompanyData(models.Model):
     tripok_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Trifurcas')
     twins_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Gemelos')
     motorpump_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Motobombas')
-    
+
     #Compresor de aire
     aircompressor_fixed_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Compresores de Aire Fijo')
     aircompressor_bycar_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Compresores de Aire En Vehiculo')
-    
+
     #Cascada
 
     cascade_cylinder_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Cilindros de la Cascada')
     cascade_fixed_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Cascadas Fijo')
     cascade_bycar_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Cascadas En Vehiculo')
-    
+
     #Iluminación
 
     electricgenerator_fixed_in_car_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Generadores Electricos Fijos en Carros')
@@ -64,7 +64,9 @@ class MinorMaterialCompanyData(models.Model):
     electricgenerator_fixed_in_barracks_potency=models.IntegerField(null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Fijos en cuarteles')
 
     #Equipos de Radio Base
-    
+     #esto es dinamico ¿?
+
+
     #Otros
     airmattresses_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Colchones inflables')
     defibrillator_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Desfribiladores')
@@ -84,11 +86,12 @@ class MinorMaterialCompanyData(models.Model):
     hazmat_seal_kits_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Kits de sellado Hazmat')
 
     #Equipos de Radio
-
+        #esto es dinamico ¿?
     #Antena
-    
+        #esto es dinamico ¿?
+
     #Observaciones
-    
-    observations = models.TextField(null=True, blank=True, verbose_name='') 
-    
-        
+
+    observations = models.TextField(null=True, blank=True, verbose_name='')
+
+
