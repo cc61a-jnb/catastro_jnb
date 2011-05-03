@@ -27,7 +27,7 @@ class Cuerpo(models.Model):
     company = models.ForeignKey('Company', null=True, related_name='company_cuerpo')
 
     def __unicode__(self):
-        return self.name
+        return u'%d %s' % (self.old_id, self.name)
 
     class Meta:
         ordering = ['name']
