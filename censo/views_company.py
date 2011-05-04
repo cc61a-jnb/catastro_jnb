@@ -1,9 +1,9 @@
 # coding: utf-8
 
 from utils import authorize
-
+from django.forms.models import inlineformset_factory
 from censo.forms import CompanyPortadaForm, CompanyVolunteerForm, CompanyInfrastructureForm, CompanyMinorMaterialForm
-from censo.models import Company, VolunteerData, InfrastructureCompanyData, MinorMaterialCompanyData
+from censo.models import Company, VolunteerData, InfrastructureCompanyData, MinorMaterialCompanyData, CompanyOtherOfficial
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -15,24 +15,47 @@ def display_portada_form(request):
     profile = request.user.get_profile()
     # A profile must have a company asociated, this can't fail
     company = profile.company
+    
+    prevent_validation_error = False
+    AddOtherRoleCompanyFormSet = inlineformset_factory(Company, CompanyOtherOfficial, extra=0, can_delete=True)
 
     # If the form has been submitted
     if request.method == 'POST':
-        # A form bound to the POST data
-        form = CompanyPortadaForm(request.POST, instance=company)
-        # If the form is correctly validated
-        if form.is_valid():
-            form.save()
-            # Redirect after POST
-            return HttpResponseRedirect('/company/volunteers')
-        # Else render the form again
+        args = request.POST
+        if 'add_other_official' in request.POST:
+            cp = request.POST.copy()
+            cp['other_official-TOTAL_FORMS'] = int(cp['other_official-TOTAL_FORMS']) + 1
+            new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=cp, instance=company)
+            prevent_validation_error = True
+        elif 'delete_other_official' in request.POST:
+            new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
+            
+            for form in new_other_official.deleted_forms:
+                if form.is_valid():
+                    form.cleaned_data['id'].delete()    
+                    
+            new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', instance=company)
         else:
-            return render_to_response('company/first_page.html', {
-                'form': form,
-                'company': company,
-                }, context_instance=RequestContext(request),
-                )
-    # If the form hasn't been submitted
+            # A form bound to the POST data
+            form = CompanyPortadaForm(request.POST, instance=company)
+            # If the form is correctly validated
+            new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
+            if new_other_official.is_valid() and form.is_valid():
+                new_other_official.save()
+                form.save()
+                # Redirect after POST
+                return HttpResponseRedirect('/company/volunteers')
+            # Else render the form again
+            else:
+                return render_to_response('company/first_page.html', {
+                    'form': form,
+                    'company': company,
+                    'other_official': new_other_official,
+                    }, context_instance=RequestContext(request),
+                    )
+    else:
+        # If the form hasn't been submitted
+        new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official',instance=company)
     
     # Load already submitted data as initial, to avoid triggering validation
     form = CompanyPortadaForm(instance=company)
@@ -41,6 +64,8 @@ def display_portada_form(request):
     return render_to_response('company/first_page.html', {
             'form': form,
             'company': company,
+            'other_official': new_other_official,
+            'prevent_validation_error': prevent_validation_error,
             }, context_instance=RequestContext(request),
         )
 

@@ -9,8 +9,6 @@ from . import BaseForm
 from censo.utils import render_fields_as_table, render_fields_as_list, split_list, combine_fields_errors
 
 class CompanyPortadaForm(BaseForm):
-    # Redefine foundation_date to use a different widget and year range
-    foundation_date = forms.DateField(widget=SelectDateWidget(years = xrange(1800, date.today().year + 1)), label='Fecha fundación')
 
     # Display company number question
     def render_company_number(self):
@@ -29,13 +27,12 @@ class CompanyPortadaForm(BaseForm):
         fields = [self['phone'], self['foundation_date']]
         
         return render_fields_as_list(fields)
+        
+    def base_position_fields(self):
+        fields = self._field_range('director_name', 'assistant_name')
+        return fields
 
     class Meta:
        model = Company
-       fields = (
-           'number',
-           'address',
-           'commune',
-           'phone',
-           'foundation_date',
-       )
+       fields = ('director_name', 'captain_name', 'secretary_name',
+            'tesorero_name', 'lieutenant_1_name', 'lieutenant_2_name', 'lieutenant_3_name', 'lieutenant_4_name', 'assistant_name')

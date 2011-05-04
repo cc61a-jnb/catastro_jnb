@@ -16,13 +16,18 @@ class BaseForm(ModelForm):
         indexing = False;
         
         for idx, field in enumerate(fields):
+            print field[0]
+        
             if field[0] == start_field_name:
+                print 'Started indexing'
                 indexing = True
                 
             if indexing:
+                print 'Added'
                 return_fields.append(field[0])
                 
             if field[0] == end_field_name:
+                'Print stopping indexing'
                 indexing = False
                 
         return [self[field] for field in return_fields]
@@ -35,7 +40,7 @@ class BaseForm(ModelForm):
         for field in fields:
             self._errors[field.name] = []
             
-    def validate_field_range(self, start_field_name, end_field_name, global_error_message, local_error_message='Estos campos son obligatorios'):
+    def validate_field_range(self, start_field_name, end_field_name, global_error_message, local_error_message=None):
         '''
         Method that gets a range of fields of a form that are associated graphically (for example in a table)
         and condenses the validation to a single message to avoid cluttering with many identical messages
@@ -47,6 +52,8 @@ class BaseForm(ModelForm):
         local_errors = combine_fields_errors(fields)
         if local_errors:
             self.reset_field_errors(fields)
+            if not local_error_message:
+                local_error_message = local_errors[0]
             self._errors[fields[0].name] = self.error_class([local_error_message])
             self.custom_errors.append(global_error_message)
         return local_errors
