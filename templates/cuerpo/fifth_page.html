@@ -1,0 +1,20 @@
+{% extends "cuerpo/base.html" %}
+
+{% block content %}
+	<form method="post" class="catastro_form">
+	{% csrf_token %}
+	<h2>Material Mayor</h2>
+	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+	
+	{% if form.non_field_errors %}
+	    <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+	    </ul>
+	{% endif %}
+	
+	<p><input type="submit" value="Guardar" /></p>
+</form>
+	
+{% endblock %}

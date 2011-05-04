@@ -29,8 +29,5 @@ class CuerpoPortadaForm(BaseForm):
     #     return render_fields_as_list(fields)
 
     class Meta:
-       model = Cuerpo
-       fields = (
-           'name',
-           'address',
-       )
+       model = PortadaCuerpoData
+       exclude = ('cuerpo')
