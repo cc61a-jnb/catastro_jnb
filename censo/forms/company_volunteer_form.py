@@ -23,6 +23,9 @@ class CompanyVolunteerForm(BaseForm):
         # List of all the global errors found in the form so we can display them all at once at the end
         self.custom_errors = []
         
+        # Zero validation: Tech infraestructure
+        local_errors = self.validate_field_range('computers_quantity', 'printers_quantity', 'Por favor corrija los errores en Soporte Tecnológico')
+        
         # First validation: We need the total men and women
         local_errors = self.validate_field_range('volunteer_total_men_quantity', 'volunteer_total_women_quantity', 'Por favor defina el total de hombres y mujeres de la compañía')
         

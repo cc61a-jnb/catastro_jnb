@@ -3,7 +3,6 @@
 from django.db import models
 
 class InfrastructureCompanyData(models.Model):
-
     company = models.OneToOneField('censo.Company', blank=True)
 
     def __unicode__(self):

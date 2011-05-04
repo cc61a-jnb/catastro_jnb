@@ -16,4 +16,5 @@ admin.site.register(VolunteerData)
 admin.site.register(InfrastructureCompanyData)
 admin.site.register(BuildingMaterialType)
 admin.site.register(PropertyTitleType)
+admin.site.register(CompanyOtherOfficial)
 

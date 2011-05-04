@@ -20,3 +20,4 @@ from cuerpo_anb_data import CuerpoANBData
 from antenna_equipment import AntennaEquipment
 from base_radio_equipment import BaseRadioEquipment
 from portable_radio_equipment import PortableRadioEquipment
+from company_other_official import CompanyOtherOfficial

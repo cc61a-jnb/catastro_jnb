@@ -5,49 +5,73 @@
     <br />
     <h3>Portada</h3>
     <br />
+    <p>
+	    <small>Nota: Si alguno de estos datos es incorrecto por favor comunicarse directamente con la JNB</small>
+	</p>
+	<br />
+	<ul>
+	    <li><strong>Nombre:</strong> {{ company.string_number }}</li>
+	    <li><strong>Dirección:</strong> {{ company.address }}</li>
+	    <li><strong>Comuna:</strong> {{ company.commune }}</li>
+	    <li><strong>Provincia:</strong> {{ company.commune.province }}</li>
+	    <li><strong>Región:</strong> {{ company.commune.province.region }}</li>
+	    <li><strong>Teléfono:</strong> {{ company.phone }}</li>
+	    <li><strong>Fecha de fundación:</strong> {{ company.foundation_date }}</li>
+	</ul>
+	
+	<br />
+    <h3>Oficiales</h3>
+    <br />
     
-	<form method="post">
-	{% csrf_token %}
-	
-	<table>
-        <tr>
-            <th>
-                Nombre de compañia
-            </th>
-            <td>
-                {{ company.name }}
-            </td>                        
-        </tr>
-    </table>
-	
-	{{ form.render_company_number }}
-	
-	{{ form.render_company_address }}
-	
-	<table>
-        <tr>
-            <th>
-                Provincia
-            </th>
-            <td>
-                {{ company.commune.province }}
-            </td>                        
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <th>
-                Región
-            </th>
-            <td>
-                {{ company.commune.province.region }}
-            </td>                        
-        </tr>
-    </table>
-	
-	{{ form.render_company_data }}
-	
-	<input type="submit" value="Guardar" />
-	</form>
+	{% if other_official.errors and not prevent_validation_error %}
+	    
+	    <ul class="errorlist">
+	        <li>Debe ingresar la información de los cargos adicionales</li>
+	    </ul>
+	{% endif %}
+    
+    <form method="post" action=".">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>Cargo</th>
+                <th>Nombre</th>
+            </tr>
+            {% for field in form.base_position_fields %}
+                <tr>
+                    <td>{{ field.label }}</td>
+                    <td>{{ field }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        
+        <h4>Otros oficiales</h4>
+        {{ other_official.management_form }}
+        
+        <table>
+            <tr>
+                <th>Cargo</th>
+                <th>Nombre</th>
+                <th>¿Eliminar?</th>
+            </tr>
+            {% for form in other_official.forms %}
+                <tr>
+                    {{ form.id }}
+                    <td>{{ form.role_name }}</td>
+                    <td>{{ form.person_name }}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><input title="Agregar nuevo oficial" type="submit" name="add_other_official" value="Agregar oficial" /></td>
+                <td></td>
+                <td><input type="submit" value="Eliminar seleccionados" name="delete_other_official" /></td>
+            </tr>
+        </table>
+        <br />
+        <hr />
+        <input title="Guardar y continuar" type="submit" name="submit_portada_form" value="Guardar y continuar" />
+    </form>
+
 	
 {% endblock %}

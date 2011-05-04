@@ -13,7 +13,7 @@
 <form method="post" class="catastro_form">
 {% csrf_token %}
 	<h2>Material Menor</h2>
-	<h4>Compañía {{ company.number }}</h4>
+	<h4>{{ company.string_number }}</h4>
 
 <h3>Uniformes Normados</h3>
 {{ form.render_uniforms_regulated_to_table}}
