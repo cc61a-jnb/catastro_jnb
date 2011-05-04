@@ -33,9 +33,9 @@ class CompanyInfrastructureForm(BaseForm):
         
         return render_fields_as_list(fields)
         
-    # Display commodatum year end
-    def render_commodatum_end_year_to_list(self):
-        fields = [self['property_commodatum_end_year']]
+    # Display rental/commodatum year end
+    def render_rental_commodatum_end_year_to_list(self):
+        fields = [self['property_rental_commodatum_end_year']]
         
         return render_fields_as_list(fields, 'list_quantities')
     

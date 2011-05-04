@@ -25,7 +25,7 @@ class InfrastructureCompanyData(models.Model):
     # Use ChoiceField in form!
     fk_property_title_type = models.ForeignKey('PropertyTitleType', verbose_name='Título de propiedad', null=True, blank=False)
     #models.CharField(max_length=255, null=True, blank=True, verbose_name='Título de propiedad')
-    property_commodatum_end_year = models.IntegerField(null=True, blank=True, verbose_name='Año término comodato')
+    property_rental_commodatum_end_year = models.IntegerField(null=True, blank=True, verbose_name='Año término arriendo o comodato')
     
     rol_sii = models.IntegerField(null=True, blank=True, verbose_name='Rol Sii N°')
     

@@ -14,7 +14,7 @@ class Company(models.Model):
     lieutenant_2_name = models.CharField(max_length=255, default = '', verbose_name='Teniente 2°', blank=True, null=True)
     lieutenant_3_name = models.CharField(max_length=255, default = '', verbose_name='Teniente 3°', blank=True, null=True)
     lieutenant_4_name = models.CharField(max_length=255, default = '', verbose_name='Teniente 4°', blank=True, null=True)
-    assistant_name = models.CharField(max_length=255, default = '', verbose_name='Asistente', blank=True, null=True)
+    assistant_name = models.CharField(max_length=255, default = '', verbose_name='Ayudante', blank=True, null=True)
     
     name = models.CharField(max_length = 255, default = '')
     cuerpo = models.ForeignKey('Cuerpo', related_name='cuerpo_company')
