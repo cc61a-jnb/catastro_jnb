@@ -133,7 +133,9 @@ def display_infrastructure_form(request):
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
-        form = CompanyInfrastructureForm(request.POST, instance=infrastructure_company_data)
+        
+        z = dict(request.POST, **request.FILES)
+        form = CompanyInfrastructureForm(request.POST, request.FILES, instance=infrastructure_company_data)
         # If the form is correctly validated
         if form.is_valid():
             form.save()
