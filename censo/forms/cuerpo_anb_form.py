@@ -13,7 +13,7 @@ class CuerpoANBForm(BaseForm):
         fields = self._field_range('cuerpo_procedure_instructors', 'anb_specialty_instructors')
         table_fields = split_list(fields, 2)
         
-        column_labels = ['Área procedimientos', 'Área salud', 'Área de especialidad']
+        column_labels = ['Área procedimientos', 'Área salud', 'Áreas de especialidad']
         row_labels = ['Cursos del Cuerpo', 'Cursos de la Academia']
         
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')

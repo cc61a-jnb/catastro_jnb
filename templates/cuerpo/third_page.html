@@ -1,19 +1,9 @@
 {% extends "cuerpo/base.html" %}
 
-{% block nav_menu %}
-	<ul class="tabbed">
-		<li><a href="/cuerpo/">Portada</a></li>
-		<li><a href="/cuerpo/general">Inf. General</a></li>
-		<li class="current-tab"><a href="/cuerpo/anb">Inf. ANB</a></li>
-		<!-- <li><a href="/company/infrastructure">Infraestructura</a></li>
-		<li><a href="/company/minor_material">Material Menor</a></li> -->
-	</ul>
-{% endblock %}
-
 {% block content %}
 	<form method="post" class="catastro_form">
 	{% csrf_token %}
-	<h2>Información General</h2>
+	<h2>Información ANB</h2>
 	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
 	
 	{% if form.non_field_errors %}

@@ -1,10 +1,19 @@
-{% extends "company/base.html" %}
+{% extends "cuerpo/base.html" %}
+
+{% block nav_menu %}
+	<ul class="tabbed">
+		<li><a href="/cuerpo/">Portada</a></li>
+		<li><a href="/cuerpo/general">Inf. General</a></li>
+		<li class="current-tab"><a href="/cuerpo/anb">Inf. ANB</a></li>
+		<li><a href="/cuerpo/infrastructure">Infraestructura</a></li>
+	</ul>
+{% endblock %}
 
 {% block content %}
-<form method="post" class="catastro_form">
+	<form method="post" class="catastro_form">
 	{% csrf_token %}
-	<h2>Infraestructura</h2>
-	<h4>{{ company.string_number }}</h4>
+	<h2>Infraestructura Cuartel General</h2>
+	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
 <h3>Terreno</h3>
 {{ form.render_built_area_to_table }}
 
@@ -27,6 +36,7 @@
 
 <br/>
 <hr/>
+
 <h3>Distribución</h3>
 
 {{form.render_distribution_rooms_to_list}}
@@ -35,33 +45,17 @@
 
 {{form.render_distribution_offices_to_list}}
 
-<small>Nota: En caso de tener oficinas que no se encuentren en el listado indicar en Oficinas Comunes </small>
-
-
-<br/>
 <br/>
 <hr/>
 
-<h3>Oficina Guardia Nocturna</h3>
+<h3>Otras oficinas</h3>
 
-<h4>Hombres</h4>
-{{form.render_night_guard_office_men_to_table}}
-<h4>Mujeres</h4>
-{{form.render_night_guard_office_women_to_table}}
-{{form.render_night_guard_office_kitchen_to_list}}
+<br/>
+<hr/>
 
 <h3>Dependencias</h3>
 
 {{form.render_rooms_to_list}}
-
-{{form.render_bathrooms_to_table}}
-
-{{form.render_other_areas_to_list}}
-
-
-<h3>Casa cuartelero</h3>
-
-{{form.render_barrack_house_to_list}}
 
 
 <br/>
@@ -74,6 +68,7 @@
 <h3>Observaciones</h3>
 {{form.render_observations_to_list}}
 
-<p><input type="submit" value="Guardar" /></p>
+	<p><input type="submit" value="Guardar" /></p>
 </form>
+	
 {% endblock %}
