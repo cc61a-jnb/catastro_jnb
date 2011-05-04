@@ -33,7 +33,10 @@
 				
 			{% block nav %}
 				<ul class="tabbed">
-				{% comment %} <li class="current-tab"> to highlight selected tab {% endcomment %}
+				{% comment %}
+					<li class="current-tab"> to highlight selected tab
+					reference: http://stackoverflow.com/questions/340888/navigation-in-django
+				{% endcomment %}
 					{% block nav_portada %}<li><a href="{% url company %}">Portada</a></li>{% endblock %}
 					{% block nav_volunteers %}<li><a href="{% url company_volunteers %}">Voluntarios</a></li>{% endblock %}
 					{% block nav_infrastructure %}<li><a href="{% url company_infrastructure %}">Infraestructura</a></li>{% endblock %}
