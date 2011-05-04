@@ -7,3 +7,4 @@ from company_minor_material_form import CompanyMinorMaterialForm
 from cuerpo_portada_form import CuerpoPortadaForm
 from cuerpo_general_form import CuerpoGeneralForm
 from cuerpo_anb_form import CuerpoANBForm
+from cuerpo_infrastructure_form import CuerpoInfrastructureForm

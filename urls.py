@@ -22,6 +22,7 @@ urlpatterns += patterns('catastro_jnb.censo.views_cuerpo',
     url(r'^cuerpo/$', 'display_portada_form', name='cuerpo'),
     (r'^cuerpo/general$', 'display_general_form'),
     (r'^cuerpo/anb$', 'display_anb_form'),
+    (r'^cuerpo/infrastructure$', 'display_infrastructure_form'),
 )
 
 urlpatterns += patterns('catastro_jnb.censo.views_regional_operations_manager',
