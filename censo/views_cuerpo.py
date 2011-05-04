@@ -2,8 +2,8 @@
 
 from utils import authorize
 
-from censo.forms import CuerpoPortadaForm, CuerpoGeneralForm, CuerpoANBForm, CuerpoMayorMaterialForm
-from censo.models import Cuerpo, Company, CuerpoGeneralData, CuerpoANBData, CuerpoMayorMaterialData
+from censo.forms import *
+from censo.models import *
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
@@ -130,6 +130,51 @@ def display_anb_form(request):
 
     # Render the form
     return render_to_response('cuerpo/third_page.html', {
+            'form': form,
+            'cuerpo': cuerpo,
+            }, context_instance=RequestContext(request),
+        )
+        
+# Show Infrastructure info form
+@authorize(roles=('cuerpo',))
+def display_infrastructure_form(request):
+    profile = request.user.get_profile()
+    cuerpo = profile.company.cuerpo
+    infrastructure_data = None
+    # Attempt to load previously submitted data
+    try:
+        infrastructure_data = cuerpo.cuerpoinfrastructuredata
+    # If it fails, create blank data
+    except ObjectDoesNotExist:
+        infrastructure_data = CuerpoInfrastructureData()
+        # Add cuerpo to blank data
+        infrastructure_data.cuerpo = cuerpo
+        infrastructure_data.save()
+    
+    # If the form has been submitted
+    if request.method == 'POST':
+        # A form bound to the POST data
+        form = CuerpoInfrastructureForm(request.POST, instance=infrastructure_data)
+        # If the form is correctly validated
+        if form.is_valid():
+            form.save()
+            # Redirect after POST
+            return HttpResponseRedirect('/cuerpo/infrastructure')
+        # Else render the form again
+        else:
+            return render_to_response('cuerpo/fourth_page.html', {
+                'form': form,
+                'cuerpo': cuerpo,
+                }, context_instance=RequestContext(request),
+                )
+
+    # If the form hasn't been submitted
+    
+    # Load already submitted data as initial, to avoid triggering validation
+    form = CuerpoInfrastructureForm(instance=infrastructure_data)
+
+    # Render the form
+    return render_to_response('cuerpo/fourth_page.html', {
             'form': form,
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),

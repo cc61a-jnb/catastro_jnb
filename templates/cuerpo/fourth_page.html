@@ -1,0 +1,74 @@
+{% extends "cuerpo/base.html" %}
+
+{% block nav_menu %}
+	<ul class="tabbed">
+		<li><a href="/cuerpo/">Portada</a></li>
+		<li><a href="/cuerpo/general">Inf. General</a></li>
+		<li class="current-tab"><a href="/cuerpo/anb">Inf. ANB</a></li>
+		<li><a href="/cuerpo/infrastructure">Infraestructura</a></li>
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<form method="post" class="catastro_form">
+	{% csrf_token %}
+	<h2>Infraestructura Cuartel General</h2>
+	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+<h3>Terreno</h3>
+{{ form.render_built_area_to_table }}
+
+{{ form.render_land_questions_to_list }}
+<small>Responder sólo si el título de propiedad es un comodato</small>
+{{ form.render_commodatum_end_year_to_list }}
+
+{{ form.render_rol_sii_to_list }}
+
+<h3>Datos de inscripción</h3>
+
+{{ form.render_inscription_data_questions_to_list }}
+
+<br/>
+<hr/>
+<h3>Construcción</h3>
+{{ form.render_building_material_type_to_list }}
+
+{{form.render_building_construction_to_table}}
+
+<br/>
+<hr/>
+
+<h3>Distribución</h3>
+
+{{form.render_distribution_rooms_to_list}}
+
+<h3>Oficinas</h3>
+
+{{form.render_distribution_offices_to_list}}
+
+<br/>
+<hr/>
+
+<h3>Otras oficinas</h3>
+
+<br/>
+<hr/>
+
+<h3>Dependencias</h3>
+
+{{form.render_rooms_to_list}}
+
+
+<br/>
+<hr/>
+
+<h3>Fotografías Requeridas</h3>
+
+<br/>
+<hr/>
+<h3>Observaciones</h3>
+{{form.render_observations_to_list}}
+
+	<p><input type="submit" value="Guardar" /></p>
+</form>
+	
+{% endblock %}

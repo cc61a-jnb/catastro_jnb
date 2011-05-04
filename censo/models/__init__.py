@@ -21,5 +21,6 @@ from antenna_equipment import AntennaEquipment
 from base_radio_equipment import BaseRadioEquipment
 from portable_radio_equipment import PortableRadioEquipment
 from portada_cuerpo_data import PortadaCuerpoData
+from infrastructure_cuerpo_data import CuerpoInfrastructureData
 from cuerpo_mayor_material_data import CuerpoMayorMaterialData
 from vehicle_type import VehicleType
