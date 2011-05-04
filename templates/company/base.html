@@ -1,87 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+{% extends "base.html" %}
 
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-	<meta name="description" content=""/>
-	<meta name="keywords" content="" />
-	<meta name="author" content="" />
-	<link rel="stylesheet" type="text/css" href="/media/style.css" media="screen" />
-	<link rel="stylesheet" href="/media/css/blueprint/screen.css" type="text/css" media="screen, projection">
-	<link rel="stylesheet" href="/media/css/blueprint/print.css" type="text/css" media="print">
-	<link rel="stylesheet" href="/media/css/blueprint/src/forms.css" type="text/css" media="screen, projection">
-	<!--[if lt IE 8]>
-	<link rel="stylesheet" href="/media/css/blueprint/ie.css" type="text/css" media="screen, projection">
-	<![endif]-->
-	<title>Catastro de compañía de bomberos</title>
-</head>
-
-<body>
-
-<div id="site-wrapper">
-
-	<div id="header">
-
-		<div id="top">
-
-			<div class="left" id="logo">
-				<a href="/company"><img src="/media/img/logo_bomberos.jpg" alt="" /></a>
-			</div>
-
-			<div class="left navigation" id="main-nav">
-
+{% block title %}Catastro de compañía de bomberos{% endblock %}
 				
-			{% block nav %}
-				<ul class="tabbed">
-				{% comment %}
-					<li class="current-tab"> to highlight selected tab
-					reference: http://stackoverflow.com/questions/340888/navigation-in-django
-				{% endcomment %}
-					{% block nav_portada %}<li><a href="{% url company %}">Portada</a></li>{% endblock %}
-					{% block nav_volunteers %}<li><a href="{% url company_volunteers %}">Voluntarios</a></li>{% endblock %}
-					{% block nav_infrastructure %}<li><a href="{% url company_infrastructure %}">Infraestructura</a></li>{% endblock %}
-					{% block nav_minor_material %}<li><a href="{% url company_minor_material %}">Material Menor</a></li>{% endblock %}
-				</ul>
-			{% endblock %}
-
-				<div class="clearer">&nbsp;</div>
-
-			</div>
-
-			<div class="clearer">&nbsp;</div>
-
-		</div>
-
-	</div>
-
-	<div class="main" id="main-two-columns">
-
-		<div class="left" id="main-content">
-			{% block content %}
-			{% endblock %}
-		</div>
-
-		<div class="clearer">&nbsp;</div>
-
-	</div>
-
-	<div id="footer">
-
-		<div class="left" id="footer-left">
-			
-			<p>&copy; 2011 Junta Nacional de Bomberos</p>
-
-			<p class="quiet"><a href="http://templates.arcsin.se/">Website template</a> by <a href="http://arcsin.se/">Arcsin</a></p>
-			
-			<div class="clearer">&nbsp;</div>
-
-		</div>
-
-		<div class="clearer">&nbsp;</div>
-
-	</div>
-
-</div>
-
-</body>
-</html>
+{% block nav %}
+	<ul class="tabbed">
+	{% comment %}
+		<li class="current-tab"> to highlight selected tab
+		reference: http://stackoverflow.com/questions/340888/navigation-in-django
+	{% endcomment %}
+		{% block nav_portada %}<li><a href="{% url company %}">Portada</a></li>{% endblock %}
+		{% block nav_volunteers %}<li><a href="{% url company_volunteers %}">Voluntarios</a></li>{% endblock %}
+		{% block nav_infrastructure %}<li><a href="{% url company_infrastructure %}">Infraestructura</a></li>{% endblock %}
+		{% block nav_minor_material %}<li><a href="{% url company_minor_material %}">Material Menor</a></li>{% endblock %}
+	</ul>
+{% endblock %}

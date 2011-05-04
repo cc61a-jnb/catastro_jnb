@@ -1,13 +1,8 @@
 {% extends "cuerpo/base.html" %}
 
-{% block nav_menu %}
-	<ul class="tabbed">
-		<li><a href="/cuerpo/">Portada</a></li>
-		<li><a href="/cuerpo/general">Inf. General</a></li>
-		<li class="current-tab"><a href="/cuerpo/anb">Inf. ANB</a></li>
-		<li><a href="/cuerpo/infrastructure">Infraestructura</a></li>
-	</ul>
-{% endblock %}
+{% block title %}Catastro de cuerpo de bomberos: Infraestructura{% endblock %}
+
+{% block nav_infrastructure %}<li class="current-tab"><a href="{% url cuerpo_infrastructure %}">Infraestructura</a></li>{% endblock %}
 
 {% block content %}
 	<form method="post" class="catastro_form">
