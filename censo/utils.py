@@ -19,8 +19,6 @@ class authorize(object):
         
         @wraps(f)
         def wrap(request, *args, **kwargs):
-            no_permission_message = 'Usted no tiene permisos para realizar esta acción'
-            
             # If user isn't authenticated
             if not request.user.is_authenticated():
                 request.flash['notice'] = 'Por favor inicie sesión primero'
@@ -44,16 +42,14 @@ class authorize(object):
                 role_name = 'cuerpo'
             elif role.old_id in [4]:
                 role_name = 'company'
-            
-            print self.roles
-            print role_name
                 
             # If user has access, grant
             if role_name in self.roles:
                 return f(request, *args, **kwargs)
             # redirect to base view in case the user doesn't have access
             else:
-                request.flash['error'] = no_permission_message
+                request.flash['error'] = 'Usted no tiene permisos para realizar esta acción'
+                logging.info("User {0} doesn't have permission to access {1}".format(request.user.username, request.path))
                 return HttpResponseRedirect(reverse(role_name))
         
         return wrap

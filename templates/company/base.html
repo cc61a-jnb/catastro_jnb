@@ -31,12 +31,13 @@
 			<div class="left navigation" id="main-nav">
 
 				
-			{% block nav_menu %}
+			{% block nav %}
 				<ul class="tabbed">
-					<li class="current-tab"><a href="/company/">Portada</a></li>
-					<li><a href="/company/volunteers">Voluntarios</a></li>
-					<li><a href="/company/infrastructure">Infraestructura</a></li>
-					<li><a href="/company/minor_material">Material Menor</a></li>
+				{% comment %} <li class="current-tab"> to highlight selected tab {% endcomment %}
+					{% block nav_portada %}<li><a href="{% url company %}">Portada</a></li>{% endblock %}
+					{% block nav_volunteers %}<li><a href="{% url company_volunteers %}">Voluntarios</a></li>{% endblock %}
+					{% block nav_infrastructure %}<li><a href="{% url company_infrastructure %}">Infraestructura</a></li>{% endblock %}
+					{% block nav_minor_material %}<li><a href="{% url company_minor_material %}">Material Menor</a></li>{% endblock %}
 				</ul>
 			{% endblock %}
 

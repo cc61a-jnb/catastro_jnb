@@ -1,5 +1,7 @@
 {% extends "company/base.html" %}
 
+{% block nav_volunteers %}<li class="current-tab"><a href="{% url company_volunteers %}">Voluntarios</a></li>{% endblock %}
+
 {% block content %}
 	<form method="post" class="catastro_form">
 	{% csrf_token %}

@@ -12,6 +12,15 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
+# Main page    
+def index(request):
+    # If user isn't authenticated, redirect to login form
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('login'))
+    else:
+
+        return __switch_authenticated_user_role_view(request, request.user)
+
 # Login form
 def login(request): 
     error = None
@@ -21,36 +30,16 @@ def login(request):
         form = LoginForm(request.POST)
         username = request.POST['username']
         password = request.POST['password']
-        logging.info('trying user authentication')
+        logging.info('Trying user {0} authentication'.format(username))
         user = authenticate(username=username, password=password)
         # Check if user correct
         if user is not None:
-            role = user.get_profile().latest_role()
-            # Check if user doesn't have roles
-            if not role:
-                error = 'Usted no tiene roles asociados'
-            # Else check which role it has
-            # If user's role can access /cuerpos/, redirect
-            elif role.old_id in [1, 2]:
-                django_login(request, user)
-                url = reverse('cuerpo')
-                return HttpResponseRedirect(url)
-            # If user's role can access /company/, redirect
-            elif role.old_id in [4]:
-                django_login(request, user)
-                url = reverse('company')
-                return HttpResponseRedirect(url)
-            # Is regional operations manager
-            elif role.is_regional_operations_manager():
-                django_login(request, user)
-                url = reverse('regional_operations_manager')
-                return HttpResponseRedirect(url)
-            # If user's role doesn't grant access, error
-            else:
-                error = 'Usted no tiene permisos para acceder al sistema'
-        #If user is incorrect, error
+            django_login(request, user)
+            logging.info("User {0} logged in".format(user.username))
+            return __switch_authenticated_user_role_view(request, user)
+        # If user is incorrect, error
         else:
-            logging.error("User {0} doesn't exists on the db".format(username))
+            logging.error("User {0}: bad credentials".format(username))
             error = 'Nombre de usuario o contraseña incorrectos'
     # If it hasn't been submitted, display any pending notices
     else:   
@@ -64,30 +53,38 @@ def login(request):
                 'notice': notice,
             }, context_instance=RequestContext(request))
 
+# Refactored user role switch in order to DRY
+def __switch_authenticated_user_role_view(request, user):
+    role = user.get_profile().latest_role()
+    # If user doesn't have roles, notify and redirect to login
+    if not role:
+        request.flash = 'Usted no tiene roles asociados'
+        logging.error("user {0} doesn't have any roles".format(username))
+        return HttpResponseRedirect(reverse('login'))
+    # Else check which role it has
+    # If user's role can access /cuerpos/, redirect
+    elif role.old_id in [1, 2]:
+        url = 'cuerpo_portada'
+        return HttpResponseRedirect(reverse(url))
+    # If user's role can access /company/, redirect
+    elif role.old_id in [4]:
+        url = 'company_portada'
+        return HttpResponseRedirect(reverse(url))
+    # Is regional operations manager
+    elif role.is_regional_operations_manager():
+        url = 'regional_operations_manager_portada'
+        return HttpResponseRedirect(reverse(url))
+    # If user's role doesn't grant access, error
+    else:
+        request.flash = 'Usted no tiene permisos para acceder al sistema'
+        logging.error("user {0} doesn't have a valid role for this system".format(username))
+        return HttpResponseRedirect(reverse('login'))
+
 # Logout form            
 @login_required
 def logout(request):
     # Simply log user out
+    logging.info("User {0} logged out".format(request.user.username))
     auth.logout(request)
     return HttpResponseRedirect(reverse('login'))
 
-# Main page    
-def index(request):
-    # If user isn't authenticated, redirect to login form
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('login'))
-    role = request.user.get_profile().latest_role()
-    # If user doesn't have roles, notify and redirect to login
-    if not role:
-        request.flash['notice'] = 'Usted no tiene roles asociados'
-        return HttpResponseRedirect(reverse('login'))
-    # If user's role can access /cuerpos/, redirect
-    elif role.old_id in [1, 2]:
-        return HttpResponseRedirect(reverse('cuerpo'))
-    # If user's role can access /company/, redirect
-    elif role.old_id in [4]:
-        return HttpResponseRedirect(reverse('company'))
-    # If user's role doesn't have access, notify and redirect to login
-    else:
-        request.flash['notice'] = 'Usted no tiene los permisos para acceder al sistema'
-        return HttpResponseRedirect(reverse('login'))
