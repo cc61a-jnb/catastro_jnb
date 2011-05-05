@@ -199,7 +199,7 @@ def display_mayor_material_form(request):
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
-        form = CuerpoANBForm(request.POST, instance=mayor_material_data)
+        form = CuerpoMayorMaterialForm(request.POST, instance=mayor_material_data)
         # If the form is correctly validated
         if form.is_valid():
             form.save()

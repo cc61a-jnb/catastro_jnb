@@ -18,6 +18,45 @@
 	    </ul>
 	{% endif %}
 	
+	<h3>Información del Vehículo</h3>
+	
+	{{ form.render_vehicle_info_questions_to_list }}
+	
+    <br />
+	<hr />
+	
+	<h3>Situación Legal</h3>
+	
+	{{ form.render_legal_status_questions_to_list }}
+	
+    <br />
+	<hr />
+	
+	<h3>Medidores de Uso</h3>
+	
+	{{ form.render_kilometraje_horometraje_to_list }}
+	
+	<br />
+	<hr />
+	
+    <h3>Caracteristicas</h3>
+	
+	{{ form.render_caracteristics_to_list }}
+	
+	<br />
+	<hr />
+	
+	<h3>Grandes reparaciones</h3>
+	
+	<h4>Cambio Motor</h4>
+	{{ form.render_motor_change_to_list }}
+	
+	<h4>Cambio Caja de cambio</h4>
+	{{ form.render_gearbox_change_to_list }}
+	
+	<br />
+	<hr />
+	
 	<p><input type="submit" value="Guardar" /></p>
 </form>
 	

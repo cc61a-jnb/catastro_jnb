@@ -93,9 +93,9 @@ class CuerpoMayorMaterialData(models.Model):
     
     # Fotografías requeridas
     
-    picture_front_view = ImageField(upload_to = 'company_pics',)
-    picture_side_view = ImageField(upload_to = 'company_pics',)
-    picture_back_view = ImageField(upload_to = 'company_pics',)
+    picture_front_view = ImageField(upload_to = 'cuerpo_pics',)
+    picture_side_view = ImageField(upload_to = 'cuerpo_pics',)
+    picture_back_view = ImageField(upload_to = 'cuerpo_pics',)
     
     # Observaciones
     
