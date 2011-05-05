@@ -22,3 +22,12 @@ from portada_cuerpo_data import PortadaCuerpoData
 from infrastructure_cuerpo_data import CuerpoInfrastructureData
 from cuerpo_mayor_material_data import CuerpoMayorMaterialData
 from vehicle_type import VehicleType
+from condition import Condition
+from incorporation_status import IncorporationStatus
+from color import Color
+from transmission_type import TransmissionType
+from motor_type import MotorType
+from vehicle_procedence import VehicleProcedence
+from vehicle_registration_status import VehicleRegistrationStatus
+from vehicle_checkup_status import VehicleCheckupStatus
+from fire_engine_camiva_model import FireEngineCamivaModel
