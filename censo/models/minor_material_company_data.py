@@ -64,8 +64,10 @@ class MinorMaterialCompanyData(models.Model):
     electricgenerator_fixed_in_barracks_potency=models.IntegerField(null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Fijos en cuarteles')
 
     # Equipos de Radio Base
-    # esto es dinamico ¿?
-    # esto no es dinámico!
+    base_radio_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name='Cantidad')
+    base_radio_equipment_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca')
+    base_radio_equipment_model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Modelo')
+    base_radio_equipment_power = models.IntegerField(null=True, blank=True, verbose_name='Potencia (W)')
 
 
     # Otros
@@ -87,11 +89,15 @@ class MinorMaterialCompanyData(models.Model):
     hazmat_seal_kits_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Kits de sellado Hazmat')
 
     # Equipos de Radio
-    # esto es dinamico ¿?
-    # esto no es dinámico!
+    portable_radio_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name='Cantidad')
+    portable_radio_equipment_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca')
+    portable_radio_equipment_model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Modelo')
+    
     # Antena
-    # esto es dinamico ¿?
-    # esto no es dinámico!
+    antenna_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name='Cantidad')
+    antenna_equipment_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca')
+    antenna_equipment_model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Modelo')
+    antenna_equipment_power = models.IntegerField(null=True, blank=True, verbose_name='Decíbeles')
 
     # Observaciones
 

@@ -17,9 +17,6 @@ from minor_material_company_data import MinorMaterialCompanyData
 from general_cuerpo_data import CuerpoGeneralData
 from accounting_system import AccountingSystem
 from cuerpo_anb_data import CuerpoANBData
-from antenna_equipment import AntennaEquipment
-from base_radio_equipment import BaseRadioEquipment
-from portable_radio_equipment import PortableRadioEquipment
 from company_other_official import CompanyOtherOfficial
 from portada_cuerpo_data import PortadaCuerpoData
 from infrastructure_cuerpo_data import CuerpoInfrastructureData

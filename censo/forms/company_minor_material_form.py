@@ -78,7 +78,21 @@ class CompanyMinorMaterialForm(BaseForm):
 
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
 
-    ## Base Radio Equipment
+    # Display base radio equipment questions as a list
+    def render_base_radio_equipment_quantity(self):
+        fields = [self['base_radio_equipment_quantity']]
+        
+        return render_fields_as_list(fields, 'list_quantities')
+        
+    def render_base_radio_equipment_make_to_list(self):
+        fields = self._field_range('base_radio_equipment_manufacturer', 'base_radio_equipment_model')
+
+        return render_fields_as_list(fields)
+    
+    def render_base_radio_equipment_power(self):
+        fields = [self['base_radio_equipment_power']]
+        
+        return render_fields_as_list(fields, 'list_quantities')
 
     # Display other equipment questions as a list
     def render_other_equipment_questions_to_list(self):
@@ -86,9 +100,32 @@ class CompanyMinorMaterialForm(BaseForm):
 
         return render_fields_as_list(fields, 'list_quantities')
 
-    ## Portable Radio Equipment
+    # Display portable radio equipment as a list
+    def render_portable_radio_equipment_quantity(self):
+        fields = [self['portable_radio_equipment_quantity']]
+        
+        return render_fields_as_list(fields, 'list_quantities')
+        
+    def render_portable_radio_equipment_make_to_list(self):
+        fields = self._field_range('portable_radio_equipment_manufacturer', 'portable_radio_equipment_model')
 
-    ## Antenna Equipment
+        return render_fields_as_list(fields)
+
+    # Display antenna equipment as a list
+    def render_antenna_equipment_quantity(self):
+        fields = [self['antenna_equipment_quantity']]
+        
+        return render_fields_as_list(fields, 'list_quantities')
+        
+    def render_antenna_equipment_make_to_list(self):
+        fields = self._field_range('antenna_equipment_manufacturer', 'antenna_equipment_model')
+
+        return render_fields_as_list(fields)
+    
+    def render_antenna_equipment_power(self):
+        fields = [self['antenna_equipment_power']]
+        
+        return render_fields_as_list(fields, 'list_quantities')
 
     # Display observations area
     def render_observations_to_list(self):

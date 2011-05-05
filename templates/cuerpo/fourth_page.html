@@ -1,4 +1,5 @@
 {% extends "cuerpo/base.html" %}
+{% load thumbnail %}
 
 {% block title %}Catastro de cuerpo de bomberos: Infraestructura{% endblock %}
 
@@ -58,8 +59,80 @@
 
 <h3>Fotografías Requeridas</h3>
 
+<!-- First image -->
+<h4>Vista general</h4>
+{% thumbnail company.infrastructurecompanydata.picture_general_view "300x300" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
+
+<br />
+<br />
+{{ form.picture_general_view }}
 <br/>
+<br />
+
+<!-- Second image -->
+<h4>Fachada</h4>
+{% thumbnail company.infrastructurecompanydata.picture_front_view "300x300" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
+
+<br />
+<br />
+{{ form.picture_front_view }}
+<br/>
+<br />
+
+<!-- Third image -->
+<h4>Parte posterior</h4>
+{% thumbnail company.infrastructurecompanydata.picture_back_view "300x300" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
+
+<br />
+<br />
+{{ form.picture_back_view }}
+<br/>
+<br />
+
+<!-- Fourth image -->
+<h4>Sala de Máquinas</h4>
+{% thumbnail company.infrastructurecompanydata.picture_machine_room_view "300x300" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
+
+<br />
+<br />
+{{ form.picture_machine_room_view }}
+<br/>
+<br />
+
+<!-- Fifth image -->
+<h4>Oficinas</h4>
+{% thumbnail company.infrastructurecompanydata.picture_office_view "300x300" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
+
+<br />
+<br />
+{{ form.picture_office_view }}
+<br/>
+<br />
+
+<!-- Sixth image -->
+<h4>Distribución Interior</h4>
+{% thumbnail company.infrastructurecompanydata.picture_internal_distribution_view "300x300" crop="center" as im %}
+    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
+
+<br />
+<br />
+{{ form.picture_internal_distribution_view }}
+<br/>
+<br />
+
 <hr/>
+
 <h3>Observaciones</h3>
 {{form.render_observations_to_list}}
 

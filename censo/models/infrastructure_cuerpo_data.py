@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from django.db import models
+from sorl.thumbnail import ImageField
 
 class CuerpoInfrastructureData(models.Model):
 
@@ -72,6 +73,13 @@ class CuerpoInfrastructureData(models.Model):
     others = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otros')
     
     # Fotografías requeridas. Al final las fotos SI se suben. Vijay vera esta parte
+    # Copy + paste :D
+    picture_general_view = ImageField(upload_to = 'cuerpo_pics',)
+    picture_front_view = ImageField(upload_to = 'cuerpo_pics',)
+    picture_back_view = ImageField(upload_to = 'cuerpo_pics',)
+    picture_machine_room_view = ImageField(upload_to = 'cuerpo_pics',)
+    picture_office_view = ImageField(upload_to = 'cuerpo_pics',)
+    picture_internal_distribution_view = ImageField(upload_to = 'cuerpo_pics',)
     
    #Observaciones
     observations = models.TextField(null=True, blank=True, verbose_name='')
