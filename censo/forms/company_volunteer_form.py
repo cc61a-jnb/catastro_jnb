@@ -46,7 +46,7 @@ class CompanyVolunteerForm(BaseForm):
 
             if not local_errors:
                 # Active + Honorary must equal total (men)
-                if data['volunteer_active_men_quantity'] + data['volunteer_honorary_women_quantity'] != total_men:
+                if data['volunteer_active_men_quantity'] + data['volunteer_honorary_men_quantity'] != total_men:
                     error_message = 'Suma de voluntarios activos y honorarios hombres no calza con el total'
                     self._errors['volunteer_active_men_quantity'] = self.error_class([error_message])
                     self.custom_errors.append(error_message)
