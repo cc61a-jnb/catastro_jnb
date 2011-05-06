@@ -73,7 +73,8 @@
 
 <!-- First image -->
 <h4>Vista general</h4>
-{% thumbnail cuerpo.cuerpoinfrastructuredata.picture_general_view "300x300" crop="center" as im %}
+{{ form.picture_general_view.errors }}
+{% thumbnail company.infrastructurecompanydata.picture_general_view "300x300" crop="center" as im %}
     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 {% endthumbnail %}
 
@@ -85,7 +86,8 @@
 
 <!-- Second image -->
 <h4>Fachada</h4>
-{% thumbnail cuerpo.cuerpoinfrastructuredata.picture_front_view "300x300" crop="center" as im %}
+{{ form.picture_front_view.errors }}
+{% thumbnail company.infrastructurecompanydata.picture_front_view "300x300" crop="center" as im %}
     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 {% endthumbnail %}
 
@@ -97,7 +99,8 @@
 
 <!-- Third image -->
 <h4>Parte posterior</h4>
-{% thumbnail cuerpo.cuerpoinfrastructuredata.picture_back_view "300x300" crop="center" as im %}
+{{ form.picture_back_view.errors }}
+{% thumbnail company.infrastructurecompanydata.picture_back_view "300x300" crop="center" as im %}
     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 {% endthumbnail %}
 
@@ -109,7 +112,8 @@
 
 <!-- Fourth image -->
 <h4>Sala de Máquinas</h4>
-{% thumbnail cuerpo.cuerpoinfrastructuredata.picture_machine_room_view "300x300" crop="center" as im %}
+{{ form.picture_machine_room_view.errors }}
+{% thumbnail company.infrastructurecompanydata.picture_machine_room_view "300x300" crop="center" as im %}
     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 {% endthumbnail %}
 
@@ -121,7 +125,8 @@
 
 <!-- Fifth image -->
 <h4>Oficinas</h4>
-{% thumbnail cuerpo.cuerpoinfrastructuredata.picture_office_view "300x300" crop="center" as im %}
+{{ form.picture_office_view.errors }}
+{% thumbnail company.infrastructurecompanydata.picture_office_view "300x300" crop="center" as im %}
     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 {% endthumbnail %}
 
@@ -133,10 +138,10 @@
 
 <!-- Sixth image -->
 <h4>Distribución Interior</h4>
-{% thumbnail cuerpo.cuerpoinfrastructuredata.picture_internal_distribution_view "300x300" crop="center" as im %}
+{{ form.picture_internal_distribution_view.errors }}
+{% thumbnail company.infrastructurecompanydata.picture_internal_distribution_view "300x300" crop="center" as im %}
     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
 {% endthumbnail %}
-
 <br />
 <br />
 {{ form.picture_internal_distribution_view }}
