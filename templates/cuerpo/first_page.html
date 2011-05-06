@@ -9,11 +9,11 @@
     <br />
     <h3>Portada</h3>
     <br />
-    
-    
-    <form method="post">
+
+
+    <form method="post" action="#others_officials">
 	{% csrf_token %}
-	
+
 	<table>
         <tr>
             <th>
@@ -21,7 +21,7 @@
             </th>
             <td>
                 {{ cuerpo.name }}
-            </td>                        
+            </td>
         </tr>
         <tr>
             <th>
@@ -29,7 +29,7 @@
             </th>
             <td>
                 {{ cuerpo.commune }}
-            </td>                        
+            </td>
         </tr>
         <tr>
         <tr>
@@ -38,7 +38,7 @@
             </th>
             <td>
                 {{ cuerpo.commune.province }}
-            </td>                        
+            </td>
         </tr>
         <tr>
             <th>
@@ -46,7 +46,7 @@
             </th>
             <td>
                 {{ cuerpo.commune.province.region }}
-            </td>                        
+            </td>
         </tr>
         <tr>
             <th>
@@ -54,7 +54,7 @@
             </th>
             <td>
                 {{ cuerpo.phone }}
-            </td>                        
+            </td>
         </tr>
         <tr>
             <th>
@@ -62,7 +62,7 @@
             </th>
             <td>
                 {{ cuerpo.address }}
-            </td>                        
+            </td>
         </tr>
         <tr>
             <th>
@@ -70,7 +70,7 @@
             </th>
             <td>
                 {{ cuerpo.foundation_date }}
-            </td>                        
+            </td>
         </tr>
         <tr>
             <th>
@@ -78,7 +78,7 @@
             </th>
             <td>
                 {{ cuerpo.cuer_npers_juri }}
-            </td>                        
+            </td>
         </tr>
         <tr>
             <th>
@@ -86,15 +86,50 @@
             </th>
             <td>
                 {{ cuerpo.decree_date }}
-            </td>                        
+            </td>
         </tr>
     </table>
-	
+      <table>
+            <tr>
+                <th>Cargo</th>
+                <th>Nombre</th>
+            </tr>
+            {% for field in form.base_position_fields %}
+                <tr>
+                    <td>{{ field.label }}</td>
+                    <td>{{ field }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+<a name="others_officials"></a>
+ <h4>Otros oficiales</h4>
+        {{ other_official.management_form }}
+
+        <table>
+            <tr>
+                <th>Cargo</th>
+                <th>Nombre</th>
+                <th>¿Eliminar?</th>
+            </tr>
+            {% for form in other_official.forms %}
+                <tr>
+                    {{ form.id }}
+                    <td>{{ form.role_name }}</td>
+                    <td>{{ form.person_name }}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><input title="Agregar nuevo oficial" type="submit" name="add_other_official" value="Agregar oficial" /></td>
+                <td></td>
+                <td><input type="submit" value="Eliminar seleccionados" name="delete_other_official" /></td>
+            </tr>
+        </table>
 	<h3>Observaciones</h3>
-	
-	{{ form.as_p }}
-	
+
+	{{ form.observations }}
+
 	<input type="submit" value="Guardar" />
 	</form>
-	
+
 {% endblock %}

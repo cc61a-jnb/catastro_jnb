@@ -8,33 +8,63 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
+from django.forms.models import inlineformset_factory
+
 
 # Show main form
 @authorize(roles=('cuerpo',))
 def display_portada_form(request):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
+    #previene que se muestren los errores de envio al presionar el botón agregar otro
+    prevent_validation_error = False
+
+    AddOtherRoleCuerpoFormSet = inlineformset_factory(Cuerpo, CuerpoOtherOfficial, extra=0, can_delete=True)
     # companies = cuerpo
     # TODO: add company selector
 
     # If the form has been submitted
     if request.method == 'POST':
+        args = request.POST
+
+        if 'add_other_official' in request.POST:
+            cp = request.POST.copy()
+            cp['other_official-TOTAL_FORMS'] = int(cp['other_official-TOTAL_FORMS']) + 1
+            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=cp, instance=cuerpo)
+            prevent_validation_error = True
+        elif 'delete_other_official' in request.POST:
+            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
+            for form in new_other_official.deleted_forms:
+                if form.is_valid():
+                    form.cleaned_data['id'].delete()
+
+            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', instance=cuerpo)
+        else:
+             # A form bound to the POST data
+            form = CuerpoPortadaForm(request.POST, instance=cuerpo)
+            # If the form is correctly validated
+            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
+            if new_other_official.is_valid() and form.is_valid():
+                new_other_official.save()
+                form.save()
+                # Redirect after POST
+                return HttpResponseRedirect('/cuerpo/general')
+            # Else render the form again
+            else:
+                return render_to_response('cuerpo/first_page.html', {
+                    'form': form,
+                    'cuerpo': cuerpo,
+                    'other_official': new_other_official,
+                    }, context_instance=RequestContext(request),
+                    )
         # A form bound to the POST data
         form = CuerpoPortadaForm(request.POST, instance=cuerpo)
-        # If the form is correctly validated
-        if form.is_valid():
-            form.save()
-            # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/general')
-        # Else render the form again
-        else:
-            return render_to_response('cuerpo/first_page.html', {
-                'form': form,
-                'cuerpo': cuerpo,
-                }, context_instance=RequestContext(request),
-                )
+
+    else:
+        # If the form hasn't been submitted
+        new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official',instance=cuerpo)
     # If the form hasn't been submitted
-    
+
     # Load already submitted data as initial, to avoid triggering validation
     form = CuerpoPortadaForm(instance=cuerpo)
 
@@ -42,6 +72,7 @@ def display_portada_form(request):
     return render_to_response('cuerpo/first_page.html', {
             'form': form,
             'cuerpo': cuerpo,
+            'other_official': new_other_official,
             }, context_instance=RequestContext(request),
         )
 
@@ -60,7 +91,7 @@ def display_general_form(request):
         # Add cuerpo to blank data
         general_data.cuerpo = cuerpo
         general_data.save()
-    
+
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
@@ -79,7 +110,7 @@ def display_general_form(request):
                 )
 
     # If the form hasn't been submitted
-    
+
     # Load already submitted data as initial, to avoid triggering validation
     form = CuerpoGeneralForm(instance=general_data)
 
@@ -89,7 +120,7 @@ def display_general_form(request):
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),
         )
-        
+
 # Show ANB info form
 @authorize(roles=('cuerpo',))
 def display_anb_form(request):
@@ -105,7 +136,7 @@ def display_anb_form(request):
         # Add cuerpo to blank data
         anb_data.cuerpo = cuerpo
         anb_data.save()
-    
+
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
@@ -124,7 +155,7 @@ def display_anb_form(request):
                 )
 
     # If the form hasn't been submitted
-    
+
     # Load already submitted data as initial, to avoid triggering validation
     form = CuerpoANBForm(instance=anb_data)
 
@@ -134,7 +165,7 @@ def display_anb_form(request):
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),
         )
-        
+
 # Show Infrastructure info form
 @authorize(roles=('cuerpo',))
 def display_infrastructure_form(request):
@@ -150,7 +181,7 @@ def display_infrastructure_form(request):
         # Add cuerpo to blank data
         infrastructure_data.cuerpo = cuerpo
         infrastructure_data.save()
-    
+
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
@@ -170,7 +201,7 @@ def display_infrastructure_form(request):
                 )
 
     # If the form hasn't been submitted
-    
+
     # Load already submitted data as initial, to avoid triggering validation
     form = CuerpoInfrastructureForm(instance=infrastructure_data)
 
@@ -180,7 +211,7 @@ def display_infrastructure_form(request):
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),
         )
-        
+
 # Show Mayor Material form
 @authorize(roles=('cuerpo',))
 def display_mayor_material_form(request):
@@ -196,7 +227,7 @@ def display_mayor_material_form(request):
         # Add cuerpo to blank data
         mayor_material_data.cuerpo = cuerpo
         mayor_material_data.save()
-    
+
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
@@ -215,7 +246,7 @@ def display_mayor_material_form(request):
                 )
 
     # If the form hasn't been submitted
-    
+
     # Load already submitted data as initial, to avoid triggering validation
     form = CuerpoMayorMaterialForm(instance=mayor_material_data)
 
