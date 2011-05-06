@@ -31,3 +31,4 @@ from vehicle_procedence import VehicleProcedence
 from vehicle_registration_status import VehicleRegistrationStatus
 from vehicle_checkup_status import VehicleCheckupStatus
 from fire_engine_camiva_model import FireEngineCamivaModel
+from cuerpo_other_official import CuerpoOtherOfficial

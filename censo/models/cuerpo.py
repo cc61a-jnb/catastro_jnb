@@ -18,13 +18,15 @@ class Cuerpo(models.Model):
     alarm_central_phone = models.CharField(max_length=100)
     communes = models.ManyToManyField('Commune', blank=True, null=True)
     decree_date = models.DateField(blank=True, null=True) # fecha decreto
-    
+
     # TODO: logo cuerpo
-    
-    # TODO: Not sure what this is
+
+    # número personalidad juridica
     cuer_npers_juri = models.IntegerField(blank=True, null=True)
     # In case that cuerpo is also a company
     company = models.ForeignKey('Company', null=True, related_name='company_cuerpo')
+
+
 
     # TODO: associate cuerpo with companies
 
