@@ -8,6 +8,16 @@
 	{% csrf_token %}
 	<h2>Infraestructura</h2>
 	<h4>{{ company.string_number }}</h4>
+	
+	{% if form.non_field_errors %}
+	    <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+	    </ul>
+	{% endif %}
+	
+	
 <h3>Terreno</h3>
 {{ form.render_built_area_to_table }}
 
@@ -69,84 +79,32 @@
 <br/>
 <hr/>
 
-<h3>Fotografías Requeridas</h3>
-
-<!-- First image -->
-<h4>Vista general</h4>
-{{ form.picture_general_view.errors }}
-{% thumbnail company.infrastructurecompanydata.picture_general_view "300x300" crop="center" as im %}
-    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-{% endthumbnail %}
-
+<h3>Fotografías Solicitadas</h3>
+<small>Dejar en blanco si no se cuenta con las fotografías a mano</small>
 <br />
-<br />
-{{ form.picture_general_view }}
-<br/>
 <br />
 
-<!-- Second image -->
-<h4>Fachada</h4>
-{{ form.picture_front_view.errors }}
-{% thumbnail company.infrastructurecompanydata.picture_front_view "300x300" crop="center" as im %}
-    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-{% endthumbnail %}
+{% for pair in form.picture_fields %}
+    <h4>{{ pair.0.label }}</h4>
 
-<br />
-<br />
-{{ form.picture_front_view }}
-<br/>
-<br />
+    {% if pair.0.errors %}
+        <ul class="errorlist">
+            {% for error in pair.0.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-<!-- Third image -->
-<h4>Parte posterior</h4>
-{{ form.picture_back_view.errors }}
-{% thumbnail company.infrastructurecompanydata.picture_back_view "300x300" crop="center" as im %}
-    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-{% endthumbnail %}
+    {% thumbnail pair.1 "300x300" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}
 
-<br />
-<br />
-{{ form.picture_back_view }}
-<br/>
-<br />
-
-<!-- Fourth image -->
-<h4>Sala de Máquinas</h4>
-{{ form.picture_machine_room_view.errors }}
-{% thumbnail company.infrastructurecompanydata.picture_machine_room_view "300x300" crop="center" as im %}
-    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-{% endthumbnail %}
-
-<br />
-<br />
-{{ form.picture_machine_room_view }}
-<br/>
-<br />
-
-<!-- Fifth image -->
-<h4>Oficinas</h4>
-{{ form.picture_office_view.errors }}
-{% thumbnail company.infrastructurecompanydata.picture_office_view "300x300" crop="center" as im %}
-    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-{% endthumbnail %}
-
-<br />
-<br />
-{{ form.picture_office_view }}
-<br/>
-<br />
-
-<!-- Sixth image -->
-<h4>Distribución Interior</h4>
-{{ form.picture_internal_distribution_view.errors }}
-{% thumbnail company.infrastructurecompanydata.picture_internal_distribution_view "300x300" crop="center" as im %}
-    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-{% endthumbnail %}
-<br />
-<br />
-{{ form.picture_internal_distribution_view }}
-<br/>
-<br />
+    <br />
+    <br />
+    {{ pair.0 }}
+    <br/>
+    <br />
+{% endfor %}
 
 <hr/>
 <h3>Observaciones</h3>

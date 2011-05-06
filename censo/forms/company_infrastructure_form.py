@@ -39,6 +39,22 @@ class CompanyInfrastructureForm(BaseForm):
         
         return render_fields_as_list(fields, 'list_quantities')
     
+    # The list of all the picture fields in this form    
+    def picture_fields(self):
+        fields = self._field_range('picture_general_view', 'picture_internal_distribution_view')
+        return [(field, getattr(self.instance, field.name)) for field in fields]
+        
+    def clean(self):
+        # Pictures must be valid 
+        self.custom_errors = []  
+        local_errors = self.validate_field_range('picture_general_view', 'picture_internal_distribution_view', u'Por favor ingrese fotografías válidas')
+        
+        # If any validation fails, raise error
+        if self.custom_errors:
+            raise forms.ValidationError(self.custom_errors)
+        
+        return self.cleaned_data
+    
     # Display rol sii
     def render_rol_sii_to_list(self):
         fields = [self['rol_sii']]
