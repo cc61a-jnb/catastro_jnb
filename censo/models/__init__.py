@@ -33,3 +33,12 @@ from vehicle_registration_status import VehicleRegistrationStatus
 from vehicle_checkup_status import VehicleCheckupStatus
 from fire_engine_camiva_model import FireEngineCamivaModel
 from cuerpo_other_official import CuerpoOtherOfficial
+from operating_system import OperatingSystem
+from origin_system import OriginSystem
+from coded_alarm_type import CodedAlarmType
+from coded_keys_type import CodedKeysType
+from normalized_frequency import NormalizedFrequency
+from band_width import BandWidth
+from vhf import VHF
+from alarm_central_cuerpo_data import CuerpoAlarmCentralData
+from cuerpo_service_acts_data import CuerpoServiceActsData
