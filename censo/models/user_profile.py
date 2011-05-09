@@ -7,11 +7,10 @@ from django.db.models.signals import post_save
 from . import Occupation, Company, Role
 
 class UserProfile(models.Model):
-    old_id = models.IntegerField(default = 0)
-    user = models.OneToOneField(User)
     company = models.ForeignKey(Company, null=True)
-    # if the user is a regional operations manager
+    old_id = models.IntegerField(default = 0)
     region = models.ForeignKey('Region', blank = True, null = True)
+    user = models.OneToOneField(User)
     role_id = models.IntegerField(default = 0)
     role_name = models.CharField(max_length = 255)
 
