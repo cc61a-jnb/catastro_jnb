@@ -256,3 +256,49 @@ def display_mayor_material_form(request):
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),
         )
+
+
+# Show Service acts form
+@authorize(roles=('cuerpo',))
+def display_service_acts_form(request):
+    profile = request.user.get_profile()
+    cuerpo = profile.company.cuerpo
+    service_acts_data = None
+    # Attempt to load previously submitted data
+    try:
+        service_acts_data = cuerpo.cuerposerviceactsdata
+    # If it fails, create blank data
+    except ObjectDoesNotExist:
+        service_acts_data = CuerpoServiceActsData()
+        # Add cuerpo to blank data
+        service_acts_data.cuerpo = cuerpo
+        service_acts_data.save()
+
+    # If the form has been submitted
+    if request.method == 'POST':
+        # A form bound to the POST data
+        form = CuerpoServiceActsForm(request.POST, instance=service_acts_data)
+        # If the form is correctly validated
+        if form.is_valid():
+            form.save()
+            # Redirect after POST
+            return HttpResponseRedirect('/cuerpo/serviceacts')
+        # Else render the form again
+        else:
+            return render_to_response('cuerpo/seventh_page.html', {
+                'form': form,
+                'cuerpo': cuerpo,
+                }, context_instance=RequestContext(request),
+                )
+
+    # If the form hasn't been submitted
+
+    # Load already submitted data as initial, to avoid triggering validation
+    form = CuerpoServiceActsForm(instance=service_acts_data)
+
+    # Render the form
+    return render_to_response('cuerpo/seventh_page.html', {
+            'form': form,
+            'cuerpo': cuerpo,
+            }, context_instance=RequestContext(request),
+        )

@@ -9,3 +9,4 @@ from cuerpo_general_form import CuerpoGeneralForm
 from cuerpo_anb_form import CuerpoANBForm
 from cuerpo_infrastructure_form import CuerpoInfrastructureForm
 from cuerpo_mayor_material_form import CuerpoMayorMaterialForm
+from cuerpo_service_acts_form import CuerpoServiceActsForm
