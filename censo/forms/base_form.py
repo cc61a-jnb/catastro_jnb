@@ -16,18 +16,13 @@ class BaseForm(ModelForm):
         indexing = False;
         
         for idx, field in enumerate(fields):
-            print field[0]
-        
             if field[0] == start_field_name:
-                print 'Started indexing'
                 indexing = True
                 
             if indexing:
-                print 'Added'
                 return_fields.append(field[0])
                 
             if field[0] == end_field_name:
-                'Print stopping indexing'
                 indexing = False
                 
         return [self[field] for field in return_fields]

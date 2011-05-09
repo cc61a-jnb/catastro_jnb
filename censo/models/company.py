@@ -1,9 +1,8 @@
 # coding: utf-8
-
 import logging
-
 from django.db import models
 from django.db import connections
+from . import Commune, Cuerpo
 
 class Company(models.Model):
 
@@ -13,52 +12,50 @@ class Company(models.Model):
 
     old_id = models.IntegerField()
     number = models.IntegerField()
+    address = models.CharField(max_length=255, verbose_name='dirección')
+    phone = models.CharField(max_length=255, verbose_name='teléfono')
+    foundation_date = models.CharField(max_length=255, verbose_name='fecha fundación')
     
-    director_name = models.CharField(max_length=255, default = '', verbose_name='Director', blank=True, null=True)
-    captain_name = models.CharField(max_length=255, default = '', verbose_name='Capitán', blank=True, null=True)
-    secretary_name = models.CharField(max_length=255, default = '', verbose_name='Secretario', blank=True, null=True)
-    tesorero_name = models.CharField(max_length=255, default = '', verbose_name='Tesorero', blank=True, null=True)
-    lieutenant_1_name = models.CharField(max_length=255, default = '', verbose_name='Teniente 1°', blank=True, null=True)
-    lieutenant_2_name = models.CharField(max_length=255, default = '', verbose_name='Teniente 2°', blank=True, null=True)
-    lieutenant_3_name = models.CharField(max_length=255, default = '', verbose_name='Teniente 3°', blank=True, null=True)
-    lieutenant_4_name = models.CharField(max_length=255, default = '', verbose_name='Teniente 4°', blank=True, null=True)
-    assistant_name = models.CharField(max_length=255, default = '', verbose_name='Ayudante', blank=True, null=True)
+    commune = models.ForeignKey('Commune', null=True, related_name='+')
+    cuerpo = models.ForeignKey('Cuerpo', null=True, related_name='cuerpo_company')    
     
-    cuerpo = models.ForeignKey('Cuerpo', related_name='cuerpo_company')
-   # phone = models.CharField(max_length=255, default = '', verbose_name='teléfono')
-    mail = models.EmailField(max_length=255, default = '')
-    address = models.CharField(max_length=255, default = '', verbose_name='dirección')
-    commune = models.ForeignKey('Commune', related_name='+', blank=True, null=True)
-    fax = models.CharField(max_length=255, default = '')
-    postal_box = models.CharField(max_length=255, default = '')
-    website = models.CharField(max_length=255, default = '')
-    alarm_central = models.CharField(max_length=255, default = '')
-    lemma = models.CharField(max_length=255, default = '')
-    foundation_date = models.DateField(blank = True, null = True, verbose_name='fecha fundación')
-    
-    @property
-    def phone(self):
-        logging.info("querying %s company phone", self.old_id)
-        return self.__get_columns()[self.data_indexes['phone']]
-
-    def __get_columns(self):
-        if hasattr(self, 'column_data'): # query caching
-            return self.column_data
-        else:
-            cursor = connections['principal'].cursor()
-            user_profile = self.
-            query = """SELECT comp_id, comp_telefono
-                       FROM companias
-                       WHERE comp_id = %s
-                    """
-            params = (self.old_id,)
+    @classmethod
+    def fetch_from_db(self, cursor, old_id):
+        query = "SELECT comp_id, comp_nro, comp_direccion, comp_comuna, comp_telefono, comp_ffundacion, comp_fk_cuerpo FROM companias WHERE comp_id = %s"
+        params = (old_id,)
+        cursor.execute(query, params)
+        
+        company_data = cursor.fetchone()
+        if not company_data:
+            return None
             
-            cursor.execute(query, params)
-            temp_data = cursor.fetchone()
-            if temp_data:
-                self.column_data = temp_data
-            cursor.close()
-            return self.column_data
+        commune = Commune.fetch_from_db(cursor, company_data[3])
+        
+        if not commune:
+            return None
+        
+        cuerpo = Cuerpo.fetch_from_db(cursor, company_data[6])
+        
+        if not cuerpo:
+            return None
+            
+        try:
+            company = Company.objects.get(old_id = old_id)
+        except Company.DoesNotExist:
+            company = Company()
+            company.old_id = old_id
+        
+        company.number = company_data[1]
+        company.address = company_data[2]
+        company.commune = commune
+        company.phone = company_data[4]
+        company.foundation_date = company_data[5]
+        company.cuerpo = cuerpo
+        
+        company.save()
+        
+        return company
+        
 
     def __unicode__(self):
         return self.name

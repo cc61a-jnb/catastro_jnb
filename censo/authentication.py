@@ -1,5 +1,4 @@
 import logging
-
 from censo.models import *
 from django.conf import settings
 from django.db import connections
@@ -17,9 +16,7 @@ class JNBBackend:
     supports_inactive_user = False
 
     def authenticate(self, username=None, password=None):
-
         user = None
-
         cursor = connections['postfix'].cursor()
 
         # username needs to be transformed into email
@@ -33,65 +30,68 @@ class JNBBackend:
         params = (username, password,)
         
         cursor.execute(query, params)
-        user_data = cursor.fetchone()
+        postfix_data = cursor.fetchone()
 
-        # if the credentials are correct
-        if user_data:
-            try:
-                user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                logging.info("The user (%s) is logging for the first time, initializing data", username)
-                user = User(username=username, password=password)
-                user.is_staff = False
-                user.is_superuser = False
-                user.save()
-
-            profile = user.get_profile()
-
-            # must update old_id in order to retrieve user roles
-            profile.old_id = user_data[0]
-
-            # cursor = connections['principal'].cursor()
-
-            # query = "SELECT * FROM usuarios WHERE usu_id = %s"
-            # params = (user_data[mailbox_usu_id_index],)
-
-            # cursor.execute(query, params)
-
-            # user_data = cursor.fetchone()
-
-            # if user_data:
-            #     try:
-            #         profile.current_role = Role.objects.get(old_id = user_data[16])
-            #     except: # error, el usuario no tiene rol
-            #         logging.error("The user (%s) doesn't have roles assigned", username)
-
-            #     try:
-            #         company_id = user_data[14]
-            #         profile.company = Company.objects.get(old_id = company_id)
-            #     except:
-            #         logging.error("The user (%s) doesn't have a company assigned", username)
-
-            #     try:
-            #         gender = user_data[19]
-            #         if gender:
-            #             profile.gender = user_data[19][0]
-            #         else:
-            #             profile.gender = 'M'
-            #     except: 
-            #         logging.error("Can't access user (%s) gender data", username)
-            # else:
-            #     logging.info("The user (%s) doensn't have information in the principal database", username)
-            
-            profile.save()
+        if postfix_data is None:
+            # The username/password do not match
+            cursor.close()
+            return None
+        
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            logging.info("The user (%s) is logging for the first time, initializing data", username)
+            user = User(username=username, password=password)
+            user.is_staff = False
+            user.is_superuser = False
             user.save()
 
+        profile = user.get_profile()
+
+        # If for some reason the user does not have a uid in the database, burn everything and abort
+        if postfix_data[0] is None:
+            profile.delete()
+            user.delete()
             cursor.close()
-            return user
+            return None
+            
+        profile.old_id = postfix_data[0]
+
+        # Try and get the user company
+        cursor = connections['principal'].cursor()
+
+        query = "SELECT usu_fk_cia FROM usuarios WHERE usu_id = %s"
+        params = (profile.old_id,)
+        cursor.execute(query, params)
+
+        user_data = cursor.fetchone()
+        
+        if not user_data:
+            # The user does not exist in the principal database (broken foreign key)
+            # As always, burn and quit
+            profile.delete()
+            user.delete()
+            cursor.close()
+            return None
+            
+        old_company_id = user_data[0]
+        
+        company = Company.fetch_from_db(cursor, old_company_id)    
+        
+        if not company:
+            profile.delete()
+            user.delete()
+            cursor.close()
+            return None
+            
+        profile.company = company
+        profile.determine_role(cursor)
+        
+        profile.save()
+        user.save()
 
         cursor.close()
-        return None
-        
+        return user
 
     def get_user(self, user_id):
         try:

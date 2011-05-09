@@ -33,6 +33,6 @@ class CompanyPortadaForm(BaseForm):
         return fields
 
     class Meta:
-       model = Company
+       model = PortadaCompanyData
        fields = ('director_name', 'captain_name', 'secretary_name',
             'tesorero_name', 'lieutenant_1_name', 'lieutenant_2_name', 'lieutenant_3_name', 'lieutenant_4_name', 'assistant_name')

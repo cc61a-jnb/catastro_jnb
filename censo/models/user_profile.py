@@ -9,12 +9,33 @@ from . import Occupation, Company, Role
 class UserProfile(models.Model):
     old_id = models.IntegerField(default = 0)
     user = models.OneToOneField(User)
-    company = models.ForeignKey(Company, blank = True, null = True)
+    company = models.ForeignKey(Company, null=True)
     # if the user is a regional operations manager
     region = models.ForeignKey('Region', blank = True, null = True)
+    role_id = models.IntegerField(default = 0)
+    role_name = models.CharField(max_length = 255)
 
     def __unicode__(self):
         return "Perfil de %s" % self.user
+        
+    def determine_role(self, cursor):
+        query = """SELECT C.cargo_id, C.cargo_nombre
+                   FROM cargo AS C INNER JOIN usu_cargo AS UC on C.cargo_id = UC.carg_nombre
+                   WHERE UC.id_usu = %s ORDER BY C.cargo_nombre ASC
+                """
+        params = (self.old_id,)
+        cursor.execute(query, params)
+        
+        self.role_id = 0
+        
+        # First check if the user is a regional manager
+        for idx, row in enumerate(cursor.fetchall()):
+            if self.role_id == 0:
+                self.role_id = row[0]
+            if 'Jefe Operaciones' in row[1]:
+                self.role_name = row[1]
+                self.role_id = row[0]
+            
 
     def all_roles(self):
         if hasattr(self, 'roles'): # query caching
