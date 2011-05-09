@@ -1,0 +1,85 @@
+{% extends "cuerpo/base.html" %}
+
+{% block title %}Catastro de cuerpo de bomberos: Central de Alarmas{% endblock %}
+
+{% block nav_alarm_central%}<li class="current-tab"><a href="{% url cuerpo_alarm_central %}">Central de Alarmas</a></li>{% endblock %}
+
+{% block content %}
+	<form method="post" class="catastro_form">
+	{% csrf_token %}
+	<h2>Central de Alarmas</h2>
+	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+	
+	{% if form.non_field_errors %}
+	    <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+	    </ul>
+	{% endif %}
+
+	<h3>Datos de contacto</h3>
+	
+	{{ form.render_contacts_details_to_list}}
+	
+        <small>Nota: Indicar un teléfono distinto del 132</small>
+
+        <br />
+    	<br />
+	<hr />
+        
+        <h3>Personal (Operadoras)</h3>
+	
+	{{ form.render_role_shift_to_table}}
+        {{ form.render_operators_availableatalltimes_to_list}}
+    
+	<br />
+	<hr />
+        
+        <h3>Telefonía (mesa)</h3>
+	
+        {{form.render_telephone_exchange_to_list}}
+	{{form.render_telephone_lines_to_table}}
+        {{form.render_phone_calls_to_list}}
+        {{form.render_cell_equipment_to_list}}
+
+       
+    	<br />
+	<hr />
+        
+        <h3>Equipos de Radio (Fijos)</h3>
+        {{ form.render_tone_generator_to_list}}
+    	<br />
+	<hr />
+        
+        <h3>Frecuencias</h3>
+	{{ form.render_frequencies_to_list}}
+    	<br />
+	<hr />
+        
+        <h3>Soporte tecnológico</h3>
+        <h4>Hardware</h4>
+        {{ form.render_hardware_technological_support_to_list}}
+        <h4>Software</h4>
+        {{ form.render_software_technological_support_to_list}}
+        <h4>Administración - Documentación</h4>
+        {{ form.render_administration_documentation_technological_support_to_list}}
+	<h4>Internet</h4>
+        {{form.render_internet_technological_support_to_list}}
+    	<br />
+	<hr />
+
+        <h3>Energía de Respaldo - (Solo Central)</h3>
+	{{form.render_backup_power_to_list}}
+    	<br />
+	<hr />
+
+        <h3>Observaciones</h3>
+	{{form.render_observations_to_list}}
+    	<br />
+	<hr />
+
+	<p><input type="submit" value="Guardar" /></p>
+	</form>
+
+{% endblock %}

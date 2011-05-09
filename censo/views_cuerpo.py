@@ -256,3 +256,48 @@ def display_mayor_material_form(request):
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),
         )
+
+# Show Alarm Central form
+@authorize(roles=('cuerpo',))
+def display_alarm_central_form(request):
+    profile = request.user.get_profile()
+    cuerpo = profile.company.cuerpo
+    alarm_central_data = None
+    # Attempt to load previously submitted data
+    try:
+        alarm_central_data = cuerpo.cuerpoalarmcentraldata
+    # If it fails, create blank data
+    except ObjectDoesNotExist:
+        alarm_central_data = CuerpoAlarmCentralData()
+        # Add cuerpo to blank data
+        alarm_central_data.cuerpo = cuerpo
+        alarm_central_data.save()
+
+    # If the form has been submitted
+    if request.method == 'POST':
+        # A form bound to the POST data
+        form = CuerpoAlarmCentralForm(request.POST, instance=alarm_central_data)
+        # If the form is correctly validated
+        if form.is_valid():
+            form.save()
+            # Redirect after POST
+            return HttpResponseRedirect('/cuerpo/alarmcentral')
+        # Else render the form again
+        else:
+            return render_to_response('cuerpo/sixth_page.html', {
+                'form': form,
+                'cuerpo': cuerpo,
+                }, context_instance=RequestContext(request),
+                )
+
+    # If the form hasn't been submitted
+
+    # Load already submitted data as initial, to avoid triggering validation
+    form = CuerpoAlarmCentralForm(instance=alarm_central_data)
+
+    # Render the form
+    return render_to_response('cuerpo/sixth_page.html', {
+            'form': form,
+            'cuerpo': cuerpo,
+            }, context_instance=RequestContext(request),
+        )
