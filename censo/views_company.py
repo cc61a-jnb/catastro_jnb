@@ -27,22 +27,43 @@ def display_portada_form(request):
             cp['other_official-TOTAL_FORMS'] = int(cp['other_official-TOTAL_FORMS']) + 1
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=cp, instance=company)
             prevent_validation_error = True
+            # We use the POST data to recreate the data and add anything new
+            for form in new_other_official.forms:
+                if form.has_changed():
+                    if form.is_valid():
+                        coo_query = CompanyOtherOfficial.objects.filter(company=company, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
+                        if not coo_query:
+                            form.save()
         elif 'delete_other_official' in request.POST:
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
-            
             for form in new_other_official.deleted_forms:
                 if form.is_valid():
-                    form.cleaned_data['id'].delete()    
-                    
+                    coo_query = CompanyOtherOfficial.objects.filter(company=company, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
+                    if coo_query:
+                        coo_query[0].delete()
+            query = CompanyOtherOfficial.objects.all()
+            for q in query:
+                if q.role_name == None and q.person_name == None:
+                    q.delete()
+            ## Regenerate formset without deleted rows
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', instance=company)
         else:
             # A form bound to the POST data
             form = CompanyPortadaForm(request.POST, instance=company)
             # If the form is correctly validated
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
-            if new_other_official.is_valid() and form.is_valid():
-                new_other_official.save()
+            if new_other_official.is_valid() and form.is_valid():    
+                for fm in new_other_official.forms:
+                    if fm.has_changed():
+                        if fm.is_valid():
+                            coo_query = CompanyOtherOfficial.objects.filter(company=company, role_name=fm.cleaned_data['role_name'], person_name=fm.cleaned_data['person_name'])
+                            if not coo_query:
+                                fm.save()
                 form.save()
+                query = CompanyOtherOfficial.objects.all()
+                for q in query:
+                    if q.role_name == None and q.person_name == None:
+                        q.delete()
                 # Redirect after POST
                 return HttpResponseRedirect('/company/volunteers')
             # Else render the form again

@@ -28,25 +28,68 @@ def display_portada_form(request):
         args = request.POST
 
         if 'add_other_official' in request.POST:
+            # Let's delete everything! :D
+            # coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo)
+            # for q in coo_query:
+            #     q.delete()
             cp = request.POST.copy()
             cp['other_official-TOTAL_FORMS'] = int(cp['other_official-TOTAL_FORMS']) + 1
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=cp, instance=cuerpo)
             prevent_validation_error = True
+            # We use the POST data to recreate the data and add anything new
+            for form in new_other_official.forms:
+                print form
+                if form.has_changed():
+                    if form.is_valid():
+                        print form
+                        coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
+                        if not coo_query:
+                            form.save()
+            # if new_other_official.is_valid():
+            #     new_other_official.save()
         elif 'delete_other_official' in request.POST:
+            # Let's delete everything! :D
+            # coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo)
+            # for q in coo_query:
+            #     q.delete()
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
             for form in new_other_official.deleted_forms:
                 if form.is_valid():
-                    form.cleaned_data['id'].delete()
-
+                    coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
+                    if coo_query:
+                        coo_query[0].delete()
+            # for form in new_other_official.forms:
+            #     print form
+            #     if not form in new_other_official.deleted_forms:
+            #         if form.is_valid():
+            #             print form
+            #             form.save()
+            query = CuerpoOtherOfficial.objects.all()
+            for q in query:
+                if q.role_name == None and q.person_name == None:
+                    q.delete()
+            ## Regenerate formset without deleted rows
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', instance=cuerpo)
         else:
              # A form bound to the POST data
             form = CuerpoPortadaForm(request.POST, instance=cuerpo)
             # If the form is correctly validated
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
-            if new_other_official.is_valid() and form.is_valid():
-                new_other_official.save()
+            #coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo)
+            #for q in coo_query:
+            #    q.delete()
+            if new_other_official.is_valid() and form.is_valid():      
+                for fm in new_other_official.forms:
+                    if fm.has_changed():
+                        if fm.is_valid():
+                            coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=fm.cleaned_data['role_name'], person_name=fm.cleaned_data['person_name'])
+                            if not coo_query:
+                                fm.save()
                 form.save()
+                query = CuerpoOtherOfficial.objects.all()
+                for q in query:
+                    if q.role_name == None and q.person_name == None:
+                        q.delete()
                 # Redirect after POST
                 return HttpResponseRedirect('/cuerpo/general')
             # Else render the form again
@@ -186,7 +229,7 @@ def display_infrastructure_form(request):
     if request.method == 'POST':
         # A form bound to the POST data
         z = dict(request.POST, **request.FILES)
-        form = CuerpoInfrastructureForm(request.POST, request.FILES, instance=infrastructure_company_data)
+        form = CuerpoInfrastructureForm(request.POST, request.FILES, instance=infrastructure_data)
         # If the form is correctly validated
         if form.is_valid():
             form.save()
