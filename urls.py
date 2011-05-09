@@ -44,6 +44,7 @@ urlpatterns += patterns('catastro_jnb.censo.views_cuerpo',
     url(r'^cuerpo/infrastructure$', 'display_infrastructure_form', name='cuerpo_infrastructure'),
     url(r'^cuerpo/mayor_material$', 'display_mayor_material_form', name='cuerpo_mayor_material'),
     url(r'^cuerpo/alarm_central$', 'display_alarm_central_form', name='cuerpo_alarm_central'),
+     url(r'^cuerpo/service_acts$', 'display_service_acts_form', name='cuerpo_service_acts'),
 )
 
 # Reg. Operations Manager url's #

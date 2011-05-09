@@ -40,3 +40,4 @@ from normalized_frequency import NormalizedFrequency
 from band_width import BandWidth
 from vhf import VHF
 from alarm_central_cuerpo_data import CuerpoAlarmCentralData
+from cuerpo_service_acts_data import CuerpoServiceActsData
