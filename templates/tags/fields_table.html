@@ -13,13 +13,15 @@
             <th>{{ label }}</th>
         {% endfor %}
     </tr>
+
     {% for field_row in fields %}
-        <tr>
+        <tr align="left">
             {% for field in field_row %}
                     {% if forloop.counter == 1 %}
-                        <th>{{ field }}</th>
+                        <th align="left">{{ field|safe }}<br></th>
+
                     {% else %}
-                        <td>{{ field }}</td>
+                        <td align="left">{{ field|safe }}</td>
                     {% endif %}
             {% endfor %}
         </tr>

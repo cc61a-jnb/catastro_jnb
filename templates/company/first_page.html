@@ -20,18 +20,18 @@
 	    <li><strong>Teléfono:</strong> {{ company.phone }}</li>
 	    <li><strong>Fecha de fundación:</strong> {{ company.foundation_date }}</li>
 	</ul>
-	
+
 	<br />
     <h3>Oficiales</h3>
     <br />
-    
+
 	{% if other_official.errors and not prevent_validation_error %}
-	    
+
 	    <ul class="errorlist">
 	        <li>Debe ingresar la información de los cargos adicionales</li>
 	    </ul>
 	{% endif %}
-    
+
     <form method="post" action=".">
         {% csrf_token %}
         <table>
@@ -46,10 +46,10 @@
                 </tr>
             {% endfor %}
         </table>
-        
+
         <h4>Otros oficiales</h4>
         {{ other_official.management_form }}
-        
+
         <table>
             <tr>
                 <th>Cargo</th>
@@ -75,5 +75,5 @@
         <input title="Guardar y continuar" type="submit" name="submit_portada_form" value="Guardar y continuar" />
     </form>
 
-	
+
 {% endblock %}

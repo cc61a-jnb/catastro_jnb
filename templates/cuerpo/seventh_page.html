@@ -1,0 +1,18 @@
+{% extends "cuerpo/base.html" %}
+
+{% block title %}Catastro de cuerpo de bomberos: Actos de Servicio{% endblock %}
+{% block nav_service_acts %}<li class="current-tab"><a href="{% url cuerpo_service_acts %}">Actos de Servicio</a></li>{% endblock %}
+
+{% block content %}
+	<br />
+	<hr />
+    <h3>Servicios</h3>
+
+{{ form.render_acts_to_table }}
+<h3>Observaciones</h3>
+
+	{{ form.observations }}
+	<p><input type="submit" value="Guardar" /></p>
+</form>
+
+{% endblock %}
