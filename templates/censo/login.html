@@ -1,67 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+{% extends "base.html" %}
 
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-	<meta name="description" content=""/>
-	<meta name="keywords" content="" />
-	<meta name="author" content="" />
-	<link rel="stylesheet" type="text/css" href="/media/style.css" media="screen" />
-	<title>Catastro de Cuerpos y Comañías de Bomberos de la JNB</title>
-</head>
+{% block messages %}
+{% endblock %}
 
-<body>
+{% block nav %}
 
-<div id="site-wrapper">
+	{% if flash.error %}
+		<div class="error">{{ flash.error }}</div>
+	{% endif %}
+	
+	{% if flash.notice %}
+		<div class="notice">{{ flash.notice }}</div>
+	{% endif %}
 
-	<div id="header">
-
-		<div id="top">
-
-			<div class="left" id="logo">
-				<a href="index.html"><img src="/media/img/logo_bomberos.jpg" alt="" /></a>
-			</div>
-
-			<div class="left navigation" id="main-nav">
-			    {% if error %}
-			        <div class="error">{{ error }}</div>
-			    {% endif %}
-			    {% if notice %}
-			        <div class="notice">{{ notice }}</div>
-			    {% endif %}
-			    
-                <form method="post" id="login_form">
-                    {% csrf_token %}
-                    <table>
-    				    {{ form.as_table }}
-				    </table>
-				    <input type="submit" value="Entrar" />
-			    </form>
-				<div class="clearer">&nbsp;</div>
-
-			</div>
-
-			<div class="clearer">&nbsp;</div>
-
-		</div>
-
-	<div id="footer">
-
-		<div class="left" id="footer-left">
-			
-			<p>&copy; 2011 Junta Nacional de Bomberos</p>
-
-			<p class="quiet"><a href="http://templates.arcsin.se/">Website template</a> by <a href="http://arcsin.se/">Arcsin</a></p>
-			
-			<div class="clearer">&nbsp;</div>
-
-		</div>
-
-		<div class="clearer">&nbsp;</div>
-
-	</div>
-
-</div>
-
-</body>
-</html>
+	<form method="post" id="login_form">
+		{% csrf_token %}
+		<table>
+		{{ form.as_table }}
+		</table>
+		<input type="submit" value="Entrar" />
+	</form>
+	
+{% endblock %}

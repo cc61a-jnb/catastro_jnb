@@ -1,8 +1,16 @@
 # coding: utf-8
 
+import logging
+
 from django.db import models
+from django.db import connections
 
 class Company(models.Model):
+
+    data_indexes = {
+        'phone': 1,
+    }
+
     old_id = models.IntegerField()
     number = models.IntegerField()
     
@@ -16,9 +24,8 @@ class Company(models.Model):
     lieutenant_4_name = models.CharField(max_length=255, default = '', verbose_name='Teniente 4°', blank=True, null=True)
     assistant_name = models.CharField(max_length=255, default = '', verbose_name='Ayudante', blank=True, null=True)
     
-    name = models.CharField(max_length = 255, default = '')
     cuerpo = models.ForeignKey('Cuerpo', related_name='cuerpo_company')
-    phone = models.CharField(max_length=255, default = '', verbose_name='teléfono')
+   # phone = models.CharField(max_length=255, default = '', verbose_name='teléfono')
     mail = models.EmailField(max_length=255, default = '')
     address = models.CharField(max_length=255, default = '', verbose_name='dirección')
     commune = models.ForeignKey('Commune', related_name='+', blank=True, null=True)
@@ -27,9 +34,32 @@ class Company(models.Model):
     website = models.CharField(max_length=255, default = '')
     alarm_central = models.CharField(max_length=255, default = '')
     lemma = models.CharField(max_length=255, default = '')
-    communes = models.ManyToManyField('Commune', blank=True, null=True)
     foundation_date = models.DateField(blank = True, null = True, verbose_name='fecha fundación')
     
+    @property
+    def phone(self):
+        logging.info("querying %s company phone", self.old_id)
+        return self.__get_columns()[self.data_indexes['phone']]
+
+    def __get_columns(self):
+        if hasattr(self, 'column_data'): # query caching
+            return self.column_data
+        else:
+            cursor = connections['principal'].cursor()
+            user_profile = self.
+            query = """SELECT comp_id, comp_telefono
+                       FROM companias
+                       WHERE comp_id = %s
+                    """
+            params = (self.old_id,)
+            
+            cursor.execute(query, params)
+            temp_data = cursor.fetchone()
+            if temp_data:
+                self.column_data = temp_data
+            cursor.close()
+            return self.column_data
+
     def __unicode__(self):
         return self.name
         
@@ -68,5 +98,5 @@ class Company(models.Model):
             
 
     class Meta:
-        ordering = ['name']
+        ordering = ['old_id']
         app_label = 'censo'
