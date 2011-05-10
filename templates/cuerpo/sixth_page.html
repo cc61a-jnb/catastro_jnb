@@ -9,7 +9,7 @@
 	{% csrf_token %}
 	<h2>Central de Alarmas</h2>
 	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
-	
+
 	{% if form.non_field_errors %}
 	    <ul class="errorlist">
             {% for error in form.non_field_errors %}
@@ -17,46 +17,47 @@
             {% endfor %}
 	    </ul>
 	{% endif %}
+   <br><b></b><h3>Debe ser respondido por Comandante del Área o Inspector en comunicaciones</h3><br></b>
 
 	<h3>Datos de contacto</h3>
-	
+
 	{{ form.render_contacts_details_to_list}}
-	
+
         <small>Nota: Indicar un teléfono distinto del 132</small>
 
         <br />
     	<br />
 	<hr />
-        
+
         <h3>Personal (Operadoras)</h3>
-	
+
 	{{ form.render_role_shift_to_table}}
         {{ form.render_operators_availableatalltimes_to_list}}
-    
+
 	<br />
 	<hr />
-        
+
         <h3>Telefonía (mesa)</h3>
-	
+
         {{form.render_telephone_exchange_to_list}}
 	{{form.render_telephone_lines_to_table}}
         {{form.render_phone_calls_to_list}}
         {{form.render_cell_equipment_to_list}}
 
-       
+
     	<br />
 	<hr />
-        
+
         <h3>Equipos de Radio (Fijos)</h3>
         {{ form.render_tone_generator_to_list}}
     	<br />
 	<hr />
-        
+
         <h3>Frecuencias</h3>
 	{{ form.render_frequencies_to_list}}
     	<br />
 	<hr />
-        
+
         <h3>Soporte tecnológico</h3>
         <h4>Hardware</h4>
         {{ form.render_hardware_technological_support_to_list}}
