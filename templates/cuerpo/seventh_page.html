@@ -6,6 +6,8 @@
 {% block content %}
     <form method="post" class="catastro_form">
 	{% csrf_token %}
+ 	<h2>Actos de Servicio</h2>
+	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
 	<br />
 	<hr />
     <h3>Servicios</h3>
