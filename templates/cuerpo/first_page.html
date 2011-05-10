@@ -19,81 +19,17 @@
     <form method="post" action="#others_officials">
 	{% csrf_token %}
 
-	<table>
-        <tr>
-            <th>
-                Nombre de cuerpo
-            </th>
-            <td>
-                {{ cuerpo.name }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Comuna
-            </th>
-            <td>
-                {{ cuerpo.commune }}
-            </td>
-        </tr>
-        <tr>
-        <tr>
-            <th>
-                Provincia
-            </th>
-            <td>
-                {{ cuerpo.commune.province }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Región
-            </th>
-            <td>
-                {{ cuerpo.commune.province.region }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Teléfono
-            </th>
-            <td>
-                {{ cuerpo.phone }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Dirección Cuartel General
-            </th>
-            <td>
-                {{ cuerpo.address }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Fecha de Fundación
-            </th>
-            <td>
-                {{ cuerpo.foundation_date }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                N° Personalidad Jurídica
-            </th>
-            <td>
-                {{ cuerpo.cuer_npers_juri }}
-            </td>
-        </tr>
-        <tr>
-            <th>
-                Fecha de Decreto
-            </th>
-            <td>
-                {{ cuerpo.decree_date }}
-            </td>
-        </tr>
-    </table>
+	<ul>
+        <li><strong>Nombre de cuerpo:</strong> {{ cuerpo.name }}</li>
+        <li><strong>Comuna:</strong> {{ cuerpo.commune }}</li>
+        <li><strong>Provincia:</strong> {{ cuerpo.commune.province }}</li>
+        <li><strong>Región:</strong> {{ cuerpo.commune.province.region }}</li>
+        <li><strong>Teléfono:</strong> {{ cuerpo.phone }}</li>
+        <li><strong>Dirección Cuartel General:</strong> {{ cuerpo.address }}</li>
+        <li><strong>Fecha de Fundación:</strong> {{ cuerpo.foundation_date }}</li>
+        <li><strong>N° Personalidad Jurídica:</strong> {{ cuerpo.cuer_npers_juri }}</li>
+        <li><strong>Fecha de Decreto:</strong> {{ cuerpo.decree_date }}</li>
+    </ul>
     
     <br />
 	<hr />
