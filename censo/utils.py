@@ -54,7 +54,7 @@ class authorize(object):
 
         return wrap
 
-def render_fields_as_table(fields, column_labels, row_labels, css_class_name='table_fields'):
+def render_fields_as_table(fields, column_labels, row_labels, css_class_name='table_service_acts'):
     template = loader.get_template('tags/fields_table.html')
 
     #helper text array

@@ -17,7 +17,7 @@ class CuerpoServiceActsForm(BaseForm):
         row_labels = [fields.label for fields in fields]
         column_labels = ['Cantidad']
 
-        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_service_acts')
 
     def render_acts_to_list(self):
 

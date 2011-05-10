@@ -1,0 +1,29 @@
+{% if errors %}
+    <ul class="errorlist">
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<table class="{{ css_class_name }}">
+    <tr>
+        <th></th>
+        {% for label in column_labels %}
+            <th>{{ label }}</th>
+        {% endfor %}
+    </tr>
+
+    {% for field_row in fields %}
+        <tr align="left">
+            {% for field in field_row %}
+                    {% if forloop.counter == 1 %}
+                        <th align="left">{{ field|safe }}<br></th>
+
+                    {% else %}
+                        <td align="left">{{ field|safe }}</td>
+                    {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>

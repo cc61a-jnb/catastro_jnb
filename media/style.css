@@ -1,4 +1,4 @@
-/*  
+/*
 Template name: Simple Organization
 Template URI: http://templates.arcsin.se/simple-organization-website-template/
 Release date: 2009-09-20
@@ -12,7 +12,7 @@ http://templates.arcsin.se/license/
 */
 
 
-/* 
+/*
    Reset
 ------------------------------------------------------------------- */
 
@@ -26,8 +26,8 @@ a img {border: none;}
 :focus {outline: 0;}
 
 
-/* 
-   General 
+/*
+   General
 ------------------------------------------------------------------- */
 
 html {
@@ -43,8 +43,8 @@ body {
 }
 
 
-/* 
-   Typography 
+/*
+   Typography
 ------------------------------------------------------------------- */
 
 /* Headings */
@@ -230,8 +230,8 @@ table.data-table tr.even td {background: #FCFCFC;}
 .label-orange {border-left-color: #FA8F6F;}
 
 
-/* 
-   Forms 
+/*
+   Forms
 ------------------------------------------------------------------- */
 
 label {
@@ -290,8 +290,8 @@ form .required {font-weight: bold;}
 
 
 
-/* 
-   Alignment 
+/*
+   Alignment
 ------------------------------------------------------------------- */
 
 /* General */
@@ -314,7 +314,7 @@ img.alignleft, img.left {margin: 0 1.5em 1em 0;}
 img.alignright, img.right {margin: 0 0 1em 1.5em;}
 
 
-/* Floats */   
+/* Floats */
 
 .left,.alignleft {float: left;}
 .right,.alignright {float: right;}
@@ -328,8 +328,8 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 }
 
 
-/* 
-   Separators 
+/*
+   Separators
 ------------------------------------------------------------------- */
 
 .content-separator, .archive-separator {
@@ -339,14 +339,14 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 	display: block;
 	font-size: 0;
 	line-height: 0;
-	height: 1px;	
+	height: 1px;
 }
 .content-separator {margin: 32px 0;}
 .archive-separator {margin-bottom: 20px;}
 
 
-/* 
-   Posts 
+/*
+   Posts
 ------------------------------------------------------------------- */
 
 .post {margin-bottom: 20px;}
@@ -398,8 +398,8 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 .archive-post-day {font: normal 1.6em Georgia,serif;}
 
 
-/* 
-   Comments 
+/*
+   Comments
 ------------------------------------------------------------------- */
 
 .comment-input-text textarea {width: 80%;}
@@ -501,8 +501,8 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 }
 
 
-/* 
-   Layout 
+/*
+   Layout
 ------------------------------------------------------------------- */
 
 /* Common */
@@ -619,7 +619,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 
 
 
-/* 
+/*
    Misc overriding classes
 ------------------------------------------------------------------- */
 
@@ -648,7 +648,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 .nolpadding {padding-left: 0;}
 
 
-/* 
+/*
    IE Fixes (zzz)
 ------------------------------------------------------------------- */
 
@@ -696,6 +696,28 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
     text-align: center;
     width: 70px;
 }
+
+/*service_acts*/
+
+.table_service_acts {
+    width: inherit;
+}
+
+.table_service_acts input {
+    width: 40px;
+}
+
+.table_service_acts th {
+    text-align: left;
+    font-size: 14px;
+    width: inherit;
+}
+
+.table_service_acts td {
+    text-align: justify;
+    width: inherit;
+}
+/*service_acts*/
 
 .list_quantities {
     width: inherit;
