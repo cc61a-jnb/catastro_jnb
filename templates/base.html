@@ -38,6 +38,9 @@
 				{% endcomment %}
 				</ul>
 			{% endblock %}
+			{% if user.is_authenticated %}
+			<a href="{% url logout %}">[Salir]</a>
+			{% endif %}
 
 			{% block messages %}
 
@@ -51,12 +54,11 @@
 			
 			{% endblock %}
 
-				<div class="clearer">&nbsp;</div>
+				<div class="clearer"></div>
 
 			</div>
 
-			<div class="clearer">&nbsp;</div>
-
+			<div class="clearer"></div>
 		</div>
 
 	</div>
