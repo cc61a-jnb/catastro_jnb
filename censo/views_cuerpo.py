@@ -28,32 +28,76 @@ def display_portada_form(request):
         args = request.POST
 
         if 'add_other_official' in request.POST:
-            cp = request.POST.copy()
-            cp['other_official-TOTAL_FORMS'] = int(cp['other_official-TOTAL_FORMS']) + 1
-            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=cp, instance=cuerpo)
+            # cp = request.POST.copy()
+            # cp['other_official-TOTAL_FORMS'] = int(cp['other_official-TOTAL_FORMS']) + 1
+            # Get the data from POST
+            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
             prevent_validation_error = True
             # We use the POST data to add anything new
             for form in new_other_official.forms:
                 if form.has_changed():
                     if form.is_valid():
-                        coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
-                        if not coo_query:
-                            form.save()
+                        #coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
+                        #if not coo_query:
+                        form.save()
+            ### Al usar sólo el request.POST para obtener y recargar los datos
+            ### del formulario, los datos no tenían id de la base de datos (pues
+            ### nunca eran cargados de ahí), luego al hacer cualquier modificación
+            ### sobre éstos, eran considerados nuevos datos y se guardaban en la BD
+            ### junto con la versión antigua (duplicación de líneas).
+            ### Ahora estamos creando líneas vacías en la BD al hacer el agregar,
+            ### para cargar de la base de datos. Toda línea que quede vacía después de
+            ### llenar los datos debería eliminarse al hacer el guardado del formulario
+            ### completo.
+            
+            # Create new empty line in DB
+            coo_new = CuerpoOtherOfficial(cuerpo=cuerpo, role_name='', person_name='')
+            coo_new.save()
+            # Reload data from DB
+            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official',  instance=cuerpo)
         elif 'delete_other_official' in request.POST:
-            ## Delete from DB
+            prevent_validation_error = True
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
+            #print '********** FORM_SET ***********'
+            #print new_other_official
+            # We use the POST data to add anything new
+            for form in new_other_official.forms:
+                if form.is_valid():
+                    if form.has_changed():
+                        #coo_query = None
+                        #if form.cleaned_data['id'] is not None:
+                        #    coo_query = CuerpoOtherOfficial.objects.filter(id__exact=form.cleaned_data['id'].id)
+                        #    print 'query set IF:::'
+                        #    print coo_query
+                            #if not coo_query:
+                        form.save()
+                            #form.save(force_update=True)
+                        #else:
+                        #    coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
+                         #   print 'query set ELSE:::'
+                          #  print coo_query
+                           # if not coo_query:
+                            #    form.save()
+            # Then we delete the appropiate rows
             for form in new_other_official.deleted_forms:
                 if form.is_valid():
-                    coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
-                    if coo_query:
-                        coo_query[0].delete()
+                    coo_del = form.cleaned_data['id']
+                    coo_del.delete()
+                    #coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
+                    #if coo_query:
+                    #    coo_query[0].delete()
             ## Check and delete null entries
-            query = CuerpoOtherOfficial.objects.all()
-            for q in query:
-                if q.role_name == None and q.person_name == None:
-                    q.delete()
+            #query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo)
+            #for q in query:
+            #    if q.role_name == None and q.person_name == None:
+            #        q.delete()
             ## Regenerate formset without deleted rows
+            #cp = request.POST.copy()
+            #print '===POST==='
+            #print cp
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', instance=cuerpo)
+            #print '********** FORM_SET WITHOUT DELETED ROWS ***********'
+            #print new_other_official
         else:
              # A form bound to the POST data
             form = CuerpoPortadaForm(request.POST, instance=cuerpo)
@@ -63,14 +107,14 @@ def display_portada_form(request):
                 for fm in new_other_official.forms:
                     if fm.has_changed():
                         if fm.is_valid():
-                            coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=fm.cleaned_data['role_name'], person_name=fm.cleaned_data['person_name'])
-                            if not coo_query:
-                                fm.save()
+                            #coo_query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo, role_name=fm.cleaned_data['role_name'], person_name=fm.cleaned_data['person_name'])
+                            #if not coo_query:
+                            fm.save()
                 form.save()
-                ## Delete null entries
-                query = CuerpoOtherOfficial.objects.all()
+                ## Delete empty entries
+                query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo)
                 for q in query:
-                    if q.role_name == None and q.person_name == None:
+                    if q.role_name == '' and q.person_name == '':
                         q.delete()
                 # Redirect after POST
                 return HttpResponseRedirect('/cuerpo/general')
