@@ -27,7 +27,7 @@ def display_portada_form(request):
             cp['other_official-TOTAL_FORMS'] = int(cp['other_official-TOTAL_FORMS']) + 1
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=cp, instance=company)
             prevent_validation_error = True
-            # We use the POST data to recreate the data and add anything new
+            # We use the POST data to add anything new
             for form in new_other_official.forms:
                 if form.has_changed():
                     if form.is_valid():
@@ -35,12 +35,14 @@ def display_portada_form(request):
                         if not coo_query:
                             form.save()
         elif 'delete_other_official' in request.POST:
+            ## Delete from DB
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
             for form in new_other_official.deleted_forms:
                 if form.is_valid():
                     coo_query = CompanyOtherOfficial.objects.filter(company=company, role_name=form.cleaned_data['role_name'], person_name=form.cleaned_data['person_name'])
                     if coo_query:
                         coo_query[0].delete()
+            # Check and delete null data
             query = CompanyOtherOfficial.objects.all()
             for q in query:
                 if q.role_name == None and q.person_name == None:
@@ -60,6 +62,7 @@ def display_portada_form(request):
                             if not coo_query:
                                 fm.save()
                 form.save()
+                # Delete null entries
                 query = CompanyOtherOfficial.objects.all()
                 for q in query:
                     if q.role_name == None and q.person_name == None:
