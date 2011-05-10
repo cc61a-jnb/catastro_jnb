@@ -4,7 +4,7 @@
 
 {% block content %}
     <h2>Catastro de compañía de bomberos</h2>
-    <br />
+    <h4>{{ company.string_number }}</h4>
     <h3>Portada</h3>
     <br />
     <p>
@@ -22,6 +22,7 @@
 	</ul>
 
 	<br />
+	<hr />
     <h3>Oficiales</h3>
     <br />
 
@@ -32,7 +33,7 @@
 	    </ul>
 	{% endif %}
 
-    <form method="post" action=".">
+    <form method="post" action="#others_officials">
         {% csrf_token %}
         <table>
             <tr>
@@ -47,6 +48,7 @@
             {% endfor %}
         </table>
 
+        <a name="others_officials"></a>
         <h4>Otros oficiales</h4>
         {{ other_official.management_form }}
 
@@ -70,9 +72,14 @@
                 <td><input type="submit" value="Eliminar seleccionados" name="delete_other_official" /></td>
             </tr>
         </table>
-        <br />
-        <hr />
-        <input title="Guardar y continuar" type="submit" name="submit_portada_form" value="Guardar y continuar" />
+    <br />
+	<hr />
+	<h3>Observaciones</h3>
+
+	{{ form.observations }}
+
+	<!-- p><input type="submit" value="Guardar" /></p -->
+    <p><input title="Guardar y continuar" type="submit" name="submit_portada_form" value="Guardar y continuar" /></p>
     </form>
 
 
