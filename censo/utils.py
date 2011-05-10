@@ -3,6 +3,7 @@
 import logging
 
 from functools import wraps
+from django.db import connections
 from django.template import Context, loader
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -26,7 +27,10 @@ class authorize(object):
 
             # Get user role
             profile = request.user.get_profile()
-            role = profile.highest_role()
+
+            cursor = connections['principal'].cursor()
+
+            role = profile.highest_role(cursor)
             role_name = None
 
             # If user doesn't have roles, error
@@ -36,18 +40,20 @@ class authorize(object):
                 return HttpResponseRedirect(reverse('login'))
 
             # assign current role to human readable format
-            if profile.is_regional_operations_manager():
+            if profile.is_regional_operations_manager(cursor):
                 role_name = 'regional_operations_manager'
-            elif profile.is_cuerpo_manager():
+            elif profile.is_cuerpo_manager(cursor):
                 role_name = 'cuerpo'
-            elif profile.is_company_manager():
+            elif profile.is_company_manager(cursor):
                 role_name = 'company'
 
             # If user has access, grant
             if role_name in self.roles:
+                cursor.close()
                 return f(request, *args, **kwargs)
             # redirect to base view in case the user doesn't have access
             else:
+                cursor.close()
                 request.flash['error'] = 'Usted no tiene permisos para realizar esta acción'
                 logging.info("User {0} doesn't have permission to access {1}".format(request.user.username, request.path))
                 return HttpResponseRedirect(reverse(role_name))

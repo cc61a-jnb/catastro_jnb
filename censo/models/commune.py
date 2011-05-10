@@ -1,3 +1,9 @@
+# coding: utf-8
+
+import logging
+
+from . import Province
+
 from django.db import models
 
 class Commune(models.Model):
@@ -7,7 +13,6 @@ class Commune(models.Model):
     
     @classmethod
     def fetch_from_db(self, cursor, old_id):
-        from . import Province
     
         query = "SELECT comu_ide, prov_id FROM comuna WHERE comu_nombre = %s"
         params = (old_id,)
@@ -15,12 +20,13 @@ class Commune(models.Model):
         
         commune_data = cursor.fetchone()
         if not commune_data:
-            logging.info("Cannot find commune with id (%d)", old_id)
+            logging.error("Cannot find commune with id (%d)", old_id)
             return None
             
         province = Province.fetch_from_db(cursor, commune_data[1])
         
         if not province:
+            logging.error("Cannot find id (%d) commune's province", old_id)
             return None
             
         try:

@@ -1,6 +1,9 @@
 # coding: utf-8
 
+import logging
+
 from django.db import models
+
 from . import Commune
 
 class Cuerpo(models.Model):
@@ -15,7 +18,6 @@ class Cuerpo(models.Model):
     
     @classmethod
     def fetch_from_db(self, cursor, old_id):
-        from . import Province
     
         query = "SELECT cuer_nombre, cuer_comuna, cuer_telefono, cuer_direccion, cuer_fecha_fund, cuer_npers_juri, cuer_fech_decre FROM cuerpos WHERE cuer_id = %s"
         params = (old_id,)
@@ -23,17 +25,19 @@ class Cuerpo(models.Model):
         
         cuerpo_data = cursor.fetchone()
         if not cuerpo_data:
-            logging.info("Cannot find cuerpo with id (%d)", old_id)
+            logging.error("Cannot find cuerpo with id (%d)", old_id)
             return None
             
         commune = Commune.fetch_from_db(cursor, cuerpo_data[1])
         
         if not commune:
+            logging.error("Cannot find id (%d) cuerpo's commune", old_id)
             return None
             
         try:
             cuerpo = Cuerpo.objects.get(old_id = old_id)
         except Cuerpo.DoesNotExist:
+            logging.info("Cuerpo with id (%d) fetched for the first time, initializing data", old_id)
             cuerpo = Cuerpo()
             cuerpo.old_id = old_id
             
@@ -45,6 +49,8 @@ class Cuerpo(models.Model):
         cuerpo.npers_juri = cuerpo_data[5]
         cuerpo.decree_date = cuerpo_data[6]
         
+        cuerpo.save()
+
         return cuerpo
 
     # TODO: associate cuerpo with companies

@@ -40,7 +40,7 @@ class JNBBackend:
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
-            logging.info("The user (%s) is logging for the first time, initializing data", username)
+            logging.info("The user %s is logging for the first time, initializing data", username)
             user = User(username=username, password=password)
             user.is_staff = False
             user.is_superuser = False
@@ -50,6 +50,7 @@ class JNBBackend:
 
         # If for some reason the user does not have a uid in the database, burn everything and abort
         if postfix_data[0] is None:
+            logging.error("The user %s does not have a uid in the database, aborting!", username)
             profile.delete()
             user.delete()
             cursor.close()
@@ -69,6 +70,7 @@ class JNBBackend:
         if not user_data:
             # The user does not exist in the principal database (broken foreign key)
             # As always, burn and quit
+            logging.error("The user %s does not exist in the principal database (broken foreign key), aborting!", username)
             profile.delete()
             user.delete()
             cursor.close()
@@ -79,18 +81,19 @@ class JNBBackend:
         company = Company.fetch_from_db(cursor, old_company_id)    
         
         if not company:
+            logging.error("The user %s company doesn't exist, aborting!", username)
             profile.delete()
             user.delete()
             cursor.close()
             return None
             
         profile.company = company
-        profile.determine_role(cursor)
+        profile.update_role(cursor)
         
         profile.save()
         user.save()
-
         cursor.close()
+
         return user
 
     def get_user(self, user_id):

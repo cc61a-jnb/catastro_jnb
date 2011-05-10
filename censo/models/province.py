@@ -1,3 +1,9 @@
+# coding: utf-8
+
+import logging
+
+from . import Region
+
 from django.db import models
 
 class Province(models.Model):
@@ -7,7 +13,6 @@ class Province(models.Model):
     
     @classmethod
     def fetch_from_db(self, cursor, old_id):
-        from . import Region
     
         query = "SELECT prov_nombre, prov_fk_region FROM provincias WHERE prov_id = %s"
         params = (old_id,)
@@ -15,12 +20,13 @@ class Province(models.Model):
         
         province_data = cursor.fetchone()
         if not province_data:
-            logging.info("Cannot find province with id (%d)", old_id)
+            logging.error("Cannot find province with id (%d)", old_id)
             return None
             
         region = Region.fetch_from_db(cursor, province_data[1])
         
         if not region:
+            logging.error("Cannot find region with id (%d)", old_id)
             return None
             
         try:
@@ -31,6 +37,7 @@ class Province(models.Model):
             
         province.name = province_data[0]
         province.region = region
+
         province.save()
         
         return province

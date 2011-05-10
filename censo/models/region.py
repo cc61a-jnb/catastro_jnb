@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import logging
+
 from django.db import models
 
 class Region(models.Model):
@@ -8,18 +10,20 @@ class Region(models.Model):
     
     @classmethod
     def fetch_from_db(self, cursor, old_id):
+
         query = "SELECT regi_nombre FROM regiones WHERE regi_id = %s"
         params = (old_id,)
         cursor.execute(query, params)
         
         region_data = cursor.fetchone()
         if not region_data:
-            logging.info("Cannot find region with id (%d)", old_id)
+            logging.error("Cannot find region with id (%d)", old_id)
             return None
             
         try:
             region = Region.objects.get(old_id = old_id)
         except Region.DoesNotExist:
+            logging.info("Region with id (%d) fetched for the first time, initializing data", old_id)
             region = Region()
             region.old_id = old_id
             

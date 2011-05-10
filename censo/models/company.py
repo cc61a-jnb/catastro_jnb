@@ -1,7 +1,9 @@
 # coding: utf-8
+
 import logging
+
 from django.db import models
-from django.db import connections
+
 from . import Commune, Cuerpo
 
 class Company(models.Model):
@@ -21,27 +23,32 @@ class Company(models.Model):
     
     @classmethod
     def fetch_from_db(self, cursor, old_id):
+
         query = "SELECT comp_id, comp_nro, comp_direccion, comp_comuna, comp_telefono, comp_ffundacion, comp_fk_cuerpo FROM companias WHERE comp_id = %s"
         params = (old_id,)
         cursor.execute(query, params)
         
         company_data = cursor.fetchone()
         if not company_data:
+            logging.error("Cannot find company with id (%d)", old_id)
             return None
             
         commune = Commune.fetch_from_db(cursor, company_data[3])
         
         if not commune:
+            logging.error("Cannot find id (%d) company's commune", old_id)
             return None
         
         cuerpo = Cuerpo.fetch_from_db(cursor, company_data[6])
         
         if not cuerpo:
+            logging.error("Cannot find id (%d) company's cuepo", old_id)
             return None
             
         try:
             company = Company.objects.get(old_id = old_id)
         except Company.DoesNotExist:
+            logging.info("Company with id (%d) fetched for the first time, initializing data", old_id)
             company = Company()
             company.old_id = old_id
         
