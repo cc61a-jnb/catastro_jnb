@@ -15,7 +15,9 @@ from django.forms.models import inlineformset_factory
 @authorize(roles=('cuerpo',))
 def display_portada_form(request):
     profile = request.user.get_profile()
+    
     cuerpo = profile.company.cuerpo
+    
     #previene que se muestren los errores de envio al presionar el botón agregar otro
     prevent_validation_error = False
 

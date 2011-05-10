@@ -30,6 +30,9 @@ class Company(models.Model):
     communes = models.ManyToManyField('Commune', blank=True, null=True)
     foundation_date = models.DateField(blank = True, null = True, verbose_name='fecha fundación')
     
+    # observaciones
+    observations = models.TextField(null=True, blank=True, verbose_name='')
+    
     def __unicode__(self):
         return self.name
         
