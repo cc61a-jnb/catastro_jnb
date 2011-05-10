@@ -6,9 +6,9 @@
 
 {% block content %}
     <h2>Catastro de Cuerpo de bomberos</h2>
-    <br />
+    <h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+  
     <h3>Portada</h3>
-    <br />
 
 
     <form method="post" action="#others_officials">
@@ -89,6 +89,10 @@
             </td>
         </tr>
     </table>
+    
+    <br />
+	<hr />
+    <h3>Oficiales</h3>
       <table>
             <tr>
                 <th>Cargo</th>
@@ -126,11 +130,14 @@
                 <td><input type="submit" value="Eliminar seleccionados" name="delete_other_official" /></td>
             </tr>
         </table>
+    
+    <br />
+	<hr />
 	<h3>Observaciones</h3>
 
 	{{ form.observations }}
 
-	<input type="submit" value="Guardar" />
+	<p><input type="submit" value="Guardar" /></p>
 	</form>
 
 {% endblock %}
