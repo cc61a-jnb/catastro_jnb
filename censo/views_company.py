@@ -15,6 +15,16 @@ def display_portada_form(request):
     profile = request.user.get_profile()
     # A profile must have a company asociated, this can't fail
     company = profile.company
+    portada_data = None
+    # Attempt to load previously submitted data
+    try:
+        portada_data = company.portadacompanydata
+    # If it fails, create blank data
+    except ObjectDoesNotExist:
+        portada_data = PortadaCompanyData()
+        # Add company to blank data
+        portada_data.company = company
+        portada_data.save()
     
     #previene que se muestren los errores de envio al presionar el botón agregar otro
     prevent_validation_error = False
@@ -24,9 +34,9 @@ def display_portada_form(request):
     # If the form has been submitted
     if request.method == 'POST':
         args = request.POST
+        main_form = CompanyPortadaForm(request.POST, instance=portada_data)
         
         if 'add_other_official' in request.POST:
-        
             #cp = request.POST.copy()
             #cp['other_official-TOTAL_FORMS'] = int(cp['other_official-TOTAL_FORMS']) + 1
             # Get the data from POST
@@ -57,6 +67,8 @@ def display_portada_form(request):
             
             # Reload data from DB
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official',  instance=company)
+            if main_form.is_valid():
+                main_form.save()
             
         elif 'delete_other_official' in request.POST:
             prevent_validation_error = True
@@ -91,20 +103,21 @@ def display_portada_form(request):
             #        q.delete()
             ## Regenerate formset without deleted rows
             #new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', instance=company)
-        
+            if main_form.is_valid():
+                main_form.save()
         else:
             # A form bound to the POST data
-            form = CompanyPortadaForm(request.POST, instance=company)
+            main_form = CompanyPortadaForm(request.POST, instance=portada_data)
             # If the form is correctly validated
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
-            if new_other_official.is_valid() and form.is_valid():    
+            if new_other_official.is_valid() and main_form.is_valid():    
                 for fm in new_other_official.forms:
                     if fm.has_changed():
                         if fm.is_valid():
                             #coo_query = CompanyOtherOfficial.objects.filter(company=company, role_name=fm.cleaned_data['role_name'], person_name=fm.cleaned_data['person_name'])
                             #if not coo_query:
                             fm.save()
-                form.save()
+                main_form.save()
                  ## Delete empty entries
                 query = CompanyOtherOfficial.objects.filter(company=company)
                 for q in query:
@@ -120,25 +133,25 @@ def display_portada_form(request):
             # Else render the form again
             else:
                 return render_to_response('company/first_page.html', {
-                    'form': form,
+                    'form': main_form,
                     'company': company,
                     'other_official': new_other_official,
                     }, context_instance=RequestContext(request),
                     )
         
         # A form bound to the POST data
-        form = CompanyPortadaForm(request.POST, instance=company)
+        main_form = CompanyPortadaForm(request.POST, instance=company)
         
     else:
         # If the form hasn't been submitted
         new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official',instance=company)
     
     # Load already submitted data as initial, to avoid triggering validation
-    form = CompanyPortadaForm(instance=company)
+    main_form = CompanyPortadaForm(instance=company)
 
     # Render the form
     return render_to_response('company/first_page.html', {
-            'form': form,
+            'form': main_form,
             'company': company,
             'other_official': new_other_official,
             'prevent_validation_error': prevent_validation_error,

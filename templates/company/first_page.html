@@ -3,6 +3,10 @@
 {% block nav_portada %}<li class="current-tab"><a href="{% url company %}">Portada</a></li>{% endblock %}
 
 {% block content %}
+    {% for error in form.errors %}
+        {{error}}<br />
+    {% endfor %}
+
     <h2>Catastro de compañía de bomberos</h2>
     <h4>{{ company.string_number }}</h4>
     <h3>Portada</h3>
