@@ -74,17 +74,19 @@ class CuerpoAlarmCentralData(models.Model):
 
 
     #Frecuencias
-    #
-    frequency_one=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 1 (Mhz)')
+    #primera frecuencia es obligatoria porque todos los cuerpos tienen al menos una
+    frequency_one=models.DecimalField(max_digits=6, decimal_places=3, default=0, verbose_name='Frecuencia 1 (Mhz)')
     frequency_two=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 2 (Mhz)')
     frequency_three=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 3 (Mhz)')
     frequency_four=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 4 (Mhz)')
 
     #Tipo?
-    fk_normalized_frequency = models.ForeignKey('NormalizedFrequency', verbose_name='normalizada', null=True, blank=True)
+    #obligatoria
+    normalized_frequency = models.IntegerField(choices=((1,"No"),(2, u"Sí"), (3,u"En Trámite")), default=1, verbose_name='normalizada')
+
     decree=models.IntegerField(null=True, blank=True, verbose_name='Nº Decreto')
-    date=models.IntegerField(null=True, blank=True, verbose_name='Fecha (otorgada)')
-    fk_bandwidth=models.ForeignKey('BandWidth', verbose_name='Ancho de Banda', null=True, blank=True)
+    decree_date=models.DateField(null=True, blank=True, verbose_name='Fecha (otorgada)')
+    bandwidth=models.IntegerField(choices=((1,"12.5 Mhz"),(2, u"25 Mhz")), default=1, verbose_name='Ancho de Banda')
     fk_vhf=models.ForeignKey('VHF', verbose_name='Rango de Frecuencia', null=True, blank=True)
     national_emergency_frequency= models.NullBooleanField(verbose_name='Frecuencia Nacional de Emergencia')
 
