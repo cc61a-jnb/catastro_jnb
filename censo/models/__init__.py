@@ -1,5 +1,4 @@
 from speciality import Speciality
-from role import Role
 from occupation import Occupation
 from commune import Commune
 from region import Region
@@ -7,7 +6,6 @@ from cuerpo import Cuerpo
 from volunteer_data import VolunteerData
 from company import Company
 from user_profile import UserProfile
-from user_has_role import UserHasRole
 from province import Province
 from internet_provider import InternetProvider
 from infrastructure_company_data import InfrastructureCompanyData

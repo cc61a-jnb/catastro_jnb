@@ -30,16 +30,16 @@ def login(request):
         form = LoginForm(request.POST)
         username = request.POST['username']
         password = request.POST['password']
-        logging.info('Trying user {0} authentication'.format(username))
+        logging.info('Trying user %s authentication' % username)
         user = authenticate(username=username, password=password)
         # Check if user correct
         if user is not None:
             django_login(request, user)
-            logging.info("User {0} logged in".format(user.username))
+            logging.info("User %s logged in" % user.username)
             return __switch_authenticated_user_role_view(request, user)
         # If user is incorrect, error
         else:
-            logging.error("User {0}: bad credentials".format(username))
+            logging.error("User %s: bad credentials" % username)
             request.flash['error'] = 'Nombre de usuario o contraseña incorrectos'
     # If it hasn't been submitted, display any pending notices
     else:   
@@ -56,7 +56,7 @@ def __switch_authenticated_user_role_view(request, user):
     # If user doesn't have roles, notify and redirect to login
     if not role:
         request.flash['error'] = 'Usted no tiene roles asociados'
-        logging.error("user {0} doesn't have any roles".format(user.username))
+        logging.error("user %s doesn't have any roles" % user.username)
         return HttpResponseRedirect(reverse('login'))
     # Else check which role it has
     # If user's role can access /cuerpos/, redirect
@@ -74,7 +74,7 @@ def __switch_authenticated_user_role_view(request, user):
     # If user's role doesn't grant access, error
     else:
         request.flash['error'] = 'Usted no tiene permisos para acceder al sistema'
-        logging.error("user {0} doesn't have a valid role for this system".format(user.username))
+        logging.error("user %s doesn't have a valid role for this system" % user.username)
         return HttpResponseRedirect(reverse('login'))
 
 # Logout form            
@@ -82,7 +82,7 @@ def __switch_authenticated_user_role_view(request, user):
 def logout(request):
     # Simply log user out
     request.flash['notice'] = 'Ha salido exitosamente del sistema'
-    logging.info("User {0} logged out".format(request.user.username))
+    logging.info("User %s logged out" % request.user.username)
     auth.logout(request)
     return HttpResponseRedirect(reverse('login'))
 

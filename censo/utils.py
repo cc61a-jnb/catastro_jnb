@@ -31,7 +31,7 @@ class authorize(object):
 
             # If user doesn't have roles, error
             if not role:
-                logging.error("User {0} doesn't have a role".format(request.user.username))
+                logging.error("User %s doesn't have a role" % request.user.username)
                 request.flash['error'] = 'Usted no tiene roles asociados'
                 return HttpResponseRedirect(reverse('login'))
 
@@ -49,7 +49,7 @@ class authorize(object):
             # redirect to base view in case the user doesn't have access
             else:
                 request.flash['error'] = 'Usted no tiene permisos para realizar esta acción'
-                logging.info("User {0} doesn't have permission to access {1}".format(request.user.username, request.path))
+                logging.info("User %s doesn't have permission to access %s" % (request.user.username, request.path))
                 return HttpResponseRedirect(reverse(role_name))
 
         return wrap

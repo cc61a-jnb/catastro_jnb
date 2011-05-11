@@ -4,7 +4,7 @@ from django.db import models
 from django.db import connections
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from . import Occupation, Company, Role
+from . import Occupation, Company
 
 class UserProfile(models.Model):
     company = models.ForeignKey(Company, null=True)
