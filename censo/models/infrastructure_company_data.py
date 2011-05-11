@@ -83,12 +83,12 @@ class InfrastructureCompanyData(models.Model):
     
     # Fotografías requeridas. Al final las fotos SI se suben. Vijay vera esta parte
     # Vijay haciendo esa parte 
-    picture_general_view = ImageField(upload_to = 'company_pics', verbose_name='Vista general')
-    picture_front_view = ImageField(upload_to = 'company_pics', verbose_name='Fachada')
-    picture_back_view = ImageField(upload_to = 'company_pics', verbose_name='Parte posterior')
-    picture_machine_room_view = ImageField(upload_to = 'company_pics', verbose_name=u'Sala de máquinas')
-    picture_office_view = ImageField(upload_to = 'company_pics', verbose_name='Oficinas')
-    picture_internal_distribution_view = ImageField(upload_to = 'company_pics', verbose_name=u'Distribución interior')
+    picture_general_view = ImageField(upload_to = 'company_pics', verbose_name='Vista general', blank=True, null=True)
+    picture_front_view = ImageField(upload_to = 'company_pics', verbose_name='Fachada', blank=True, null=True)
+    picture_back_view = ImageField(upload_to = 'company_pics', verbose_name='Parte posterior', blank=True, null=True)
+    picture_machine_room_view = ImageField(upload_to = 'company_pics', verbose_name=u'Sala de máquinas', blank=True, null=True)
+    picture_office_view = ImageField(upload_to = 'company_pics', verbose_name='Oficinas', blank=True, null=True)
+    picture_internal_distribution_view = ImageField(upload_to = 'company_pics', verbose_name=u'Distribución interior', blank=True, null=True)
     # Vijay termino esa parte 
     
     observations = models.TextField(null=True, blank=True, verbose_name='')

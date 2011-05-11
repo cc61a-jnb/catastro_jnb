@@ -1,5 +1,4 @@
 from speciality import Speciality
-from role import Role
 from occupation import Occupation
 from commune import Commune
 from region import Region
@@ -7,7 +6,6 @@ from cuerpo import Cuerpo
 from volunteer_data import VolunteerData
 from company import Company
 from user_profile import UserProfile
-from user_has_role import UserHasRole
 from province import Province
 from internet_provider import InternetProvider
 from infrastructure_company_data import InfrastructureCompanyData
@@ -18,6 +16,8 @@ from general_cuerpo_data import CuerpoGeneralData
 from accounting_system import AccountingSystem
 from cuerpo_anb_data import CuerpoANBData
 from company_other_official import CompanyOtherOfficial
+from portada_cuerpo_data import PortadaCuerpoData
+from portada_company_data import PortadaCompanyData
 from infrastructure_cuerpo_data import CuerpoInfrastructureData
 from cuerpo_mayor_material_data import CuerpoMayorMaterialData
 from vehicle_type import VehicleType

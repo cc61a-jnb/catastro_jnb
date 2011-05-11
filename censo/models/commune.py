@@ -1,9 +1,39 @@
 from django.db import models
 
 class Commune(models.Model):
+    old_id = models.IntegerField()
     name = models.CharField(max_length = 100)
-    url = models.CharField(max_length = 100) # URL?
     province = models.ForeignKey('Province')
+    
+    @classmethod
+    def fetch_from_db(self, cursor, old_id):
+        from . import Province
+    
+        query = "SELECT comu_ide, prov_id FROM comuna WHERE comu_nombre = %s"
+        params = (old_id,)
+        cursor.execute(query, params)
+        
+        commune_data = cursor.fetchone()
+        if not commune_data:
+            logging.info("Cannot find commune with id (%d)", old_id)
+            return None
+            
+        province = Province.fetch_from_db(cursor, commune_data[1])
+        
+        if not province:
+            return None
+            
+        try:
+            commune = Commune.objects.get(old_id = commune_data[0])
+        except Commune.DoesNotExist:
+            commune = Commune()
+            commune.old_id = commune_data[0]
+            
+        commune.name = old_id
+        commune.province = province
+        commune.save()
+        
+        return commune
     
     def __unicode__(self):
         return self.name

@@ -26,21 +26,21 @@ class authorize(object):
 
             # Get user role
             profile = request.user.get_profile()
-            role = profile.latest_role()
+            role = profile.highest_role()
             role_name = None
 
             # If user doesn't have roles, error
             if not role:
-                logging.error("User {0} doesn't have a role".format(request.user.username))
+                logging.error("User %s doesn't have a role" % request.user.username)
                 request.flash['error'] = 'Usted no tiene roles asociados'
                 return HttpResponseRedirect(reverse('login'))
 
             # assign current role to human readable format
-            if role.is_regional_operations_manager():
+            if profile.is_regional_operations_manager():
                 role_name = 'regional_operations_manager'
-            elif role.old_id in [1, 2]:
+            elif profile.is_cuerpo_manager():
                 role_name = 'cuerpo'
-            elif role.old_id in [4]:
+            elif profile.is_company_manager():
                 role_name = 'company'
 
             # If user has access, grant
@@ -49,7 +49,7 @@ class authorize(object):
             # redirect to base view in case the user doesn't have access
             else:
                 request.flash['error'] = 'Usted no tiene permisos para realizar esta acción'
-                logging.info("User {0} doesn't have permission to access {1}".format(request.user.username, request.path))
+                logging.info("User %s doesn't have permission to access %s" % (request.user.username, request.path))
                 return HttpResponseRedirect(reverse(role_name))
 
         return wrap

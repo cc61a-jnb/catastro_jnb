@@ -1,47 +1,51 @@
 # coding: utf-8
 
 from django.db import models
+from . import Commune
 
 class Cuerpo(models.Model):
     old_id = models.IntegerField()
-    name = models.CharField(max_length=100, default='')
-    rut = models.CharField(max_length=10, default='')
-    address = models.CharField(max_length=255, default='')
-    commune = models.ForeignKey('Commune', related_name='+', blank=True, null=True)
-    phone = models.CharField(max_length=100, default='')
-    fax = models.CharField(max_length=100, default='')
-    postal_box = models.CharField(max_length=100, default='')
-    mail = models.EmailField(default='')
-    url = models.CharField(max_length=255, default='')
-    foundation_date = models.DateField(blank=True, null=True)
-    lemma = models.CharField(max_length=255)
-    alarm_central_phone = models.CharField(max_length=100)
-    communes = models.ManyToManyField('Commune', blank=True, null=True)
-    decree_date = models.DateField(blank=True, null=True) # fecha decreto
-
-         #oficiales
-    superintendent_name = models.CharField(max_length=255, default = '', verbose_name='Superintendente', blank=True, null=True)
-    vice_superintendent_name = models.CharField(max_length=255, default = '', verbose_name='Vice  Superintendente', blank=True, null=True)
-    commander_name = models.CharField(max_length=255, default = '', verbose_name='Comandante', blank=True, null=True)
-    second_commander_name = models.CharField(max_length=255, default = '', verbose_name='Segundo Comandante', blank=True, null=True)
-    third_commander_name = models.CharField(max_length=255, default = '', verbose_name='Tercer Comandante', blank=True, null=True)
-    forth_commander_name = models.CharField(max_length=255, default = '', verbose_name='Cuarto Comandante', blank=True, null=True)
-    secretary_name = models.CharField(max_length=255, default = '', verbose_name='Secretaria General', blank=True, null=True)
-    treasury_name = models.CharField(max_length=255, default = '', verbose_name='Tesoreria General', blank=True, null=True)
-    intendent_name = models.CharField(max_length=255, default = '', verbose_name='Intendente', blank=True, null=True)
-    # observaciones
-    observations = models.TextField(null=True, blank=True, verbose_name='')
-
-    # TODO: logo cuerpo
-
-    # número personalidad juridica
-    cuer_npers_juri = models.IntegerField(blank=True, null=True)
-    # In case that cuerpo is also a company
-    company = models.ForeignKey('Company', null=True, related_name='company_cuerpo')
-
-
-
-    # TODO: associate cuerpo with companies
+    name = models.CharField(max_length=100)
+    commune = models.ForeignKey('Commune', related_name='+')
+    phone = models.CharField(max_length=100)
+    address = models.CharField(max_length=255)
+    foundation_date = models.CharField(max_length=255)
+    npers_juri = models.CharField(max_length=255)
+    decree_date = models.CharField(max_length=255)
+    
+    @classmethod
+    def fetch_from_db(self, cursor, old_id):
+        from . import Province
+    
+        query = "SELECT cuer_nombre, cuer_comuna, cuer_telefono, cuer_direccion, cuer_fecha_fund, cuer_npers_juri, cuer_fech_decre FROM cuerpos WHERE cuer_id = %s"
+        params = (old_id,)
+        cursor.execute(query, params)
+        
+        cuerpo_data = cursor.fetchone()
+        if not cuerpo_data:
+            logging.info("Cannot find cuerpo with id (%d)", old_id)
+            return None
+            
+        commune = Commune.fetch_from_db(cursor, cuerpo_data[1])
+        
+        if not commune:
+            return None
+            
+        try:
+            cuerpo = Cuerpo.objects.get(old_id = old_id)
+        except Cuerpo.DoesNotExist:
+            cuerpo = Cuerpo()
+            cuerpo.old_id = old_id
+            
+        cuerpo.name = cuerpo_data[0]
+        cuerpo.commune = commune
+        cuerpo.phone = cuerpo_data[2]
+        cuerpo.address = cuerpo_data[3]
+        cuerpo.foundation_date = cuerpo_data[4]
+        cuerpo.npers_juri = cuerpo_data[5]
+        cuerpo.decree_date = cuerpo_data[6]
+        
+        return cuerpo
 
     def __unicode__(self):
         return u'%d %s' % (self.old_id, self.name)
