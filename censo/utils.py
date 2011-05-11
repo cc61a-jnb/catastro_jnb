@@ -65,7 +65,6 @@ def render_fields_as_table(fields, column_labels, row_labels, css_class_name='ta
 
     for index, item in enumerate(fields):
         helper_text.append(item[0].help_text)
-        print item[0].help_text
     errors = combine_fields_errors(single_fields)
 
     for idx, row_fields in enumerate(fields):
