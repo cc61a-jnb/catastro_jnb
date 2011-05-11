@@ -44,6 +44,7 @@ class Cuerpo(models.Model):
         cuerpo.foundation_date = cuerpo_data[4]
         cuerpo.npers_juri = cuerpo_data[5]
         cuerpo.decree_date = cuerpo_data[6]
+        cuerpo.save()
         
         return cuerpo
 

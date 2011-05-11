@@ -57,7 +57,7 @@ class Company(models.Model):
         return company
         
     def __unicode__(self):
-        return self.name
+        return unicode(self.number)
         
     def string_number(self):
         '''
