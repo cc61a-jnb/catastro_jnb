@@ -39,12 +39,39 @@ class CuerpoAlarmCentralData(models.Model):
     #Equipos de Radio (Fijos)
 
     #Bases. Dinamico
-    #Antenas Fijas. Dinamico
+    #Antenas Fijas. TODO: HACERLO DINAMICO
+    fixed_antenna_quantity1 = models.IntegerField(default=0, verbose_name='Cantidad')
+    fixed_antenna_manufacturer1 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    fixed_antenna_model1 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
+    fixed_antenna_decibel1 = models.IntegerField(default=0, verbose_name='Decibeles')
+    fixed_antenna_height1 = models.IntegerField(default=0, verbose_name='Altura (mts)')
+
+    fixed_antenna_quantity2 = models.IntegerField(default=0, verbose_name='Cantidad')
+    fixed_antenna_manufacturer2 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    fixed_antenna_model2 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
+    fixed_antenna_decibel2 = models.IntegerField(default=0, verbose_name='Decibeles')
+    fixed_antenna_height2 = models.IntegerField(default=0, verbose_name='Altura (mts)')
+
     #Generador de Tonos
     tone_generator_mark=models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca del Generador de Tonos')
     tone_generator_capacity=models.IntegerField(null=True, blank=True, verbose_name='Capacidad de Compañias (max. para despacho) del Generador de Tonos')
 
-    #Portátiles (Uso exclusivo de la Central). Dinamico
+    #Portátiles (Uso exclusivo de la Central). TODO: HACERLO DINAMICO
+    portable_quantity1 = models.IntegerField(default=0, verbose_name='Cantidad')
+    portable_manufacturer1 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    portable_model1 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
+    portable_power1 = models.IntegerField(default=0, verbose_name='Potencia (W)')
+
+    portable_quantity2 = models.IntegerField(default=0, verbose_name='Cantidad')
+    portable_manufacturer2 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    portable_model2 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
+    portable_power2 = models.IntegerField(default=0, verbose_name='Potencia (W)')
+
+    portable_quantity3 = models.IntegerField(default=0, verbose_name='Cantidad')
+    portable_manufacturer3 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    portable_model3 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
+    portable_power3 = models.IntegerField(default=0, verbose_name='Potencia (W)')
+    
 
     #Frecuencias
     frequency_one=models.IntegerField(null=True, blank=True, verbose_name='Frecuencia 1 (Mhz)')
@@ -53,11 +80,11 @@ class CuerpoAlarmCentralData(models.Model):
     frequency_four=models.IntegerField(null=True, blank=True, verbose_name='Frecuencia 4 (Mhz)')
 
     #Tipo?
-    fk_normalized_frequency = models.ForeignKey('NormalizedFrequency', verbose_name='normalizada', null=True, blank=False)
+    fk_normalized_frequency = models.ForeignKey('NormalizedFrequency', verbose_name='normalizada', null=True, blank=True)
     decree=models.IntegerField(null=True, blank=True, verbose_name='Nº Decreto')
     date=models.IntegerField(null=True, blank=True, verbose_name='Fecha (otorgada)')
-    fk_bandwidth=models.ForeignKey('BandWidth', verbose_name='Ancho de Banda', null=True, blank=False)
-    fk_vhf=models.ForeignKey('VHF', verbose_name='Rango de Frecuencia', null=True, blank=False)
+    fk_bandwidth=models.ForeignKey('BandWidth', verbose_name='Ancho de Banda', null=True, blank=True)
+    fk_vhf=models.ForeignKey('VHF', verbose_name='Rango de Frecuencia', null=True, blank=True)
     national_emergency_frequency= models.NullBooleanField(verbose_name='Frecuencia Nacional de Emergencia')
 
 
@@ -67,20 +94,20 @@ class CuerpoAlarmCentralData(models.Model):
     pc_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Pc  ó  Notebook')
 
     #Software
-    fk_os = models.ForeignKey('OperatingSystem', verbose_name='Sistema Operativo', null=True, blank=False)
+    fk_os = models.ForeignKey('OperatingSystem', verbose_name='Sistema Operativo', null=True, blank=True)
     digital_maps = models.NullBooleanField(verbose_name='Mapas digitales')
     adm_digital_maps = models.NullBooleanField(verbose_name='Administración de mapas digitales')
     adm_dispatch = models.NullBooleanField(verbose_name='Administración de despachos')
-    fk_origin_software = models.ForeignKey('OriginSystem', verbose_name='Origen del Software', null=True, blank=False)
+    fk_origin_software = models.ForeignKey('OriginSystem', verbose_name='Origen del Software', null=True, blank=True)
     origin_software_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otro origen del software (Empresa)')
 
-    #Administración - Documentación
+    #Procedimientos (Ex - Administración/Documentación)
     alarm_classification = models.NullBooleanField(verbose_name='Clasificación de Alarmas (Acto de Servicio)')
     sectorization = models.NullBooleanField(verbose_name='Sectorización (Mapas)')
     fk_coded_alarm = models.ForeignKey('CodedAlarmType', verbose_name='Alarmas codificadas', blank=True, null=True)
     operations_manual= models.NullBooleanField(verbose_name='Manual de Operaciones (Fisico)')
-    key_coding=models.NullBooleanField(verbose_name='Codificación de Claves (Oficiales y Voluntario)')
-    fk_coded_keys = models.ForeignKey('CodedKeysType', verbose_name='Codificación de Claves (Oficiales y Voluntarios)', blank=True, null=True)
+    key_coding=models.NullBooleanField(verbose_name='Codificación de Claves (Oficiales y Voluntarios)')
+    fk_coded_keys = models.ForeignKey('CodedKeysType', verbose_name='Codificación para Material Mayor', blank=True, null=True)
 
     #Internet
     fk_internet_provider = models.ForeignKey('InternetProvider', verbose_name='Proveedor de Internet', blank=True, null=True)

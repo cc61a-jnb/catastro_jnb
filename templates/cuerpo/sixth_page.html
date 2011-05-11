@@ -5,6 +5,9 @@
 {% block nav_alarm_central%}<li class="current-tab"><a href="{% url cuerpo_alarm_central %}">Central de Alarmas</a></li>{% endblock %}
 
 {% block content %}
+	{% for error in form.errors %}
+		{{ error }}<br />
+	{% endfor %}
 	<form method="post" class="catastro_form">
 	{% csrf_token %}
 	<h2>Central de Alarmas</h2>
@@ -49,7 +52,43 @@
 	<hr />
 
         <h3>Equipos de Radio (Fijos)</h3>
+	<a name="bases"></a>
+	<h4>Bases</h4>
+        {{ base_radio.management_form }}
+
+        <table>
+            <tr>
+                <th>Cantidad</th>
+                <th>Marca</th>
+		<th>Modelo</th>
+		<th>Potencia</th>
+                <th>¿Eliminar?</th>
+            </tr>
+            {% for form in base_radio.forms %}
+                <tr>
+                    {{ form.id }}
+                    <td>{{ form.quantity }}</td>
+                    <td>{{ form.manufacturer }}</td>
+		    <td>{{ form.model }}</td>
+		    <td>{{ form.power }}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><input title="Agregar nuevo equipo de radio base" type="submit" name="add_new_base_radio_eq" value="Agregar nuevo equipo de radio base" /></td>
+                <td></td>
+                <td><input type="submit" value="Eliminar seleccionados" name="delete_base_radio_eq" /></td>
+            </tr>
+        </table>
+    
+        <br />
+	
+        <h4>Antenas Fijas</h4>
+        {{ form.render_fixed_antennas_to_table}}
+        <h4>Generador de Tonos (Alarma x Cía)</h4>
         {{ form.render_tone_generator_to_list}}
+        <h4>Portátiles (Uso exclusivo de la Central)</h4>
+        {{ form.render_portable_radio_to_table}}
     	<br />
 	<hr />
 
@@ -63,7 +102,8 @@
         {{ form.render_hardware_technological_support_to_list}}
         <h4>Software</h4>
         {{ form.render_software_technological_support_to_list}}
-        <h4>Administración - Documentación</h4>
+        <h4>Procedimientos</h4>
+        <!-- Procedimientos = Ex - Administración/Documentación -->
         {{ form.render_administration_documentation_technological_support_to_list}}
 	<h4>Internet</h4>
         {{form.render_internet_technological_support_to_list}}

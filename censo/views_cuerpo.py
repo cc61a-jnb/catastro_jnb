@@ -305,46 +305,163 @@ def display_mayor_material_form(request):
 @authorize(roles=('cuerpo',))
 def display_alarm_central_form(request):
     profile = request.user.get_profile()
+    
     cuerpo = profile.company.cuerpo
-    alarm_central_data = None
+
+    alarm_central_cuerpo_data = None
     # Attempt to load previously submitted data
     try:
-        alarm_central_data = cuerpo.cuerpoalarmcentraldata
+        alarm_central_cuerpo_data = cuerpo.cuerpoalarmcentraldata
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        alarm_central_data = CuerpoAlarmCentralData()
+        alarm_central_cuerpo_data = CuerpoAlarmCentralData()
         # Add cuerpo to blank data
-        alarm_central_data.cuerpo = cuerpo
-        alarm_central_data.save()
+        alarm_central_cuerpo_data.cuerpo = cuerpo
+        alarm_central_cuerpo_data.save()    
 
+
+    #previene que se muestren los errores de envio al presionar el botón agregar otro
+    prevent_validation_error = False
+
+    AddBaseRadioEquipmentFormSet = inlineformset_factory(Cuerpo, CuerpoAlarmCentralBaseRadioEq, extra=0, can_delete=True)
+    
     # If the form has been submitted
     if request.method == 'POST':
-        # A form bound to the POST data
-        form = CuerpoAlarmCentralForm(request.POST, instance=alarm_central_data)
-        # If the form is correctly validated
-        if form.is_valid():
-            form.save()
-            # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/alarmcentral')
-        # Else render the form again
-        else:
-            return render_to_response('cuerpo/sixth_page.html', {
-                'form': form,
-                'cuerpo': cuerpo,
-                }, context_instance=RequestContext(request),
-                )
+        args = request.POST
 
+        if 'add_new_base_radio_eq' in request.POST:
+            
+            # Get the data from POST
+            new_base_radio_eq = AddBaseRadioEquipmentFormSet(prefix='base_radio', data=request.POST, instance=cuerpo)
+            prevent_validation_error = True
+            
+            # Saving Added Rows
+            for form in new_base_radio_eq.forms:
+                if form.has_changed():
+                    if form.is_valid():
+                        form.save()
+            ### Al usar sólo el request.POST para obtener y recargar los datos
+            ### del formulario, los datos no tenían id de la base de datos (pues
+            ### nunca eran cargados de ahí), luego al hacer cualquier modificación
+            ### sobre éstos, eran considerados nuevos datos y se guardaban en la BD
+            ### junto con la versión antigua (duplicación de líneas).
+            ### Ahora estamos creando líneas vacías en la BD al hacer el agregar,
+            ### para cargar de la base de datos. Toda línea que quede vacía después de
+            ### llenar los datos debería eliminarse al hacer el guardado del formulario
+            ### completo.
+            
+            # Create new empty line in DB
+            cbre_new = CuerpoAlarmCentralBaseRadioEq(cuerpo=cuerpo, quantity=0, manufacturer='', model='', power=0)
+            cbre_new.save()
+            
+            # Reload data from DB
+            new_base_radio_eq = AddBaseRadioEquipmentFormSet(prefix='base_radio',  instance=cuerpo)
+        
+        elif 'delete_base_radio_eq' in request.POST:
+            prevent_validation_error = True
+            new_base_radio_eq = AddBaseRadioEquipmentFormSet(prefix='base_radio', data=request.POST, instance=cuerpo)
+            
+            # Saving Changed Rows
+            for form in new_base_radio_eq.forms:
+                if form.is_valid():
+                    if form.has_changed():
+                        form.save()
+                            
+            # Then we delete the appropiate rows
+            for form in new_base_radio_eq.deleted_forms:
+                if form.is_valid():
+                    coo_del = form.cleaned_data['id']
+                    coo_del.delete()
+                    
+            new_base_radio_eq = AddBaseRadioEquipmentFormSet(prefix='base_radio', instance=cuerpo)
+           
+        else:
+             # A form bound to the POST data
+            form = CuerpoAlarmCentralForm(request.POST, instance=alarm_central_cuerpo_data)
+            # If the form is correctly validated
+            new_base_radio_eq = AddBaseRadioEquipmentFormSet(prefix='base_radio', data=request.POST, instance=cuerpo)
+            if new_base_radio_eq.is_valid() and form.is_valid():      
+                for fm in new_base_radio_eq.forms:
+                    if fm.has_changed():
+                        if fm.is_valid():
+                            fm.save()
+                form.save()
+                ## Delete empty entries
+                query = CuerpoAlarmCentralBaseRadioEq.objects.filter(cuerpo=cuerpo)
+                for q in query:
+                    if q.manufacturer == '' and q.model == '':
+                        q.delete()
+                # Redirect after POST
+                return HttpResponseRedirect('/cuerpo/service_acts')
+            # Else render the form again
+            else:
+                return render_to_response('cuerpo/sixth_page.html', {
+                    'form': form,
+                    'cuerpo': cuerpo,
+                    'base_radio': new_base_radio_eq,
+                    }, context_instance=RequestContext(request),
+                    )
+        # A form bound to the POST data
+        form = CuerpoAlarmCentralForm(request.POST, instance=alarm_central_cuerpo_data)
+
+    else:
+        # If the form hasn't been submitted
+        new_base_radio_eq = AddBaseRadioEquipmentFormSet(prefix='base_radio',instance=cuerpo)
     # If the form hasn't been submitted
 
     # Load already submitted data as initial, to avoid triggering validation
-    form = CuerpoAlarmCentralForm(instance=alarm_central_data)
+    form = CuerpoAlarmCentralForm(instance=alarm_central_cuerpo_data)
 
     # Render the form
     return render_to_response('cuerpo/sixth_page.html', {
             'form': form,
             'cuerpo': cuerpo,
+            'base_radio': new_base_radio_eq,
             }, context_instance=RequestContext(request),
         )
+
+    ###########################################
+    #profile = request.user.get_profile()
+    #cuerpo = profile.company.cuerpo
+    #alarm_central_data = None
+    ## Attempt to load previously submitted data
+    #try:
+    #    alarm_central_data = cuerpo.cuerpoalarmcentraldata
+    ## If it fails, create blank data
+    #except ObjectDoesNotExist:
+    #    alarm_central_data = CuerpoAlarmCentralData()
+    #    # Add cuerpo to blank data
+    #    alarm_central_data.cuerpo = cuerpo
+    #    alarm_central_data.save()
+
+    ## If the form has been submitted
+    #if request.method == 'POST':
+    #    # A form bound to the POST data
+    #    form = CuerpoAlarmCentralForm(request.POST, instance=alarm_central_data)
+    #    # If the form is correctly validated
+    #    if form.is_valid():
+    #        form.save()
+    #        # Redirect after POST
+    #        return HttpResponseRedirect('/cuerpo/alarmcentral')
+    #    # Else render the form again
+    #    else:
+    #        return render_to_response('cuerpo/sixth_page.html', {
+    #            'form': form,
+    #            'cuerpo': cuerpo,
+    #            }, context_instance=RequestContext(request),
+    #            )
+
+    ## If the form hasn't been submitted
+
+    ## Load already submitted data as initial, to avoid triggering validation
+    #form = CuerpoAlarmCentralForm(instance=alarm_central_data)
+
+    ## Render the form
+    #return render_to_response('cuerpo/sixth_page.html', {
+    #        'form': form,
+    #        'cuerpo': cuerpo,
+    #        }, context_instance=RequestContext(request),
+    #    )
 
 # Show Service acts form
 @authorize(roles=('cuerpo',))

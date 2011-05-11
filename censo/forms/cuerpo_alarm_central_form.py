@@ -66,13 +66,36 @@ class CuerpoAlarmCentralForm(BaseForm):
         fields = self._field_range('frequency_one', 'national_emergency_frequency')
         
         return render_fields_as_list(fields)
-    
+
+    # Display fixed antennas questions as a table    
+    def render_fixed_antennas_to_table(self):
+        fields = self._field_range('fixed_antenna_quantity1', 'fixed_antenna_height2')
+        table_fields = split_list(fields, 2)
+     
+        first_row_fields = table_fields[0]
+        
+        column_labels = [field.label for field in first_row_fields]
+        row_labels = ['Antena 1', 'Antena 2']
+        
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
 
     # Display tone_generator as a list
     def render_tone_generator_to_list(self):
         fields = self._field_range('tone_generator_mark', 'tone_generator_capacity')
         
         return render_fields_as_list(fields)
+
+    # Display portable radio questions as a table    
+    def render_portable_radio_to_table(self):
+        fields = self._field_range('portable_quantity1', 'portable_power3')
+        table_fields = split_list(fields, 3)
+     
+        first_row_fields = table_fields[0]
+        
+        column_labels = [field.label for field in first_row_fields]
+        row_labels = ['Portátil 1', 'Portátil 2', 'Portátil 3']
+        
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
 
     #Display hardware technological support
 
@@ -87,7 +110,7 @@ class CuerpoAlarmCentralForm(BaseForm):
         
         return render_fields_as_list(fields)
 
-    #Display administration - documentation technological support as a list
+    #Display Procedimientos (Ex administration - documentation) technological support as a list
     def render_administration_documentation_technological_support_to_list(self):
         fields = self._field_range('alarm_classification', 'fk_coded_keys')
         
