@@ -26,7 +26,7 @@ class CuerpoAlarmCentralData(models.Model):
     operators_availableatalltimes_quantity = models.NullBooleanField(verbose_name='Operadoras 24/7/365')
 
     #Telefonía (mesa)
-    telephoneexchange_electricalsupport= models.NullBooleanField(verbose_name='Respaldo Electrico de la Central Telefónica')
+    telephoneexchange_electricalsupport= models.NullBooleanField(verbose_name='Respaldo Eléctrico de la Central Telefónica')
     telephoneexchange_satellitesupport= models.NullBooleanField(verbose_name='Respaldo Satelital de la Central Telefónica')
     telephoneexchange_satellitesupport_mark= models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca del Respaldo Satelital de la Central Telefónica')
     telephonelines_enable_quantity = models.IntegerField(null=True, blank=True, verbose_name='Líneas de telefonos habilitadas')
@@ -71,13 +71,14 @@ class CuerpoAlarmCentralData(models.Model):
     portable_manufacturer3 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
     portable_model3 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
     portable_power3 = models.IntegerField(default=0, verbose_name='Potencia (W)')
-    
+
 
     #Frecuencias
-    frequency_one=models.IntegerField(null=True, blank=True, verbose_name='Frecuencia 1 (Mhz)')
-    frequency_two=models.IntegerField(null=True, blank=True, verbose_name='Frecuencia 2 (Mhz)')
-    frequency_three=models.IntegerField(null=True, blank=True, verbose_name='Frecuencia 3 (Mhz)')
-    frequency_four=models.IntegerField(null=True, blank=True, verbose_name='Frecuencia 4 (Mhz)')
+    #
+    frequency_one=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 1 (Mhz)')
+    frequency_two=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 2 (Mhz)')
+    frequency_three=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 3 (Mhz)')
+    frequency_four=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 4 (Mhz)')
 
     #Tipo?
     fk_normalized_frequency = models.ForeignKey('NormalizedFrequency', verbose_name='normalizada', null=True, blank=True)
@@ -94,7 +95,7 @@ class CuerpoAlarmCentralData(models.Model):
     pc_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Pc  ó  Notebook')
 
     #Software
-    fk_os = models.ForeignKey('OperatingSystem', verbose_name='Sistema Operativo', null=True, blank=True)
+    fk_os = models.ForeignKey('OperatingSystem', verbose_name='Sistema Operativo (Ingrese el más usado)', null=True, blank=True)
     digital_maps = models.NullBooleanField(verbose_name='Mapas digitales')
     adm_digital_maps = models.NullBooleanField(verbose_name='Administración de mapas digitales')
     adm_dispatch = models.NullBooleanField(verbose_name='Administración de despachos')
