@@ -7,7 +7,7 @@
 {% block content %}
     <h2>Catastro de Cuerpo de bomberos</h2>
     <h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
-  
+
     <h3>Portada</h3>
     <br />
     <p>
@@ -30,7 +30,7 @@
         <li><strong>N° Personalidad Jurídica:</strong> {{ cuerpo.cuer_npers_juri }}</li>
         <li><strong>Fecha de Decreto:</strong> {{ cuerpo.decree_date }}</li>
     </ul>
-    
+
     <br />
 	<hr />
     <h3>Oficiales</h3>
@@ -71,14 +71,14 @@
                 <td><input type="submit" value="Eliminar seleccionados" name="delete_other_official" /></td>
             </tr>
         </table>
-    
+
     <br />
 	<hr />
 	<h3>Observaciones</h3>
 
 	{{ form.observations }}
 
-	<p><input type="submit" value="Guardar" /></p>
+	<p><input type="submit" value="Guardar y continuar" /></p>
 	</form>
 
 {% endblock %}

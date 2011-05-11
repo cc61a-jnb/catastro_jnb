@@ -9,7 +9,7 @@
 	{% csrf_token %}
 	<h2>Información ANB</h2>
 	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
-	
+
 	{% if form.non_field_errors %}
 	    <ul class="errorlist">
             {% for error in form.non_field_errors %}
@@ -17,34 +17,34 @@
             {% endfor %}
 	    </ul>
 	{% endif %}
-	
+
 	<h3>Número de instructores</h3>
-	
+
 	{{ form.render_instructors_to_table }}
-	
+
 	<br />
 	<hr />
 	<h3>Infrastructura para capacitación</h3>
-	
+
 	{{ form.render_infrastructure_to_list }}
-	
+
 	<br />
 	<hr />
-	
+
 	<h3>Brigada Juvenil de Cuerpo</h3>
-	
+
 	{{ form.render_brigade_number_to_list }}
-	
+
 	{{ form.render_brigade_data_to_list }}
-	
+
 	<br />
 	<hr />
-	
+
 	<h3>Observaciones</h3>
-	
+
 	{{ form.render_observations_to_list }}
-	
-	<p><input type="submit" value="Guardar" /></p>
+
+	<p><input type="submit" value="Guardar y continuar" /></p>
 </form>
-	
+
 {% endblock %}
