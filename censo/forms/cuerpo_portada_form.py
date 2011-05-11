@@ -15,5 +15,5 @@ class CuerpoPortadaForm(BaseForm):
         return fields
 
     class Meta:
-       model = Cuerpo
+       model = PortadaCuerpoData
        fields = ('superintendent_name', 'vice_superintendent_name', 'commander_name', 'second_commander_name', 'third_commander_name', 'forth_commander_name', 'secretary_name', 'treasury_name', 'intendent_name', 'observations')

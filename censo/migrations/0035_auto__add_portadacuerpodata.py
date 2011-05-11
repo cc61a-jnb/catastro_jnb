@@ -8,68 +8,28 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Changing field 'PortadaCompanyData.tesorero_name'
-        db.alter_column('censo_portadacompanydata', 'tesorero_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
-        # Changing field 'PortadaCompanyData.assistant_name'
-        db.alter_column('censo_portadacompanydata', 'assistant_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
-        # Changing field 'PortadaCompanyData.lieutenant_3_name'
-        db.alter_column('censo_portadacompanydata', 'lieutenant_3_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
-        # Changing field 'PortadaCompanyData.secretary_name'
-        db.alter_column('censo_portadacompanydata', 'secretary_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
-        # Changing field 'PortadaCompanyData.director_name'
-        db.alter_column('censo_portadacompanydata', 'director_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
-        # Changing field 'PortadaCompanyData.captain_name'
-        db.alter_column('censo_portadacompanydata', 'captain_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
-        # Changing field 'PortadaCompanyData.lieutenant_2_name'
-        db.alter_column('censo_portadacompanydata', 'lieutenant_2_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
-        # Changing field 'PortadaCompanyData.lieutenant_4_name'
-        db.alter_column('censo_portadacompanydata', 'lieutenant_4_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
-        # Changing field 'PortadaCompanyData.lieutenant_1_name'
-        db.alter_column('censo_portadacompanydata', 'lieutenant_1_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
-        # Changing field 'PortadaCompanyData.observations'
-        db.alter_column('censo_portadacompanydata', 'observations', self.gf('django.db.models.fields.TextField')(null=True))
+        # Adding model 'PortadaCuerpoData'
+        db.create_table('censo_portadacuerpodata', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('cuerpo', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['censo.Cuerpo'], unique=True, blank=True)),
+            ('superintendent_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('vice_superintendent_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('commander_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('second_commander_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('third_commander_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('forth_commander_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('secretary_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('treasury_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('intendent_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('observations', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+        ))
+        db.send_create_signal('censo', ['PortadaCuerpoData'])
 
 
     def backwards(self, orm):
         
-        # Changing field 'PortadaCompanyData.tesorero_name'
-        db.alter_column('censo_portadacompanydata', 'tesorero_name', self.gf('django.db.models.fields.CharField')(max_length=255))
-
-        # Changing field 'PortadaCompanyData.assistant_name'
-        db.alter_column('censo_portadacompanydata', 'assistant_name', self.gf('django.db.models.fields.CharField')(max_length=255))
-
-        # Changing field 'PortadaCompanyData.lieutenant_3_name'
-        db.alter_column('censo_portadacompanydata', 'lieutenant_3_name', self.gf('django.db.models.fields.CharField')(max_length=255))
-
-        # Changing field 'PortadaCompanyData.secretary_name'
-        db.alter_column('censo_portadacompanydata', 'secretary_name', self.gf('django.db.models.fields.CharField')(max_length=255))
-
-        # Changing field 'PortadaCompanyData.director_name'
-        db.alter_column('censo_portadacompanydata', 'director_name', self.gf('django.db.models.fields.CharField')(max_length=255))
-
-        # Changing field 'PortadaCompanyData.captain_name'
-        db.alter_column('censo_portadacompanydata', 'captain_name', self.gf('django.db.models.fields.CharField')(max_length=255))
-
-        # Changing field 'PortadaCompanyData.lieutenant_2_name'
-        db.alter_column('censo_portadacompanydata', 'lieutenant_2_name', self.gf('django.db.models.fields.CharField')(max_length=255))
-
-        # Changing field 'PortadaCompanyData.lieutenant_4_name'
-        db.alter_column('censo_portadacompanydata', 'lieutenant_4_name', self.gf('django.db.models.fields.CharField')(max_length=255))
-
-        # Changing field 'PortadaCompanyData.lieutenant_1_name'
-        db.alter_column('censo_portadacompanydata', 'lieutenant_1_name', self.gf('django.db.models.fields.CharField')(max_length=255))
-
-        # Changing field 'PortadaCompanyData.observations'
-        db.alter_column('censo_portadacompanydata', 'observations', self.gf('django.db.models.fields.TextField')())
+        # Deleting model 'PortadaCuerpoData'
+        db.delete_table('censo_portadacuerpodata')
 
 
     models = {
@@ -628,6 +588,21 @@ class Migration(SchemaMigration):
             'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'secretary_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'tesorero_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
+        },
+        'censo.portadacuerpodata': {
+            'Meta': {'ordering': "['observations']", 'object_name': 'PortadaCuerpoData'},
+            'commander_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'cuerpo': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Cuerpo']", 'unique': 'True', 'blank': 'True'}),
+            'forth_commander_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'intendent_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'second_commander_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'secretary_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'superintendent_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'third_commander_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'treasury_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'vice_superintendent_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         'censo.propertytitletype': {
             'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'PropertyTitleType'},

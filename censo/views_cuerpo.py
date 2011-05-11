@@ -18,6 +18,15 @@ def display_portada_form(request):
     
     cuerpo = profile.company.cuerpo
     
+    try:
+        portada_data = cuerpo.portadacuerpodata
+    # If it fails, create blank data
+    except ObjectDoesNotExist:
+        portada_data = PortadaCuerpoData()
+        # Add company to blank data
+        portada_data.cuerpo = cuerpo
+        portada_data.save()
+    
     #previene que se muestren los errores de envio al presionar el botón agregar otro
     prevent_validation_error = False
 
@@ -28,6 +37,7 @@ def display_portada_form(request):
     # If the form has been submitted
     if request.method == 'POST':
         args = request.POST
+        main_form = CuerpoPortadaForm(request.POST, instance=portada_data)
 
         if 'add_other_official' in request.POST:
             
@@ -56,6 +66,8 @@ def display_portada_form(request):
             
             # Reload data from DB
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official',  instance=cuerpo)
+            if main_form.is_valid():
+                main_form.save()
         
         elif 'delete_other_official' in request.POST:
             prevent_validation_error = True
@@ -74,10 +86,13 @@ def display_portada_form(request):
                     coo_del.delete()
                     
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', instance=cuerpo)
+            
+            if main_form.is_valid():
+                main_form.save()
            
         else:
              # A form bound to the POST data
-            form = CuerpoPortadaForm(request.POST, instance=cuerpo)
+            main_form = CuerpoPortadaForm(request.POST, instance=portada_data)
             # If the form is correctly validated
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
             if new_other_official.is_valid() and form.is_valid():      
@@ -85,7 +100,7 @@ def display_portada_form(request):
                     if fm.has_changed():
                         if fm.is_valid():
                             fm.save()
-                form.save()
+                main_form.save()
                 ## Delete empty entries
                 query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo)
                 for q in query:
@@ -96,13 +111,13 @@ def display_portada_form(request):
             # Else render the form again
             else:
                 return render_to_response('cuerpo/first_page.html', {
-                    'form': form,
+                    'form': main_form,
                     'cuerpo': cuerpo,
                     'other_official': new_other_official,
                     }, context_instance=RequestContext(request),
                     )
         # A form bound to the POST data
-        form = CuerpoPortadaForm(request.POST, instance=cuerpo)
+        main_form = CuerpoPortadaForm(request.POST, instance=portada_data)
 
     else:
         # If the form hasn't been submitted
@@ -110,11 +125,11 @@ def display_portada_form(request):
     # If the form hasn't been submitted
 
     # Load already submitted data as initial, to avoid triggering validation
-    form = CuerpoPortadaForm(instance=cuerpo)
+    main_form = CuerpoPortadaForm(instance=portada_data)
 
     # Render the form
     return render_to_response('cuerpo/first_page.html', {
-            'form': form,
+            'form': main_form,
             'cuerpo': cuerpo,
             'other_official': new_other_official,
             }, context_instance=RequestContext(request),
