@@ -29,7 +29,6 @@
 			</div>
 
 			<div class="left navigation" id="main-nav">
-
 				
 			{% block nav %}
 				<ul class="tabbed">
@@ -38,6 +37,18 @@
 					reference: http://stackoverflow.com/questions/340888/navigation-in-django
 				{% endcomment %}
 				</ul>
+			{% endblock %}
+
+			{% block messages %}
+
+				{% if flash.error %}
+					<div class="error">{{ flash.error }}</div>
+				{% endif %}
+				
+				{% if flash.notice %}
+					<div class="notice">{{ flash.notice }}</div>
+				{% endif %}
+			
 			{% endblock %}
 
 				<div class="clearer">&nbsp;</div>

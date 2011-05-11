@@ -18,6 +18,8 @@ from general_cuerpo_data import CuerpoGeneralData
 from accounting_system import AccountingSystem
 from cuerpo_anb_data import CuerpoANBData
 from company_other_official import CompanyOtherOfficial
+from portada_cuerpo_data import PortadaCuerpoData
+from portada_company_data import PortadaCompanyData
 from infrastructure_cuerpo_data import CuerpoInfrastructureData
 from cuerpo_mayor_material_data import CuerpoMayorMaterialData
 from vehicle_type import VehicleType
