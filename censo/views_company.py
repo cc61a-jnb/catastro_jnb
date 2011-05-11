@@ -147,7 +147,7 @@ def display_portada_form(request):
         new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official',instance=company)
     
     # Load already submitted data as initial, to avoid triggering validation
-    main_form = CompanyPortadaForm(instance=company)
+    main_form = CompanyPortadaForm(instance=portada_data)
 
     # Render the form
     return render_to_response('company/first_page.html', {

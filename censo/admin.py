@@ -17,4 +17,5 @@ admin.site.register(PropertyTitleType)
 admin.site.register(CompanyOtherOfficial)
 admin.site.register(CuerpoAlarmCentralData)
 admin.site.register(PortadaCompanyData)
+admin.site.register(PortadaCuerpoData)
 
