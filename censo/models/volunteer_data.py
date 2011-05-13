@@ -93,7 +93,7 @@ class VolunteerData(models.Model):
 
     # 8va parte: brigada juvenil
 
-    volunteer_brigada_juvenil_antiquity = models.IntegerField(null=True, blank=True, verbose_name='Antigüedad')
+    volunteer_brigada_juvenil_antiquity = models.IntegerField(null=True, blank=True, verbose_name='Antigüedad (en años)')
     volunteer_brigada_juvenil_members_quantity = models.IntegerField(null=True, blank=True, verbose_name='n° brigadieres')
     volunteer_brigada_juvenil_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='nombre brigada')
     volunteer_brigada_juvenil_responsible_instructor = models.CharField(max_length=255, null=True, blank=True, verbose_name='instructor responsable')

@@ -57,11 +57,11 @@ class MinorMaterialCompanyData(models.Model):
     # Iluminación
 
     electricgenerator_fixed_in_car_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Generadores Electricos Fijos en Carros')
-    electricgenerator_fixed_in_car_potency=models.IntegerField(null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Fijos en Carros')
+    fk_electricgenerator_fixed_in_car_potency=models.ForeignKey('PotencyRange', null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Fijos en Carros', related_name='+')
     electricgenerator_portable_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Generadores Electricos Portátiles')
-    electricgenerator_portable_potency=models.IntegerField(null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Portátiles')
+    fk_electricgenerator_portable_potency=models.ForeignKey('PotencyRange', null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Portátiles', related_name='+')
     electricgenerator_fixed_in_barracks_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Generadores Electricos Fijos en cuarteles')
-    electricgenerator_fixed_in_barracks_potency=models.IntegerField(null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Fijos en cuarteles')
+    fk_electricgenerator_fixed_in_barracks_potency=models.ForeignKey('PotencyRange', null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Fijos en cuarteles', related_name='+')
 
     # Equipos de Radio Base
     base_radio_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name='Cantidad')

@@ -25,3 +25,5 @@ admin.site.register(OriginSystem)
 admin.site.register(CodedAlarmType)
 admin.site.register(CodedKeysType)
 admin.site.register(PortableBrand)
+admin.site.register(PotencyRange)
+

@@ -49,7 +49,7 @@ class Cuerpo(models.Model):
         return cuerpo
 
     def __unicode__(self):
-        return u'Cuerpo de %s' % self.name
+        return u'Cuerpo de Bomberos de %s' % self.name
 
     class Meta:
         ordering = ['name']

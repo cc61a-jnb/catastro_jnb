@@ -71,7 +71,7 @@ class CompanyMinorMaterialForm(BaseForm):
 
     # Display electric generator questions as a table
     def render_electric_generator_questions_to_table(self):
-        fields = self._field_range('electricgenerator_fixed_in_car_quantity', 'electricgenerator_fixed_in_barracks_potency')
+        fields = self._field_range('electricgenerator_fixed_in_car_quantity', 'fk_electricgenerator_fixed_in_barracks_potency')
         table_fields = split_list(fields, 3)
         column_labels = ['N°', 'Potencia']
         row_labels = ['Fijos en Carros', 'Portátiles', 'Fijos en Cuartel']

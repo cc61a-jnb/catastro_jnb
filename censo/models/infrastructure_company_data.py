@@ -27,7 +27,7 @@ class InfrastructureCompanyData(models.Model):
     #models.CharField(max_length=255, null=True, blank=True, verbose_name='Título de propiedad')
     property_rental_commodatum_end_year = models.IntegerField(null=True, blank=True, verbose_name='Año término arriendo o comodato')
     
-    rol_sii = models.IntegerField(null=True, blank=True, verbose_name='Rol Sii N°')
+    rol_sii = models.IntegerField(null=True, blank=True, verbose_name='Rol Avaluo fiscal N° (SII)')
     
     inscription_fojas = models.IntegerField(null=True, blank=True, verbose_name='Fojas')
     inscription_number = models.IntegerField(null=True, blank=True, verbose_name='Número')
