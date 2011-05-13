@@ -41,7 +41,7 @@ class VolunteerData(models.Model):
     volunteer_active_women_quantity = models.IntegerField(default=0, verbose_name='Mujeres')
     volunteer_honorary_men_quantity = models.IntegerField(default=0)
     volunteer_honorary_women_quantity = models.IntegerField(default=0)
-    volunteer_antiquity_required_to_honorary = models.IntegerField(null=True, blank=True, verbose_name='antigüedad requerida para ser honorario')
+    volunteer_antiquity_required_to_honorary = models.IntegerField(null=True, blank=True, verbose_name='antigüedad requerida para ser honorario (en años)')
 
 
     volunteer_age_between_18_25_men_quantity = models.IntegerField(default=0, verbose_name='18 - 25')
