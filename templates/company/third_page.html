@@ -7,6 +7,7 @@
 <form method="post" class="catastro_form" enctype="multipart/form-data">
 	{% csrf_token %}
 	<h2>Infraestructura</h2>
+	<h4>{{ company.cuerpo }}</h4>
 	<h4>{{ company.string_number }}</h4>
 
 	{% if form.non_field_errors %}
