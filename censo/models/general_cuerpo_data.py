@@ -30,7 +30,7 @@ class CuerpoGeneralData(models.Model):
     # Uso de sistema contable
 
     fk_accounting_system = models.ForeignKey('AccountingSystem', verbose_name='Sistema de contabilidad', blank=False, null=True)
-    accounting_system_other_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Nombre Sistema contable')
+    accounting_system_other_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Nombre Sistema contable', help_text='Especifique si usa un sistema distinto al de la JNB')
 
     # Personal rentado
     personnel_guard = models.IntegerField(null=True, blank=True, verbose_name='Cuarteleros(as) Cuidadores(as)')
