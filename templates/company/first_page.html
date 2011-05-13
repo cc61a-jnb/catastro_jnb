@@ -8,6 +8,7 @@
     {% endfor %}
 
     <h2>Catastro de compañía de bomberos</h2>
+    <h4>{{ company.cuerpo }}</h4>
     <h4>{{ company.string_number }}</h4>
     <h3>Portada</h3>
     <br />
@@ -81,10 +82,9 @@
     <br />
 	<hr />
 	<h3>Observaciones</h3>
-
+    <p>Ingrese cualquier información que estime de utilidad</p>
 	{{ form.observations }}
-
-	<!-- p><input type="submit" value="Guardar" /></p -->
+    
     <p><input title="Guardar y continuar" type="submit" name="submit_portada_form" value="Guardar y continuar" /></p>
     </form>
 

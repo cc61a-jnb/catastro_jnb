@@ -33,10 +33,10 @@ class CuerpoAlarmCentralData(models.Model):
     telephonelines_output_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Líneas de salidas de telefonos')
     telephonelines_input_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Líneas de entradas de telefonos')
 
+    telephone_number132_available = models.NullBooleanField(verbose_name=u'¿Tiene el 132 habilitado?')
     call_log= models.NullBooleanField(verbose_name='Registro de llamadas')
     call_recording=models.NullBooleanField(verbose_name=u'Grabación de llamadas')
     cell_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Nº de equipos de celulares')
-    telephone_number132_available = models.NullBooleanField(verbose_name=u'¿Tiene el 132 habilitado?')
 
     #Equipos de Radio (Fijos)
 
@@ -90,7 +90,7 @@ class CuerpoAlarmCentralData(models.Model):
     decree=models.IntegerField(null=True, blank=True, verbose_name='Nº Decreto')
     decree_date=models.DateField(null=True, blank=True, verbose_name='Fecha (otorgada)')
     bandwidth=models.IntegerField(choices=((1,"12.5 Mhz"),(2, u"25 Mhz")), default=1, verbose_name='Ancho de Banda')
-    fk_vhf=models.ForeignKey('VHF', verbose_name='Rango de Frecuencia', null=True, blank=True)
+    fk_vhf=models.ForeignKey('VHF', verbose_name='Tipo', null=True, blank=True)
     national_emergency_frequency= models.NullBooleanField(verbose_name='Frecuencia Nacional de Emergencia (150.250 Mhz)')
 
 
@@ -105,7 +105,7 @@ class CuerpoAlarmCentralData(models.Model):
     adm_digital_maps = models.NullBooleanField(verbose_name='Administración de mapas digitales')
     adm_dispatch = models.NullBooleanField(verbose_name='Administración de despachos')
     fk_origin_software = models.ForeignKey('OriginSystem', verbose_name='Origen del Software', null=True, blank=True)
-    origin_software_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otro origen del software (Empresa)')
+    origin_software_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otro origen del software (Empresa)', help_text='Especificar si fue adquirido')
 
     #Procedimientos (Ex - Administración/Documentación)
     alarm_classification = models.NullBooleanField(verbose_name='Clasificación de Alarmas (Acto de Servicio)')

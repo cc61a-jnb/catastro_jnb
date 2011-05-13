@@ -5,7 +5,7 @@ from django.db import models
 class CuerpoAlarmCentralBaseRadioEq(models.Model):
     cuerpo = models.ForeignKey('Cuerpo')
     quantity = models.IntegerField(default=0, verbose_name='Cantidad')
-    manufacturer = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    manufacturer = models.ForeignKey("PortableBrand", blank=True, null=True)
     model = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
     power = models.IntegerField(default=0, verbose_name='Potencia (W)')
     

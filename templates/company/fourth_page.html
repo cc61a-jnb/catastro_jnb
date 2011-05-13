@@ -6,6 +6,7 @@
 <form method="post" class="catastro_form">
 {% csrf_token %}
 	<h2>Material Menor</h2>
+	<h4>{{ company.cuerpo }}</h4>
 	<h4>{{ company.string_number }}</h4>
 
 <h3>Uniformes Normados</h3>
@@ -84,6 +85,7 @@
 <hr/>
 
 <h3>Observaciones</h3>
+    <p>Ingrese cualquier información que estime de utilidad</p>
 {{form.render_observations_to_list}}
 
 <p><input type="submit" value="Guardar" /></p>

@@ -6,6 +6,7 @@
 	<form method="post" class="catastro_form">
 	{% csrf_token %}
 	<h2>Voluntarios</h2>
+	<h4>{{ company.cuerpo }}</h4>
 	<h4>{{ company.string_number }}</h4>
 
 	{% if form.non_field_errors %}
@@ -20,6 +21,7 @@
 	{{ form.specialities.errors }}
 
     {{ form.specialities }}
+    <small>Indica solo las reconocidas por el directorio</small>
     <div class="fieldWrapper">
 		{{ form.specialities_other.errors }}
 		{{ form.specialities_other.label_tag }}: {{ form.specialities_other }}
@@ -95,7 +97,7 @@
 	<br />
 	<hr />
 	<h3>Observaciones</h3>
-
+    <p>Ingrese cualquier información que estime de utilidad</p>
 	{{ form.render_observations_to_list }}
 
 	<p><input type="submit" value="Guardar y continuar" /></p>

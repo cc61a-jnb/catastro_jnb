@@ -42,7 +42,7 @@ class CuerpoAlarmCentralForm(BaseForm):
 
     # Display telephone lines questions as a table
     def render_telephone_lines_to_table(self):
-        fields = self._field_range('telephonelines_enable_quantity', 'telephone_number132_available')
+        fields = self._field_range('telephonelines_enable_quantity', 'telephonelines_input_quantity')
         table_fields = [fields]
 
         column_labels = [field.label for field in fields]
@@ -52,15 +52,9 @@ class CuerpoAlarmCentralForm(BaseForm):
 
     # Display phone calls as a list
     def render_phone_calls_to_list(self):
-        fields = self._field_range('call_log', 'call_recording')
+        fields = self._field_range('telephone_number132_available', 'cell_equipment_quantity')
 
         return render_fields_as_list(fields)
-
-    # Display cell equipment
-    def render_cell_equipment_to_list(self):
-        #fields = [self['cell_equipment_quantity']]
-         fields = self._field_range('cell_equipment_quantity', 'telephone_number132_available')
-         return render_fields_as_list(fields)
 
     # Display frequencies as a list
     def render_frequencies_to_list(self):
@@ -101,13 +95,13 @@ class CuerpoAlarmCentralForm(BaseForm):
     #Display hardware technological support
 
     def render_hardware_technological_support_to_list(self):
-        fields = [self['pc_quantity']]
+        fields = [self['pc_quantity'], self['fk_os']]
 
         return render_fields_as_list(fields, 'list_quantities')
 
     #Display software technological support as a list
     def render_software_technological_support_to_list(self):
-        fields = self._field_range('fk_os', 'origin_software_other')
+        fields = self._field_range('digital_maps', 'origin_software_other')
 
         return render_fields_as_list(fields)
 

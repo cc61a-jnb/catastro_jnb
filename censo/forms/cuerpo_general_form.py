@@ -49,9 +49,9 @@ class CuerpoGeneralForm(BaseForm):
         table_fields = split_list(fields, 9)
         
         row_labels = [
-            'Cuarteleros cuidadores', 
-            'Cuarteleros conductores', 
-            'Secretarios', 
+            'Cuarteleros(as) cuidadores', 
+            'Cuarteleros(as) conductores', 
+            'Secretarios(as)', 
             'Contadores', 
             'Operadores Central de Alarmas', 
             'Administrativos', 
