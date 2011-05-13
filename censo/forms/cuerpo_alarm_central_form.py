@@ -58,9 +58,9 @@ class CuerpoAlarmCentralForm(BaseForm):
 
     # Display cell equipment
     def render_cell_equipment_to_list(self):
-        fields = [self['cell_equipment_quantity']]
-
-        return render_fields_as_list(fields, 'list_quantities')
+        #fields = [self['cell_equipment_quantity']]
+         fields = self._field_range('cell_equipment_quantity', 'telephone_number132_available')
+         return render_fields_as_list(fields)
 
     # Display frequencies as a list
     def render_frequencies_to_list(self):

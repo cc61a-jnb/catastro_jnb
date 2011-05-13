@@ -32,10 +32,11 @@ class CuerpoAlarmCentralData(models.Model):
     telephonelines_enable_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Líneas de telefonos habilitadas')
     telephonelines_output_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Líneas de salidas de telefonos')
     telephonelines_input_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Líneas de entradas de telefonos')
-    telephone_number132_available = models.NullBooleanField(verbose_name=u'¿Tiene el 132 habilitado?')
+
     call_log= models.NullBooleanField(verbose_name='Registro de llamadas')
     call_recording=models.NullBooleanField(verbose_name=u'Grabación de llamadas')
     cell_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Nº de equipos de celulares')
+    telephone_number132_available = models.NullBooleanField(verbose_name=u'¿Tiene el 132 habilitado?')
 
     #Equipos de Radio (Fijos)
 

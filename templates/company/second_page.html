@@ -7,7 +7,7 @@
 	{% csrf_token %}
 	<h2>Voluntarios</h2>
 	<h4>{{ company.string_number }}</h4>
-	
+
 	{% if form.non_field_errors %}
 	    <ul class="errorlist">
             {% for error in form.non_field_errors %}
@@ -15,10 +15,10 @@
             {% endfor %}
 	    </ul>
 	{% endif %}
-	
+
 	<h3>{{ form.specialities.label }}</h3>
 	{{ form.specialities.errors }}
-	
+
     {{ form.specialities }}
     <div class="fieldWrapper">
 		{{ form.specialities_other.errors }}
@@ -27,78 +27,78 @@
 	<br />
 	<hr />
 	<h3>Soporte Tecnológico</h3>
-	
+
 	{{ form.render_hardware_to_table }}
-	
+
 	{{ form.render_isp_to_list }}
-	
+
 	<br />
 	<hr />
 	<h3>Uso de tecnologías de Internet</h3>
 	<p><small>Deje en blanco si no tiene</small></p>
 	{{ form.render_social_technologies_to_list }}
-	
+
 	<br />
 	<hr />
 	<h3>Total voluntarios</h3>
-	
+
 	{{ form.render_total_volunteers_to_table }}
-	
+
 	<br />
 	<hr />
 	<h3>Desglose de voluntarios</h3>
-	
+
 	{{ form.render_detailed_volunteers_to_table }}
-	
+
 	{{ form.render_antiquity_to_list }}
-	
+
 	<br />
 	<hr />
 	<h3>Rango de edad voluntarios</h3>
-	
+
 	{{ form.render_volunteers_age_range_to_table }}
-	
+
 	<br />
 	<hr />
-	<h3>Educación voluntarios</h3>
-	
+	<h3>Formación voluntarios</h3>
+
 	{{ form.render_volunteer_education_to_list }}
-	
+
 	<br />
 	<hr />
 	<h3>Formación Bomberil - ANB</h3>
-	
+
 	{{ form.render_formation_to_table }}
-	
+
 	<br />
 	<hr />
 	<h3>Conductores clase F</h3>
-	
+
 	{{ form.render_drivers_to_list }}
-	
+
 	<br />
 	<hr />
 	<h3>Existe oficial o voluntario a cargo de las hojas de vida de voluntarios</h3>
 	<p><small>Deje en blanco si no existe</small></p>
-	
+
 	{{ form.render_life_sheet_to_list }}
-	
+
 	<br />
 	<hr />
 	<h3>Brigada Juvenil de Compañía</h3>
 	<p><small>Deje en blanco si no existe</small></p>
-	
+
 	{{ form.render_brigade_number_to_list }}
-	
+
 	{{ form.render_brigade_data_to_list }}
-	
+
 	<br />
 	<hr />
 	<h3>Observaciones</h3>
-	
+
 	{{ form.render_observations_to_list }}
-	
+
 	<p><input type="submit" value="Guardar y continuar" /></p>
 </form>
-	
+
 {% endblock %}

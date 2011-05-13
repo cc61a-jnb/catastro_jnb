@@ -8,7 +8,7 @@
 	{% csrf_token %}
 	<h2>Infraestructura</h2>
 	<h4>{{ company.string_number }}</h4>
-	
+
 	{% if form.non_field_errors %}
 	    <ul class="errorlist">
             {% for error in form.non_field_errors %}
@@ -16,8 +16,8 @@
             {% endfor %}
 	    </ul>
 	{% endif %}
-	
-	
+
+
 <h3>Terreno</h3>
 {{ form.render_built_area_to_table }}
 
@@ -55,7 +55,7 @@
 <br/>
 <hr/>
 
-<h3>Oficina Guardia Nocturna</h3>
+<h3>Guardia Nocturna</h3>
 
 <h4>Hombres</h4>
 {{form.render_night_guard_office_men_to_table}}

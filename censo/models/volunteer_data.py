@@ -11,20 +11,20 @@ class VolunteerData(models.Model):
     class Meta:
         ordering = ['company']
         app_label = 'censo'
-        
+
     # parte 0: especialidades
-    
+
     specialities = models.ManyToManyField('Speciality', blank = True, null = True)
     specialities_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otros')
 
     # primera parte: equipamiento mínimo
 
-    computers_quantity = models.IntegerField(null=True, blank=True, verbose_name='Computadores') 
+    computers_quantity = models.IntegerField(null=True, blank=True, verbose_name='Computadores')
     notebooks_quantity = models.IntegerField(null=True, blank=True, verbose_name='Notebooks')
     projectors_quantity = models.IntegerField(null=True, blank=True, verbose_name='Proyectores')
-    printers_quantity = models.IntegerField(null=True, blank=True, verbose_name='Impresoras') 
+    printers_quantity = models.IntegerField(null=True, blank=True, verbose_name='Impresoras')
     fk_internet_provider = models.ForeignKey('InternetProvider', verbose_name='Proveedor de Internet', blank=True, null=True)
-    
+
     # segunda parte: redes sociales
 
     website = models.URLField(null=True, blank=True, verbose_name='Sitio web')
@@ -36,14 +36,14 @@ class VolunteerData(models.Model):
 
     volunteer_total_men_quantity = models.IntegerField(default=0, verbose_name='Hombres')
     volunteer_total_women_quantity = models.IntegerField(default=0, verbose_name='Mujeres')
-    
+
     volunteer_active_men_quantity = models.IntegerField(default=0, verbose_name='Hombres')
     volunteer_active_women_quantity = models.IntegerField(default=0, verbose_name='Mujeres')
     volunteer_honorary_men_quantity = models.IntegerField(default=0)
     volunteer_honorary_women_quantity = models.IntegerField(default=0)
     volunteer_antiquity_required_to_honorary = models.IntegerField(null=True, blank=True, verbose_name='antigüedad requerida para ser honorario')
-    
-    
+
+
     volunteer_age_between_18_25_men_quantity = models.IntegerField(default=0, verbose_name='18 - 25')
     volunteer_age_between_18_25_women_quantity = models.IntegerField(default=0, verbose_name='18 - 25')
     volunteer_age_between_26_30_men_quantity = models.IntegerField(default=0, verbose_name='26 - 30')
@@ -67,8 +67,8 @@ class VolunteerData(models.Model):
 
     volunteer_education_basica_complete_quantity = models.IntegerField(default=0, verbose_name='n° voluntarios con enseñanza básica completa')
     volunteer_education_media_complete_quantity = models.IntegerField(default=0, verbose_name='n° voluntarios con enseñanza media completa')
-    volunteer_education_universitaria_complete_quantity = models.IntegerField(default=0, verbose_name='n° voluntarios universitarios (4 o 5 años)')
-    volunteer_education_tecnica_complete_quantity = models.IntegerField(default=0, verbose_name='n° voluntarios técnicos (3 o 4 años)')
+    volunteer_education_universitaria_complete_quantity = models.IntegerField(default=0, verbose_name='n° voluntarios universitarios (4 o más años)')
+    volunteer_education_tecnica_complete_quantity = models.IntegerField(default=0, verbose_name='n° voluntarios técnicos (2 o 3 años)')
     volunteer_with_work_quantity = models.IntegerField(default=0, verbose_name='n° voluntarios con oficios')
 
     # quinta parte: formación bomberil
@@ -100,5 +100,5 @@ class VolunteerData(models.Model):
     volunteer_brigada_juvenil_responsible_email = models.EmailField(max_length=255, null=True, blank=True, verbose_name='correo electrónico responsable')
 
     # observaciones
-    
+
     observations = models.TextField(null=True, blank=True, verbose_name='')
