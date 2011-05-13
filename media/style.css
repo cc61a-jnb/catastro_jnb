@@ -545,7 +545,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 #main-nav li:first-child, #sub-nav li:first-child {margin-left: 0;}
 
 /* Main navigation */
-#main-nav {padding-top: 72px;}
+#main-nav {padding-top: 72px; width: 700px;}
 #main-nav li {margin: 0 1.5em;}
 #main-nav a {
 	font-size: 1.6em;
