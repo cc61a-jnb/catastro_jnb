@@ -105,7 +105,7 @@ class CuerpoAlarmCentralData(models.Model):
     adm_digital_maps = models.NullBooleanField(verbose_name='Administración de mapas digitales')
     adm_dispatch = models.NullBooleanField(verbose_name='Administración de despachos')
     fk_origin_software = models.ForeignKey('OriginSystem', verbose_name='Origen del Software', null=True, blank=True)
-    origin_software_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otro origen del software (Empresa)')
+    origin_software_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otro origen del software (Empresa)', help_text='Especificar si fue adquirido')
 
     #Procedimientos (Ex - Administración/Documentación)
     alarm_classification = models.NullBooleanField(verbose_name='Clasificación de Alarmas (Acto de Servicio)')
