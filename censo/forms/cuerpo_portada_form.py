@@ -9,6 +9,7 @@ from . import BaseForm
 from censo.utils import render_fields_as_table, render_fields_as_list, split_list, combine_fields_errors
 
 class CuerpoPortadaForm(BaseForm):
+
     def base_position_fields(self):
         fields = self._field_range('superintendent_name', 'intendent_name')
         return fields

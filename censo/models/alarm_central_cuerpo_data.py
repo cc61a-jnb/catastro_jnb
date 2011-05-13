@@ -29,17 +29,19 @@ class CuerpoAlarmCentralData(models.Model):
     telephoneexchange_electricalsupport= models.NullBooleanField(verbose_name='Respaldo Eléctrico de la Central Telefónica')
     telephoneexchange_satellitesupport= models.NullBooleanField(verbose_name='Respaldo Satelital de la Central Telefónica')
     telephoneexchange_satellitesupport_mark= models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca del Respaldo Satelital de la Central Telefónica')
-    telephonelines_enable_quantity = models.IntegerField(null=True, blank=True, verbose_name='Líneas de telefonos habilitadas')
-    telephonelines_output_quantity = models.IntegerField(null=True, blank=True, verbose_name='Líneas de salidas de telefonos')
-    telephonelines_input_quantity = models.IntegerField(null=True, blank=True, verbose_name='Líneas de entradas de telefonos')
+    telephonelines_enable_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Líneas de telefonos habilitadas')
+    telephonelines_output_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Líneas de salidas de telefonos')
+    telephonelines_input_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Líneas de entradas de telefonos')
+
     call_log= models.NullBooleanField(verbose_name='Registro de llamadas')
-    call_recording=models.NullBooleanField(verbose_name='Grabación de llamadas')
-    cell_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name='Nº de equipos de celulares')
+    call_recording=models.NullBooleanField(verbose_name=u'Grabación de llamadas')
+    cell_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name=u'Nº de equipos de celulares')
+    telephone_number132_available = models.NullBooleanField(verbose_name=u'¿Tiene el 132 habilitado?')
 
     #Equipos de Radio (Fijos)
 
     #Bases. Dinamico
-    #Antenas Fijas. TODO: HACERLO DINAMICO
+    #Antenas Fijas
     fixed_antenna_quantity1 = models.IntegerField(default=0, verbose_name='Cantidad')
     fixed_antenna_manufacturer1 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
     fixed_antenna_model1 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
@@ -56,37 +58,40 @@ class CuerpoAlarmCentralData(models.Model):
     tone_generator_mark=models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca del Generador de Tonos')
     tone_generator_capacity=models.IntegerField(null=True, blank=True, verbose_name='Capacidad de Compañias (max. para despacho) del Generador de Tonos')
 
-    #Portátiles (Uso exclusivo de la Central). TODO: HACERLO DINAMICO
+    #Portátiles (Uso exclusivo de la Central)
     portable_quantity1 = models.IntegerField(default=0, verbose_name='Cantidad')
-    portable_manufacturer1 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    fk_portable_manufacturer1 = models.ForeignKey('PortableBrand', verbose_name='Marca', blank=True, null=True, related_name='+')
     portable_model1 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
     portable_power1 = models.IntegerField(default=0, verbose_name='Potencia (W)')
 
     portable_quantity2 = models.IntegerField(default=0, verbose_name='Cantidad')
-    portable_manufacturer2 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    fk_portable_manufacturer2 = models.ForeignKey('PortableBrand', verbose_name='Marca', blank=True, null=True, related_name='+')
     portable_model2 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
     portable_power2 = models.IntegerField(default=0, verbose_name='Potencia (W)')
 
     portable_quantity3 = models.IntegerField(default=0, verbose_name='Cantidad')
-    portable_manufacturer3 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    fk_portable_manufacturer3 = models.ForeignKey('PortableBrand', verbose_name='Marca', blank=True, null=True, related_name='+')
     portable_model3 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
     portable_power3 = models.IntegerField(default=0, verbose_name='Potencia (W)')
 
 
     #Frecuencias
-    #
-    frequency_one=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 1 (Mhz)')
+    #primera frecuencia es obligatoria porque todos los cuerpos tienen al menos una
+    frequency_one=models.DecimalField(max_digits=6, decimal_places=3, default=0, verbose_name='Frecuencia 1 (Mhz)')
     frequency_two=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 2 (Mhz)')
     frequency_three=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 3 (Mhz)')
     frequency_four=models.DecimalField(max_digits=6, decimal_places=3,null=True, blank=True, verbose_name='Frecuencia 4 (Mhz)')
 
     #Tipo?
-    fk_normalized_frequency = models.ForeignKey('NormalizedFrequency', verbose_name='normalizada', null=True, blank=True)
+    #obligatoria
+    #cambio de normalizada a autorizada subtel
+    normalized_frequency = models.IntegerField(choices=((1,"No"),(2, u"Sí"), (3,u"En Trámite")), default=1, verbose_name='Autorizada Subtel')
+
     decree=models.IntegerField(null=True, blank=True, verbose_name='Nº Decreto')
-    date=models.IntegerField(null=True, blank=True, verbose_name='Fecha (otorgada)')
-    fk_bandwidth=models.ForeignKey('BandWidth', verbose_name='Ancho de Banda', null=True, blank=True)
+    decree_date=models.DateField(null=True, blank=True, verbose_name='Fecha (otorgada)')
+    bandwidth=models.IntegerField(choices=((1,"12.5 Mhz"),(2, u"25 Mhz")), default=1, verbose_name='Ancho de Banda')
     fk_vhf=models.ForeignKey('VHF', verbose_name='Rango de Frecuencia', null=True, blank=True)
-    national_emergency_frequency= models.NullBooleanField(verbose_name='Frecuencia Nacional de Emergencia')
+    national_emergency_frequency= models.NullBooleanField(verbose_name='Frecuencia Nacional de Emergencia (150.250 Mhz)')
 
 
     #Soporte tecnológico

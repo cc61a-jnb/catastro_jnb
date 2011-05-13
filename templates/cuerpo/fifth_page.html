@@ -5,7 +5,13 @@
 {% block nav_mayor_material %}<li class="current-tab"><a href="{% url cuerpo_mayor_material %}">Material Mayor</a></li>{% endblock %}
 
 {% block content %}
-	<form method="post" class="catastro_form">
+
+<h2>Formulario disponible próximamente</h2>
+<br>
+<!--borrar cuando se implemente la solucion final>
+-->
+<a href=/cuerpo/alarm_central> Continuar con catastro</a>
+{% comment %} 	<form method="post" class="catastro_form">
 	{% csrf_token %}
 	<h2>Material Mayor</h2>
 	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
@@ -59,5 +65,5 @@
 
 	<p><input type="submit" value="Guardar y continuar" /></p>
 </form>
-
+{% endcomment %}
 {% endblock %}
