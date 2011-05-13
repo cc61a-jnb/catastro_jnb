@@ -8,7 +8,7 @@
 	{% for error in form.errors %}
 		{{ error }}<br />
 	{% endfor %}
-	<form method="post" class="catastro_form">
+	<form method="post" class="catastro_form" action="#bases">
 	{% csrf_token %}
 	<h2>Central de Alarmas</h2>
 	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
@@ -45,7 +45,6 @@
         {{form.render_telephone_exchange_to_list}}
 	{{form.render_telephone_lines_to_table}}
         {{form.render_phone_calls_to_list}}
-        {{form.render_cell_equipment_to_list}}
     	<br />
 	<hr />
 
@@ -116,6 +115,7 @@
 	<hr />
 
         <h3>Observaciones</h3>
+        <p>Ingrese cualquier información que estime de utilidad</p>
 	{{form.render_observations_to_list}}
     	<br />
 	<hr />

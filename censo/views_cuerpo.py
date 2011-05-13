@@ -366,7 +366,7 @@ def display_alarm_central_form(request):
             ### completo.
             
             # Create new empty line in DB
-            cbre_new = CuerpoAlarmCentralBaseRadioEq(cuerpo=cuerpo, quantity=0, manufacturer='', model='', power=0)
+            cbre_new = CuerpoAlarmCentralBaseRadioEq(cuerpo=cuerpo, quantity=0, manufacturer=None, model='', power=0)
             cbre_new.save()
             
             # Reload data from DB
