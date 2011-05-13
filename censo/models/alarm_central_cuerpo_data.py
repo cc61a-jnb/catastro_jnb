@@ -32,6 +32,7 @@ class CuerpoAlarmCentralData(models.Model):
     telephonelines_enable_quantity = models.IntegerField(null=True, blank=True, verbose_name='Líneas de telefonos habilitadas')
     telephonelines_output_quantity = models.IntegerField(null=True, blank=True, verbose_name='Líneas de salidas de telefonos')
     telephonelines_input_quantity = models.IntegerField(null=True, blank=True, verbose_name='Líneas de entradas de telefonos')
+    telephone_number132_available = models.NullBooleanField(verbose_name='¿Tiene el 132 habilitado?')
     call_log= models.NullBooleanField(verbose_name='Registro de llamadas')
     call_recording=models.NullBooleanField(verbose_name='Grabación de llamadas')
     cell_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name='Nº de equipos de celulares')
@@ -39,7 +40,7 @@ class CuerpoAlarmCentralData(models.Model):
     #Equipos de Radio (Fijos)
 
     #Bases. Dinamico
-    #Antenas Fijas. TODO: HACERLO DINAMICO
+    #Antenas Fijas
     fixed_antenna_quantity1 = models.IntegerField(default=0, verbose_name='Cantidad')
     fixed_antenna_manufacturer1 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
     fixed_antenna_model1 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
@@ -56,7 +57,7 @@ class CuerpoAlarmCentralData(models.Model):
     tone_generator_mark=models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca del Generador de Tonos')
     tone_generator_capacity=models.IntegerField(null=True, blank=True, verbose_name='Capacidad de Compañias (max. para despacho) del Generador de Tonos')
 
-    #Portátiles (Uso exclusivo de la Central). TODO: HACERLO DINAMICO
+    #Portátiles (Uso exclusivo de la Central)
     portable_quantity1 = models.IntegerField(default=0, verbose_name='Cantidad')
     portable_manufacturer1 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
     portable_model1 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
