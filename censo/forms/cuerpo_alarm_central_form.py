@@ -10,8 +10,7 @@ from django.forms.extras.widgets import SelectDateWidget
 from . import BaseForm
 
 class CuerpoAlarmCentralForm(BaseForm):
-
-    decree_date = forms.DateField(widget=SelectDateWidget( years=list(xrange(1920, date.today().year+1))),required=False)
+    decree_date = forms.DateField(widget=SelectDateWidget(years=list(xrange(1920, date.today().year+1))),required=False, label="Fecha (otorgada)")
 
     # Display contacts details as a list
     def render_contacts_details_to_list(self):
