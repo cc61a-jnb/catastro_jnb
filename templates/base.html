@@ -38,6 +38,9 @@
 				{% endcomment %}
 				</ul>
 			{% endblock %}
+			{% if user.is_authenticated %}
+			<a href="{% url logout %}">[Salir]</a>
+			{% endif %}
 
 			{% block messages %}
 
