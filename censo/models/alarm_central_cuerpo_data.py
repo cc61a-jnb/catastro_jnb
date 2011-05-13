@@ -90,7 +90,7 @@ class CuerpoAlarmCentralData(models.Model):
     decree=models.IntegerField(null=True, blank=True, verbose_name='Nº Decreto')
     decree_date=models.DateField(null=True, blank=True, verbose_name='Fecha (otorgada)')
     bandwidth=models.IntegerField(choices=((1,"12.5 Mhz"),(2, u"25 Mhz")), default=1, verbose_name='Ancho de Banda')
-    fk_vhf=models.ForeignKey('VHF', verbose_name='Rango de Frecuencia', null=True, blank=True)
+    fk_vhf=models.ForeignKey('VHF', verbose_name='Tipo', null=True, blank=True)
     national_emergency_frequency= models.NullBooleanField(verbose_name='Frecuencia Nacional de Emergencia (150.250 Mhz)')
 
 

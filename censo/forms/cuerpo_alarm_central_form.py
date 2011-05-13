@@ -95,13 +95,13 @@ class CuerpoAlarmCentralForm(BaseForm):
     #Display hardware technological support
 
     def render_hardware_technological_support_to_list(self):
-        fields = [self['pc_quantity']]
+        fields = [self['pc_quantity'], self['fk_os']]
 
         return render_fields_as_list(fields, 'list_quantities')
 
     #Display software technological support as a list
     def render_software_technological_support_to_list(self):
-        fields = self._field_range('fk_os', 'origin_software_other')
+        fields = self._field_range('digital_maps', 'origin_software_other')
 
         return render_fields_as_list(fields)
 
