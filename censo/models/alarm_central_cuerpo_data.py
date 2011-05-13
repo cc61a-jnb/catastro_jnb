@@ -83,13 +83,14 @@ class CuerpoAlarmCentralData(models.Model):
 
     #Tipo?
     #obligatoria
-    normalized_frequency = models.IntegerField(choices=((1,"No"),(2, u"Sí"), (3,u"En Trámite")), default=1, verbose_name='normalizada')
+    #cambio de normalizada a autorizada subtel
+    normalized_frequency = models.IntegerField(choices=((1,"No"),(2, u"Sí"), (3,u"En Trámite")), default=1, verbose_name='Autorizada Subtel')
 
     decree=models.IntegerField(null=True, blank=True, verbose_name='Nº Decreto')
     decree_date=models.DateField(null=True, blank=True, verbose_name='Fecha (otorgada)')
     bandwidth=models.IntegerField(choices=((1,"12.5 Mhz"),(2, u"25 Mhz")), default=1, verbose_name='Ancho de Banda')
     fk_vhf=models.ForeignKey('VHF', verbose_name='Rango de Frecuencia', null=True, blank=True)
-    national_emergency_frequency= models.NullBooleanField(verbose_name='Frecuencia Nacional de Emergencia')
+    national_emergency_frequency= models.NullBooleanField(verbose_name='Frecuencia Nacional de Emergencia (150.250 Mhz)')
 
 
     #Soporte tecnológico

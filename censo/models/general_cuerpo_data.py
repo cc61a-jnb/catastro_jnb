@@ -13,7 +13,6 @@ class CuerpoGeneralData(models.Model):
         app_label = 'censo'
 
     # Hardware
-
     computers_quantity = models.IntegerField(null=True, blank=True, verbose_name='Computadores')
     notebooks_quantity = models.IntegerField(null=True, blank=True, verbose_name='Notebooks')
     projectors_quantity = models.IntegerField(null=True, blank=True, verbose_name='Proyectores')
@@ -34,11 +33,10 @@ class CuerpoGeneralData(models.Model):
     accounting_system_other_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Nombre Sistema contable')
 
     # Personal rentado
-
-    personnel_guard = models.IntegerField(null=True, blank=True, verbose_name='Cuarteleros Cuidadores')
-    personnel_driver = models.IntegerField(null=True, blank=True, verbose_name='Cuarteleros Conductores')
+    personnel_guard = models.IntegerField(null=True, blank=True, verbose_name='Cuarteleros(as) Cuidadores(as)')
+    personnel_driver = models.IntegerField(null=True, blank=True, verbose_name='Cuarteleros(as) Conductores(as)')
     personnel_secretary = models.IntegerField(null=True, blank=True, verbose_name='Secretarios(as)')
-    personnel_accounting = models.IntegerField(null=True, blank=True, verbose_name='Contadores')
+    personnel_accounting = models.IntegerField(null=True, blank=True, verbose_name='Contadores(as)')
     personnel_alarm_central_op = models.IntegerField(null=True, blank=True, verbose_name='Operadores Central de Alarmas')
     personnel_management = models.IntegerField(null=True, blank=True, verbose_name='Administrativos')
     personnel_mechanic = models.IntegerField(null=True, blank=True, verbose_name='Mecánicos de planta')
