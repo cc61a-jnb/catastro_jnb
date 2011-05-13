@@ -41,3 +41,4 @@ from vhf import VHF
 from alarm_central_cuerpo_data import CuerpoAlarmCentralData
 from cuerpo_service_acts_data import CuerpoServiceActsData
 from cuerpo_alarm_central_base_radio_eq import CuerpoAlarmCentralBaseRadioEq
+from portable_brand import PortableBrand
