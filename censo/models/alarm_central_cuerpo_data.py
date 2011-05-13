@@ -59,17 +59,17 @@ class CuerpoAlarmCentralData(models.Model):
 
     #Portátiles (Uso exclusivo de la Central)
     portable_quantity1 = models.IntegerField(default=0, verbose_name='Cantidad')
-    portable_manufacturer1 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    fk_portable_manufacturer1 = models.ForeignKey('PortableBrand', verbose_name='Marca', blank=True, null=True, related_name='+')
     portable_model1 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
     portable_power1 = models.IntegerField(default=0, verbose_name='Potencia (W)')
 
     portable_quantity2 = models.IntegerField(default=0, verbose_name='Cantidad')
-    portable_manufacturer2 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    fk_portable_manufacturer2 = models.ForeignKey('PortableBrand', verbose_name='Marca', blank=True, null=True, related_name='+')
     portable_model2 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
     portable_power2 = models.IntegerField(default=0, verbose_name='Potencia (W)')
 
     portable_quantity3 = models.IntegerField(default=0, verbose_name='Cantidad')
-    portable_manufacturer3 = models.CharField(max_length = 100, verbose_name='Marca', blank=True, null=True)
+    fk_portable_manufacturer3 = models.ForeignKey('PortableBrand', verbose_name='Marca', blank=True, null=True, related_name='+')
     portable_model3 = models.CharField(max_length = 100, verbose_name='Modelo', blank=True, null=True)
     portable_power3 = models.IntegerField(default=0, verbose_name='Potencia (W)')
 
