@@ -74,12 +74,12 @@ class CuerpoInfrastructureData(models.Model):
 
     # Fotografías requeridas. Al final las fotos SI se suben. Vijay vera esta parte
     # Copy + paste :D
-    picture_general_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
-    picture_front_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
-    picture_back_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
-    picture_machine_room_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
-    picture_office_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
-    picture_internal_distribution_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
+    picture_general_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True, verbose_name='Vista general')
+    picture_front_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True, verbose_name='Fachada')
+    picture_back_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True, verbose_name='Parte posterior')
+    picture_machine_room_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True, verbose_name=u'Sala de máquinas')
+    picture_office_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True, verbose_name='Oficinas')
+    picture_internal_distribution_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True, verbose_name=u'Distribución interior')
 
    #Observaciones
     observations = models.TextField(null=True, blank=True, verbose_name='')

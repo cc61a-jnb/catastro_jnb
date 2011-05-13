@@ -105,6 +105,11 @@ class CuerpoInfrastructureForm(BaseForm):
                 indexing = False
                 
         return [self[field] for field in return_fields]
+        
+        # The list of all the picture fields in this form    
+    def picture_fields(self):
+        fields = self._field_range('picture_general_view', 'picture_internal_distribution_view')
+        return [(field, getattr(self.instance, field.name)) for field in fields]
 
     class Meta:
         model = CuerpoInfrastructureData
