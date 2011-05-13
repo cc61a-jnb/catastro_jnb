@@ -6,10 +6,23 @@
 {% block nav_infrastructure %}<li class="current-tab"><a href="{% url cuerpo_infrastructure %}">Infraestructura</a></li>{% endblock %}
 
 {% block content %}
-	<form method="post" class="catastro_form">
+	<form method="post" class="catastro_form" >
 	{% csrf_token %}
 	<h2>Infraestructura Cuartel General</h2>
 	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+
+{% for error in form.errors %}
+	{{ error }}<br />
+{% endfor %}
+
+{% if form.non_field_errors %}
+	    <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+	    </ul>
+	{% endif %}
+
 <h3>Terreno</h3>
 {{ form.render_built_area_to_table }}
 
@@ -45,7 +58,27 @@
 <hr/>
 
 <h3>Otras oficinas</h3>
+	<a name="other_offices"></a>
+        {{ other_offices.management_form }}
 
+        <table>
+            <tr>
+                <th>Nombre de cargo</th>
+                <th>¿Eliminar?</th>
+            </tr>
+            {% for form in other_offices.forms %}
+                <tr>
+                    {{ form.id }}
+                    <td>{{ form.role_name }}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><input title="Agregar nuevo cargo" type="submit" name="add_other_offices" value="Agregar nuevo cargo" /></td>
+                <td></td>
+                <td><input type="submit" value="Eliminar cargos" name="delete_other_offices" /></td>
+            </tr>
+        </table>
 <br/>
 <hr/>
 

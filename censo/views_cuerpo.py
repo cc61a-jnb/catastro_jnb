@@ -229,7 +229,9 @@ def display_anb_form(request):
 @authorize(roles=('cuerpo',))
 def display_infrastructure_form(request):
     profile = request.user.get_profile()
+
     cuerpo = profile.company.cuerpo
+
     infrastructure_data = None
     # Attempt to load previously submitted data
     try:
@@ -241,24 +243,88 @@ def display_infrastructure_form(request):
         infrastructure_data.cuerpo = cuerpo
         infrastructure_data.save()
 
+
+    #previene que se muestren los errores de envio al presionar el botón agregar otro
+    prevent_validation_error = False
+
+    AddOtherOfficesFormSet = inlineformset_factory(Cuerpo, CuerpoInfrastructureOtherOffices, extra=0, can_delete=True)
+    
     # If the form has been submitted
     if request.method == 'POST':
-        # A form bound to the POST data
-        z = dict(request.POST, **request.FILES)
-        form = CuerpoInfrastructureForm(request.POST, request.FILES, instance=infrastructure_data)
-        # If the form is correctly validated
-        if form.is_valid():
-            form.save()
-            # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/infrastructure')
-        # Else render the form again
-        else:
-            return render_to_response('cuerpo/fourth_page.html', {
-                'form': form,
-                'cuerpo': cuerpo,
-                }, context_instance=RequestContext(request),
-                )
+        args = request.POST
 
+        if 'add_other_offices' in request.POST:
+            
+            # Get the data from POST
+            new_other_offices = AddOtherOfficesFormSet(prefix='other_offices', data=request.POST, instance=cuerpo)
+            prevent_validation_error = True
+            
+            # Saving Added Rows
+            for form in new_other_offices.forms:
+                if form.has_changed():
+                    if form.is_valid():
+                        form.save()
+        
+            
+            # Create new empty line in DB
+            cioo_new = CuerpoInfrastructureOtherOffices(cuerpo=cuerpo, role_name='')
+            cioo_new.save()
+            
+            # Reload data from DB
+            new_other_offices = AddOtherOfficesFormSet(prefix='other_offices',  instance=cuerpo)
+        
+        elif 'delete_other_offices' in request.POST:
+            prevent_validation_error = True
+            new_other_offices = AddOtherOfficesFormSet(prefix='other_offices', data=request.POST, instance=cuerpo)
+            
+            # Saving Changed Rows
+            for form in new_other_offices.forms:
+                if form.is_valid():
+                    if form.has_changed():
+                        form.save()
+                            
+            # Then we delete the appropiate rows
+            for form in new_other_offices.deleted_forms:
+                if form.is_valid():
+                    coo_del = form.cleaned_data['id']
+                    coo_del.delete()
+                    
+            new_other_offices = AddOtherOfficesFormSet(prefix='other_offices', instance=cuerpo)
+           
+        else:
+             # A form bound to the POST data
+            z = dict(request.POST, **request.FILES)
+	    form = CuerpoInfrastructureForm(request.POST, request.FILES, instance=infrastructure_data)
+            # If the form is correctly validated
+            new_other_offices = AddOtherOfficesFormSet(prefix='other_offices', data=request.POST, instance=cuerpo)
+            if new_other_offices.is_valid() and form.is_valid():      
+                for fm in new_other_offices.forms:
+                    if fm.has_changed():
+                        if fm.is_valid():
+                            fm.save()
+                form.save()
+                ## Delete empty entries
+                query = CuerpoInfrastructureOtherOffices.objects.filter(cuerpo=cuerpo)
+                for q in query:
+                    if q.role_name == '':
+                        q.delete()
+                # Redirect after POST
+                return HttpResponseRedirect('/cuerpo/mayor_material')
+            # Else render the form again
+            else:
+                return render_to_response('cuerpo/fourth_page.html', {
+                    'form': form,
+                    'cuerpo': cuerpo,
+                    'other_offices': new_other_offices,
+                    }, context_instance=RequestContext(request),
+                    )
+        # A form bound to the POST data
+	form = CuerpoInfrastructureForm(request.POST, request.FILES, instance=infrastructure_data)
+
+    else:
+        # If the form hasn't been submitted
+        new_other_offices = AddOtherOfficesFormSet(prefix='other_offices',instance=cuerpo)
+     
     # If the form hasn't been submitted
 
     # Load already submitted data as initial, to avoid triggering validation
@@ -268,6 +334,7 @@ def display_infrastructure_form(request):
     return render_to_response('cuerpo/fourth_page.html', {
             'form': form,
             'cuerpo': cuerpo,
+            'other_offices': new_other_offices,
             }, context_instance=RequestContext(request),
         )
 
@@ -295,7 +362,7 @@ def display_mayor_material_form(request):
         if form.is_valid():
             form.save()
             # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/mayormaterial')
+            return HttpResponseRedirect('/cuerpo/mayor_material')
         # Else render the form again
         else:
             return render_to_response('cuerpo/fifth_page.html', {
@@ -320,7 +387,7 @@ def display_mayor_material_form(request):
 @authorize(roles=('cuerpo',))
 def display_alarm_central_form(request):
     profile = request.user.get_profile()
-    
+
     cuerpo = profile.company.cuerpo
 
     alarm_central_cuerpo_data = None
@@ -435,48 +502,6 @@ def display_alarm_central_form(request):
             }, context_instance=RequestContext(request),
         )
 
-    ###########################################
-    #profile = request.user.get_profile()
-    #cuerpo = profile.company.cuerpo
-    #alarm_central_data = None
-    ## Attempt to load previously submitted data
-    #try:
-    #    alarm_central_data = cuerpo.cuerpoalarmcentraldata
-    ## If it fails, create blank data
-    #except ObjectDoesNotExist:
-    #    alarm_central_data = CuerpoAlarmCentralData()
-    #    # Add cuerpo to blank data
-    #    alarm_central_data.cuerpo = cuerpo
-    #    alarm_central_data.save()
-
-    ## If the form has been submitted
-    #if request.method == 'POST':
-    #    # A form bound to the POST data
-    #    form = CuerpoAlarmCentralForm(request.POST, instance=alarm_central_data)
-    #    # If the form is correctly validated
-    #    if form.is_valid():
-    #        form.save()
-    #        # Redirect after POST
-    #        return HttpResponseRedirect('/cuerpo/alarmcentral')
-    #    # Else render the form again
-    #    else:
-    #        return render_to_response('cuerpo/sixth_page.html', {
-    #            'form': form,
-    #            'cuerpo': cuerpo,
-    #            }, context_instance=RequestContext(request),
-    #            )
-
-    ## If the form hasn't been submitted
-
-    ## Load already submitted data as initial, to avoid triggering validation
-    #form = CuerpoAlarmCentralForm(instance=alarm_central_data)
-
-    ## Render the form
-    #return render_to_response('cuerpo/sixth_page.html', {
-    #        'form': form,
-    #        'cuerpo': cuerpo,
-    #        }, context_instance=RequestContext(request),
-    #    )
 
 # Show Service acts form
 @authorize(roles=('cuerpo',))

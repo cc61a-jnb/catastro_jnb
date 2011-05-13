@@ -25,7 +25,7 @@ class CuerpoInfrastructureData(models.Model):
     narrow_street_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Pasaje')
 
     # Use ChoiceField in form!
-    fk_property_title_type = models.ForeignKey('PropertyTitleType', verbose_name='Título de propiedad', null=True, blank=False)
+    fk_property_title_type = models.ForeignKey('PropertyTitleType', verbose_name='Título de propiedad', null=True, blank=True)
     #models.CharField(max_length=255, null=True, blank=True, verbose_name='Título de propiedad')
     property_commodatum_end_year = models.IntegerField(null=True, blank=True, verbose_name='Año término comodato o arriendo')
 
@@ -74,12 +74,12 @@ class CuerpoInfrastructureData(models.Model):
 
     # Fotografías requeridas. Al final las fotos SI se suben. Vijay vera esta parte
     # Copy + paste :D
-    picture_general_view = ImageField(upload_to = 'cuerpo_pics',)
-    picture_front_view = ImageField(upload_to = 'cuerpo_pics',)
-    picture_back_view = ImageField(upload_to = 'cuerpo_pics',)
-    picture_machine_room_view = ImageField(upload_to = 'cuerpo_pics',)
-    picture_office_view = ImageField(upload_to = 'cuerpo_pics',)
-    picture_internal_distribution_view = ImageField(upload_to = 'cuerpo_pics',)
+    picture_general_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
+    picture_front_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
+    picture_back_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
+    picture_machine_room_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
+    picture_office_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
+    picture_internal_distribution_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True)
 
    #Observaciones
     observations = models.TextField(null=True, blank=True, verbose_name='')
