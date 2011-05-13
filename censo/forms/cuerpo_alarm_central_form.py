@@ -43,7 +43,7 @@ class CuerpoAlarmCentralForm(BaseForm):
 
     # Display telephone lines questions as a table
     def render_telephone_lines_to_table(self):
-        fields = self._field_range('telephonelines_enable_quantity', 'telephonelines_input_quantity')
+        fields = self._field_range('telephonelines_enable_quantity', 'telephone_number132_available')
         table_fields = [fields]
 
         column_labels = [field.label for field in fields]
