@@ -20,14 +20,13 @@ class UserProfile(models.Model):
     def determine_role(self, cursor):
         query = """SELECT C.cargo_id, C.cargo_nombre
                    FROM cargo AS C INNER JOIN usu_cargo AS UC on C.cargo_id = UC.carg_nombre
-                   WHERE UC.id_usu = %s ORDER BY C.cargo_nombre ASC
+                   WHERE UC.id_usu = %s ORDER BY UC.carg_nombre ASC
                 """
         params = (self.old_id,)
         cursor.execute(query, params)
         
         self.role_id = 0
         
-        # First check if the user is a regional manager
         for idx, row in enumerate(cursor.fetchall()):
             if self.role_id == 0:
                 self.role_id = row[0]
@@ -58,28 +57,50 @@ class UserProfile(models.Model):
             return None
 
     def highest_role(self):
+        return self.role_id
+        '''
         if self.all_roles():
             return self.all_roles()[0]
         else:
             return None
+        '''
 
     def is_regional_operations_manager(self):
+        if "Jefe Operaciones" in self.role_name:
+            return True
+        else:
+            return False
+        '''
         for role in self.all_roles():
             if "Jefe Operaciones" in role[1]: # searching in cargo_id
                 return True
         return False
+        '''
 
     def is_cuerpo_manager(self):
+        if self.role_id in [1, 2]:
+            return True
+        else:
+            return False
+            
+        '''
         for role in self.all_roles():
             if role[0] in [1, 2]: # searching in cargo_id
                 return True
         return False
+        '''
 
     def is_company_manager(self):
+        if self.role_id in [5,8]:
+            return True
+        else:
+            return False
+        '''
         for role in self.all_roles():
             if role[0] in [4]: # searching in cargo_nombre
                 return True
         return False
+        '''
 
     class Meta:
         ordering = ['user']

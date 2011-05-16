@@ -60,11 +60,11 @@ def __switch_authenticated_user_role_view(request, user):
         return HttpResponseRedirect(reverse('login'))
     # Else check which role it has
     # If user's role can access /cuerpos/, redirect
-    elif role[0] in [1, 2]:
+    elif role in [1, 2]:
         url = 'cuerpo'
         return HttpResponseRedirect(reverse(url))
     # If user's role can access /company/, redirect
-    elif role[0] in [4]:
+    elif role in [5, 8]:
         url = 'company'
         return HttpResponseRedirect(reverse(url))
     # Is regional operations manager

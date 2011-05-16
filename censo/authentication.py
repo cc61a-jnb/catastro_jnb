@@ -26,7 +26,7 @@ class JNBBackend:
         except ValidationError:
             username = u'@'.join((username, u'bomberos.cl',))
 
-        query = "SELECT id_usu FROM mailbox WHERE username = %s AND password = %s"
+        query = "SELECT correopk FROM mailbox WHERE username = %s AND password = %s"
         params = (username, password,)
         
         cursor.execute(query, params)
@@ -34,6 +34,7 @@ class JNBBackend:
 
         if postfix_data is None:
             # The username/password do not match
+            logging.info("Username/password for user %s do not match", username)
             cursor.close()
             return None
         
@@ -50,12 +51,30 @@ class JNBBackend:
 
         # If for some reason the user does not have a uid in the database, burn everything and abort
         if postfix_data[0] is None:
+            logging.info("User %s does not have a correopk", username)
             profile.delete()
             user.delete()
             cursor.close()
             return None
             
-        profile.old_id = postfix_data[0]
+        correo_pk = postfix_data[0]
+        
+        # Try and get the user_id from usu_mail
+        
+        query = "SELECT fk_usu FROM mail_usu WHERE fk_mail = %s"
+        params = (correo_pk,)
+        cursor.execute(query, params)
+
+        user_data = cursor.fetchone()
+        if not user_data:
+            logging.info("User %s with correopk %d does not exist in table 'mail_usu'" % (username, correo_pk))
+            profile.delete()
+            user.delete()
+            cursor.close()
+            return None
+            
+        profile.old_id = user_data[0]
+        cursor.close()
 
         # Try and get the user company
         cursor = connections['principal'].cursor()
@@ -69,6 +88,7 @@ class JNBBackend:
         if not user_data:
             # The user does not exist in the principal database (broken foreign key)
             # As always, burn and quit
+            logging.info("User %s with id %d does not exist in table 'usuarios'" % (username, profile.old_id))
             profile.delete()
             user.delete()
             cursor.close()
@@ -79,6 +99,7 @@ class JNBBackend:
         company = Company.fetch_from_db(cursor, old_company_id)    
         
         if not company:
+            logging.info("User %s associated company is foreign key broken (in commune, province, region, or cuerpo)" % username)
             profile.delete()
             user.delete()
             cursor.close()
