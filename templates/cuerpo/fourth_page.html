@@ -6,7 +6,7 @@
 {% block nav_infrastructure %}<li class="current-tab"><a href="{% url cuerpo_infrastructure %}">Infraestructura</a></li>{% endblock %}
 
 {% block content %}
-	<form method="post" class="catastro_form" enctype="multipart/form-data">
+	<form method="post" class="catastro_form" action="#other_offices" enctype="multipart/form-data">
 	{% csrf_token %}
 	<h2>Infraestructura Cuartel General</h2>
 	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
@@ -57,7 +57,7 @@
 <br/>
 <hr/>
 
-<h3>Otras oficinas</h3>
+<h3 id="other_offices">Otras oficinas</h3>
 	<a name="other_offices"></a>
         {{ other_offices.management_form }}
 
