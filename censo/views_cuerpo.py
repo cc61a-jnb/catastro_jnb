@@ -95,7 +95,7 @@ def display_portada_form(request):
             main_form = CuerpoPortadaForm(request.POST, instance=portada_data)
             # If the form is correctly validated
             new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
-            if new_other_official.is_valid() and form.is_valid():      
+            if new_other_official.is_valid() and main_form.is_valid():      
                 for fm in new_other_official.forms:
                     if fm.has_changed():
                         if fm.is_valid():
