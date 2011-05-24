@@ -48,14 +48,9 @@ $(function(){
 	{% endif %}
 </ul>
 </div>
+<br>
 
-<br>
-<h2>Formulario disponible próximamente</h2>
-<br>
-<!--borrar cuando se implemente la solucion final>
--->
-<a href="{% url cuerpo_alarm_central %}">Continuar con catastro</a>
-{% comment %} 	<form method="post" class="catastro_form">
+<form method="post" class="catastro_form">
 	{% csrf_token %}
 	<h2>Material Mayor</h2>
 	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
@@ -109,5 +104,4 @@ $(function(){
 
 	<p><input type="submit" value="Guardar y continuar" /></p>
 </form>
-{% endcomment %}
 {% endblock %}
