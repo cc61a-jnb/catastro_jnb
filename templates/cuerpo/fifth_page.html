@@ -1,16 +1,58 @@
 {% extends "cuerpo/base.html" %}
 
+{% block user_scripts %}
+<script>
+$(function(){
+      // bind change event to select
+      $('#mayor_material_id').bind('change', function () {
+          var url =  $(this).val(); // get selected value
+          if (url) { // require a URL
+              window.location = url; // redirect
+          }
+          return false;
+      });
+      $('#remove_current_mayor_material').submit(function () {
+          return confirm('Está seguro que desea eliminar la ficha actual?');
+      });
+    });
+</script>
+{% endblock %}
+
 {% block title %}Catastro de cuerpo de bomberos: Material Mayor{% endblock %}
 
 {% block nav_mayor_material %}<li class="current-tab"><a href="{% url cuerpo_mayor_material %}">Material Mayor</a></li>{% endblock %}
 
 {% block content %}
 
+<div>
+<ul class="tabbed">
+{% if cuerpo.cuerpomayormaterialdata_set.all %}
+	<li>
+		<select id="mayor_material_id" name="mayor_material_id" onchange="">
+		{% for mayor_material_data in cuerpo.cuerpomayormaterialdata_set.all %}
+			<option {% if mayor_material_data == current_mayor_material_data %}selected="selected"{% endif %}
+			value="{% url cuerpo_mayor_material_with_id mayor_material_data.id %}">{{forloop.counter}} - {{mayor_material_data }}</option>
+		{% endfor %}
+		</select>
+	</li>
+{% endif %}
+	<form method="post" id="add_new_mayor_material" action="{% url cuerpo_add_new_mayor_material %}">
+	{% csrf_token %}
+		<li><input type="submit" id="add_new_mayor_material" value="Agregar Nueva Ficha"/></li>
+	</form>
+	<form method="post" id="remove_current_mayor_material" action="{% url cuerpo_remove_mayor_material current_mayor_material_data.id %}">
+	{% csrf_token %}
+		<li><input type="submit" value="Eliminar ficha actual"/></li>
+	</form>
+</ul>
+</div>
+
+<br>
 <h2>Formulario disponible próximamente</h2>
 <br>
 <!--borrar cuando se implemente la solucion final>
 -->
-<a href=/cuerpo/alarm_central> Continuar con catastro</a>
+<a href="{% url cuerpo_alarm_central %}">Continuar con catastro</a>
 {% comment %} 	<form method="post" class="catastro_form">
 	{% csrf_token %}
 	<h2>Material Mayor</h2>

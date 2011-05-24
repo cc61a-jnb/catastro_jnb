@@ -4,12 +4,13 @@ from django.db import models
 from sorl.thumbnail import ImageField
 
 class CuerpoMayorMaterialData(models.Model):
-    cuerpo = models.OneToOneField('censo.Cuerpo', blank=True)
+    cuerpo = models.ForeignKey('censo.Cuerpo')
 
     def __unicode__(self):
-        return self.cuerpo.name
+        return self.denomination or "Material Mayor"
 
     class Meta:
+        get_latest_by = 'id'
         ordering = ['cuerpo']
         app_label = 'censo'
         

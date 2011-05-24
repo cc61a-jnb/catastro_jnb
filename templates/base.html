@@ -13,6 +13,10 @@
 	<!--[if lt IE 8]>
 	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/ie.css" type="text/css" media="screen, projection">
 	<![endif]-->
+	{% block scripts %}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	{% endblock %}
+	{% block user_scripts %}{% endblock %}
 	<title>{% block title %}Catastro de cuerpos y compañías de bomberos{% endblock %}</title>
 </head>
 
