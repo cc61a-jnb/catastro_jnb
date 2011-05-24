@@ -5,9 +5,11 @@ from sorl.thumbnail import ImageField
 
 class CuerpoMayorMaterialData(models.Model):
     cuerpo = models.ForeignKey('censo.Cuerpo')
+    company = models.ForeignKey('censo.Company', null=True, blank=True)
 
     def __unicode__(self):
-        return self.denomination or "Material Mayor"
+        #TODO: debiera aparecer el nombre del carro, la patente y la compañia a la que pertenece
+        return self.denomination or unicode(self.cuerpo)
 
     class Meta:
         get_latest_by = 'id'
