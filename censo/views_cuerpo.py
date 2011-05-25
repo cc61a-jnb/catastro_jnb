@@ -341,6 +341,21 @@ def display_infrastructure_form(request):
             'other_offices': new_other_offices,
             }, context_instance=RequestContext(request),
         )
+        
+# Show Mayor Material Index
+@authorize(roles=('cuerpo',))
+def display_mayor_material_index(request):
+    profile = request.user.get_profile()
+    cuerpo = profile.company.cuerpo
+    
+    # Get mayor material list
+    mayor_material_list = CuerpoMayorMaterialData.objects.filter(cuerpo=cuerpo)
+    
+    return render_to_response('cuerpo/fifth_page.html', {
+                'cuerpo': cuerpo,
+                'mayor_material_list': mayor_material_list,
+                }, context_instance=RequestContext(request),
+                )
 
 # Show Mayor Material form
 @authorize(roles=('cuerpo',))
@@ -401,19 +416,42 @@ def display_mayor_material_form(request, mayor_material_id=None):
 # Add New Mayor Material form
 @authorize(roles=('cuerpo',))
 def add_new_mayor_material(request):
+    profile = request.user.get_profile()
+    cuerpo = profile.company.cuerpo
+    
     # Accept only POST requests in order to avoid boggus objects creation
     if request.method == 'POST':
-        profile = request.user.get_profile()
-        cuerpo = profile.company.cuerpo
-        logging.info("Creating new mayor material data object for cuerpo:%d", cuerpo.id)
-        mayor_material_data = CuerpoMayorMaterialData()
-        # Add cuerpo to blank data
-        mayor_material_data.cuerpo = cuerpo
-        mayor_material_data.save()
-        request.flash['notice'] = "Se ha agregado una nueva ficha satisfactoriamente"
-        return redirect('cuerpo_mayor_material_with_id', mayor_material_data.id)
+    
+        # A form bound to the POST data
+        form = CuerpoMayorMaterialForm(request.POST)
+        form.instance.cuerpo = cuerpo
+        
+        # If the form is correctly validated
+        if form.is_valid():
+            form.save()
+            
+            logging.info("Creating new mayor material data object for cuerpo:%d", cuerpo.id)
+            
+            # Redirect after POST
+            return HttpResponseRedirect('/cuerpo/mayor_material')
+        # Else render the form again
+        else:
+            return render_to_response('cuerpo/fifth_page_edit.html', {
+                'form': form,
+                'cuerpo': cuerpo,
+                }, context_instance=RequestContext(request),
+                )
+                
     else:
-        return redirect('cuerpo_mayor_material')
+        
+        # Create blank Mayor Material form
+        form = CuerpoMayorMaterialForm()
+        
+        return render_to_response('cuerpo/fifth_page_edit.html', {
+                'form': form,
+                'cuerpo': cuerpo,
+                }, context_instance=RequestContext(request),
+                )
         
 
 # Remove Selected Material form
@@ -423,11 +461,7 @@ def remove_mayor_material(request, mayor_material_id):
         profile = request.user.get_profile()
         cuerpo = profile.company.cuerpo
         mayor_material_data = None
-        # It should be more than 1 mayor_material_data to delete
-        if cuerpo.cuerpomayormaterialdata_set.count() < 2:
-            request.flash['error'] = 'No puede eliminar la única planilla existente'
-            logging.error("Cannot delete cuerpo:%d's last remaining mayor material data object", cuerpo.id)
-            return redirect('cuerpo_mayor_material')
+
         try:
             mayor_material_data = cuerpo.cuerpomayormaterialdata_set.get(pk=mayor_material_id)
         # The id provided in the url does not exist

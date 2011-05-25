@@ -25,83 +25,35 @@ $(function(){
 {% block content %}
 
 <div>
-<ul class="tabbed">
-{% if cuerpo.cuerpomayormaterialdata_set.all %}
-	<li>
-		<select id="mayor_material_id" name="mayor_material_id" onchange="">
-		{% for mayor_material_data in cuerpo.cuerpomayormaterialdata_set.all %}
-			<option {% if mayor_material_data == current_mayor_material_data %}selected="selected"{% endif %}
-			value="{% url cuerpo_mayor_material_with_id mayor_material_data.id %}">{{forloop.counter}} - {{mayor_material_data }}</option>
-		{% endfor %}
-		</select>
-	</li>
-{% endif %}
-	<form method="post" id="add_new_mayor_material" action="{% url cuerpo_add_new_mayor_material %}">
-	{% csrf_token %}
-		<li><input type="submit" id="add_new_mayor_material" value="Agregar Nueva Ficha"/></li>
-	</form>
-	{% if cuerpo.cuerpomayormaterialdata_set.count > 1 %}
-		<form method="post" id="remove_current_mayor_material" action="{% url cuerpo_remove_mayor_material current_mayor_material_data.id %}">
-		{% csrf_token %}
-			<li><input type="submit" value="Eliminar ficha actual"/></li>
-		</form>
-	{% endif %}
-</ul>
+
+<div class="add-button">
+    <a href="{% url cuerpo_add_new_mayor_material %}">Agregar Nueva Ficha</a>
 </div>
-<br>
+<table>
+    <tr>
+        <th>Compañía</th>
+        <th>Denominación</th>
+        <th>Patente</th>
+        <th>Eliminar</th>
+    </tr>
+{% for mayor_material_data in mayor_material_list %}
+    <tr>
+        <td>
+        <a href="{% url cuerpo_mayor_material_with_id mayor_material_data.id %}">{{forloop.counter}} - {{mayor_material_data }}</a>
+        </td>
+        <td></td>
+        <td></td>
+        <td>
+		    <form method="post" action="{% url cuerpo_remove_mayor_material mayor_material_data.id %}">
+		    {% csrf_token %}
+			    <input type="submit" value="Eliminar ficha"/>
+		    </form>
+        </td>
+    </tr>
+{% empty %}
+    <tr><td colspan=4>Ud. no tiene fichas de Material Mayor</td></tr>
+{% endfor %}
+</table>
+</div>
 
-<form method="post" class="catastro_form">
-	{% csrf_token %}
-	<h2>Material Mayor</h2>
-	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
-
-	{% if form.non_field_errors %}
-	    <ul class="errorlist">
-            {% for error in form.non_field_errors %}
-	            <li>{{ error }}</li>
-            {% endfor %}
-	    </ul>
-	{% endif %}
-
-	<h3>Información del Vehículo</h3>
-
-	{{ form.render_vehicle_info_questions_to_list }}
-
-    <br />
-	<hr />
-
-	<h3>Situación Legal</h3>
-
-	{{ form.render_legal_status_questions_to_list }}
-
-    <br />
-	<hr />
-
-	<h3>Medidores de Uso</h3>
-
-	{{ form.render_kilometraje_horometraje_to_list }}
-
-	<br />
-	<hr />
-
-    <h3>Caracteristicas</h3>
-
-	{{ form.render_caracteristics_to_list }}
-
-	<br />
-	<hr />
-
-	<h3>Grandes reparaciones</h3>
-
-	<h4>Cambio Motor</h4>
-	{{ form.render_motor_change_to_list }}
-
-	<h4>Cambio Caja de cambio</h4>
-	{{ form.render_gearbox_change_to_list }}
-
-	<br />
-	<hr />
-
-	<p><input type="submit" value="Guardar y continuar" /></p>
-</form>
 {% endblock %}
