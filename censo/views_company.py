@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
+import pdb
 
 # Show main form
 @authorize(roles=('company',))
@@ -25,24 +26,24 @@ def display_portada_form(request):
         # Add company to blank data
         portada_data.company = company
         portada_data.save()
-    
+
     #previene que se muestren los errores de envio al presionar el botón agregar otro
     prevent_validation_error = False
-    
+
     AddOtherRoleCompanyFormSet = inlineformset_factory(Company, CompanyOtherOfficial, extra=0, can_delete=True)
 
     # If the form has been submitted
     if request.method == 'POST':
-        args = request.POST
-        main_form = CompanyPortadaForm(request.POST, instance=portada_data)
-        
-        if 'add_other_official' in request.POST:
+       args = request.POST
+       main_form = CompanyPortadaForm(request.POST, instance=portada_data)
+
+       if 'add_other_official' in request.POST:
             #cp = request.POST.copy()
             #cp['other_official-TOTAL_FORMS'] = int(cp['other_official-TOTAL_FORMS']) + 1
             # Get the data from POST
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
             prevent_validation_error = True
-            
+
             # <!-- We use the POST data to add anything new -->
             # Saving Added Rows
             for form in new_other_official.forms:
@@ -60,35 +61,35 @@ def display_portada_form(request):
             ### para cargar de la base de datos. Toda línea que quede vacía después de
             ### llenar los datos debería eliminarse al hacer el guardado del formulario
             ### completo.
-            
+
             # Create new empty line in DB
             coo_new = CompanyOtherOfficial(company=company, role_name='', person_name='')
             coo_new.save()
-            
+
             # Reload data from DB
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official',  instance=company)
             if main_form.is_valid():
                 main_form.save()
-            
-        elif 'delete_other_official' in request.POST:
-            prevent_validation_error = True
-            new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
-            
+
+            elif 'delete_other_official' in request.POST:
+                 prevent_validation_error = True
+                 new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
+
             # Saving Changed Rows
             for form in new_other_official.forms:
                 if form.is_valid():
                     if form.has_changed():
                         form.save()
-                            
+
             # Then we delete the appropiate rows
             for form in new_other_official.deleted_forms:
                 if form.is_valid():
                     coo_del = form.cleaned_data['id']
                     coo_del.delete()
-                    
+
             new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', instance=company)
-        
-        
+
+
             ## Delete from DB
             #new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
             #for form in new_other_official.deleted_forms:
@@ -105,12 +106,12 @@ def display_portada_form(request):
             #new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', instance=company)
             if main_form.is_valid():
                 main_form.save()
-        else:
+            else:
             # A form bound to the POST data
-            main_form = CompanyPortadaForm(request.POST, instance=portada_data)
+              main_form = CompanyPortadaForm(request.POST, instance=portada_data)
             # If the form is correctly validated
-            new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
-            if new_other_official.is_valid() and main_form.is_valid():    
+              new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official', data=request.POST, instance=company)
+            if new_other_official.is_valid() and main_form.is_valid():
                 for fm in new_other_official.forms:
                     if fm.has_changed():
                         if fm.is_valid():
@@ -138,14 +139,14 @@ def display_portada_form(request):
                     'other_official': new_other_official,
                     }, context_instance=RequestContext(request),
                     )
-        
+
         # A form bound to the POST data
-        main_form = CompanyPortadaForm(request.POST, instance=company)
-        
+            main_form = CompanyPortadaForm(request.POST, instance=company)
+
     else:
         # If the form hasn't been submitted
         new_other_official = AddOtherRoleCompanyFormSet(prefix='other_official',instance=company)
-    
+
     # Load already submitted data as initial, to avoid triggering validation
     main_form = CompanyPortadaForm(instance=portada_data)
 
@@ -173,7 +174,7 @@ def display_volunteers_form(request):
         # Add company to blank data
         volunteer_data.company = company
         volunteer_data.save()
-    
+
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
@@ -192,7 +193,7 @@ def display_volunteers_form(request):
                 )
 
     # If the form hasn't been submitted
-    
+
     # Load already submitted data as initial, to avoid triggering validation
     form = CompanyVolunteerForm(instance=volunteer_data)
 
@@ -218,11 +219,11 @@ def display_infrastructure_form(request):
         # Add company to blank data
         infrastructure_company_data.company = company
         infrastructure_company_data.save()
-    
+
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
-        
+
         z = dict(request.POST, **request.FILES)
         form = CompanyInfrastructureForm(request.POST, request.FILES, instance=infrastructure_company_data)
         # If the form is correctly validated
@@ -239,7 +240,7 @@ def display_infrastructure_form(request):
                 )
 
     # If the form hasn't been submitted
-    
+
     # Load already submitted data as initial, to avoid triggering validation
     form = CompanyInfrastructureForm(instance=infrastructure_company_data)
 
@@ -257,6 +258,8 @@ def display_minor_material_form(request):
     profile = request.user.get_profile()
     company = profile.company
     minor_material_company_data = None
+    prevent_validation_error = False
+    #pdb.set_trace()
     # Attempt to load previously submitted data
     try:
         minor_material_company_data = company.minormaterialcompanydata
@@ -266,32 +269,93 @@ def display_minor_material_form(request):
         # Add company to blank data
         minor_material_company_data.company = company
         minor_material_company_data.save()
-    
+
+
+    AddOtherBaseRadioCompanyFormSet = inlineformset_factory(Company, CompanyOtherRadioBase, extra=0, can_delete=True)
     # If the form has been submitted
     if request.method == 'POST':
+        args = request.POST
         # A form bound to the POST data
-        form = CompanyMinorMaterialForm(request.POST, instance=minor_material_company_data)
+        main_form = CompanyMinorMaterialForm(request.POST, instance=minor_material_company_data)
+        if 'add_radio_base' in request.POST:
+           new_other_base_radio = AddOtherBaseRadioCompanyFormSet(prefix='other_base_radio', data=request.POST, instance=company)
+           prevent_validation_error = True
+
+           for form in new_other_base_radio.forms:
+               if form.has_changed():
+                  if form.is_valid():
+                     form.save()
+         # Create new empty line in DB
+           create_new_other_radio_base = CompanyOtherRadioBase(company=company, radio_brand='', radio_model='')
+           create_new_other_radio_base.save()
+
+           # Reload data from DB
+           new_other_base_radio = AddOtherBaseRadioCompanyFormSet(prefix='other_base_radio',  instance=company)
+
+           if main_form.is_valid():
+              main_form.save()
+           elif 'delete_other_radio_base' in request.POST:
+                prevent_validation_error = True
+                new_other_base_radio = AddOtherBaseRadioCompanyFormSet(prefix='other_base_radio', data=request.POST, instance=company)
+
+           # Saving Changed Rows
+           for form in new_other_base_radio.forms:
+               if form.is_valid():
+                  if form.has_changed():
+                     form.save()
+
+           # Then we delete the appropiate rows
+           for form in new_other_base_radio.deleted_forms:
+                if form.is_valid():
+                    coo_del = form.cleaned_data['id']
+                    coo_del.delete()
+
+        new_other_base_radio = AddOtherBaseRadioCompanyFormSet(prefix='other_base_radio', instance=company)
         # If the form is correctly validated
-        if form.is_valid():
-            form.save()
-            # Redirect after POST
-            return HttpResponseRedirect('/company/')
-        # Else render the form again
+        if main_form.is_valid():
+            main_form.save()
         else:
+        # A form bound to the POST data
+         main_form = CompanyMinorMaterialForm(request.POST, instance=portada_data)
+        # If the form is correctly validated
+         new_other_official = AddOtherBaseRadioCompanyFormSet(prefix='other_base_radio', data=request.POST, instance=company)
+         if new_other_base_radio.is_valid() and main_form.is_valid():
+                for fm in new_other_base_radio.forms:
+                    if fm.has_changed():
+                        if fm.is_valid():
+                            fm.save()
+                main_form.save()
+
+                ## Delete empty entries
+                query = CompanyOtherRadioBase.objects.filter(company=company)
+                for q in query:
+                    if q.radio_brand == '' and q.radio_model == '':
+                        q.delete()
+            # Redirect after POST
+                return HttpResponseRedirect('/company/')
+        # Else render the form again
+         else:
             return render_to_response('company/fourth_page.html', {
-                'form': form,
+                'form': main_form,
+                'others_radio_base': new_other_radio_base,
                 'company': company,
                 }, context_instance=RequestContext(request),
                 )
 
-    # If the form hasn't been submitted
-    
-    # Load already submitted data as initial, to avoid triggering validation
-    form = CompanyMinorMaterialForm(instance=minor_material_company_data)
 
-    # Render the form    
+        # A form bound to the POST data
+            main_form = CompanyMinorMaterialForm(request.POST, instance=company)
+    else:
+        # If the form hasn't been submitted
+        new_other_base_radio = AddOtherBaseRadioCompanyFormSet(prefix='other_base_radio',instance=company)
+    # Load already submitted data as initial, to avoid triggering validation
+    main_form = CompanyMinorMaterialForm(instance=minor_material_company_data)
+
+    # Render the form
     return render_to_response('company/fourth_page.html', {
-                'form': form,
+                'form': main_form,
+                'others_radio_base': new_other_base_radio,
+                'prevent_validation_error': prevent_validation_error,
                 'company': company,
             }, context_instance=RequestContext(request),
         )
