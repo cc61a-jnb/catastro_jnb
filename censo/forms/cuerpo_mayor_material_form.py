@@ -43,6 +43,11 @@ class CuerpoMayorMaterialForm(BaseForm):
         fields = self._field_range('gearbox_change_new_manufacturer', 'gearbox_change_new_model')
         
         return render_fields_as_list(fields)
+
+    # The list of all the picture fields in this form    
+    def picture_fields(self):
+        fields = self._field_range('picture_front_view', 'picture_back_view')
+        return [(field, getattr(self.instance, field.name)) for field in fields]
  
     class Meta:
         model = CuerpoMayorMaterialData

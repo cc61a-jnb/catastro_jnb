@@ -8,12 +8,11 @@ class CuerpoMayorMaterialData(models.Model):
     company = models.ForeignKey('censo.Company', null=True, blank=True)
 
     def __unicode__(self):
-        #TODO: debiera aparecer el nombre del carro, la patente y la compañia a la que pertenece
-        return self.denomination or unicode(self.cuerpo)
+        return unicode(self.cuerpo)
 
     class Meta:
         get_latest_by = 'id'
-        ordering = ['cuerpo']
+        ordering = ['cuerpo', 'id']
         app_label = 'censo'
         
         
@@ -96,9 +95,9 @@ class CuerpoMayorMaterialData(models.Model):
     
     # Fotografías requeridas
     
-    picture_front_view = ImageField(upload_to = 'cuerpo_pics',)
-    picture_side_view = ImageField(upload_to = 'cuerpo_pics',)
-    picture_back_view = ImageField(upload_to = 'cuerpo_pics',)
+    picture_front_view = ImageField(upload_to = 'cuerpo_mayor_material_pics', verbose_name=u'Vista Frontal', blank=True, null=True)
+    picture_side_view = ImageField(upload_to = 'cuerpo_mayor_material_pics', verbose_name=u'Vista Lateral', blank=True, null=True)
+    picture_back_view = ImageField(upload_to = 'cuerpo_mayor_material_pics', verbose_name=u'Vista Trasera', blank=True, null=True)
     
     # Observaciones
     

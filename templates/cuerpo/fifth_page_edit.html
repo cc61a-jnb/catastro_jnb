@@ -1,4 +1,5 @@
 {% extends "cuerpo/base.html" %}
+{% load thumbnail %}
 
 {% block title %}Catastro de cuerpo de bomberos: Material Mayor{% endblock %}
 
@@ -6,7 +7,7 @@
 
 {% block content %}
 
-<form method="post" class="catastro_form">
+<form method="post" class="catastro_form" enctype="multipart/form-data">
 	{% csrf_token %}
 	<h2>Material Mayor</h2>
 	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
@@ -54,6 +55,32 @@
 
 	<h4>Cambio Caja de cambio</h4>
 	{{ form.render_gearbox_change_to_list }}
+
+	<br />
+	<hr />
+
+	<h3>Fotografías</h3>
+	{% for pair in form.picture_fields %}
+    <h4>{{ pair.0.label }}</h4>
+
+    {% if pair.0.errors %}
+        <ul class="errorlist">
+            {% for error in pair.0.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% thumbnail pair.1 "300x300" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}
+
+    <br />
+    <br />
+    {{ pair.0 }}
+    <br/>
+    <br />
+{% endfor %}
 
 	<br />
 	<hr />
