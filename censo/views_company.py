@@ -8,6 +8,53 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
+from django.core.context_processors import csrf
+
+def _generic_edit(instance, request, ReferredForm, ReferredClass, Referral, template, success_redirect):
+    GenericFormSet = inlineformset_factory(ReferredClass, Referral)
+    prevent_validation_errors = False
+
+    if request.method == 'POST':
+        form = ReferredForm(request.POST, instance=instance)
+        if 'formset_add' in request.POST:
+            formset_data = request.POST.copy()
+            total_forms_quantity = int(formset_data['formset-TOTAL_FORMS'])
+            formset_data['formset-TOTAL_FORMS'] = str(total_forms_quantity + 1)
+            
+            formset = GenericFormSet(formset_data, prefix='formset', instance=instance)
+            prevent_validation_errors = True
+        elif 'formset_delete' in request.POST:
+            new_data = remove_deleted_fields_from_data(request.POST)
+            formset = GenericFormSet(new_data, prefix='formset', instance=instance)
+            prevent_validation_errors = True
+        else:
+            formset = GenericFormSet(request.POST, prefix='formset', instance=instance)
+            if form.is_valid() and formset.is_valid():
+                form.save()
+                
+                for f in formset.forms:
+                    if f.has_changed():
+                        f.instance.recipe = form.instance
+                        f.instance.save()
+                        
+                commit_ids = [f.instance.id for f in formset.forms if f.instance.id]
+                
+                if instance:
+                    for referral_object in formset.queryset:
+                        if referral_object.id not in commit_ids:
+                            referral_object.delete()
+                    
+                return HttpResponseRedirect(success_redirect)
+    else:
+        formset = GenericFormSet(prefix='formset', instance=instance)
+        form = ReferredForm(instance=instance)
+        
+    return render_to_response(template, {
+            'form': form,
+            'formset': formset,
+            }, context_instance=RequestContext(request),
+        )
 
 # Show main form
 @authorize(roles=('company',))
@@ -15,17 +62,19 @@ def display_portada_form(request):
     profile = request.user.get_profile()
     # A profile must have a company asociated, this can't fail
     company = profile.company
-    portada_data = None
     # Attempt to load previously submitted data
     try:
         portada_data = company.portadacompanydata
-    # If it fails, create blank data
+        # If it fails, create blank data
     except ObjectDoesNotExist:
         portada_data = PortadaCompanyData()
         # Add company to blank data
         portada_data.company = company
         portada_data.save()
+        
+    return _generic_edit(portada_data, request, CompanyPortadaForm, Company, CompanyOtherOfficial, 'company/first_page.html', reverse('catastro_jnb.censo.views_company.display_volunteers_form'))
     
+    '''
     #previene que se muestren los errores de envio al presionar el botón agregar otro
     prevent_validation_error = False
     
@@ -157,6 +206,7 @@ def display_portada_form(request):
             'prevent_validation_error': prevent_validation_error,
             }, context_instance=RequestContext(request),
         )
+    '''
 
 # Show volunteer form
 @authorize(roles=('company',))
