@@ -3,11 +3,23 @@ from django import forms
 from django.forms import ModelForm
 from censo.models import *
 from django.template import Context, loader
+from django.forms.extras.widgets import SelectDateWidget
 from censo.utils import render_fields_as_table, render_fields_as_list, split_list, combine_fields_errors
 from . import BaseForm
 
 class CuerpoMayorMaterialForm(BaseForm):
 
+    #def clean(self):
+    #    data = self.cleaned_data
+    #    
+    #    if data['denomination'] is None:
+    #        error_message = 'Este campo es requerido'
+    #        self._errors['denomination'] = self.error_class([error_message])
+    vehicle_year = forms.DateField(label='Año del Vehículo', widget=SelectDateWidget(years=range(1900, 2020)))
+    service_incorporation_date = forms.DateField(label='Fecha de incorporación', widget=SelectDateWidget(years=range(1900, 2020)))
+    last_oil_change_date = forms.DateField(label='Fecha último cambio de aceite', widget=SelectDateWidget(years=range(1900, 2020)))
+        
+    
     # Display company selector
     def render_company_question_to_list(self):
         fields = self._field_range('company', 'company')
@@ -22,7 +34,7 @@ class CuerpoMayorMaterialForm(BaseForm):
 
     # Display legal status questions as a list
     def render_legal_status_questions_to_list(self):
-        fields = self._field_range('registered', 'fk_vehicle_checkup')
+        fields = self._field_range('registered', 'vehicle_checkup')
         
         return render_fields_as_list(fields)
         

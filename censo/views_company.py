@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from utils import generic_edit
-import ipdb
+#import ipdb
 
 # Show main form
 @authorize(roles=('company',))

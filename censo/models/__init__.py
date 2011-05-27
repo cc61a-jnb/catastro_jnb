@@ -45,3 +45,5 @@ from portable_brand import PortableBrand
 from potency_range import PotencyRange
 from cuerpo_infrastructure_other_offices import CuerpoInfrastructureOtherOffices
 from company_other_radio_base import CompanyOtherRadioBase
+from vehicle_chassis_manufacturer import VehicleChassisManufacturer
+from vehicle_carrosado_manufacturer import VehicleCarrosadoManufacturer
