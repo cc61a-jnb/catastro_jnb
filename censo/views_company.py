@@ -9,7 +9,6 @@ from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from utils import generic_edit
-import ipdb
 
 # Show main form
 @authorize(roles=('company',))
@@ -44,35 +43,8 @@ def display_volunteers_form(request):
         # Add company to blank data
         volunteer_data.company = company
         volunteer_data.save()
-
-    # If the form has been submitted
-    if request.method == 'POST':
-        # A form bound to the POST data
-        form = CompanyVolunteerForm(request.POST, instance=volunteer_data)
-        # If the form is correctly validated
-        if form.is_valid():
-            form.save()
-            # Redirect after POST
-            return HttpResponseRedirect('/company/infrastructure')
-        # Else render the form again
-        else:
-            return render_to_response('company/second_page.html', {
-                'form': form,
-                'company': company,
-                }, context_instance=RequestContext(request),
-                )
-
-    # If the form hasn't been submitted
-
-    # Load already submitted data as initial, to avoid triggering validation
-    form = CompanyVolunteerForm(instance=volunteer_data)
-
-    # Render the form
-    return render_to_response('company/second_page.html', {
-            'form': form,
-            'company': company,
-            }, context_instance=RequestContext(request),
-        )
+    
+    return generic_edit(request, volunteer_data, CompanyVolunteerForm, 'company/second_page.html', reverse('catastro_jnb.censo.views_company.display_infrastructure_form'))
 
 # Show infrastructure form (stub)
 @authorize(roles=('company',))
