@@ -49,6 +49,12 @@ class CuerpoMayorMaterialForm(BaseForm):
         fields = self._field_range('gearbox_change_new_manufacturer', 'gearbox_change_new_model')
         
         return render_fields_as_list(fields)
+        
+    # Display motor/gearbox repairs as a list
+    def render_repairs_to_list(self):
+        fields = self._field_range('motor_repairs', 'gearbox_repairs')
+        
+        return render_fields_as_list(fields)
 
     # The list of all the picture fields in this form    
     def picture_fields(self):

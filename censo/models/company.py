@@ -20,7 +20,7 @@ class Company(models.Model):
     cuerpo = models.ForeignKey('Cuerpo', null=True, related_name='cuerpo_company')    
 
     @classmethod
-    def fetch_from_db(self, cursor, old_id):
+    def fetch_from_db(self, cursor, old_id, cuerpo=None):
         query = "SELECT comp_id, comp_nro, comp_direccion, comp_comuna, comp_telefono, comp_ffundacion, comp_fk_cuerpo FROM companias WHERE comp_id = %s"
         params = (old_id,)
         cursor.execute(query, params)
@@ -34,10 +34,13 @@ class Company(models.Model):
         if not commune:
             return None
         
-        cuerpo = Cuerpo.fetch_from_db(cursor, company_data[6])
+        
         
         if not cuerpo:
-            return None
+            cuerpo = Cuerpo.fetch_from_db(cursor, company_data[6])
+        
+            if not cuerpo:
+                return None
             
         try:
             company = Company.objects.get(old_id = old_id)
@@ -57,42 +60,43 @@ class Company(models.Model):
         return company
         
     def __unicode__(self):
-        return unicode(self.number)
+        name = self.string_number()
+        return name
         
     def string_number(self):
         '''
         Converts the company number to corresponding string (e.g. 1 => "Primera")
         '''
         conversion_table = ['',
-            'Primera',
-            'Segunda',
-            'Tercera',
-            'Cuarta',
-            'Quinta',
-            'Sexta',
-            'Séptima',
-            'Octava',
-            'Novena',
-            'Décima',
-            'Undécima',
-            'Duodécima',
-            'Décimotercera',
-            'Décimocuarta',
-            'Décimoquinta',
-            'Décimosexta',
-            'Decimoséptima',
-            'Decimooctava',
-            'Decimonovena',
-            'Vigésima',
-            'Vigésimoprimera',
-            'Vigésimosegunda',
+            u'Primera',
+            u'Segunda',
+            u'Tercera',
+            u'Cuarta',
+            u'Quinta',
+            u'Sexta',
+            u'Séptima',
+            u'Octava',
+            u'Novena',
+            u'Décima',
+            u'Undécima',
+            u'Duodécima',
+            u'Décimotercera',
+            u'Décimocuarta',
+            u'Décimoquinta',
+            u'Décimosexta',
+            u'Decimoséptima',
+            u'Decimooctava',
+            u'Decimonovena',
+            u'Vigésima',
+            u'Vigésimoprimera',
+            u'Vigésimosegunda',
         ]
         try:
-            return conversion_table[self.number] + ' Compañía'
+            return conversion_table[self.number] + u' Compañía'
         except IndexError:
             return ''
             
 
     class Meta:
-        ordering = ['old_id', 'number']
+        ordering = ['cuerpo', 'number']
         app_label = 'censo'
