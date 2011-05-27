@@ -396,7 +396,7 @@ def edit_mayor_material_form(request, mayor_material_id):
 
     # Load already submitted data as initial, to avoid triggering validation
     form = CuerpoMayorMaterialForm(instance=mayor_material_data)
-
+    form.fields["company"].queryset = Company.objects.filter(cuerpo=cuerpo)
     # Render the form
     return render_to_response('cuerpo/fifth_page_edit.html', {
             'form': form,
@@ -435,6 +435,7 @@ def add_new_mayor_material(request):
         logging.info("Creating new mayor material data object for cuerpo:%d", cuerpo.id)
         # Create blank Mayor Material form
         form = CuerpoMayorMaterialForm()
+        form.fields["company"].queryset = Company.objects.filter(cuerpo=cuerpo)
         
         return render_to_response('cuerpo/fifth_page_edit.html', {
                 'form': form,

@@ -6,7 +6,7 @@ class VolunteerData(models.Model):
     company = models.OneToOneField('censo.Company', blank=True)
 
     def __unicode__(self):
-        return self.company.name
+        return unicode(self.company)
 
     class Meta:
         ordering = ['company']
