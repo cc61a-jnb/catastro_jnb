@@ -8,8 +8,8 @@
     {% endfor %}
 
     <h2>Catastro de compañía de bomberos</h2>
-    <h4>{{ base_instance.cuerpo }}</h4>
-    <h4>{{ base_instance.string_number }}</h4>
+    <h4>{{ instance.company.cuerpo }}</h4>
+    <h4>{{ instance.company.string_number }}</h4>
     <h3>Portada</h3>
     <br />
     <p>
@@ -19,13 +19,13 @@
 	</p>
 	<br />
 	<ul>
-	    <li><strong>Nombre:</strong> {{ base_instance.string_number }}</li>
-	    <li><strong>Dirección:</strong> {{ base_instance.address }}</li>
-	    <li><strong>Comuna:</strong> {{ base_instance.commune }}</li>
-	    <li><strong>Provincia:</strong> {{ base_instance.commune.province }}</li>
-	    <li><strong>Región:</strong> {{ base_instance.commune.province.region }}</li>
-	    <li><strong>Teléfono:</strong> {{ base_instance.phone }}</li>
-	    <li><strong>Fecha de fundación:</strong> {{ base_instance.foundation_date }}</li>
+	    <li><strong>Nombre:</strong> {{ instance.company.string_number }}</li>
+	    <li><strong>Dirección:</strong> {{ instance.company.address }}</li>
+	    <li><strong>Comuna:</strong> {{ instance.company.commune }}</li>
+	    <li><strong>Provincia:</strong> {{ instance.company.commune.province }}</li>
+	    <li><strong>Región:</strong> {{ instance.company.commune.province.region }}</li>
+	    <li><strong>Teléfono:</strong> {{ instance.company.phone }}</li>
+	    <li><strong>Fecha de fundación:</strong> {{ instance.company.foundation_date }}</li>
 	</ul>
 
 	<br />
@@ -33,7 +33,7 @@
     <h3>Oficiales</h3>
     <br />
 
-	{% if formset.errors and not prevent_validation_error %}
+	{% if formsets.companyotherofficial_set.errors and not prevent_validation_error %}
 
 	    <ul class="errorlist">
 	        <li>Debe ingresar la información de los cargos adicionales</li>
@@ -57,7 +57,7 @@
 
         <a name="others_officials"></a>
         <h4>Otros oficiales</h4>
-        {{ formset.management_form }}
+        {{ formsets.companyotherofficial_set.management_form }}
 
         <table>
             <tr>
@@ -65,7 +65,7 @@
                 <th>Nombre</th>
                 <th>¿Eliminar?</th>
             </tr>
-            {% for form in formset.forms %}
+            {% for form in formsets.companyotherofficial_set.forms %}
                 {% if form.errors and not prevent_validation_errors %}
                     <tr class="errorrow">
                         <td>{{ form.role_name.errors.0 }}</td>
@@ -80,9 +80,9 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td><input title="Agregar nuevo oficial" type="submit" name="{{ prefix }}_add" value="Agregar oficial" /></td>
+                <td><input title="Agregar nuevo oficial" type="submit" name="{{ formsets.companyotherofficial_set.prefix }}_add" value="Agregar oficial" /></td>
                 <td></td>
-                <td><input type="submit" value="Eliminar seleccionados" name="{{ prefix }}_delete" /></td>
+                <td><input type="submit" value="Eliminar seleccionados" name="{{ formsets.companyotherofficial_set.prefix }}_delete" /></td>
             </tr>
         </table>
     <br />

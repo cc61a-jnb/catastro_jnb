@@ -1,7 +1,6 @@
 # coding: utf-8
 
 from utils import authorize
-from django.forms.models import inlineformset_factory
 from censo.forms import *
 from censo.models import *
 from django.http import HttpResponseRedirect
@@ -9,88 +8,8 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.core.context_processors import csrf
-import re
+from utils import generic_edit
 import ipdb
-
-def remove_deleted_fields_from_data(data, prefix):
-    total_forms = int(data['%s-TOTAL_FORMS' % prefix])
-    
-    return_data = {}
-    insertion_index = 0
-    new_initial_count = 0
-    
-    for i in range(total_forms):
-        base_pattern = '%s-%d' % (prefix, i)
-        if '%s-DELETE' % base_pattern not in data:
-            for key, value in data.items():
-                if base_pattern in key:
-                    new_key = re.sub(r'^(%s-)\d+(-.+)$' % prefix, r'\1%d\2', key) % insertion_index
-                    return_data[new_key] = value
-                    if key == '%s-id' % base_pattern and value:
-                        new_initial_count += 1
-            insertion_index += 1
-                        
-    return_data['%s-TOTAL_FORMS' % prefix] = insertion_index
-    return_data['%s-MAX_NUM_FORMS' % prefix] = data['%s-MAX_NUM_FORMS' % prefix]
-    return_data['%s-INITIAL_FORMS' % prefix] = new_initial_count
-    return return_data
-
-def find_foreign_key_field_name(ReferralClass, ReferredClass):
-    for field in ReferralClass._meta._fields():
-        if hasattr(field, 'related') and field.related.parent_model == ReferredClass:
-            return field.name
-
-def _generic_edit(base_instance, instance, request, ReferredForm, ReferredClass, Referral, template, success_redirect):
-    GenericFormSet = inlineformset_factory(ReferredClass, Referral, extra=0)
-    prevent_validation_errors = False
-    prefix = GenericFormSet.get_default_prefix()
-
-    if request.method == 'POST':
-        form = ReferredForm(request.POST, instance=instance)
-        if '%s_add' % prefix in request.POST:
-            formset_data = request.POST.copy()
-            total_forms_field_name = '%s-TOTAL_FORMS' % prefix
-            total_forms_quantity = int(formset_data[total_forms_field_name])
-            formset_data[total_forms_field_name] = str(total_forms_quantity + 1)
-            
-            formset = GenericFormSet(formset_data, instance=base_instance)
-            prevent_validation_errors = True
-        elif '%s_delete' % prefix in request.POST:
-            new_data = remove_deleted_fields_from_data(request.POST, prefix)
-            formset = GenericFormSet(new_data, instance=base_instance)
-            prevent_validation_errors = True
-        else:
-            formset = GenericFormSet(request.POST, instance=base_instance)
-            if form.is_valid() and formset.is_valid():
-                form.save()
-                
-                foreign_key_field_name = find_foreign_key_field_name(Referral, ReferredClass)
-                
-                for f in formset.forms:
-                    if f.has_changed():
-                        setattr(f.instance, foreign_key_field_name, base_instance)
-                        f.instance.save()
-                        
-                commit_ids = [f.instance.id for f in formset.forms if f.instance.id]
-                
-                if instance:
-                    for referral_object in formset.queryset:
-                        if referral_object.id not in commit_ids:
-                            referral_object.delete()
-                    
-                return HttpResponseRedirect(success_redirect)
-    else:
-        formset = GenericFormSet(instance=base_instance)
-        form = ReferredForm(instance=instance)
-        
-    return render_to_response(template, {
-            'form': form,
-            'formset': formset,
-            'prefix': prefix,
-            'base_instance': base_instance,
-            }, context_instance=RequestContext(request),
-        )
 
 # Show main form
 @authorize(roles=('company',))
@@ -108,7 +27,7 @@ def display_portada_form(request):
         portada_data.company = company
         portada_data.save()
         
-    return _generic_edit(company, portada_data, request, CompanyPortadaForm, Company, CompanyOtherOfficial, 'company/first_page.html', reverse('catastro_jnb.censo.views_company.display_volunteers_form'))
+    return generic_edit(request, portada_data, CompanyPortadaForm, 'company/first_page.html', reverse('catastro_jnb.censo.views_company.display_volunteers_form'), [[CompanyOtherOfficial, company]])
 
 # Show volunteer form
 @authorize(roles=('company',))
