@@ -5,26 +5,15 @@ from south.v2 import SchemaMigration
 from django.db import models
 
 class Migration(SchemaMigration):
-
+    
     def forwards(self, orm):
-        
-        # Adding model 'CompanyOtherRadioPortable'
-        db.create_table('censo_companyotherradioportable', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('company', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.Company'])),
-            ('radio_portable_brand', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
-            ('radio_portable_model', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
-            ('radio_portable_power', self.gf('django.db.models.fields.IntegerField')(max_length=4, null=True, blank=True)),
-        ))
-        db.send_create_signal('censo', ['CompanyOtherRadioPortable'])
-
-
+        pass
+    
+    
     def backwards(self, orm):
-        
-        # Deleting model 'CompanyOtherRadioPortable'
-        db.delete_table('censo_companyotherradioportable')
-
-
+        pass
+    
+    
     models = {
         'auth.group': {
             'Meta': {'object_name': 'Group'},
@@ -33,7 +22,7 @@ class Migration(SchemaMigration):
             'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
         },
         'auth.permission': {
-            'Meta': {'ordering': "('content_type__app_label', 'content_type__model', 'codename')", 'unique_together': "(('content_type', 'codename'),)", 'object_name': 'Permission'},
+            'Meta': {'unique_together': "(('content_type', 'codename'),)", 'object_name': 'Permission'},
             'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['contenttypes.ContentType']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -46,9 +35,9 @@ class Migration(SchemaMigration):
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'blank': 'True'}),
+            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
+            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
@@ -56,49 +45,49 @@ class Migration(SchemaMigration):
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
         'censo.accountingsystem': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'AccountingSystem'},
+            'Meta': {'object_name': 'AccountingSystem'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.bandwidth': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'BandWidth'},
+            'Meta': {'object_name': 'BandWidth'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.buildingmaterialtype': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'BuildingMaterialType'},
+            'Meta': {'object_name': 'BuildingMaterialType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.codedalarmtype': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'CodedAlarmType'},
+            'Meta': {'object_name': 'CodedAlarmType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.codedkeystype': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'CodedKeysType'},
+            'Meta': {'object_name': 'CodedKeysType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.color': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Color'},
+            'Meta': {'object_name': 'Color'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.commune': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Commune'},
+            'Meta': {'object_name': 'Commune'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'old_id': ('django.db.models.fields.IntegerField', [], {}),
             'province': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Province']"})
         },
         'censo.company': {
-            'Meta': {'ordering': "['cuerpo', 'number']", 'object_name': 'Company'},
+            'Meta': {'object_name': 'Company'},
             'address': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'commune': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'null': 'True', 'to': "orm['censo.Commune']"}),
             'cuerpo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'cuerpo_company'", 'null': 'True', 'to': "orm['censo.Cuerpo']"}),
@@ -109,21 +98,21 @@ class Migration(SchemaMigration):
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.companyotherofficial': {
-            'Meta': {'ordering': "['id']", 'object_name': 'CompanyOtherOfficial'},
+            'Meta': {'object_name': 'CompanyOtherOfficial'},
             'company': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Company']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'person_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'role_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'censo.companyotherradiobase': {
-            'Meta': {'ordering': "['id']", 'object_name': 'CompanyOtherRadioBase'},
+            'Meta': {'object_name': 'CompanyOtherRadioBase'},
             'company': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Company']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'radio_brand': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'radio_model': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
         },
         'censo.companyotherradioportable': {
-            'Meta': {'ordering': "['id']", 'object_name': 'CompanyOtherRadioPortable'},
+            'Meta': {'object_name': 'CompanyOtherRadioPortable'},
             'company': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Company']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'radio_portable_brand': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
@@ -131,12 +120,12 @@ class Migration(SchemaMigration):
             'radio_portable_power': ('django.db.models.fields.IntegerField', [], {'max_length': '4', 'null': 'True', 'blank': 'True'})
         },
         'censo.condition': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Condition'},
+            'Meta': {'object_name': 'Condition'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.cuerpo': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Cuerpo'},
+            'Meta': {'object_name': 'Cuerpo'},
             'address': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'commune': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'+'", 'to': "orm['censo.Commune']"}),
             'decree_date': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
@@ -148,7 +137,7 @@ class Migration(SchemaMigration):
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'censo.cuerpoalarmcentralbaseradioeq': {
-            'Meta': {'ordering': "['id']", 'object_name': 'CuerpoAlarmCentralBaseRadioEq'},
+            'Meta': {'object_name': 'CuerpoAlarmCentralBaseRadioEq'},
             'cuerpo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Cuerpo']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'manufacturer': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.PortableBrand']", 'null': 'True', 'blank': 'True'}),
@@ -157,7 +146,7 @@ class Migration(SchemaMigration):
             'quantity': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.cuerpoalarmcentraldata': {
-            'Meta': {'ordering': "['cuerpo']", 'object_name': 'CuerpoAlarmCentralData'},
+            'Meta': {'object_name': 'CuerpoAlarmCentralData'},
             'adm_digital_maps': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'adm_dispatch': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'adress_alarm_central': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -233,7 +222,7 @@ class Migration(SchemaMigration):
             'type_backup_power': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         'censo.cuerpoanbdata': {
-            'Meta': {'ordering': "['cuerpo']", 'object_name': 'CuerpoANBData'},
+            'Meta': {'object_name': 'CuerpoANBData'},
             'anb_health_instructors': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'anb_procedure_instructors': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'anb_specialty_instructors': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -261,7 +250,7 @@ class Migration(SchemaMigration):
             'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})
         },
         'censo.cuerpogeneraldata': {
-            'Meta': {'ordering': "['cuerpo']", 'object_name': 'CuerpoGeneralData'},
+            'Meta': {'object_name': 'CuerpoGeneralData'},
             'accounting_system_other_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'computers_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'cuerpo': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Cuerpo']", 'unique': 'True', 'blank': 'True'}),
@@ -287,7 +276,7 @@ class Migration(SchemaMigration):
             'website': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
         },
         'censo.cuerpoinfrastructuredata': {
-            'Meta': {'ordering': "['cuerpo']", 'object_name': 'CuerpoInfrastructureData'},
+            'Meta': {'object_name': 'CuerpoInfrastructureData'},
             'barrack_house': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'bathrooms': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'building_extension_construction_legal': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
@@ -332,13 +321,13 @@ class Migration(SchemaMigration):
             'terrain_session_room_m2': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'})
         },
         'censo.cuerpoinfrastructureotheroffices': {
-            'Meta': {'ordering': "['id']", 'object_name': 'CuerpoInfrastructureOtherOffices'},
+            'Meta': {'object_name': 'CuerpoInfrastructureOtherOffices'},
             'cuerpo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Cuerpo']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'role_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
         },
         'censo.cuerpomayormaterialdata': {
-            'Meta': {'ordering': "['cuerpo', 'id']", 'object_name': 'CuerpoMayorMaterialData'},
+            'Meta': {'object_name': 'CuerpoMayorMaterialData'},
             'antenna_decibels': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'antenna_manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'antenna_model': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -362,7 +351,7 @@ class Migration(SchemaMigration):
             'fk_vehicle_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleType']", 'null': 'True', 'blank': 'True'}),
             'gearbox_change_new_manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'gearbox_change_new_model': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'gearbox_repairs': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'gearbox_repairs': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'horometraje': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'kilometraje': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -373,7 +362,7 @@ class Migration(SchemaMigration):
             'motor_change_new_model': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'motor_change_new_number': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'motor_number': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'motor_repairs': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'motor_repairs': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'motor_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.MotorType']", 'null': 'True', 'blank': 'True'}),
             'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'oil_change_kilometraje': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -384,7 +373,7 @@ class Migration(SchemaMigration):
             'portable_radio_equipment_model': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'portable_radio_equipment_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'previous_owner': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'registered': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'registered': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'service_incorporation_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'truck_radio_equipment_manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'truck_radio_equipment_model': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -393,14 +382,14 @@ class Migration(SchemaMigration):
             'vehicle_year': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         },
         'censo.cuerpootherofficial': {
-            'Meta': {'ordering': "['id']", 'object_name': 'CuerpoOtherOfficial'},
+            'Meta': {'object_name': 'CuerpoOtherOfficial'},
             'cuerpo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Cuerpo']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'person_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'role_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
         },
         'censo.cuerposerviceactsdata': {
-            'Meta': {'ordering': "['cuerpo']", 'object_name': 'CuerpoServiceActsData'},
+            'Meta': {'object_name': 'CuerpoServiceActsData'},
             'cuerpo': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Cuerpo']", 'unique': 'True', 'blank': 'True'}),
             'debris_removal_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'electrical_emergency_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -418,17 +407,17 @@ class Migration(SchemaMigration):
             'vehicles_fire_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         },
         'censo.fireenginecamivamodel': {
-            'Meta': {'ordering': "['name']", 'object_name': 'FireEngineCamivaModel'},
+            'Meta': {'object_name': 'FireEngineCamivaModel'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.incorporationstatus': {
-            'Meta': {'ordering': "['name']", 'object_name': 'IncorporationStatus'},
+            'Meta': {'object_name': 'IncorporationStatus'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.infrastructurecompanydata': {
-            'Meta': {'ordering': "['company']", 'object_name': 'InfrastructureCompanyData'},
+            'Meta': {'object_name': 'InfrastructureCompanyData'},
             'barrack_house_bathroom': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'barrack_house_bedroom': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'barrack_house_kitchen': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
@@ -490,13 +479,13 @@ class Migration(SchemaMigration):
             'women_bathroom': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'})
         },
         'censo.internetprovider': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'InternetProvider'},
+            'Meta': {'object_name': 'InternetProvider'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.minormaterialcompanydata': {
-            'Meta': {'ordering': "['company']", 'object_name': 'MinorMaterialCompanyData'},
+            'Meta': {'object_name': 'MinorMaterialCompanyData'},
             'aircompressor_bycar_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'aircompressor_fixed_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'airmattresses_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -563,41 +552,41 @@ class Migration(SchemaMigration):
             'twins_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         },
         'censo.motortype': {
-            'Meta': {'ordering': "['name']", 'object_name': 'MotorType'},
+            'Meta': {'object_name': 'MotorType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.normalizedfrequency': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'NormalizedFrequency'},
+            'Meta': {'object_name': 'NormalizedFrequency'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.occupation': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Occupation'},
+            'Meta': {'object_name': 'Occupation'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'})
         },
         'censo.operatingsystem': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'OperatingSystem'},
+            'Meta': {'object_name': 'OperatingSystem'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.originsystem': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'OriginSystem'},
+            'Meta': {'object_name': 'OriginSystem'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.portablebrand': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'PortableBrand'},
+            'Meta': {'object_name': 'PortableBrand'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.portadacompanydata': {
-            'Meta': {'ordering': "['company']", 'object_name': 'PortadaCompanyData'},
+            'Meta': {'object_name': 'PortadaCompanyData'},
             'assistant_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'captain_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'company': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Company']", 'unique': 'True'}),
@@ -612,7 +601,7 @@ class Migration(SchemaMigration):
             'tesorero_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         'censo.portadacuerpodata': {
-            'Meta': {'ordering': "['observations']", 'object_name': 'PortadaCuerpoData'},
+            'Meta': {'object_name': 'PortadaCuerpoData'},
             'commander_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'cuerpo': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Cuerpo']", 'unique': 'True', 'blank': 'True'}),
             'forth_commander_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -627,42 +616,42 @@ class Migration(SchemaMigration):
             'vice_superintendent_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         'censo.potencyrange': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'PotencyRange'},
+            'Meta': {'object_name': 'PotencyRange'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.propertytitletype': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'PropertyTitleType'},
+            'Meta': {'object_name': 'PropertyTitleType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.province': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Province'},
+            'Meta': {'object_name': 'Province'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'old_id': ('django.db.models.fields.IntegerField', [], {}),
             'region': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Region']"})
         },
         'censo.region': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Region'},
+            'Meta': {'object_name': 'Region'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'old_id': ('django.db.models.fields.IntegerField', [], {})
         },
         'censo.speciality': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Speciality'},
+            'Meta': {'object_name': 'Speciality'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.transmissiontype': {
-            'Meta': {'ordering': "['name']", 'object_name': 'TransmissionType'},
+            'Meta': {'object_name': 'TransmissionType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.userprofile': {
-            'Meta': {'ordering': "['user']", 'object_name': 'UserProfile'},
+            'Meta': {'object_name': 'UserProfile'},
             'company': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Company']", 'null': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'old_id': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
@@ -672,33 +661,33 @@ class Migration(SchemaMigration):
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
         },
         'censo.vehiclecheckupstatus': {
-            'Meta': {'ordering': "['name']", 'object_name': 'VehicleCheckupStatus'},
+            'Meta': {'object_name': 'VehicleCheckupStatus'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.vehicleprocedence': {
-            'Meta': {'ordering': "['name']", 'object_name': 'VehicleProcedence'},
+            'Meta': {'object_name': 'VehicleProcedence'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.vehicleregistrationstatus': {
-            'Meta': {'ordering': "['name']", 'object_name': 'VehicleRegistrationStatus'},
+            'Meta': {'object_name': 'VehicleRegistrationStatus'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.vehicletype': {
-            'Meta': {'ordering': "['name']", 'object_name': 'VehicleType'},
+            'Meta': {'object_name': 'VehicleType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.vhf': {
-            'Meta': {'ordering': "['ordering', 'name']", 'object_name': 'VHF'},
+            'Meta': {'object_name': 'VHF'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.volunteerdata': {
-            'Meta': {'ordering': "['company']", 'object_name': 'VolunteerData'},
+            'Meta': {'object_name': 'VolunteerData'},
             'company': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Company']", 'unique': 'True', 'blank': 'True'}),
             'computers_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'fk_internet_provider': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.InternetProvider']", 'null': 'True', 'blank': 'True'}),
@@ -760,12 +749,12 @@ class Migration(SchemaMigration):
             'website': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
         },
         'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
+            'Meta': {'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }
     }
-
+    
     complete_apps = ['censo']

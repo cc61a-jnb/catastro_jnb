@@ -23,7 +23,6 @@ def display_portada_form(request):
         portada_data.save() 
         
     return generic_edit(request, portada_data, CompanyPortadaForm, 'company/first_page.html', reverse('catastro_jnb.censo.views_company.display_volunteers_form'), [[CompanyOtherOfficial, company]])
-    
 
 # Show volunteer form
 @authorize(roles=('company',))
@@ -42,7 +41,6 @@ def display_volunteers_form(request):
         volunteer_data.save()
     
     return generic_edit(request, volunteer_data, CompanyVolunteerForm, 'company/second_page.html', reverse('catastro_jnb.censo.views_company.display_infrastructure_form'))
-
     
 # Show infrastructure form (stub)
 @authorize(roles=('company',))
