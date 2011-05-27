@@ -70,7 +70,8 @@
 
    <a name="others_radio_base"></a>
         <h4>Otras radio base</h4>
-        {{ others_radio_base.management_form }}
+        {{ formsets.companyotherradiobase_set.management_form }}
+      
 
         <table>
             <tr>
@@ -78,7 +79,13 @@
                 <th>Modelo</th>
                 <th>¿Eliminar?</th>
             </tr>
-            {% for form in others_radio_base.forms %}
+              {% for form in formsets.companyotherradiobase_set.forms %}
+                {% if form.errors and not prevent_validation_errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.radio_brand.errors.0 }}</td>
+                        <td>{{ form.radio_model.errors.0 }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     {{ form.id }}
                     <td>{{ form.radio_brand }}</td>
@@ -87,9 +94,9 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td><input title="Agregar radio Base" type="submit" name="add_radio_base" value="Agregar radio Base" /></td>
+                <td><input title="Agregar radio Base" type="submit" name="{{ formsets.companyotherradiobase_set.prefix }}_add" value="Agregar radio Base" /></td>
                 <td></td>
-                <td><input type="submit" value="Eliminar seleccionados" name="delete_other_radio_base" /></td>
+                <td><input type="submit" value="Eliminar seleccionados" name="{{ formsets.companyotherradiobase_set.prefix }}_delete" /></td>
             </tr>
         </table>
     <br />
@@ -101,14 +108,21 @@
 {{ form.render_portable_radio_equipment_make_to_list }}
 <a name="others_radio_portable"></a>
         <h4>Otras radio portatiles</h4>
-        {{ others_radio_portable.management_form }}
+        {{ formsets.companyotherradioportable_set.management_form }}
         <table>
             <tr>
                 <th>Marca</th>
                 <th>Modelo</th>
+                <th>Potencia</th>
                 <th>¿Eliminar?</th>
             </tr>
-            {% for form in others_radio_portable.forms %}
+             {% for form in formsets.companyotherradioportable_set.forms %}
+                {% if form.errors and not prevent_validation_errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.radio_portable_brand.errors.0 }}</td>
+                        <td>{{ form.radio_portable_model.errors.0 }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     {{ form.id }}
                     <td>{{ form.radio_portable_brand }}</td>
@@ -118,9 +132,9 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td><input title="Agregar radio Portatil" type="submit" name="add_radio_portatil" value="Agregar radio Portatil" /></td>
+                <td><input title="Agregar radio Portatil" type="submit" name="{{ formsets.companyotherradioportable_set.prefix }}_add" value="Agregar radio Portatil" /></td>
                 <td></td>
-                <td><input type="submit" value="Eliminar seleccionados" name="delete_radio_portable" /></td>
+                <td><input type="submit" value="Eliminar seleccionados" name="{{ formsets.companyotherradioportable_set.prefix }}_delete" /></td>
             </tr>
         </table>
     <br />
