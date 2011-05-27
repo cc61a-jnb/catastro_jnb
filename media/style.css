@@ -750,3 +750,12 @@ form.catastro_form ul li label {
 form.catastro_form ul {
     list-style: none;
 }
+
+.errorrow {
+    color: #B30A0A;
+}
+
+.errorrow td {
+    font-weight: bold;
+    font-size: 10px;
+}

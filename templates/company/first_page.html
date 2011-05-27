@@ -8,8 +8,8 @@
     {% endfor %}
 
     <h2>Catastro de compañía de bomberos</h2>
-    <h4>{{ company.cuerpo }}</h4>
-    <h4>{{ company.string_number }}</h4>
+    <h4>{{ base_instance.cuerpo }}</h4>
+    <h4>{{ base_instance.string_number }}</h4>
     <h3>Portada</h3>
     <br />
     <p>
@@ -19,13 +19,13 @@
 	</p>
 	<br />
 	<ul>
-	    <li><strong>Nombre:</strong> {{ company.string_number }}</li>
-	    <li><strong>Dirección:</strong> {{ company.address }}</li>
-	    <li><strong>Comuna:</strong> {{ company.commune }}</li>
-	    <li><strong>Provincia:</strong> {{ company.commune.province }}</li>
-	    <li><strong>Región:</strong> {{ company.commune.province.region }}</li>
-	    <li><strong>Teléfono:</strong> {{ company.phone }}</li>
-	    <li><strong>Fecha de fundación:</strong> {{ company.foundation_date }}</li>
+	    <li><strong>Nombre:</strong> {{ base_instance.string_number }}</li>
+	    <li><strong>Dirección:</strong> {{ base_instance.address }}</li>
+	    <li><strong>Comuna:</strong> {{ base_instance.commune }}</li>
+	    <li><strong>Provincia:</strong> {{ base_instance.commune.province }}</li>
+	    <li><strong>Región:</strong> {{ base_instance.commune.province.region }}</li>
+	    <li><strong>Teléfono:</strong> {{ base_instance.phone }}</li>
+	    <li><strong>Fecha de fundación:</strong> {{ base_instance.foundation_date }}</li>
 	</ul>
 
 	<br />
