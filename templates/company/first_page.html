@@ -33,7 +33,7 @@
     <h3>Oficiales</h3>
     <br />
 
-	{% if other_official.errors and not prevent_validation_error %}
+	{% if formset.errors and not prevent_validation_error %}
 
 	    <ul class="errorlist">
 	        <li>Debe ingresar la información de los cargos adicionales</li>
@@ -57,7 +57,7 @@
 
         <a name="others_officials"></a>
         <h4>Otros oficiales</h4>
-        {{ other_official.management_form }}
+        {{ formset.management_form }}
 
         <table>
             <tr>
@@ -65,7 +65,13 @@
                 <th>Nombre</th>
                 <th>¿Eliminar?</th>
             </tr>
-            {% for form in other_official.forms %}
+            {% for form in formset.forms %}
+                {% if form.errors and not prevent_validation_errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.role_name.errors.0 }}</td>
+                        <td>{{ form.person_name.errors.0 }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     {{ form.id }}
                     <td>{{ form.role_name }}</td>
@@ -74,9 +80,9 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td><input title="Agregar nuevo oficial" type="submit" name="add_other_official" value="Agregar oficial" /></td>
+                <td><input title="Agregar nuevo oficial" type="submit" name="{{ prefix }}_add" value="Agregar oficial" /></td>
                 <td></td>
-                <td><input type="submit" value="Eliminar seleccionados" name="delete_other_official" /></td>
+                <td><input type="submit" value="Eliminar seleccionados" name="{{ prefix }}_delete" /></td>
             </tr>
         </table>
     <br />

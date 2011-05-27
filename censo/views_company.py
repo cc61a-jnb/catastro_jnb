@@ -10,32 +10,66 @@ from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
+import re
+import ipdb
 
-def _generic_edit(instance, request, ReferredForm, ReferredClass, Referral, template, success_redirect):
-    GenericFormSet = inlineformset_factory(ReferredClass, Referral)
+def remove_deleted_fields_from_data(data, prefix):
+    total_forms = int(data['%s-TOTAL_FORMS' % prefix])
+    
+    return_data = {}
+    insertion_index = 0
+    new_initial_count = 0
+    
+    for i in range(total_forms):
+        base_pattern = '%s-%d' % (prefix, i)
+        if '%s-DELETE' % base_pattern not in data:
+            for key, value in data.items():
+                if base_pattern in key:
+                    new_key = re.sub(r'^(%s-)\d+(-.+)$' % prefix, r'\1%d\2', key) % insertion_index
+                    return_data[new_key] = value
+                    if key == '%s-id' % base_pattern and value:
+                        new_initial_count += 1
+            insertion_index += 1
+                        
+    return_data['%s-TOTAL_FORMS' % prefix] = insertion_index
+    return_data['%s-MAX_NUM_FORMS' % prefix] = data['%s-MAX_NUM_FORMS' % prefix]
+    return_data['%s-INITIAL_FORMS' % prefix] = new_initial_count
+    return return_data
+
+def find_foreign_key_field_name(ReferralClass, ReferredClass):
+    for field in ReferralClass._meta._fields():
+        if hasattr(field, 'related') and field.related.parent_model == ReferredClass:
+            return field.name
+
+def _generic_edit(base_instance, instance, request, ReferredForm, ReferredClass, Referral, template, success_redirect):
+    GenericFormSet = inlineformset_factory(ReferredClass, Referral, extra=0)
     prevent_validation_errors = False
+    prefix = GenericFormSet.get_default_prefix()
 
     if request.method == 'POST':
         form = ReferredForm(request.POST, instance=instance)
-        if 'formset_add' in request.POST:
+        if '%s_add' % prefix in request.POST:
             formset_data = request.POST.copy()
-            total_forms_quantity = int(formset_data['formset-TOTAL_FORMS'])
-            formset_data['formset-TOTAL_FORMS'] = str(total_forms_quantity + 1)
+            total_forms_field_name = '%s-TOTAL_FORMS' % prefix
+            total_forms_quantity = int(formset_data[total_forms_field_name])
+            formset_data[total_forms_field_name] = str(total_forms_quantity + 1)
             
-            formset = GenericFormSet(formset_data, prefix='formset', instance=instance)
+            formset = GenericFormSet(formset_data, instance=base_instance)
             prevent_validation_errors = True
-        elif 'formset_delete' in request.POST:
-            new_data = remove_deleted_fields_from_data(request.POST)
-            formset = GenericFormSet(new_data, prefix='formset', instance=instance)
+        elif '%s_delete' % prefix in request.POST:
+            new_data = remove_deleted_fields_from_data(request.POST, prefix)
+            formset = GenericFormSet(new_data, instance=base_instance)
             prevent_validation_errors = True
         else:
-            formset = GenericFormSet(request.POST, prefix='formset', instance=instance)
+            formset = GenericFormSet(request.POST, instance=base_instance)
             if form.is_valid() and formset.is_valid():
                 form.save()
                 
+                foreign_key_field_name = find_foreign_key_field_name(Referral, ReferredClass)
+                
                 for f in formset.forms:
                     if f.has_changed():
-                        f.instance.recipe = form.instance
+                        setattr(f.instance, foreign_key_field_name, base_instance)
                         f.instance.save()
                         
                 commit_ids = [f.instance.id for f in formset.forms if f.instance.id]
@@ -47,12 +81,13 @@ def _generic_edit(instance, request, ReferredForm, ReferredClass, Referral, temp
                     
                 return HttpResponseRedirect(success_redirect)
     else:
-        formset = GenericFormSet(prefix='formset', instance=instance)
+        formset = GenericFormSet(instance=base_instance)
         form = ReferredForm(instance=instance)
         
     return render_to_response(template, {
             'form': form,
             'formset': formset,
+            'prefix': prefix,
             }, context_instance=RequestContext(request),
         )
 
@@ -72,7 +107,7 @@ def display_portada_form(request):
         portada_data.company = company
         portada_data.save()
         
-    return _generic_edit(portada_data, request, CompanyPortadaForm, Company, CompanyOtherOfficial, 'company/first_page.html', reverse('catastro_jnb.censo.views_company.display_volunteers_form'))
+    return _generic_edit(company, portada_data, request, CompanyPortadaForm, Company, CompanyOtherOfficial, 'company/first_page.html', reverse('catastro_jnb.censo.views_company.display_volunteers_form'))
     
     '''
     #previene que se muestren los errores de envio al presionar el botón agregar otro
