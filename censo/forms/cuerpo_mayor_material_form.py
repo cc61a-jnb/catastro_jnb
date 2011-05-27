@@ -8,6 +8,12 @@ from . import BaseForm
 
 class CuerpoMayorMaterialForm(BaseForm):
 
+    # Display company selector
+    def render_company_question_to_list(self):
+        fields = self._field_range('company', 'company')
+        
+        return render_fields_as_list(fields)
+
     # Display vehicle info questions as a list
     def render_vehicle_info_questions_to_list(self):
         fields = self._field_range('fk_vehicle_type', 'fk_procedence')
@@ -43,6 +49,11 @@ class CuerpoMayorMaterialForm(BaseForm):
         fields = self._field_range('gearbox_change_new_manufacturer', 'gearbox_change_new_model')
         
         return render_fields_as_list(fields)
+
+    # The list of all the picture fields in this form    
+    def picture_fields(self):
+        fields = self._field_range('picture_front_view', 'picture_back_view')
+        return [(field, getattr(self.instance, field.name)) for field in fields]
  
     class Meta:
         model = CuerpoMayorMaterialData

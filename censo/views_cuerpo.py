@@ -313,7 +313,7 @@ def display_infrastructure_form(request):
                     if q.role_name == '':
                         q.delete()
                 # Redirect after POST
-                return HttpResponseRedirect('/cuerpo/mayor_material')
+                return redirect('cuerpo_mayor_material')
             # Else render the form again
             else:
                 return render_to_response('cuerpo/fourth_page.html', {
@@ -349,7 +349,7 @@ def display_mayor_material_index(request):
     cuerpo = profile.company.cuerpo
     
     # Get mayor material list
-    mayor_material_list = CuerpoMayorMaterialData.objects.filter(cuerpo=cuerpo)
+    mayor_material_list = cuerpo.cuerpomayormaterialdata_set.all()
     
     return render_to_response('cuerpo/fifth_page.html', {
                 'cuerpo': cuerpo,
@@ -359,41 +359,33 @@ def display_mayor_material_index(request):
 
 # Show Mayor Material form
 @authorize(roles=('cuerpo',))
-def display_mayor_material_form(request, mayor_material_id=None):
+def edit_mayor_material_form(request, mayor_material_id):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
     mayor_material_data = None
     # Attempt to load previously submitted data
     try:
-        if mayor_material_id: # if this fails, raise DoesNotExist exception
-            mayor_material_data = cuerpo.cuerpomayormaterialdata_set.get(pk=mayor_material_id)
-        else:
-            mayor_material_data = cuerpo.cuerpomayormaterialdata_set.latest()
+        mayor_material_data = cuerpo.cuerpomayormaterialdata_set.get(pk=mayor_material_id)
     except CuerpoMayorMaterialData.DoesNotExist:
-        if mayor_material_id: # The id provided in the url does not exist
-            # Redirect to default mayor material
-            logging.error("Requested mayor material data id:%d for cuerpo:%d doesn't exists", mayor_material_id, cuerpo.id)
-            request.flash['error'] = 'La planilla de material mayor consultada no existe'
-            return redirect('cuerpo_mayor_material')
-        else: # create first mayor material data        
-            logging.info("Creating first mayor material data object for cuerpo:%d", cuerpo.id)
-            mayor_material_data = CuerpoMayorMaterialData()
-            # Add cuerpo to blank data
-            mayor_material_data.cuerpo = cuerpo
-            mayor_material_data.save()
+        # Redirect to default mayor material
+        logging.error("Requested mayor material data id:%d for cuerpo:%d doesn't exists", mayor_material_id, cuerpo.id)
+        request.flash['error'] = 'La planilla de material mayor consultada no existe'
+        return redirect('cuerpo_mayor_material')
 
     # If the form has been submitted
     if request.method == 'POST':
         # A form bound to the POST data
-        form = CuerpoMayorMaterialForm(request.POST, instance=mayor_material_data)
+        form = CuerpoMayorMaterialForm(request.POST, request.FILES, instance=mayor_material_data)
         # If the form is correctly validated
         if form.is_valid():
             form.save()
+            logging.info("successfully modified mayor material data:%d for cuerpo:%d", mayor_material_data.id, cuerpo.id)
+            request.flash['success'] = 'La planilla ha sido guardada exitosamente'
             # Redirect after POST
             return redirect('cuerpo_mayor_material')
         # Else render the form again
         else:
-            return render_to_response('cuerpo/fifth_page.html', {
+            return render_to_response('cuerpo/fifth_page_edit.html', {
                 'form': form,
                 'cuerpo': cuerpo,
                 'current_mayor_material_data': mayor_material_data,
@@ -406,7 +398,7 @@ def display_mayor_material_form(request, mayor_material_id=None):
     form = CuerpoMayorMaterialForm(instance=mayor_material_data)
 
     # Render the form
-    return render_to_response('cuerpo/fifth_page.html', {
+    return render_to_response('cuerpo/fifth_page_edit.html', {
             'form': form,
             'cuerpo': cuerpo,
             'current_mayor_material_data': mayor_material_data,
@@ -421,19 +413,17 @@ def add_new_mayor_material(request):
     
     # Accept only POST requests in order to avoid boggus objects creation
     if request.method == 'POST':
-    
+        cuerpo_mayor_material_data = CuerpoMayorMaterialData(cuerpo=cuerpo)
         # A form bound to the POST data
-        form = CuerpoMayorMaterialForm(request.POST)
-        form.instance.cuerpo = cuerpo
-        
+        form = CuerpoMayorMaterialForm(request.POST, request.FILES, instance=cuerpo_mayor_material_data)
         # If the form is correctly validated
         if form.is_valid():
             form.save()
             
-            logging.info("Creating new mayor material data object for cuerpo:%d", cuerpo.id)
-            
+            logging.info("Succesfully saved new mayor material data:%d for cuerpo:%d", cuerpo_mayor_material_data.id, cuerpo.id)
+            request.flash['success'] = 'La planilla ha sido creada exitosamente'
             # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/mayor_material')
+            return redirect('cuerpo_mayor_material')
         # Else render the form again
         else:
             return render_to_response('cuerpo/fifth_page_edit.html', {
@@ -441,9 +431,8 @@ def add_new_mayor_material(request):
                 'cuerpo': cuerpo,
                 }, context_instance=RequestContext(request),
                 )
-                
     else:
-        
+        logging.info("Creating new mayor material data object for cuerpo:%d", cuerpo.id)
         # Create blank Mayor Material form
         form = CuerpoMayorMaterialForm()
         
@@ -473,7 +462,7 @@ def remove_mayor_material(request, mayor_material_id):
         
         logging.info("Deleting mayor material data object id:%d for cuerpo:%d", mayor_material_data.id, cuerpo.id)
         mayor_material_data.delete()
-        request.flash['notice'] = "Se ha eliminado la ficha seleccionada satisfactoriamente"
+        request.flash['success'] = "Se ha eliminado la ficha seleccionada satisfactoriamente"
         return redirect('cuerpo_mayor_material')
     else:
         return redirect('cuerpo_mayor_material')

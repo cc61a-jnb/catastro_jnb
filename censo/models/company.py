@@ -94,5 +94,5 @@ class Company(models.Model):
             
 
     class Meta:
-        ordering = ['old_id']
+        ordering = ['old_id', 'number']
         app_label = 'censo'

@@ -1,23 +1,5 @@
 {% extends "cuerpo/base.html" %}
 
-{% block user_scripts %}
-<script>
-$(function(){
-      // bind change event to select
-      $('#mayor_material_id').bind('change', function () {
-          var url =  $(this).val(); // get selected value
-          if (url) { // require a URL
-              window.location = url; // redirect
-          }
-          return false;
-      });
-      $('#remove_current_mayor_material').submit(function () {
-          return confirm('Está seguro que desea eliminar la ficha actual?');
-      });
-    });
-</script>
-{% endblock %}
-
 {% block title %}Catastro de cuerpo de bomberos: Material Mayor{% endblock %}
 
 {% block nav_mayor_material %}<li class="current-tab"><a href="{% url cuerpo_mayor_material %}">Material Mayor</a></li>{% endblock %}
@@ -39,19 +21,19 @@ $(function(){
 {% for mayor_material_data in mayor_material_list %}
     <tr>
         <td>
-        <a href="{% url cuerpo_mayor_material_with_id mayor_material_data.id %}">{{forloop.counter}} - {{mayor_material_data }}</a>
+        <a href="{% url cuerpo_edit_mayor_material mayor_material_data.id %}">{{forloop.counter}} - {{mayor_material_data }}</a>
         </td>
-        <td></td>
-        <td></td>
+        <td>{{mayor_material_data.denomination|default:"no ingresada"}}</td>
+        <td>{{mayor_material_data.licence_plate|default:"no ingresada"}}</td>
         <td>
-		    <form method="post" action="{% url cuerpo_remove_mayor_material mayor_material_data.id %}">
+		    <form method="post" action="{% url cuerpo_remove_mayor_material mayor_material_data.id %}" onsubmit="return confirm('Está seguro que desea eliminar esta ficha?');">
 		    {% csrf_token %}
 			    <input type="submit" value="Eliminar ficha"/>
 		    </form>
         </td>
     </tr>
 {% empty %}
-    <tr><td colspan=4>Ud. no tiene fichas de Material Mayor</td></tr>
+    <tr><td colspan="4">Ud. no tiene fichas de Material Mayor</td></tr>
 {% endfor %}
 </table>
 </div>
