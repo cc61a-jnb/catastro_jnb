@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import logging
+
 from django.db import models
 from django.db import connections
 from . import Commune
@@ -24,12 +26,13 @@ class Cuerpo(models.Model):
         
         cuerpo_data = cursor.fetchone()
         if not cuerpo_data:
-            logging.info("Cannot find cuerpo with id (%d)", old_id)
+            logging.error("Cannot find cuerpo:%s", old_id)
             return None
             
         commune = Commune.fetch_from_db(cursor, cuerpo_data[1])
         
         if not commune:
+            logging.error("Cannot find cuerpo:%s commune", old_id)
             return None
             
         try:

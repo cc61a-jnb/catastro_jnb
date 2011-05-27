@@ -1,5 +1,6 @@
 # coding: utf-8
 import logging
+
 from django.db import models
 from django.db import connections
 from . import Commune, Cuerpo

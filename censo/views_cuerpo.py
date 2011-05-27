@@ -6,6 +6,7 @@ from utils import authorize
 
 from censo.forms import *
 from censo.models import *
+from django.db import connections
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
@@ -16,12 +17,30 @@ from django.forms.models import inlineformset_factory
 
 
 # Show main form
-@authorize(roles=('cuerpo',))
-def display_portada_form(request):
+@authorize(roles=('regional_operations_manager','cuerpo',))
+def display_portada_form(request, cuerpo_id=None):
     profile = request.user.get_profile()
-    
-    cuerpo = profile.company.cuerpo
-    
+    cuerpo = None
+    cursor = connections['principal'].cursor()
+    if not cuerpo_id: # default value, if cuerpo_id is not entered
+        cuerpo = profile.company.cuerpo
+    else:
+        cuerpo = Cuerpo.fetch_from_db(cursor, cuerpo_id)
+
+    if not cuerpo:
+        logging.info("Cuerpo:%s doesn't exist", cuerpo_id) # why %s: http://stackoverflow.com/questions/2796178/error-url-redirection
+        request.flash["error"] = 'El cuerpo que ha ingresado no existe'
+        cursor.close()
+        return redirect('cuerpo')
+
+    # now we must check user's permissions
+    if not profile.has_cuerpo_permission(cursor, cuerpo):
+        logging.warning("User:%s unauthorized to access Cuerpo:%s information", profile.old_id, cuerpo_id)
+        request.flash["error"] = 'No tiene permiso para acceder a la información del cuerpo seleccionado'
+        cursor.close()
+        return redirect('cuerpo')
+
+
     try:
         portada_data = cuerpo.portadacuerpodata
     # If it fails, create blank data

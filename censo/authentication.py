@@ -88,7 +88,7 @@ class JNBBackend:
         if not user_data:
             # The user does not exist in the principal database (broken foreign key)
             # As always, burn and quit
-            logging.info("User %s with id %d does not exist in table 'usuarios'" % (username, profile.old_id))
+            logging.error("User %s with id %d does not exist in table 'usuarios'" % (username, profile.old_id))
             profile.delete()
             user.delete()
             cursor.close()
@@ -99,7 +99,7 @@ class JNBBackend:
         company = Company.fetch_from_db(cursor, old_company_id)    
         
         if not company:
-            logging.info("User %s associated company is foreign key broken (in commune, province, region, or cuerpo)" % username)
+            logging.error("User %s associated company is foreign key broken (in commune, province, region, or cuerpo)" % username)
             profile.delete()
             user.delete()
             cursor.close()

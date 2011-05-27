@@ -39,6 +39,7 @@ urlpatterns += patterns('catastro_jnb.censo.views_company',
 
 urlpatterns += patterns('catastro_jnb.censo.views_cuerpo',
     url(r'^cuerpo/$', 'display_portada_form', name='cuerpo'),
+    url(r'^cuerpo/(?P<cuerpo_id>\d+)/$', 'display_portada_form', name='cuerpo'),
     url(r'^cuerpo/general$', 'display_general_form', name='cuerpo_general'),
     url(r'^cuerpo/anb$', 'display_anb_form', name='cuerpo_anb'),
     url(r'^cuerpo/infrastructure$', 'display_infrastructure_form', name='cuerpo_infrastructure'),
