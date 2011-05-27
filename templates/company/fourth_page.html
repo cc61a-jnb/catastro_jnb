@@ -61,9 +61,37 @@
 <hr/>
 
 <h3>Equipos de Radio Base</h3>
+
+
 {{ form.render_base_radio_equipment_quantity }}
 {{ form.render_base_radio_equipment_make_to_list }}
 {{ form.render_base_radio_equipment_power }}
+
+   <a name="others_radio_base"></a>
+        <h4>Otras radio base</h4>
+        {{ others_radio_base.management_form }}
+
+        <table>
+            <tr>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>¿Eliminar?</th>
+            </tr>
+            {% for form in others_radio_base.forms %}
+                <tr>
+                    {{ form.id }}
+                    <td>{{ form.brand }}</td>
+                    <td>{{ form.model }}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><input title="Agregar radio Base" type="submit" name="add_radio_base" value="Agregar radio Base" /></td>
+                <td></td>
+                <td><input type="submit" value="Eliminar seleccionados" name="delete_other_radio_base" /></td>
+            </tr>
+        </table>
+    <br />
 
 <br/>
 <hr/>
