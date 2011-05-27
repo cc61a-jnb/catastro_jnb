@@ -5,7 +5,7 @@ from sorl.thumbnail import ImageField
 
 class CuerpoMayorMaterialData(models.Model):
     cuerpo = models.ForeignKey('censo.Cuerpo')
-    company = models.ForeignKey('censo.Company', null=True, blank=True)
+    company = models.ForeignKey('censo.Company', null=True, blank=True, verbose_name='Compañia')
 
     def __unicode__(self):
         return unicode(self.cuerpo)
@@ -54,9 +54,9 @@ class CuerpoMayorMaterialData(models.Model):
        
     # Caracteristicas
     
-    fk_fire_engine_camiva_model = models.ForeignKey('FireEngineCamivaModel', verbose_name='Camiva', null=True, blank=True)
-    fire_engine_other_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca')
-    fire_engine_other_model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Modelo')
+    fk_fire_engine_camiva_model = models.ForeignKey('FireEngineCamivaModel', verbose_name='Modelo Camiva', null=True, blank=True)
+    fire_engine_other_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otra Marca')
+    fire_engine_other_model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otro Modelo')
     last_oil_change_date = models.DateField(blank = True, null = True, verbose_name='Fecha último cambio de aceite')
     oil_change_kilometraje = models.IntegerField(null=True, blank=True, verbose_name='Kilometraje del cambio de aceite')
     
