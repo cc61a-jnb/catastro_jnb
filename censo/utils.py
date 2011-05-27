@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
 from django.shortcuts import render_to_response
 import re
+import pdb
 
 # Check if user has the role required to the decorated view
 class authorize(object):
@@ -166,13 +167,14 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     # Dictionary that holds the formsets after adding, deleting and validating them
     # Key is the default prefix of the class
     formsets = {}
-    
+    #pdb.set_trace()
     # If one of the buttons has been pressed
     if request.method == 'POST':
-        form = PageForm(request.POST, instance=instance)
+        form = PageForm(request.POST, request.FILES, instance=instance)
         
         for idx, GenericFormSet in enumerate(GenericFormSets):
             prefix = GenericFormSet.get_default_prefix()
+            
             if '%s_add' % prefix in request.POST:
                 formset_data = request.POST.copy()
                 total_forms_field_name = '%s-TOTAL_FORMS' % prefix
