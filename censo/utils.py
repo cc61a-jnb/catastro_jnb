@@ -194,7 +194,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
             for idx, GenericFormSet in enumerate(GenericFormSets):
                 prefix = GenericFormSet.get_default_prefix()
                 if prefix not in formsets:
-                    formsets[prefix] = GenericFormSet(instance=formset_pairs[idx][1])
+                    formsets[prefix] = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
         else:
             valid_form_page = form.is_valid()
             

@@ -70,13 +70,13 @@ class Migration(SchemaMigration):
         db.delete_column('censo_company', 'captain_name')
 
         # Changing field 'Company.commune'
-        db.alter_column('censo_company', 'commune_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.Commune']))
+        db.alter_column('censo_company', 'commune_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.Commune'], blank=True, null=True))
 
         # Changing field 'Company.foundation_date'
-        db.alter_column('censo_company', 'foundation_date', self.gf('django.db.models.fields.CharField')(max_length=255))
+        db.alter_column('censo_company', 'foundation_date', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True, null=True))
 
         # Changing field 'UserProfile.company'
-        db.alter_column('censo_userprofile', 'company_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.Company']))
+        db.alter_column('censo_userprofile', 'company_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.Company'], blank=True, null=True))
 
         # Changing field 'CuerpoMayorMaterialData.gearbox_repairs'
         db.alter_column('censo_cuerpomayormaterialdata', 'gearbox_repairs', self.gf('django.db.models.fields.BooleanField')(blank=True))

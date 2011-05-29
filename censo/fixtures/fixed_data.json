@@ -122,7 +122,8 @@
     "pk": 1,
     "fields": {
       "name": "Propio",
-      "ordering": "1"
+      "ordering": "1",
+      "requires_end_year": false
     }
   },
   {
@@ -130,7 +131,8 @@
     "pk": 2,
     "fields": {
       "name": "Arriendo",
-      "ordering": "2"
+      "ordering": "2",
+      "requires_end_year": true
     }
   },
   {
@@ -138,7 +140,8 @@
     "pk": 3,
     "fields": {
       "name": "Comodato Municipal",
-      "ordering": "3"
+      "ordering": "3",
+      "requires_end_year": true
     }
   },
   {
@@ -146,7 +149,8 @@
     "pk": 4,
     "fields": {
       "name": "Comodato Particular",
-      "ordering": "4"
+      "ordering": "4",
+      "requires_end_year": true
     }
   },
   {
@@ -154,7 +158,8 @@
     "pk": 5,
     "fields": {
       "name": "Comodato Bienes Nacionales",
-      "ordering": "5"
+      "ordering": "5",
+      "requires_end_year": true
     }
   }
 ]
