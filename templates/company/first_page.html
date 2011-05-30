@@ -35,14 +35,7 @@
     <h3>Oficiales</h3>
     <br />
 
-	{% if formsets.companyotherofficial_set.errors and not prevent_validation_error %}
-
-	    <ul class="errorlist">
-	        <li>Debe ingresar la información de los cargos adicionales</li>
-	    </ul>
-	{% endif %}
-
-    <form method="post" action="#others_officials">
+    <form method="post" action="">
         {% csrf_token %}
         <table>
             <tr>
@@ -57,10 +50,9 @@
             {% endfor %}
         </table>
 
-        <a name="others_officials"></a>
+        <a name="{{ formsets.companyotherofficial_set.prefix }}"></a>
         <h4>Otros oficiales</h4>
         {{ formsets.companyotherofficial_set.management_form }}
-
         <table>
             <tr>
                 <th>Cargo</th>
@@ -95,6 +87,5 @@
     
     <p><input title="Guardar y continuar" type="submit" name="submit_portada_form" value="Guardar y continuar" /></p>
     </form>
-
 
 {% endblock %}

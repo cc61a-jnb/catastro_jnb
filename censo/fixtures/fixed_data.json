@@ -161,6 +161,78 @@
       "ordering": "5",
       "requires_end_year": true
     }
+  },
+  {
+    "model": "censo.potencyrange",
+    "pk": 1,
+    "fields": {
+      "name": "2 - 5 kW",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.potencyrange",
+    "pk": 2,
+    "fields": {
+      "name": "5 - 8 kW",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.potencyrange",
+    "pk": 3,
+    "fields": {
+      "name": "10 - 20 kW",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.potencyrange",
+    "pk": 4,
+    "fields": {
+      "name": "20 y más kW",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 1,
+    "fields": {
+      "name": "Motorola",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 2,
+    "fields": {
+      "name": "Kenwood",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 3,
+    "fields": {
+      "name": "Icom",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 4,
+    "fields": {
+      "name": "Yaesu",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 5,
+    "fields": {
+      "name": "Otros",
+      "ordering": "5"
+    }
   }
 ]
 

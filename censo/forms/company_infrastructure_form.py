@@ -20,12 +20,6 @@ class CompanyInfrastructureForm(BaseForm):
         row_labels = ['Metros']
         
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
-        
-    # Display land questions as a list    
-    # def render_land_questions_to_list(self):
-    #     fields = self._field_range('main_street_name', 'rol_sii')
-    #     
-    #     return render_fields_as_list(fields)
     
     # Display land questions as a list
     def render_land_questions_to_list(self):
@@ -45,13 +39,31 @@ class CompanyInfrastructureForm(BaseForm):
         return [(field, getattr(self.instance, field.name)) for field in fields]
         
     def clean(self):
+        data = self.cleaned_data
+    
         # Pictures must be valid 
-        self.custom_errors = []  
-        local_errors = self.validate_field_range('picture_general_view', 'picture_internal_distribution_view', u'Por favor ingrese fotografías válidas')
+        self.custom_errors = []
+        
+        self.validate_field_range('built_area_surface_m2', 'built_area_total_m2', 'Por favor corrija los errores en Terreno')
+        
+        self.validate_field_range('building_initial_construction_year', 'building_extension_construction_legal', u'Por favor corrija los errores en Construcción') 
+        
+        self.validate_field_range('night_guard_office_men_beds', 'night_guard_office_men_bathroom_urinary', u'Por favor corrija los errores en Guardia Nocturna - Hombres')
+        
+        self.validate_field_range('night_guard_office_women_beds', 'night_guard_office_women_bathroom_wc', u'Por favor corrija los errores en Guardia Nocturna - Mujeres')
+        
+        self.validate_field_range('picture_general_view', 'picture_internal_distribution_view', u'Por favor ingrese fotografías válidas')
         
         # If any validation fails, raise error
         if self.custom_errors:
             raise forms.ValidationError(self.custom_errors)
+            
+        if 'fk_property_title_type' in self.cleaned_data:
+            if 'property_rental_commodatum_end_year' in self.cleaned_data:
+                if not self.cleaned_data['property_rental_commodatum_end_year'] and self.cleaned_data['fk_property_title_type'].requires_end_year:
+                    self._errors['property_rental_commodatum_end_year'] = self.error_class(['Por favor defina el año de término del arriendo o comodato'])
+                elif self.cleaned_data['property_rental_commodatum_end_year'] and not self.cleaned_data['fk_property_title_type'].requires_end_year:
+                    self._errors['property_rental_commodatum_end_year'] = self.error_class(['Sólo defina si la propiedad es un arriendo o comodato'])
         
         return self.cleaned_data
     
