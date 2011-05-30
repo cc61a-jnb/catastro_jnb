@@ -157,7 +157,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     '''
     
     # First we generate all the formset classes with the given formset_pairs
-    GenericFormSets = [inlineformset_factory(pair[1].__class__, pair[0], extra=0) for pair in formset_pairs]
+    GenericFormSets = [inlineformset_factory(pair[1].__class__, pair[0], extra=1) for pair in formset_pairs]
     
     # Flag that is set to true if something "happened" to one of the formsets (added or deleted)
     # sent to the template if we want to, for example, to prevent the showing of validation errors
