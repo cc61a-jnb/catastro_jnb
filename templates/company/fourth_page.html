@@ -56,9 +56,8 @@
 <br/>
 <hr/>
 
+<a name="{{ formsets.companyotherradiobase_set.prefix }}"></a>
 <h3>Equipos de Radio Base</h3>
-
-   <a name="others_radio_base"></a>
         <!--<h4>Otras radio base</h4>-->
         {{ formsets.companyotherradiobase_set.management_form }}
         <table>
@@ -97,8 +96,8 @@
 <br/>
 <hr/>
 
+<a name="{{ formsets.companyotherradioportable_set.prefix }}"></a>
 <h3>Equipos de Radio Portátiles</h3>
-<a name="others_radio_portable"></a>
         <!--<h4>Otras radio portatiles</h4>-->
         {{ formsets.companyotherradioportable_set.management_form }}
         <table>
@@ -134,27 +133,28 @@
 <br/>
 <hr/>
 
+<a name="{{ formsets.companyantenas_set.prefix }}"></a>
 <h3>Antenas</h3>
-<a name="others_antenas"></a>
         <!--<h4>Otras antenas</h4>-->
         {{ formsets.companyantenas_set.management_form }}
         <table>
-            
-             {% for form in formsets.companyantenas_set.forms %}
-                {% if form.errors %}
-                    <tr class="errorrow">
-                        <td>{{ form.antennas_manufacturer.errors.0 }}</td>
-                        <td>{{ form.antennas_model.errors.0 }}</td>
-                    </tr>
-                {% endif %}
-                <tr>
-				<tr>
+            <tr>
                 <th>Cantidad</th>
                 <th>Marca</th>
                 <th>Modelo</th>
 				<th>Decibeles</th>
                 <th>¿Eliminar?</th>
             </tr>
+             {% for form in formsets.companyantenas_set.forms %}
+                {% if form.errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.antennas_quantity.errors.0 }}</td>
+                        <td>{{ form.antennas_manufacturer.errors.0 }}</td>
+                        <td>{{ form.antennas_model.errors.0 }}</td>
+                        <td>{{ form.antennas_power.errors.0 }}</td>
+                    </tr>
+                {% endif %}
+                <tr>
                     {{ form.id }}
                     <td>{{ form.antennas_quantity }}</td>
                     <td>{{ form.antennas_manufacturer }}</td>

@@ -11,6 +11,21 @@ from . import BaseForm
 
 class CompanyMinorMaterialForm(BaseForm):
 
+    def clean(self):
+        self.custom_errors = []
+    
+        self.validate_field_range('jackets_quantity', 'fireman_shoes_volunteer_quantity', 'Por favor corrija los errores en Uniformes Normados')
+        
+        self.validate_field_range('scott_after_2004_quantity', 'mSA_quantity', 'Por favor corrija los errores en Equipamiento ERA')
+        
+        self.validate_field_range('hosepipe_38mm_quantity', 'hosepipe_forest_quantity', 'Por favor corrija los errores en Equipamiento Menor - Mangueras')
+        
+        self.validate_field_range('python_50adjustable_quantity', 'python_70tube_quantity', 'Por favor corrija los errores en Equipamiento Menor - Pitones')
+        
+        self.validate_field_range('electricgenerator_fixed_in_car_quantity', 'fk_electricgenerator_fixed_in_barracks_potency', 'Por favor corrija los errores en Generadores Eléctricos')
+        
+        return self.cleaned_data
+
     # Display uniforms regulated questions as a table
     def render_uniforms_regulated_to_table(self):
         fields = self._field_range('jackets_quantity', 'fireman_shoes_volunteer_quantity')
