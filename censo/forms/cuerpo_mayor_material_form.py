@@ -15,14 +15,15 @@ class CuerpoMayorMaterialForm(BaseForm):
     #    if data['denomination'] is None:
     #        error_message = 'Este campo es requerido'
     #        self._errors['denomination'] = self.error_class([error_message])
-    vehicle_year = forms.DateField(label='Año del Vehículo', widget=SelectDateWidget(years=range(1900, 2020)))
+    #YEAR_CHOICE = [(year, year) for year in xrange(2012, 1950, -1)]
+    #vehicle_year = forms.IntegerField(label='Año del Vehículo', choices=YEAR_CHOICE)
     service_incorporation_date = forms.DateField(label='Fecha de incorporación', widget=SelectDateWidget(years=range(1900, 2020)))
     last_oil_change_date = forms.DateField(label='Fecha último cambio de aceite', widget=SelectDateWidget(years=range(1900, 2020)))
         
     
-    # Display company selector
+    # Display company/central selector
     def render_company_question_to_list(self):
-        fields = self._field_range('company', 'company')
+        fields = self._field_range('company', 'cuerpo_vehicle_own')
         
         return render_fields_as_list(fields)
 
@@ -68,10 +69,25 @@ class CuerpoMayorMaterialForm(BaseForm):
         
         return render_fields_as_list(fields)
 
+    # Display electric generator questions as a table
+    def render_electric_generator_questions_to_table(self):
+        fields = self._field_range('electricgenerator_fixed_in_car_quantity', 'fk_electricgenerator_fixed_in_barracks_potency')
+        table_fields = split_list(fields, 3)
+        column_labels = ['N°', 'Potencia']
+        row_labels = ['Fijos en Carros', 'Portátiles', 'Fijos en Cuartel']
+
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
+
     # The list of all the picture fields in this form    
     def picture_fields(self):
         fields = self._field_range('picture_front_view', 'picture_back_view')
         return [(field, getattr(self.instance, field.name)) for field in fields]
+
+    # Display observations area
+    def render_observations_to_list(self):
+        fields = [self['observations']]
+
+        return render_fields_as_list(fields)
  
     class Meta:
         model = CuerpoMayorMaterialData

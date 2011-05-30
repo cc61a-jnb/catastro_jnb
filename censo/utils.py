@@ -139,7 +139,7 @@ def find_foreign_key_field_name(ReferralClass, ReferredClass):
         if hasattr(field, 'related') and field.related.parent_model == ReferredClass:
             return field.name
 
-def generic_edit(request, instance, PageForm, template, success_redirect, formset_pairs=[]):
+def generic_edit(request, instance, PageForm, template, success_redirect, formset_pairs=[], queryset_pair=[]):
     '''
     Method that handles form with multiple (or no) formsets automagically
     request: Request sent to the original view
@@ -169,6 +169,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     formsets = {}
     #pdb.set_trace()
     # If one of the buttons has been pressed
+    
     if request.method == 'POST':
         form = PageForm(request.POST, request.FILES, instance=instance)
         
@@ -189,7 +190,6 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                 formsets[prefix] = GenericFormSet(new_data, instance=formset_pairs[idx][1])
                 formsets_modified = True
                 break
-                
         if formsets:
             for idx, GenericFormSet in enumerate(GenericFormSets):
                 prefix = GenericFormSet.get_default_prefix()
@@ -197,6 +197,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                     formsets[prefix] = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
         else:
             valid_form_page = form.is_valid()
+            #pdb.set_trace()
             
             for GenericFormSet in GenericFormSets:
                 formset = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
@@ -205,6 +206,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                 formsets[GenericFormSet.get_default_prefix()] = formset
                 
             if valid_form_page:
+
                 form.save()
                 
                 for idx, GenericFormSet in enumerate(GenericFormSets):
@@ -230,6 +232,8 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
             prefix = GenericFormSet.get_default_prefix()
             formsets[prefix] = GenericFormSet(instance=formset_pairs[idx][1])
         form = PageForm(instance=instance)
+        if queryset_pair:
+            form.fields[queryset_pair[0]].queryset = queryset_pair[1]
         
     return render_to_response(template, {
             'form': form,
