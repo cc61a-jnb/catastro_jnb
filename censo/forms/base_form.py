@@ -8,6 +8,10 @@ from datetime import date
 from censo.utils import combine_fields_errors
 
 class BaseForm(ModelForm):
+
+    def picture_fields(self):
+        return []
+    
     # Get a range of fields (ordered) between the given field names   
     def _field_range(self, start_field_name, end_field_name):
         fields = self.fields.items()

@@ -62,25 +62,26 @@
         <!--<h4>Otras radio base</h4>-->
         {{ formsets.companyotherradiobase_set.management_form }}
         <table>
-            
+            <tr>
+				<th>Cantidad</th>
+				<th>Marca</th>
+				<th>Modelo</th>
+				<th>Potencia</th>
+				<th>¿Eliminar?</th>
+			</tr>
               {% for form in formsets.companyotherradiobase_set.forms %}
-                {% if form.errors and not prevent_validation_errors %}
+                {% if form.errors %}
                     <tr class="errorrow">
-                        <td>{{ form.radio_brand.errors.0 }}</td>
+                        <td>{{ form.radio_quantity.errors.0 }}</td>
+                        <td>{{ form.fk_radio_brand.errors.0 }}</td>
                         <td>{{ form.radio_model.errors.0 }}</td>
+                        <td>{{ form.radio_power.errors.0 }}</td>
                     </tr>
                 {% endif %}
                 <tr>
-				<tr>
-					<th>Cantidad</th>
-					<th>Marca</th>
-					<th>Modelo</th>
-					<th>Potencia</th>
-					<th>¿Eliminar?</th>
-				</tr>
                     {{ form.id }}
                     <td>{{ form.radio_quantity }}</td>
-                    <td>{{ form.radio_brand }}</td>
+                    <td>{{ form.fk_radio_brand }}</td>
                     <td>{{ form.radio_model }}</td>
                     <td>{{ form.radio_power }}</td>
                     <td>{{ form.DELETE }}</td>
@@ -101,23 +102,24 @@
         <!--<h4>Otras radio portatiles</h4>-->
         {{ formsets.companyotherradioportable_set.management_form }}
         <table>
+        <tr>
+            <th>Cantidad</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>¿Eliminar?</th>
+        </tr>
              {% for form in formsets.companyotherradioportable_set.forms %}
-                {% if form.errors and not prevent_validation_errors %}
+                {% if form.errors %}
                     <tr class="errorrow">
-                        <td>{{ form.radio_portable_brand.errors.0 }}</td>
+                        <td>{{ form.radio_portable_quantity.errors.0 }}</td>
+                        <td>{{ form.fk_radio_portable_brand.errors.0 }}</td>
                         <td>{{ form.radio_portable_model.errors.0 }}</td>
                     </tr>
                 {% endif %}
                 <tr>  
-				 <tr>
-				<th>Cantidad</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>¿Eliminar?</th>
-				</tr>
                     {{ form.id }}
                     <td>{{ form.radio_portable_quantity }}</td>
-                    <td>{{ form.radio_portable_brand }}</td>
+                    <td>{{ form.fk_radio_portable_brand }}</td>
                     <td>{{ form.radio_portable_model }}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
@@ -139,7 +141,7 @@
         <table>
             
              {% for form in formsets.companyantenas_set.forms %}
-                {% if form.errors and not prevent_validation_errors %}
+                {% if form.errors %}
                     <tr class="errorrow">
                         <td>{{ form.antennas_manufacturer.errors.0 }}</td>
                         <td>{{ form.antennas_model.errors.0 }}</td>

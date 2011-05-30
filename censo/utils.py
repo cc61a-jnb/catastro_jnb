@@ -172,6 +172,12 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     if request.method == 'POST':
         form = PageForm(request.POST, request.FILES, instance=instance)
         
+        for picture_field in form.picture_fields():
+            picture_name = picture_field[0].name
+            if '%s_delete' % picture_name in request.POST:
+                getattr(instance, picture_name).delete()
+                formsets_modified = True
+        
         for idx, GenericFormSet in enumerate(GenericFormSets):
             prefix = GenericFormSet.get_default_prefix()
             
@@ -204,7 +210,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                     valid_form_page = False
                 formsets[GenericFormSet.get_default_prefix()] = formset
                 
-            if valid_form_page:
+            if valid_form_page and not formsets_modified:
                 form.save()
                 
                 for idx, GenericFormSet in enumerate(GenericFormSets):
