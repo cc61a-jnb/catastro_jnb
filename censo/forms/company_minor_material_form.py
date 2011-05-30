@@ -40,7 +40,29 @@ class CompanyMinorMaterialForm(BaseForm):
         row_labels = ['Nº']
 
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
+      
+	#Display radio equipment
+    def render_portable_radio_equipment_to_table(self):
+    
+        fields = self._field_range('portable_radio_equipment_quantity', 'portable_radio_equipment_model')
+        table_fields = [fields]
+ 
+        column_labels = [field.label for field in fields]
+        row_labels = ['']
 
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities_3')
+		
+	#Display radio equipment
+    def render_antennas_to_table(self):
+    
+        fields = self._field_range('antenna_equipment_quantity', 'antenna_equipment_power')
+        table_fields = [fields]
+ 
+        column_labels = [field.label for field in fields]
+        row_labels = ['']
+
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities_3')
+		
     # Display python minor equipment questions as a table
     def render_python_minor_equipment_to_table(self):
         fields = self._field_range('python_50adjustable_quantity', 'python_70tube_quantity')
@@ -77,7 +99,17 @@ class CompanyMinorMaterialForm(BaseForm):
         row_labels = ['Fijos en Carros', 'Portátiles', 'Fijos en Cuartel']
 
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
+ 
+    #Display base radio equipment as table
+    def render_base_radio_equipment_to_table(self):
+        fields = self._field_range('base_radio_equipment_quantity', 'base_radio_equipment_power')
+        table_fields = [fields]
 
+        column_labels = [field.label for field in fields]
+        row_labels = ['']
+
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities_2')
+        
     # Display base radio equipment questions as a list
     def render_base_radio_equipment_quantity(self):
         fields = [self['base_radio_equipment_quantity']]
@@ -107,7 +139,7 @@ class CompanyMinorMaterialForm(BaseForm):
         return render_fields_as_list(fields, 'list_quantities')
         
     def render_portable_radio_equipment_make_to_list(self):
-        fields = self._field_range('portable_radio_equipment_manufacturer', 'portable_radio_equipment_model')
+        fields = self._field_range('portable_radio_equipment_quantity', 'portable_radio_equipment_model')
 
         return render_fields_as_list(fields)
 
