@@ -48,3 +48,4 @@ from company_other_radio_base import CompanyOtherRadioBase
 from vehicle_chassis_manufacturer import VehicleChassisManufacturer
 from vehicle_carrosado_manufacturer import VehicleCarrosadoManufacturer
 from company_other_radio_portable import CompanyOtherRadioPortable
+from company_antenas import CompanyAntenas
