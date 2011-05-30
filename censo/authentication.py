@@ -1,10 +1,62 @@
+# coding: utf-8
+
 import logging
-from censo.models import *
+
+from functools import wraps
+
+from censo.models import Company
+
 from django.conf import settings
 from django.db import connections
+from django.shortcuts import redirect
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User, check_password
+
+# Check if user has the role required to the decorated view
+class authorize(object):
+    """
+    roles tuple must contain at least one of these: 
+    'administrator', 'regional_operations_manager', 'cuerpo', 'company'
+    e.g. @authorize(roles=('administrator','regional_operations_manager',))
+    """
+    def __init__(self, roles=()):
+        self.roles = roles
+
+    def __call__(self, f):
+
+        @wraps(f)
+        def wrap(request, *args, **kwargs):
+            # If user isn't authenticated
+            if not request.user.is_authenticated():
+                request.flash['notice'] = 'Por favor inicie sesión primero'
+                return redirect('login')
+
+            # Get user role
+            profile = request.user.get_profile()
+            role_name = None
+
+            # assign current role to human readable format
+            if profile.is_administrator():
+                role_name = 'administrator'
+            elif profile.is_regional_operations_manager():
+                role_name = 'regional_operations_manager'
+            elif profile.is_cuerpo_manager():
+                role_name = 'cuerpo'
+            elif profile.is_company_manager():
+                role_name = 'company'
+
+            # If user has access, grant
+            if role_name in self.roles:
+                return f(request, *args, **kwargs)
+            # redirect to base view in case the user doesn't have access
+            else:
+                request.flash['error'] = 'Usted no tiene permisos para realizar esta acción'
+                logging.info("User %s doesn't have permission to access %s", request.user.username, request.path)
+                return redirect(role_name)
+
+        return wrap
+
 
 class JNBBackend:
     """
@@ -88,7 +140,7 @@ class JNBBackend:
         if not user_data:
             # The user does not exist in the principal database (broken foreign key)
             # As always, burn and quit
-            logging.error("User %s with id %d does not exist in table 'usuarios'" % (username, profile.old_id))
+            logging.error("User %s with id %d does not exist in table 'usuarios'", username, profile.old_id)
             profile.delete()
             user.delete()
             cursor.close()
@@ -99,7 +151,7 @@ class JNBBackend:
         company = Company.fetch_from_db(cursor, old_company_id)    
         
         if not company:
-            logging.error("User %s associated company is foreign key broken (in commune, province, region, or cuerpo)" % username)
+            logging.error("User %s associated company is foreign key broken (in commune, province, region, or cuerpo)", username)
             profile.delete()
             user.delete()
             cursor.close()
@@ -119,3 +171,5 @@ class JNBBackend:
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
+
+

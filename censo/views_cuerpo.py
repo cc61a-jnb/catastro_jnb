@@ -2,14 +2,13 @@
 
 import logging
 
-from utils import authorize
+from authentication import authorize
 
 from censo.forms import *
 from censo.models import *
 from django.db import connections
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
-from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
@@ -17,13 +16,18 @@ from django.forms.models import inlineformset_factory
 
 
 # Show main form
-@authorize(roles=('regional_operations_manager','cuerpo',))
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
 def display_portada_form(request, cuerpo_id=None):
     profile = request.user.get_profile()
     cuerpo = None
     cursor = connections['principal'].cursor()
     if not cuerpo_id: # default value, if cuerpo_id is not entered
-        cuerpo = profile.company.cuerpo
+        try:
+            cuerpo = profile.company.cuerpo
+        except AttributeError: #user is administrator and doesn't have an associated company
+            logging.error("Account:%s doesn't have an associated company", request.user.username) # why %s: http://stackoverflow.com/questions/2796178/error-url-redirection
+            request.flash["error"] = 'Su cuenta no tiene una compañía o cuerpo asociados'
+            return redirect('index')
     else:
         cuerpo = Cuerpo.fetch_from_db(cursor, cuerpo_id)
 
@@ -31,16 +35,15 @@ def display_portada_form(request, cuerpo_id=None):
         logging.info("Cuerpo:%s doesn't exist", cuerpo_id) # why %s: http://stackoverflow.com/questions/2796178/error-url-redirection
         request.flash["error"] = 'El cuerpo que ha ingresado no existe'
         cursor.close()
-        return redirect('cuerpo')
+        return redirect('index')
 
     # now we must check user's permissions
     if not profile.has_cuerpo_permission(cursor, cuerpo):
         logging.warning("User:%s unauthorized to access Cuerpo:%s information", profile.old_id, cuerpo_id)
         request.flash["error"] = 'No tiene permiso para acceder a la información del cuerpo seleccionado'
         cursor.close()
-        return redirect('cuerpo')
-
-
+        return redirect('index')
+    
     try:
         portada_data = cuerpo.portadacuerpodata
     # If it fails, create blank data
@@ -159,8 +162,8 @@ def display_portada_form(request, cuerpo_id=None):
         )
 
 # Show general info form
-@authorize(roles=('cuerpo',))
-def display_general_form(request):
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+def display_general_form(request, cuerpo_id):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
     general_data = None
@@ -204,8 +207,8 @@ def display_general_form(request):
         )
 
 # Show ANB info form
-@authorize(roles=('cuerpo',))
-def display_anb_form(request):
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+def display_anb_form(request, cuerpo_id):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
     anb_data = None
@@ -249,8 +252,8 @@ def display_anb_form(request):
         )
 
 # Show Infrastructure info form
-@authorize(roles=('cuerpo',))
-def display_infrastructure_form(request):
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+def display_infrastructure_form(request, cuerpo_id):
     profile = request.user.get_profile()
 
     cuerpo = profile.company.cuerpo
@@ -362,8 +365,8 @@ def display_infrastructure_form(request):
         )
         
 # Show Mayor Material Index
-@authorize(roles=('cuerpo',))
-def display_mayor_material_index(request):
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+def display_mayor_material_index(request, cuerpo_id):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
     
@@ -377,8 +380,8 @@ def display_mayor_material_index(request):
                 )
 
 # Show Mayor Material form
-@authorize(roles=('cuerpo',))
-def edit_mayor_material_form(request, mayor_material_id):
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+def edit_mayor_material_form(request, cuerpo_id, mayor_material_id):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
     mayor_material_data = None
@@ -425,8 +428,8 @@ def edit_mayor_material_form(request, mayor_material_id):
         )
 
 # Add New Mayor Material form
-@authorize(roles=('cuerpo',))
-def add_new_mayor_material(request):
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+def add_new_mayor_material(request, cuerpo_id):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
     
@@ -464,8 +467,8 @@ def add_new_mayor_material(request):
         
 
 # Remove Selected Material form
-@authorize(roles=('cuerpo',))
-def remove_mayor_material(request, mayor_material_id):
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+def remove_mayor_material(request, cuerpo_id, mayor_material_id):
     if request.method == 'POST':
         profile = request.user.get_profile()
         cuerpo = profile.company.cuerpo
@@ -488,8 +491,8 @@ def remove_mayor_material(request, mayor_material_id):
         return redirect('cuerpo_mayor_material')
 
 # Show Alarm Central form
-@authorize(roles=('cuerpo',))
-def display_alarm_central_form(request):
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+def display_alarm_central_form(request, cuerpo_id):
     profile = request.user.get_profile()
 
     cuerpo = profile.company.cuerpo
@@ -608,8 +611,8 @@ def display_alarm_central_form(request):
 
 
 # Show Service acts form
-@authorize(roles=('cuerpo',))
-def display_service_acts_form(request):
+@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+def display_service_acts_form(request, cuerpo_id):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
     service_acts_data = None

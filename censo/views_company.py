@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from utils import authorize
+from authentication import authorize
 from censo.forms import *
 from censo.models import *
 from django.http import HttpResponseRedirect

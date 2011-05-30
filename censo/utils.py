@@ -2,61 +2,12 @@
 
 import logging
 
-from functools import wraps
 from django.template import Context, loader, RequestContext
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
 from django.shortcuts import render_to_response
 import re
 import pdb
-
-# Check if user has the role required to the decorated view
-class authorize(object):
-    """
-    roles must contain at least one of these: 'regional_operations_manager', 'cuerpo', 'company'
-    """
-    def __init__(self, roles=()):
-        self.roles = roles
-
-    def __call__(self, f):
-
-        @wraps(f)
-        def wrap(request, *args, **kwargs):
-            # If user isn't authenticated
-            if not request.user.is_authenticated():
-                request.flash['notice'] = 'Por favor inicie sesión primero'
-                return HttpResponseRedirect(reverse('login'))
-
-            # Get user role
-            profile = request.user.get_profile()
-            role = profile.highest_role()
-            role_name = None
-
-            # If user doesn't have roles, error
-            if not role:
-                logging.error("User %s doesn't have a role" % request.user.username)
-                request.flash['error'] = 'Usted no tiene roles asociados'
-                return HttpResponseRedirect(reverse('login'))
-
-            # assign current role to human readable format
-            if profile.is_regional_operations_manager():
-                role_name = 'regional_operations_manager'
-            elif profile.is_cuerpo_manager():
-                role_name = 'cuerpo'
-            elif profile.is_company_manager():
-                role_name = 'company'
-
-            # If user has access, grant
-            if role_name in self.roles:
-                return f(request, *args, **kwargs)
-            # redirect to base view in case the user doesn't have access
-            else:
-                request.flash['error'] = 'Usted no tiene permisos para realizar esta acción'
-                logging.info("User %s doesn't have permission to access %s" % (request.user.username, request.path))
-                return HttpResponseRedirect(reverse(role_name))
-
-        return wrap
 
 def render_fields_as_table(fields, column_labels, row_labels, css_class_name='table_service_acts'):
     template = loader.get_template('tags/fields_table.html')

@@ -38,6 +38,9 @@ class UserProfile(models.Model):
     def highest_role(self):
         return self.role_id
 
+    def is_administrator(self):
+        return self.user.is_superuser
+
     def is_regional_operations_manager(self):
         if "Jefe Operaciones" in self.role_name:
             return True
@@ -56,8 +59,27 @@ class UserProfile(models.Model):
         
         return False
 
+    def has_company_permission(self, cursor, company):
+        # check if user is administrator
+        if self.is_administrator():
+            return True
+
+        # check first if user is company's cuerpo administrator
+        if self.is_cuerpo_manager() and self.company.cuerpo == company.cuerpo:
+            return True
+        
+        # last case, company
+        if self.is_company_manager() and self.company == company:
+            return True
+
+        return False
+
     def has_cuerpo_permission(self, cursor, cuerpo):
-        # check first if users is in cuerpo
+        # check if user is administrator
+        if self.is_administrator():
+            return True
+
+        # check first if user is in cuerpo
         if self.is_cuerpo_manager() and self.company.cuerpo == cuerpo:
             return True
         
@@ -78,6 +100,7 @@ class UserProfile(models.Model):
     class Meta:
         ordering = ['user']
         app_label = 'censo'
+
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

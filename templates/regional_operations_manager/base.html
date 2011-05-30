@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block nav %}
+	<ul class="tabbed">
+	{% comment %}
+		<li class="current-tab"> to highlight selected tab
+		reference: http://stackoverflow.com/questions/340888/navigation-in-django
+	{% endcomment %}
+		{% block nav_portada %}<li class=""><a href="{% url cuerpo %}">Portada</a></li>{% endblock %}
+		{% block nav_general %}<li class=""><a href="{% url cuerpo_general %}">Inf. General</a></li>{% endblock %}
+		{% block nav_anb %}<li class=""><a href="{% url cuerpo_anb %}">Inf. ANB</a></li>{% endblock %}
+		{% block nav_infrastructure %}<li class=""><a href="{% url cuerpo_infrastructure %}">Infraestructura</a></li>{% endblock %}
+		{% block nav_mayor_material %}<li class=""><a href="{% url cuerpo_mayor_material %}">Material Mayor</a></li>{% endblock %}
+        {% block nav_alarm_central %}<li class=""><a href="{% url cuerpo_alarm_central %}">Central de Alarmas</a></li>{% endblock %}
+        {% block nav_service_acts %}<li class=""><a href="{% url cuerpo_service_acts %}">Actos de Servicio</a></li>{% endblock %}
+	</ul>
+{% endblock %}
