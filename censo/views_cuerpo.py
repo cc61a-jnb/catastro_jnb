@@ -232,7 +232,7 @@ def display_anb_form(request, cuerpo_id):
         if form.is_valid():
             form.save()
             # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/anb')
+            return redirect('cuerpo_infrastructure')
         # Else render the form again
         else:
             return render_to_response('cuerpo/third_page.html', {
