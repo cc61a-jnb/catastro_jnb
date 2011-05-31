@@ -8,7 +8,7 @@ class CuerpoMayorMaterialData(models.Model):
     company = models.ForeignKey('censo.Company', null=True, blank=True, verbose_name='Compañia')
 
     def __unicode__(self):
-        return unicode(self.cuerpo)
+        return unicode(self.company) if self.company else unicode(self.cuerpo)
 
     class Meta:
         get_latest_by = 'id'
