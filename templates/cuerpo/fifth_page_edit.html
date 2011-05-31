@@ -3,27 +3,6 @@
 
 {% block title %}Material Mayor - {% endblock %}
 
-{% block user_scripts %}
-<script type='text/javascript'>
-// all jQuery events are executed within the document ready function
-$(document).ready(function() {
-
-   $("input").bind("keydown", function(event) {
-      // track enter key
-      var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
-      if (keycode == 13) { // keycode for enter key
-         // force the 'Enter Key' to implicitly click the Update button
-         document.getElementById('default-submit-button').click();
-         return false;
-      } else  {
-         return true;
-      }
-   }); // end of function
-
-}); // end of document ready
-</script>
-{% endblock %}
-
 {% block nav_mayor_material %}<li class="current-tab"><a href="{% url cuerpo_mayor_material %}">Material Mayor</a></li>{% endblock %}
 
 {% block content %}
@@ -210,7 +189,7 @@ $(document).ready(function() {
 <h3>Observaciones</h3>
     <p>Ingrese cualquier información que estime de utilidad</p>
 	{{ form.render_observations_to_list }}
-	<p><input type="submit" id="default-submit-button" value="Guardar y continuar" /></p>
+	<p><input type="submit" value="Guardar y continuar" /></p>
 </form>
 
 {% endblock %}
