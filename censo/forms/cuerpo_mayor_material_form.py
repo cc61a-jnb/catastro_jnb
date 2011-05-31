@@ -71,7 +71,13 @@ class CuerpoMayorMaterialForm(BaseForm):
         
     # Display caracteristics as a list
     def render_caracteristics_to_list(self):
-        fields = self._field_range('fk_fire_engine_camiva_model', 'oil_change_kilometraje')
+        fields = self._field_range('fk_fire_engine_camiva_model', 'fire_engine_other_model')
+        
+        return render_fields_as_list(fields)
+		
+	# Display maintenance as a list
+    def render_maintenance_to_list(self):
+        fields = self._field_range('last_oil_change_date', 'oil_change_kilometraje')
         
         return render_fields_as_list(fields)
         

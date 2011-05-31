@@ -47,16 +47,13 @@ class CuerpoMayorMaterialData(models.Model):
     
     # Situacion legal
     
-    registered = models.BooleanField(verbose_name='Inscrito')
+    registered = models.NullBooleanField(verbose_name='Inscrito')
     licence_plate = models.CharField(max_length=255, null=True, blank=True, verbose_name='Patente')
-    # Permiso de circulacion -> Opciones: Al dia, Vencido, No tiene
-    # Nuevas opciones: Sí o No
+
     #fk_vehicle_registration = models.ForeignKey('VehicleRegistrationStatus', verbose_name='Permiso de Circulación', null=True, blank=True)
-    vehicle_registration = models.BooleanField(verbose_name='Permiso de Circulación')
-    # Revision tecnica -> Opciones: Al dia, Vencida, No tiene
-    # Nuevas opciones: Sí o No
+    vehicle_registration = models.NullBooleanField(verbose_name='Permiso de Circulación')
     #fk_vehicle_checkup = models.ForeignKey('VehicleCheckupStatus', verbose_name='Revisión Técnica', null=True, blank=True)
-    vehicle_checkup = models.BooleanField(verbose_name='Revisión Técnica')
+    vehicle_checkup = models.NullBooleanField(verbose_name='Revisión Técnica')
     
     # Kilometraje y Horometraje
     
@@ -66,7 +63,7 @@ class CuerpoMayorMaterialData(models.Model):
     # Caracteristicas
     
     # Opciones: Camiva CB90, Camiva CH90, Camiva CB180, Camiva CH180, Camiva Otro modelo, Otra Marca (indicar marca y modelo)
-    fk_fire_engine_camiva_model = models.ForeignKey('FireEngineCamivaModel', verbose_name='Modelo Camiva', null=True, blank=True)
+    fk_fire_engine_camiva_model = models.ForeignKey('FireEngineCamivaModel', verbose_name='Marca Camiva', null=True, blank=True)
     fire_engine_other_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otra Marca')
     fire_engine_other_model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otro Modelo')
     last_oil_change_date = models.DateField(blank = True, null = True, verbose_name='Fecha último cambio de aceite')
@@ -82,8 +79,8 @@ class CuerpoMayorMaterialData(models.Model):
     gearbox_change_new_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca')
     gearbox_change_new_model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Modelo')
     # Reparación
-    motor_repairs = models.BooleanField(verbose_name='Reparación Motor')
-    gearbox_repairs = models.BooleanField(verbose_name='Reparación Caja de cambio')
+    motor_repairs = models.NullBooleanField(verbose_name='Reparación Motor')
+    gearbox_repairs = models.NullBooleanField(verbose_name='Reparación Caja de cambio')
     
     # Equipos de radio instalados en el carro
     
