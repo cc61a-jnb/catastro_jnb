@@ -72,38 +72,37 @@
 
         {{ formsets.cuerpomaterialmayorinstalledradio_set.management_form }}
 
-        <table>
+        <table class="dynamic_form">
             <tr>
-                <th>Cantidad</th>
+                <th class="quantity">Cantidad</th>
                 <th>Marca</th>
                 <th>Modelo</th>
-                <th>Potencia (W)</th>
+                <th class="quantity">Potencia (W)</th>
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in formsets.cuerpomaterialmayorinstalledradio_set.forms %}
                 <tr>
                     {{ form.id }}
-                    <td>{{ form.installed_radio_quantity}}</td>
+                    <td class="quantity">{{ form.installed_radio_quantity}}</td>
                     <td>{{ form.installed_radio_brand}}</td>
                     <td>{{ form.installed_radio_model}}</td>
-                    <td>{{ form.installed_radio_potency}}</td>
+                    <td class="quantity">{{ form.installed_radio_potency}}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td><input title="Agregar equipo de radio instalado" type="submit" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_add" value="Agregar equipo de radio instalado" /></td>
-                <td></td>
-                <td><input type="submit" value="Eliminar equipo de radio instalado" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_delete" /></td>
+            <tr class="dynamic_form_buttons">
+                <td colspan=2 class="add_button"><input title="Agregar equipo de radio instalado" type="submit" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_add" value="Agregar equipo de radio instalado" /></td>
+                <td colspan=3 class="delete_button"><input type="submit" value="Eliminar equipo de radio instalado" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_delete" /></td>
             </tr>
         </table>
-
+<br/>
 <h3>Equipos de Radio Portátiles</h3>
 
         {{ formsets.cuerpomaterialmayorportableradio_set.management_form }}
 
-        <table>
+        <table class="dynamic_form">
             <tr>
-                <th>Cantidad</th>
+                <th class="quantity">Cantidad</th>
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>¿Eliminar?</th>
@@ -111,45 +110,43 @@
             {% for form in formsets.cuerpomaterialmayorportableradio_set.forms %}
                 <tr>
                     {{ form.id }}
-                    <td>{{ form.portable_radio_quantity}}</td>
+                    <td class="quantity">{{ form.portable_radio_quantity}}</td>
                     <td>{{ form.portable_radio_brand}}</td>
                     <td>{{ form.portable_radio_model}}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td><input title="Agregar equipo de radio portatil" type="submit" name="{{ formsets.cuerpomaterialmayorportableradio_set.prefix }}_add" value="Agregar equipo de radio portatil" /></td>
-                <td></td>
-                <td><input type="submit" value="Eliminar equipo de radio portatil" name="{{ formsets.cuerpomaterialmayorportableradio_set.prefix }}_delete" /></td>
+            <tr class="dynamic_form_buttons">
+                <td colspan=2 class="add_button"><input title="Agregar equipo de radio portatil" type="submit" name="{{ formsets.cuerpomaterialmayorportableradio_set.prefix }}_add" value="Agregar equipo de radio portatil" /></td>
+                <td colspan=2 class="delete_button"><input type="submit" value="Eliminar equipo de radio portatil" name="{{ formsets.cuerpomaterialmayorportableradio_set.prefix }}_delete" /></td>
             </tr>
         </table>
-
+<br/>
 <h3>Antena</h3>
 
         {{ formsets.cuerpomaterialmayorantenna_set.management_form }}
 
-        <table>
+        <table class="dynamic_form">
             <tr>
-                <th>Cantidad</th>
+                <th class="quantity">Cantidad</th>
                 <th>Marca</th>
                 <th>Modelo</th>
-                <th>Decibeles</th>
+                <th class="quantity">Decibeles</th>
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in formsets.cuerpomaterialmayorantenna_set.forms %}
                 <tr>
                     {{ form.id }}
-                    <td>{{ form.antenna_quantity}}</td>
+                    <td class="quantity">{{ form.antenna_quantity}}</td>
                     <td>{{ form.antenna_brand}}</td>
                     <td>{{ form.antenna_model}}</td>
-                    <td>{{ form.antenna_decibel}}</td>
+                    <td class="quantity">{{ form.antenna_decibel}}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td><input title="Agregar antena" type="submit" name="{{ formsets.cuerpomaterialmayorantenna_set.prefix }}_add" value="Agregar antena" /></td>
-                <td></td>
-                <td><input type="submit" value="Eliminar antena" name="{{ formsets.cuerpomaterialmayorantenna_set.prefix }}_delete" /></td>
+            <tr class="dynamic_form_buttons">
+                <td colspan=3 class="add_button"><input title="Agregar antena" type="submit" name="{{ formsets.cuerpomaterialmayorantenna_set.prefix }}_add" value="Agregar antena" /></td>
+                <td colspan=2 class="delete_button"><input type="submit" value="Eliminar antena" name="{{ formsets.cuerpomaterialmayorantenna_set.prefix }}_delete" /></td>
             </tr>
         </table>
 
