@@ -2,7 +2,7 @@
 <table class="{{ css_class_name }}">
     {% for field in fields %}
        {% if field.errors %}
-       <tr><td>{{field.errors}}</td> </tr>
+       <tr><td colspan="2">{{field.errors}}</td> </tr>
        {% endif %}
         <tr>
             <th>

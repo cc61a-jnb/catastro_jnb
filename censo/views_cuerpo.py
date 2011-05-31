@@ -2,6 +2,7 @@
 
 import logging
 
+from utils import generic_edit
 from authentication import authorize
 
 from censo.forms import *
@@ -14,6 +15,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import inlineformset_factory
+
 
 # Show main form
 @authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
@@ -394,76 +396,17 @@ def edit_mayor_material_form(request, cuerpo_id, mayor_material_id):
         request.flash['error'] = 'La planilla de material mayor consultada no existe'
         return redirect('cuerpo_mayor_material')
 
-    # If the form has been submitted
-    if request.method == 'POST':
-        # A form bound to the POST data
-        form = CuerpoMayorMaterialForm(request.POST, request.FILES, instance=mayor_material_data)
-        # If the form is correctly validated
-        if form.is_valid():
-            form.save()
-            logging.info("successfully modified mayor material data:%d for cuerpo:%d", mayor_material_data.id, cuerpo.id)
-            request.flash['success'] = 'La planilla ha sido guardada exitosamente'
-            # Redirect after POST
-            return redirect('cuerpo_mayor_material')
-        # Else render the form again
-        else:
-            return render_to_response('cuerpo/fifth_page_edit.html', {
-                'form': form,
-                'cuerpo': cuerpo,
-                'current_mayor_material_data': mayor_material_data,
-                }, context_instance=RequestContext(request),
-                )
-
-    # If the form hasn't been submitted
-
-    # Load already submitted data as initial, to avoid triggering validation
-    form = CuerpoMayorMaterialForm(instance=mayor_material_data)
-    form.fields["company"].queryset = Company.objects.filter(cuerpo=cuerpo)
-    # Render the form
-    return render_to_response('cuerpo/fifth_page_edit.html', {
-            'form': form,
-            'cuerpo': cuerpo,
-            'current_mayor_material_data': mayor_material_data,
-            }, context_instance=RequestContext(request),
-        )
+    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/fifth_page_edit.html', reverse('catastro_jnb.censo.views_cuerpo.display_mayor_material_index'), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data], [CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
 
 # Add New Mayor Material form
 @authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
 def add_new_mayor_material(request, cuerpo_id):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
+    mayor_material_data = CuerpoMayorMaterialData()
+    mayor_material_data.cuerpo = cuerpo
     
-    # Accept only POST requests in order to avoid boggus objects creation
-    if request.method == 'POST':
-        cuerpo_mayor_material_data = CuerpoMayorMaterialData(cuerpo=cuerpo)
-        # A form bound to the POST data
-        form = CuerpoMayorMaterialForm(request.POST, request.FILES, instance=cuerpo_mayor_material_data)
-        # If the form is correctly validated
-        if form.is_valid():
-            form.save()
-            
-            logging.info("Succesfully saved new mayor material data:%d for cuerpo:%d", cuerpo_mayor_material_data.id, cuerpo.id)
-            request.flash['success'] = 'La planilla ha sido creada exitosamente'
-            # Redirect after POST
-            return redirect('cuerpo_mayor_material')
-        # Else render the form again
-        else:
-            return render_to_response('cuerpo/fifth_page_edit.html', {
-                'form': form,
-                'cuerpo': cuerpo,
-                }, context_instance=RequestContext(request),
-                )
-    else:
-        logging.info("Creating new mayor material data object for cuerpo:%d", cuerpo.id)
-        # Create blank Mayor Material form
-        form = CuerpoMayorMaterialForm()
-        form.fields["company"].queryset = Company.objects.filter(cuerpo=cuerpo)
-        
-        return render_to_response('cuerpo/fifth_page_edit.html', {
-                'form': form,
-                'cuerpo': cuerpo,
-                }, context_instance=RequestContext(request),
-                )
+    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/fifth_page_edit.html', reverse('catastro_jnb.censo.views_cuerpo.display_mayor_material_index'), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data],[CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
         
 
 # Remove Selected Material form

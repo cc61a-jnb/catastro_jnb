@@ -90,7 +90,7 @@ def find_foreign_key_field_name(ReferralClass, ReferredClass):
         if hasattr(field, 'related') and field.related.parent_model == ReferredClass:
             return field.name
 
-def generic_edit(request, instance, PageForm, template, success_redirect, formset_pairs=[]):
+def generic_edit(request, instance, PageForm, template, success_redirect, formset_pairs=[], queryset_pair=[]):
     '''
     Method that handles form with multiple (or no) formsets automagically
     request: Request sent to the original view
@@ -108,7 +108,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     '''
     
     # First we generate all the formset classes with the given formset_pairs
-    GenericFormSets = [inlineformset_factory(pair[1].__class__, pair[0], extra=0) for pair in formset_pairs]
+    GenericFormSets = [inlineformset_factory(pair[1].__class__, pair[0], extra=1) for pair in formset_pairs]
     
     # Flag that is set to true if something "happened" to one of the formsets (added or deleted)
     # sent to the template if we want to, for example, to prevent the showing of validation errors
@@ -120,8 +120,15 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     formsets = {}
     #pdb.set_trace()
     # If one of the buttons has been pressed
+    
     if request.method == 'POST':
         form = PageForm(request.POST, request.FILES, instance=instance)
+        
+        for picture_field in form.picture_fields():
+            picture_name = picture_field[0].name
+            if '%s_delete' % picture_name in request.POST:
+                getattr(instance, picture_name).delete()
+                formsets_modified = True
         
         for idx, GenericFormSet in enumerate(GenericFormSets):
             prefix = GenericFormSet.get_default_prefix()
@@ -140,7 +147,6 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                 formsets[prefix] = GenericFormSet(new_data, instance=formset_pairs[idx][1])
                 formsets_modified = True
                 break
-                
         if formsets:
             for idx, GenericFormSet in enumerate(GenericFormSets):
                 prefix = GenericFormSet.get_default_prefix()
@@ -148,6 +154,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                     formsets[prefix] = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
         else:
             valid_form_page = form.is_valid()
+            #pdb.set_trace()
             
             for GenericFormSet in GenericFormSets:
                 formset = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
@@ -155,7 +162,8 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                     valid_form_page = False
                 formsets[GenericFormSet.get_default_prefix()] = formset
                 
-            if valid_form_page:
+
+            if valid_form_page and not formsets_modified:
                 form.save()
                 
                 for idx, GenericFormSet in enumerate(GenericFormSets):
@@ -181,6 +189,8 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
             prefix = GenericFormSet.get_default_prefix()
             formsets[prefix] = GenericFormSet(instance=formset_pairs[idx][1])
         form = PageForm(instance=instance)
+        if queryset_pair:
+            form.fields[queryset_pair[0]].queryset = queryset_pair[1]
         
     return render_to_response(template, {
             'form': form,

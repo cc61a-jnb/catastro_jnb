@@ -683,6 +683,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
     list-style: none;
     color: #b30a0a;
     margin-bottom: 15px;
+    text-align: left;
 }
 
 .table_quantities {

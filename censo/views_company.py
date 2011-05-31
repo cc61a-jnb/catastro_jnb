@@ -24,7 +24,8 @@ def display_portada_form(request):
         # Add company to blank data
         portada_data.company = company
         portada_data.save() 
-        
+    
+	#Dynamic input fields    
     return generic_edit(request, portada_data, CompanyPortadaForm, 'company/first_page.html', reverse('catastro_jnb.censo.views_company.display_volunteers_form'), [[CompanyOtherOfficial, company]])
 
 # Show volunteer form
@@ -42,7 +43,8 @@ def display_volunteers_form(request):
         # Add company to blank data
         volunteer_data.company = company
         volunteer_data.save()
-    
+		
+    #Dynamic input fields    
     return generic_edit(request, volunteer_data, CompanyVolunteerForm, 'company/second_page.html', reverse('catastro_jnb.censo.views_company.display_infrastructure_form'))
     
 # Show infrastructure form (stub)
@@ -78,5 +80,6 @@ def display_minor_material_form(request):
         # Add company to blank data
         minor_material_company_data.company = company
         minor_material_company_data.save()
+		
     #call to generic function to show dynamic fields    
-    return generic_edit(request, minor_material_company_data, CompanyMinorMaterialForm, 'company/fourth_page.html', reverse('catastro_jnb.censo.views_company.display_portada_form'), [[CompanyOtherRadioBase, company], [CompanyOtherRadioPortable, company]])
+    return generic_edit(request, minor_material_company_data, CompanyMinorMaterialForm, 'company/fourth_page.html', reverse('catastro_jnb.censo.views_company.display_portada_form'), [[CompanyOtherRadioBase, company], [CompanyOtherRadioPortable, company],[CompanyAntenas, company]])

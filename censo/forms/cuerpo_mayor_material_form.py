@@ -9,20 +9,45 @@ from . import BaseForm
 
 class CuerpoMayorMaterialForm(BaseForm):
 
-    #def clean(self):
-    #    data = self.cleaned_data
-    #    
-    #    if data['denomination'] is None:
-    #        error_message = 'Este campo es requerido'
-    #        self._errors['denomination'] = self.error_class([error_message])
-    vehicle_year = forms.DateField(label='Año del Vehículo', widget=SelectDateWidget(years=range(1900, 2020)))
-    service_incorporation_date = forms.DateField(label='Fecha de incorporación', widget=SelectDateWidget(years=range(1900, 2020)))
-    last_oil_change_date = forms.DateField(label='Fecha último cambio de aceite', widget=SelectDateWidget(years=range(1900, 2020)))
+    def clean(self):
+        data = self.cleaned_data
+        
+        self.custom_errors = []
+        
+        #Denomination is a required field
+        if data['denomination'] == u'':
+            error_message = 'Este campo es requerido'
+            self._errors['denomination'] = self.error_class([error_message])
+        
+        #The kilometers during the oil change cannot be higher that the current quantity    
+        if data['oil_change_kilometraje'] > data ['kilometraje']:
+            error_message = 'El kilometraje del último cambio de aceite no puede ser mayor al kilometraje actual'
+            self._errors['kilometraje'] = self.error_class([error_message])
+            self._errors['oil_change_kilometraje'] = self.error_class([error_message])
+            self.custom_errors.append(error_message)
+        
+        # This must be affiliated either with a company or with central  
+        if not data['company'] and data['cuerpo_vehicle_own'] == 0:
+            error_message = 'Debe especificar una compañia o nivel central'
+            self._errors['company'] = self.error_class([error_message])
+            
+        if data['company'] and data['cuerpo_vehicle_own'] != 0:
+            error_message = 'Debe especificar sólo una compañia o nivel central, no ambas'
+            self._errors['company'] = self.error_class([error_message])
+            
+        # If any validation fails, raise error
+        if self.custom_errors:
+            raise forms.ValidationError(self.custom_errors)
+        
+        return self.cleaned_data
+    
+    service_incorporation_date = forms.DateField(label='Fecha de incorporación', widget=SelectDateWidget(years=xrange(2011, 1899, -1)), required=False)
+    last_oil_change_date = forms.DateField(label='Fecha último cambio de aceite', widget=SelectDateWidget(years=xrange(2011, 1899, -1)), required=False)
         
     
-    # Display company selector
+    # Display company/central selector
     def render_company_question_to_list(self):
-        fields = self._field_range('company', 'company')
+        fields = self._field_range('company', 'cuerpo_vehicle_own')
         
         return render_fields_as_list(fields)
 
@@ -42,7 +67,7 @@ class CuerpoMayorMaterialForm(BaseForm):
     def render_kilometraje_horometraje_to_list(self):
         fields = self._field_range('kilometraje', 'horometraje')
         
-        return render_fields_as_list(fields)
+        return render_fields_as_list(fields, css_class_name='list_quantities')
         
     # Display caracteristics as a list
     def render_caracteristics_to_list(self):
@@ -68,10 +93,25 @@ class CuerpoMayorMaterialForm(BaseForm):
         
         return render_fields_as_list(fields)
 
+    # Display electric generator questions as a table
+    def render_electric_generator_questions_to_table(self):
+        fields = self._field_range('electricgenerator_fixed_in_car_quantity', 'fk_electricgenerator_fixed_in_barracks_potency')
+        table_fields = split_list(fields, 3)
+        column_labels = ['N°', 'Potencia']
+        row_labels = ['Fijos en Carros', 'Portátiles', 'Fijos en Cuartel']
+
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
+
     # The list of all the picture fields in this form    
     def picture_fields(self):
         fields = self._field_range('picture_front_view', 'picture_back_view')
         return [(field, getattr(self.instance, field.name)) for field in fields]
+
+    # Display observations area
+    def render_observations_to_list(self):
+        fields = [self['observations']]
+
+        return render_fields_as_list(fields)
  
     class Meta:
         model = CuerpoMayorMaterialData
