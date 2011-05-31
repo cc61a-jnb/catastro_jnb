@@ -6,6 +6,7 @@ from censo.forms import *
 from censo.models import *
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
+from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import inlineformset_factory
@@ -204,7 +205,7 @@ def display_anb_form(request):
         if form.is_valid():
             form.save()
             # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/anb')
+            return redirect('cuerpo_infrastructure')
         # Else render the form again
         else:
             return render_to_response('cuerpo/third_page.html', {
