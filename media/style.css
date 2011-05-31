@@ -704,6 +704,25 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
     width: 70px;
 }
 
+/* Dynamic forms */
+
+.dynamic_form .quantity input {
+    width: 50px;
+}
+
+.dynamic_form .quantity {
+    text-align: center;
+    width: 70px;
+}
+
+.dynamic_form_buttons .add_button {
+    text-align: left;
+}
+
+.dynamic_form_buttons .delete_button {
+    text-align: right;
+}
+
 /*service_acts*/
 
 .table_service_acts {
