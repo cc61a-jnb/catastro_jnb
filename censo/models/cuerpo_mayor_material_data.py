@@ -20,9 +20,11 @@ class CuerpoMayorMaterialData(models.Model):
      
     fk_vehicle_type = models.ForeignKey('VehicleType', verbose_name='Tipo de Vehículo', blank=True, null=True)
     denomination = models.CharField(max_length=255, null=True, blank=True, verbose_name='Denominación')
-    chassis_or_truck_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca Chassis/Camión')
+    fk_chassis_or_truck_manufacturer = models.ForeignKey('VehicleChassisManufacturer', verbose_name='Marca Chassis/Camión', blank=True, null=True)
+    chassis_or_truck_manufacturer_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otra Marca')
     model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Modelo')
-    carrosado_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca Carrosado')
+    fk_carrosado_manufacturer = models.ForeignKey('VehicleCarrosadoManufacturer', verbose_name='Marca Carrosado', blank=True, null=True)
+    carrosado_manufacturer_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otra Marca')
     fk_condition = models.ForeignKey('Condition', verbose_name='Estado/Condición', null=True, blank=True)
     vehicle_year = models.IntegerField(null=True, blank=True, verbose_name='Año del vehículo')
     service_incorporation_date = models.DateField(blank = True, null = True, verbose_name='Fecha incorporación al servicio')
@@ -43,9 +45,13 @@ class CuerpoMayorMaterialData(models.Model):
     registered = models.BooleanField(verbose_name='Inscrito')
     licence_plate = models.CharField(max_length=255, null=True, blank=True, verbose_name='Patente')
     # Permiso de circulacion -> Opciones: Al dia, Vencido, No tiene
-    fk_vehicle_registration = models.ForeignKey('VehicleRegistrationStatus', verbose_name='Permiso de Circulación', null=True, blank=True)
+    # Nuevas opciones: Sí o No
+    #fk_vehicle_registration = models.ForeignKey('VehicleRegistrationStatus', verbose_name='Permiso de Circulación', null=True, blank=True)
+    vehicle_registration = models.BooleanField(verbose_name='Permiso de Circulación')
     # Revision tecnica -> Opciones: Al dia, Vencida, No tiene
-    fk_vehicle_checkup = models.ForeignKey('VehicleCheckupStatus', verbose_name='Revisión Técnica', null=True, blank=True)
+    # Nuevas opciones: Sí o No
+    #fk_vehicle_checkup = models.ForeignKey('VehicleCheckupStatus', verbose_name='Revisión Técnica', null=True, blank=True)
+    vehicle_checkup = models.BooleanField(verbose_name='Revisión Técnica')
     
     # Kilometraje y Horometraje
     

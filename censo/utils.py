@@ -121,7 +121,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     #pdb.set_trace()
     # If one of the buttons has been pressed
     if request.method == 'POST':
-        form = PageForm(request.POST, instance=instance)
+        form = PageForm(request.POST, request.FILES, instance=instance)
         
         for idx, GenericFormSet in enumerate(GenericFormSets):
             prefix = GenericFormSet.get_default_prefix()
@@ -145,7 +145,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
             for idx, GenericFormSet in enumerate(GenericFormSets):
                 prefix = GenericFormSet.get_default_prefix()
                 if prefix not in formsets:
-                    formsets[prefix] = GenericFormSet(instance=formset_pairs[idx][1])
+                    formsets[prefix] = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
         else:
             valid_form_page = form.is_valid()
             

@@ -8,97 +8,64 @@ class Migration(SchemaMigration):
     
     def forwards(self, orm):
         
-        # Deleting field 'Cuerpo.fax'
-        db.delete_column('censo_cuerpo', 'fax')
+        # Adding model 'VehicleChassisManufacturer'
+        db.create_table('censo_vehiclechassismanufacturer', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+        ))
+        db.send_create_signal('censo', ['VehicleChassisManufacturer'])
 
-        # Deleting field 'Cuerpo.url'
-        db.delete_column('censo_cuerpo', 'url')
+        # Adding model 'VehicleCarrosadoManufacturer'
+        db.create_table('censo_vehiclecarrosadomanufacturer', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
+        ))
+        db.send_create_signal('censo', ['VehicleCarrosadoManufacturer'])
 
-        # Deleting field 'Cuerpo.company'
-        db.delete_column('censo_cuerpo', 'company_id')
+        # Deleting field 'CuerpoMayorMaterialData.chassis_or_truck_manufacturer'
+        db.delete_column('censo_cuerpomayormaterialdata', 'chassis_or_truck_manufacturer')
 
-        # Deleting field 'Cuerpo.cuer_npers_juri'
-        db.delete_column('censo_cuerpo', 'cuer_npers_juri')
+        # Deleting field 'CuerpoMayorMaterialData.carrosado_manufacturer'
+        db.delete_column('censo_cuerpomayormaterialdata', 'carrosado_manufacturer')
 
-        # Deleting field 'Cuerpo.postal_box'
-        db.delete_column('censo_cuerpo', 'postal_box')
+        # Adding field 'CuerpoMayorMaterialData.fk_carrosado_manufacturer'
+        db.add_column('censo_cuerpomayormaterialdata', 'fk_carrosado_manufacturer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.VehicleCarrosadoManufacturer'], null=True, blank=True), keep_default=False)
 
-        # Deleting field 'Cuerpo.mail'
-        db.delete_column('censo_cuerpo', 'mail')
+        # Adding field 'CuerpoMayorMaterialData.chassis_or_truck_manufacturer_other'
+        db.add_column('censo_cuerpomayormaterialdata', 'chassis_or_truck_manufacturer_other', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
 
-        # Deleting field 'Cuerpo.lemma'
-        db.delete_column('censo_cuerpo', 'lemma')
+        # Adding field 'CuerpoMayorMaterialData.fk_chassis_or_truck_manufacturer'
+        db.add_column('censo_cuerpomayormaterialdata', 'fk_chassis_or_truck_manufacturer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.VehicleChassisManufacturer'], null=True, blank=True), keep_default=False)
 
-        # Deleting field 'Cuerpo.alarm_central_phone'
-        db.delete_column('censo_cuerpo', 'alarm_central_phone')
-
-        # Deleting field 'Cuerpo.rut'
-        db.delete_column('censo_cuerpo', 'rut')
-
-        # Adding field 'Cuerpo.npers_juri'
-        db.add_column('censo_cuerpo', 'npers_juri', self.gf('django.db.models.fields.CharField')(default=0, max_length=255), keep_default=False)
-
-        # Removing M2M table for field communes on 'Cuerpo'
-        db.delete_table('censo_cuerpo_communes')
-
-        # Changing field 'Cuerpo.commune'
-        db.alter_column('censo_cuerpo', 'commune_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.Commune'], blank=True, null=True))
-
-        # Changing field 'Cuerpo.decree_date'
-        db.alter_column('censo_cuerpo', 'decree_date', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True, null=True))
-
-        # Changing field 'Cuerpo.foundation_date'
-        db.alter_column('censo_cuerpo', 'foundation_date', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True, null=True))
+        # Adding field 'CuerpoMayorMaterialData.carrosado_manufacturer_other'
+        db.add_column('censo_cuerpomayormaterialdata', 'carrosado_manufacturer_other', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
     
     
     def backwards(self, orm):
         
-        # Adding field 'Cuerpo.fax'
-        db.add_column('censo_cuerpo', 'fax', self.gf('django.db.models.fields.CharField')(default='', max_length=100), keep_default=False)
+        # Deleting model 'VehicleChassisManufacturer'
+        db.delete_table('censo_vehiclechassismanufacturer')
 
-        # Adding field 'Cuerpo.url'
-        db.add_column('censo_cuerpo', 'url', self.gf('django.db.models.fields.CharField')(default='', max_length=255), keep_default=False)
+        # Deleting model 'VehicleCarrosadoManufacturer'
+        db.delete_table('censo_vehiclecarrosadomanufacturer')
 
-        # Adding field 'Cuerpo.company'
-        db.add_column('censo_cuerpo', 'company', self.gf('django.db.models.fields.related.ForeignKey')(related_name='company_cuerpo', null=True, to=orm['censo.Company']), keep_default=False)
+        # Adding field 'CuerpoMayorMaterialData.chassis_or_truck_manufacturer'
+        db.add_column('censo_cuerpomayormaterialdata', 'chassis_or_truck_manufacturer', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
 
-        # Adding field 'Cuerpo.cuer_npers_juri'
-        db.add_column('censo_cuerpo', 'cuer_npers_juri', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True), keep_default=False)
+        # Adding field 'CuerpoMayorMaterialData.carrosado_manufacturer'
+        db.add_column('censo_cuerpomayormaterialdata', 'carrosado_manufacturer', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
 
-        # Adding field 'Cuerpo.postal_box'
-        db.add_column('censo_cuerpo', 'postal_box', self.gf('django.db.models.fields.CharField')(default='', max_length=100), keep_default=False)
+        # Deleting field 'CuerpoMayorMaterialData.fk_carrosado_manufacturer'
+        db.delete_column('censo_cuerpomayormaterialdata', 'fk_carrosado_manufacturer_id')
 
-        # Adding field 'Cuerpo.mail'
-        db.add_column('censo_cuerpo', 'mail', self.gf('django.db.models.fields.EmailField')(default='', max_length=75), keep_default=False)
+        # Deleting field 'CuerpoMayorMaterialData.chassis_or_truck_manufacturer_other'
+        db.delete_column('censo_cuerpomayormaterialdata', 'chassis_or_truck_manufacturer_other')
 
-        # Adding field 'Cuerpo.lemma'
-        db.add_column('censo_cuerpo', 'lemma', self.gf('django.db.models.fields.CharField')(default='', max_length=255), keep_default=False)
+        # Deleting field 'CuerpoMayorMaterialData.fk_chassis_or_truck_manufacturer'
+        db.delete_column('censo_cuerpomayormaterialdata', 'fk_chassis_or_truck_manufacturer_id')
 
-        # Adding field 'Cuerpo.alarm_central_phone'
-        db.add_column('censo_cuerpo', 'alarm_central_phone', self.gf('django.db.models.fields.CharField')(default='', max_length=100), keep_default=False)
-
-        # Adding field 'Cuerpo.rut'
-        db.add_column('censo_cuerpo', 'rut', self.gf('django.db.models.fields.CharField')(default='', max_length=10), keep_default=False)
-
-        # Deleting field 'Cuerpo.npers_juri'
-        db.delete_column('censo_cuerpo', 'npers_juri')
-
-        # Adding M2M table for field communes on 'Cuerpo'
-        db.create_table('censo_cuerpo_communes', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('cuerpo', models.ForeignKey(orm['censo.cuerpo'], null=False)),
-            ('commune', models.ForeignKey(orm['censo.commune'], null=False))
-        ))
-        db.create_unique('censo_cuerpo_communes', ['cuerpo_id', 'commune_id'])
-
-        # Changing field 'Cuerpo.commune'
-        db.alter_column('censo_cuerpo', 'commune_id', self.gf('django.db.models.fields.related.ForeignKey')(null=True, to=orm['censo.Commune'], blank=True))
-
-        # Changing field 'Cuerpo.decree_date'
-        db.alter_column('censo_cuerpo', 'decree_date', self.gf('django.db.models.fields.DateField')(null=True, blank=True))
-
-        # Changing field 'Cuerpo.foundation_date'
-        db.alter_column('censo_cuerpo', 'foundation_date', self.gf('django.db.models.fields.DateField')(null=True, blank=True))
+        # Deleting field 'CuerpoMayorMaterialData.carrosado_manufacturer_other'
+        db.delete_column('censo_cuerpomayormaterialdata', 'carrosado_manufacturer_other')
     
     
     models = {
@@ -137,8 +104,26 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
+        'censo.bandwidth': {
+            'Meta': {'object_name': 'BandWidth'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
         'censo.buildingmaterialtype': {
             'Meta': {'object_name': 'BuildingMaterialType'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
+        'censo.codedalarmtype': {
+            'Meta': {'object_name': 'CodedAlarmType'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
+        'censo.codedkeystype': {
+            'Meta': {'object_name': 'CodedKeysType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
@@ -173,6 +158,13 @@ class Migration(SchemaMigration):
             'person_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'role_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        'censo.companyotherradiobase': {
+            'Meta': {'object_name': 'CompanyOtherRadioBase'},
+            'company': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Company']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'radio_brand': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'radio_model': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
+        },
         'censo.condition': {
             'Meta': {'object_name': 'Condition'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -189,6 +181,91 @@ class Migration(SchemaMigration):
             'npers_juri': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'old_id': ('django.db.models.fields.IntegerField', [], {}),
             'phone': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        'censo.cuerpoalarmcentralbaseradioeq': {
+            'Meta': {'object_name': 'CuerpoAlarmCentralBaseRadioEq'},
+            'cuerpo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Cuerpo']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'manufacturer': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.PortableBrand']", 'null': 'True', 'blank': 'True'}),
+            'model': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'power': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'quantity': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
+        'censo.cuerpoalarmcentraldata': {
+            'Meta': {'object_name': 'CuerpoAlarmCentralData'},
+            'adm_digital_maps': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'adm_dispatch': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'adress_alarm_central': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'afternoon_roleshift_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'alarm_classification': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'autonomy_backup_power': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'bandwidth': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
+            'call_log': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'call_recording': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'cell_equipment_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'cuerpo': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Cuerpo']", 'unique': 'True', 'blank': 'True'}),
+            'decree': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'decree_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'digital_maps': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'email_alarm_central': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'energizing_backup_power': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'fax_alarm_central': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'fixed_antenna_decibel1': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'fixed_antenna_decibel2': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'fixed_antenna_height1': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'fixed_antenna_height2': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'fixed_antenna_manufacturer1': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'fixed_antenna_manufacturer2': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'fixed_antenna_model1': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'fixed_antenna_model2': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'fixed_antenna_quantity1': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'fixed_antenna_quantity2': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'fk_coded_alarm': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.CodedAlarmType']", 'null': 'True', 'blank': 'True'}),
+            'fk_coded_keys': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.CodedKeysType']", 'null': 'True', 'blank': 'True'}),
+            'fk_internet_provider': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.InternetProvider']", 'null': 'True', 'blank': 'True'}),
+            'fk_origin_software': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.OriginSystem']", 'null': 'True', 'blank': 'True'}),
+            'fk_os': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.OperatingSystem']", 'null': 'True', 'blank': 'True'}),
+            'fk_portable_manufacturer1': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['censo.PortableBrand']"}),
+            'fk_portable_manufacturer2': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['censo.PortableBrand']"}),
+            'fk_portable_manufacturer3': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['censo.PortableBrand']"}),
+            'fk_vhf': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VHF']", 'null': 'True', 'blank': 'True'}),
+            'frequency_four': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '6', 'decimal_places': '3', 'blank': 'True'}),
+            'frequency_one': ('django.db.models.fields.DecimalField', [], {'default': '0', 'max_digits': '6', 'decimal_places': '3'}),
+            'frequency_three': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '6', 'decimal_places': '3', 'blank': 'True'}),
+            'frequency_two': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '6', 'decimal_places': '3', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'key_coding': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'national_emergency_frequency': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'night_roleshift_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'normalized_frequency': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
+            'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'operations_manual': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'operators_availableatalltimes_quantity': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'origin_software_other': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'pc_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'portable_model1': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'portable_model2': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'portable_model3': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'portable_power1': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'portable_power2': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'portable_power3': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'portable_quantity1': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'portable_quantity2': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'portable_quantity3': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'potency_backup_power': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'sectorization': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'telephone_alarm_central': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'telephone_number132_available': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'telephoneexchange_electricalsupport': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'telephoneexchange_satellitesupport': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
+            'telephoneexchange_satellitesupport_mark': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'telephonelines_enable_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'telephonelines_input_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'telephonelines_output_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'tomorrow_roleshift_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'tone_generator_capacity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'tone_generator_mark': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'type_backup_power': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         'censo.cuerpoanbdata': {
             'Meta': {'object_name': 'CuerpoANBData'},
@@ -259,7 +336,7 @@ class Migration(SchemaMigration):
             'built_area_total_m2': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'cafeteria': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'cuerpo': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Cuerpo']", 'unique': 'True', 'blank': 'True'}),
-            'fk_property_title_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.PropertyTitleType']", 'null': 'True'}),
+            'fk_property_title_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.PropertyTitleType']", 'null': 'True', 'blank': 'True'}),
             'general_secretary_office': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'general_treasurer_office': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -275,12 +352,12 @@ class Migration(SchemaMigration):
             'narrow_street_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'others': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'picture_back_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_front_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_general_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_internal_distribution_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_machine_room_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_office_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
+            'picture_back_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_front_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_general_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_internal_distribution_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_machine_room_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_office_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'property_commodatum_end_year': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'rol_sii': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'secondary_street_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -289,27 +366,36 @@ class Migration(SchemaMigration):
             'terrain_machine_room_m2': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'terrain_session_room_m2': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'})
         },
+        'censo.cuerpoinfrastructureotheroffices': {
+            'Meta': {'object_name': 'CuerpoInfrastructureOtherOffices'},
+            'cuerpo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Cuerpo']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'role_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
+        },
         'censo.cuerpomayormaterialdata': {
             'Meta': {'object_name': 'CuerpoMayorMaterialData'},
             'antenna_decibels': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'antenna_manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'antenna_model': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'antenna_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'carrosado_manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'carrosado_manufacturer_other': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'chassis_number': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'chassis_or_truck_manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'cuerpo': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Cuerpo']", 'unique': 'True', 'blank': 'True'}),
+            'chassis_or_truck_manufacturer_other': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'company': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Company']", 'null': 'True', 'blank': 'True'}),
+            'cuerpo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Cuerpo']"}),
             'denomination': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'fire_engine_other_manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'fire_engine_other_model': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'fk_color': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Color']", 'null': 'True'}),
-            'fk_condition': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Condition']", 'null': 'True'}),
-            'fk_fire_engine_camiva_model': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.FireEngineCamivaModel']", 'null': 'True'}),
-            'fk_incorporation_status': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.IncorporationStatus']", 'null': 'True'}),
-            'fk_procedence': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleProcedence']", 'null': 'True'}),
-            'fk_transmission_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.TransmissionType']", 'null': 'True'}),
-            'fk_vehicle_checkup': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleCheckupStatus']", 'null': 'True'}),
-            'fk_vehicle_registration': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleRegistrationStatus']", 'null': 'True'}),
+            'fk_carrosado_manufacturer': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleCarrosadoManufacturer']", 'null': 'True', 'blank': 'True'}),
+            'fk_chassis_or_truck_manufacturer': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleChassisManufacturer']", 'null': 'True', 'blank': 'True'}),
+            'fk_color': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Color']", 'null': 'True', 'blank': 'True'}),
+            'fk_condition': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Condition']", 'null': 'True', 'blank': 'True'}),
+            'fk_fire_engine_camiva_model': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.FireEngineCamivaModel']", 'null': 'True', 'blank': 'True'}),
+            'fk_incorporation_status': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.IncorporationStatus']", 'null': 'True', 'blank': 'True'}),
+            'fk_procedence': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleProcedence']", 'null': 'True', 'blank': 'True'}),
+            'fk_transmission_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.TransmissionType']", 'null': 'True', 'blank': 'True'}),
+            'fk_vehicle_checkup': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleCheckupStatus']", 'null': 'True', 'blank': 'True'}),
+            'fk_vehicle_registration': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleRegistrationStatus']", 'null': 'True', 'blank': 'True'}),
             'fk_vehicle_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.VehicleType']", 'null': 'True', 'blank': 'True'}),
             'gearbox_change_new_manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'gearbox_change_new_model': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -325,12 +411,12 @@ class Migration(SchemaMigration):
             'motor_change_new_number': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'motor_number': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'motor_repairs': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
-            'motor_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.MotorType']", 'null': 'True'}),
+            'motor_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.MotorType']", 'null': 'True', 'blank': 'True'}),
             'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'oil_change_kilometraje': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'picture_back_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_front_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_side_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
+            'picture_back_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_front_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_side_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'portable_radio_equipment_manufacturer': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'portable_radio_equipment_model': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'portable_radio_equipment_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -347,8 +433,26 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'CuerpoOtherOfficial'},
             'cuerpo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Cuerpo']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'person_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'role_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'person_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'role_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
+        },
+        'censo.cuerposerviceactsdata': {
+            'Meta': {'object_name': 'CuerpoServiceActsData'},
+            'cuerpo': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Cuerpo']", 'unique': 'True', 'blank': 'True'}),
+            'debris_removal_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'electrical_emergency_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'incidents_combustible_gases_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'incidents_explosive_materials_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'other_emergencies_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'outdoors_fire_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'rescue_victims_not_vehicles_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'rescue_victims_vehicles_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'revision_inspection_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'structural_fire_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'support_other_cuerpos_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'vehicles_fire_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'})
         },
         'censo.fireenginecamivamodel': {
             'Meta': {'object_name': 'FireEngineCamivaModel'},
@@ -406,12 +510,12 @@ class Migration(SchemaMigration):
             'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'officers_office': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
             'others': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'picture_back_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_front_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_general_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_internal_distribution_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_machine_room_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
-            'picture_office_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100'}),
+            'picture_back_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_front_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_general_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_internal_distribution_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_machine_room_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'picture_office_view': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'property_rental_commodatum_end_year': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'rol_sii': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'secondary_street_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
@@ -449,16 +553,16 @@ class Migration(SchemaMigration):
             'containers_proteinconcentrate_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'containers_syntheticconcentrate_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'defibrillator_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'electricgenerator_fixed_in_barracks_potency': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'electricgenerator_fixed_in_barracks_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'electricgenerator_fixed_in_car_potency': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'electricgenerator_fixed_in_car_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'electricgenerator_portable_potency': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'electricgenerator_portable_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'fensy_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'fireman_shoes_company_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'fireman_shoes_volunteer_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'firesfans_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'fk_electricgenerator_fixed_in_barracks_potency': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['censo.PotencyRange']"}),
+            'fk_electricgenerator_fixed_in_car_potency': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['censo.PotencyRange']"}),
+            'fk_electricgenerator_portable_potency': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['censo.PotencyRange']"}),
             'foam_generating_equipment_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'generators_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'gloves_quantity': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -500,39 +604,70 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
+        'censo.normalizedfrequency': {
+            'Meta': {'object_name': 'NormalizedFrequency'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
         'censo.occupation': {
             'Meta': {'object_name': 'Occupation'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'})
         },
+        'censo.operatingsystem': {
+            'Meta': {'object_name': 'OperatingSystem'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
+        'censo.originsystem': {
+            'Meta': {'object_name': 'OriginSystem'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
+        'censo.portablebrand': {
+            'Meta': {'object_name': 'PortableBrand'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
         'censo.portadacompanydata': {
             'Meta': {'object_name': 'PortadaCompanyData'},
-            'assistant_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
-            'captain_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
+            'assistant_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'captain_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'company': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Company']", 'unique': 'True'}),
-            'director_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
+            'director_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lieutenant_1_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
-            'lieutenant_2_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
-            'lieutenant_3_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
-            'lieutenant_4_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
-            'secretary_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'}),
-            'tesorero_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255'})
+            'lieutenant_1_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'lieutenant_2_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'lieutenant_3_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'lieutenant_4_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'secretary_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'tesorero_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         'censo.portadacuerpodata': {
             'Meta': {'object_name': 'PortadaCuerpoData'},
-            'commander_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'commander_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'cuerpo': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['censo.Cuerpo']", 'unique': 'True', 'blank': 'True'}),
-            'forth_commander_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'forth_commander_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'intendent_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'intendent_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'observations': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'second_commander_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'secretary_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'superintendent_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'third_commander_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'treasury_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'vice_superintendent_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'})
+            'second_commander_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'secretary_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'superintendent_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'third_commander_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'treasury_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'vice_superintendent_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
+        },
+        'censo.potencyrange': {
+            'Meta': {'object_name': 'PotencyRange'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.propertytitletype': {
             'Meta': {'object_name': 'PropertyTitleType'},
@@ -553,12 +688,6 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'old_id': ('django.db.models.fields.IntegerField', [], {})
         },
-        'censo.role': {
-            'Meta': {'object_name': 'Role'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '100'}),
-            'old_id': ('django.db.models.fields.IntegerField', [], {'unique': 'True'})
-        },
         'censo.speciality': {
             'Meta': {'object_name': 'Speciality'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -569,22 +698,25 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
-        'censo.userhasrole': {
-            'Meta': {'object_name': 'UserHasRole'},
-            'cuerpo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Cuerpo']", 'null': 'True', 'blank': 'True'}),
-            'end_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'profile': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.UserProfile']"}),
-            'role': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Role']"}),
-            'start_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'})
-        },
         'censo.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
             'company': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Company']", 'null': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'old_id': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'region': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['censo.Region']", 'null': 'True', 'blank': 'True'}),
+            'role_id': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'role_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['auth.User']", 'unique': 'True'})
+        },
+        'censo.vehiclecarrosadomanufacturer': {
+            'Meta': {'object_name': 'VehicleCarrosadoManufacturer'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
+        'censo.vehiclechassismanufacturer': {
+            'Meta': {'object_name': 'VehicleChassisManufacturer'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'censo.vehiclecheckupstatus': {
             'Meta': {'object_name': 'VehicleCheckupStatus'},
@@ -605,6 +737,12 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'VehicleType'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+        },
+        'censo.vhf': {
+            'Meta': {'object_name': 'VHF'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'ordering': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'censo.volunteerdata': {
             'Meta': {'object_name': 'VolunteerData'},

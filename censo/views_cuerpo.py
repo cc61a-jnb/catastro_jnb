@@ -6,6 +6,7 @@ from authentication import authorize
 
 from censo.forms import *
 from censo.models import *
+
 from django.db import connections
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
@@ -13,7 +14,6 @@ from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import inlineformset_factory
-
 
 # Show main form
 @authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
