@@ -16,7 +16,7 @@ class CuerpoMayorMaterialData(models.Model):
         app_label = 'censo'
         
     
-    cuerpo_vehicle_own = models.IntegerField(choices=((0,"------"),(1, u"Superintendencia"), (3,u"Comandancia")), default=0, verbose_name='Nivel Central')
+    cuerpo_vehicle_own = models.IntegerField(choices=((0,"------"),(1, u"Superintendencia"), (2,u"Comandancia")), default=0, verbose_name='Nivel Central')
     
     # Informacion del vehiculo
      

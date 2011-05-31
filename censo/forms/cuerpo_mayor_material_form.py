@@ -26,14 +26,23 @@ class CuerpoMayorMaterialForm(BaseForm):
             self._errors['oil_change_kilometraje'] = self.error_class([error_message])
             self.custom_errors.append(error_message)
         
+        # This must be affiliated either with a company or with central  
+        if not data['company'] and data['cuerpo_vehicle_own'] == 0:
+            error_message = 'Debe especificar una compañia o nivel central'
+            self._errors['company'] = self.error_class([error_message])
+            
+        if data['company'] and data['cuerpo_vehicle_own'] != 0:
+            error_message = 'Debe especificar sólo una compañia o nivel central, no ambas'
+            self._errors['company'] = self.error_class([error_message])
+            
         # If any validation fails, raise error
         if self.custom_errors:
             raise forms.ValidationError(self.custom_errors)
         
         return self.cleaned_data
     
-    service_incorporation_date = forms.DateField(label='Fecha de incorporación', widget=SelectDateWidget(years=range(1900, 2020)), required=False)
-    last_oil_change_date = forms.DateField(label='Fecha último cambio de aceite', widget=SelectDateWidget(years=range(1900, 2020)), required=False)
+    service_incorporation_date = forms.DateField(label='Fecha de incorporación', widget=SelectDateWidget(years=xrange(2011, 1899, -1)), required=False)
+    last_oil_change_date = forms.DateField(label='Fecha último cambio de aceite', widget=SelectDateWidget(years=xrange(2011, 1899, -1)), required=False)
         
     
     # Display company/central selector
