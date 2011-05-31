@@ -8,7 +8,7 @@
 		<li class="current-tab"> to highlight selected tab
 		reference: http://stackoverflow.com/questions/340888/navigation-in-django
 	{% endcomment %}
-		{% block nav_portada %}<li class=""><a href="{% url cuerpo_id cuerpo.old_id %}">Portada</a></li>{% endblock %}
+		{% block nav_portada %}<li class=""><a href="{% url cuerpo cuerpo.old_id %}">Portada</a></li>{% endblock %}
 		{% block nav_general %}<li class=""><a href="{% url cuerpo_general cuerpo.old_id %}">Inf. General</a></li>{% endblock %}
 		{% block nav_anb %}<li class=""><a href="{% url cuerpo_anb cuerpo.old_id %}">Inf. ANB</a></li>{% endblock %}
 		{% block nav_infrastructure %}<li class=""><a href="{% url cuerpo_infrastructure cuerpo.old_id %}">Infraestructura</a></li>{% endblock %}

@@ -4,6 +4,7 @@ import logging
 
 from functools import wraps
 
+from censo.models import Cuerpo
 from censo.models import Company
 
 from django.conf import settings
@@ -56,6 +57,46 @@ class authorize(object):
                 return redirect(role_name)
 
         return wrap
+
+
+def authorize_cuerpo(func):
+    """
+    Check if user has permission over requested cuerpo or redirect
+    Passes fetched Cuerpo object to decorated function
+    """
+
+    @wraps(func)
+    def wrap(request, *args, **kwargs):
+
+        # Get user role
+        profile = request.user.get_profile()
+        cuerpo_id = kwargs['cuerpo_id']
+        cursor = connections['principal'].cursor()
+
+        cuerpo = Cuerpo.fetch_from_db(cursor, cuerpo_id)
+
+        if not cuerpo:
+            logging.info("Cuerpo:%s doesn't exist", cuerpo_id) # why %s: http://stackoverflow.com/questions/2796178/error-url-redirection
+            request.flash["error"] = 'El cuerpo que ha ingresado no existe'
+            cursor.close()
+            return redirect('index')
+
+        # now we must check user's permissions
+        if not profile.has_cuerpo_permission(cursor, cuerpo):
+            logging.warning("User:%s unauthorized to access Cuerpo:%s information", profile.old_id, cuerpo_id)
+            request.flash["error"] = 'No tiene permiso para acceder a la información del cuerpo seleccionado'
+            cursor.close()
+            return redirect('index')
+        
+        # user has permission over cuerpo
+        cursor.close()
+        # replace cuerpo_id with full cuerpo object
+        del kwargs['cuerpo_id']
+        kwargs['cuerpo'] = cuerpo
+        
+        return func(request, *args, **kwargs)
+
+    return wrap
 
 
 class JNBBackend:
