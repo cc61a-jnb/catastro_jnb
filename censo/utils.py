@@ -234,7 +234,6 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     else:
         for idx, GenericFormSet in enumerate(GenericFormSets):
             prefix = GenericFormSet.get_default_prefix()
-            print prefix
             formsets[prefix] = GenericFormSet(instance=formset_pairs[idx][1])
         form = PageForm(instance=instance)
         if queryset_pair:
