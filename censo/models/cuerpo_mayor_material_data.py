@@ -22,11 +22,9 @@ class CuerpoMayorMaterialData(models.Model):
      
     fk_vehicle_type = models.ForeignKey('VehicleType', verbose_name='Tipo de Vehículo', blank=True, null=True)
     denomination = models.CharField(max_length=255, null=True, blank=True, verbose_name='Denominación')
-    # Alternativas: Renault, Ford, Chevrolet. Volkwagen, Iveco, Mercedes Benz, Spartan, HME u otro (agregar texto en otro)
     fk_chassis_or_truck_manufacturer = models.ForeignKey('VehicleChassisManufacturer', verbose_name='Marca Chassis/Camión', blank=True, null=True)
     chassis_or_truck_manufacturer_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otra Marca')
     model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Modelo')
-    # Alternativas: Camiva, Rosenbauer, Magirus, E-One, Pierce, Crimson, Iturry u otro (agregar texto en otro)
     fk_carrosado_manufacturer = models.ForeignKey('VehicleCarrosadoManufacturer', verbose_name='Marca Carrosado', blank=True, null=True)
     carrosado_manufacturer_other = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otra Marca')
     fk_condition = models.ForeignKey('Condition', verbose_name='Estado/Condición', null=True, blank=True, help_text='Si esta en reparación, dar el detalle en Observaciones')

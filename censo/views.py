@@ -36,7 +36,7 @@ def index(request):
 
     # check which role it has
     if profile.is_company_manager():
-        return redirect('company')
+        return redirect('company', company_id=profile.company.old_id)
     elif profile.is_cuerpo_manager():
         return redirect('cuerpo', cuerpo_id=profile.company.cuerpo.old_id)
     elif profile.is_regional_operations_manager():

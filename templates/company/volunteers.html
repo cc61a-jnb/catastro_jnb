@@ -2,7 +2,7 @@
 
 {% block title %}Voluntarios - {% endblock %}
 
-{% block nav_volunteers %}<li class="current-tab"><a href="{% url company_volunteers company.old_id %}">Voluntarios</a></li>{% endblock %}
+{% block nav_volunteers %}<li class="current-tab"><a href="{% url company_volunteers instance.company.old_id %}">Voluntarios</a></li>{% endblock %}
 
 {% block content %}
 	<form method="post" class="catastro_form">

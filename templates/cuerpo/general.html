@@ -2,7 +2,7 @@
 
 {% block title %}Información General - {% endblock %}
 
-{% block nav_general %}<li class="current-tab"><a href="{% url cuerpo_general cuerpo.old_id %}">Inf. General</a></li>{% endblock %}
+{% block nav_general %}<li class="current-tab"><a href="{% url cuerpo_general instance.cuerpo.old_id %}">Inf. General</a></li>{% endblock %}
 
 {% block content %}
 	<form method="post" class="catastro_form">

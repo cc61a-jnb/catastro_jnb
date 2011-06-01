@@ -233,6 +233,603 @@
       "name": "Otros",
       "ordering": "5"
     }
+  },
+  {
+    "model": "censo.accountingsystem",
+    "pk": 1,
+    "fields": {
+      "name": "JNBC",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.accountingsystem",
+    "pk": 2,
+    "fields": {
+      "name": "Manual",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.accountingsystem",
+    "pk": 3,
+    "fields": {
+      "name": "Otro sistema computacional",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.buildingmaterialtype",
+    "pk": 1,
+    "fields": {
+      "name": "Adobe",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.buildingmaterialtype",
+    "pk": 2,
+    "fields": {
+      "name": "Madera",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.buildingmaterialtype",
+    "pk": 3,
+    "fields": {
+      "name": "Albañilería (ladrillo)",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.buildingmaterialtype",
+    "pk": 4,
+    "fields": {
+      "name": "Hormigón",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.buildingmaterialtype",
+    "pk": 5,
+    "fields": {
+      "name": "Estructura Metálica",
+      "ordering": "5"
+    }
+  },
+  {
+    "model": "censo.buildingmaterialtype",
+    "pk": 6,
+    "fields": {
+      "name": "Otro",
+      "ordering": "6"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 1,
+    "fields": {
+      "name": "Bomba Ataque Rápido",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 2,
+    "fields": {
+      "name": "Bomba Urbano Estándar",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 3,
+    "fields": {
+      "name": "Bomba Semi Urbano",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 4,
+    "fields": {
+      "name": "Bomba Urbano Mayor",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 5,
+    "fields": {
+      "name": "Forestales 4x4",
+      "ordering": "5"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 6,
+    "fields": {
+      "name": "Portaescalas",
+      "ordering": "6"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 7,
+    "fields": {
+      "name": "Rescate",
+      "ordering": "7"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 8,
+    "fields": {
+      "name": "Escala Telescópica",
+      "ordering": "8"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 9,
+    "fields": {
+      "name": "Haz Mat",
+      "ordering": "9"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 10,
+    "fields": {
+      "name": "Cisternas",
+      "ordering": "10"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 11,
+    "fields": {
+      "name": "Camionetas",
+      "ordering": "11"
+    }
+  },
+  {
+    "model": "censo.vehicletype",
+    "pk": 12,
+    "fields": {
+      "name": "Ambulancia",
+      "ordering": "12"
+    }
+  },
+  {
+    "model": "censo.condition",
+    "pk": 1,
+    "fields": {
+      "name": "En Servicio",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.condition",
+    "pk": 1,
+    "fields": {
+      "name": "En Servicio",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.condition",
+    "pk": 2,
+    "fields": {
+      "name": "Fuera de Servicio - En reparación",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.condition",
+    "pk": 3,
+    "fields": {
+      "name": "Fuera de Servicio - Dado de baja",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.condition",
+    "pk": 4,
+    "fields": {
+      "name": "Fuera de Servicio - Reliquia",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.vehiclechassismanufacturer",
+    "pk": 1,
+    "fields": {
+      "name": "Renault",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.vehiclechassismanufacturer",
+    "pk": 2,
+    "fields": {
+      "name": "Ford",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.vehiclechassismanufacturer",
+    "pk": 3,
+    "fields": {
+      "name": "Chevrolet",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.vehiclechassismanufacturer",
+    "pk": 4,
+    "fields": {
+      "name": "Volkswagen",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.vehiclechassismanufacturer",
+    "pk": 5,
+    "fields": {
+      "name": "Iveco",
+      "ordering": "5"
+    }
+  },
+  {
+    "model": "censo.vehiclechassismanufacturer",
+    "pk": 6,
+    "fields": {
+      "name": "Mercedes Benz",
+      "ordering": "6"
+    }
+  },
+  {
+    "model": "censo.vehiclechassismanufacturer",
+    "pk": 7,
+    "fields": {
+      "name": "Spartan",
+      "ordering": "7"
+    }
+  },
+  {
+    "model": "censo.vehiclechassismanufacturer",
+    "pk": 8,
+    "fields": {
+      "name": "HME",
+      "ordering": "8"
+    }
+  },
+  {
+    "model": "censo.vehiclecarrosadomanufacturer",
+    "pk": 1,
+    "fields": {
+      "name": "Camiva",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.vehiclecarrosadomanufacturer",
+    "pk": 2,
+    "fields": {
+      "name": "Rosenbauer",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.vehiclecarrosadomanufacturer",
+    "pk": 3,
+    "fields": {
+      "name": "Magirus",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.vehiclecarrosadomanufacturer",
+    "pk": 4,
+    "fields": {
+      "name": "E-One",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.vehiclecarrosadomanufacturer",
+    "pk": 5,
+    "fields": {
+      "name": "Pierce",
+      "ordering": "5"
+    }
+  },
+  {
+    "model": "censo.vehiclecarrosadomanufacturer",
+    "pk": 6,
+    "fields": {
+      "name": "Crimson",
+      "ordering": "6"
+    }
+  },
+  {
+    "model": "censo.vehiclecarrosadomanufacturer",
+    "pk": 7,
+    "fields": {
+      "name": "Iturry",
+      "ordering": "8"
+    }
+  },
+  {
+    "model": "censo.incorporationstatus",
+    "pk": 1,
+    "fields": {
+      "name": "Nuevo",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.incorporationstatus",
+    "pk": 2,
+    "fields": {
+      "name": "Usado",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.color",
+    "pk": 1,
+    "fields": {
+      "name": "Rojo",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.color",
+    "pk": 2,
+    "fields": {
+      "name": "Verde",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.color",
+    "pk": 3,
+    "fields": {
+      "name": "Verde limón",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.color",
+    "pk": 4,
+    "fields": {
+      "name": "Azul",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.color",
+    "pk": 5,
+    "fields": {
+      "name": "Granate",
+      "ordering": "5"
+    }
+  },
+  {
+    "model": "censo.color",
+    "pk": 6,
+    "fields": {
+      "name": "Amarillo",
+      "ordering": "6"
+    }
+  },
+  {
+    "model": "censo.color",
+    "pk": 7,
+    "fields": {
+      "name": "Anaranjado",
+      "ordering": "7"
+    }
+  },
+  {
+    "model": "censo.color",
+    "pk": 8,
+    "fields": {
+      "name": "Blanco",
+      "ordering": "8"
+    }
+  },
+  {
+    "model": "censo.transmissiontype",
+    "pk": 1,
+    "fields": {
+      "name": "Mecánica"
+    }
+  },
+  {
+    "model": "censo.transmissiontype",
+    "pk": 2,
+    "fields": {
+      "name": "Automática"
+    }
+  },
+  {
+    "model": "censo.motortype",
+    "pk": 1,
+    "fields": {
+      "name": "Bencinero",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.motortype",
+    "pk": 2,
+    "fields": {
+      "name": "Petrolero",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.motortype",
+    "pk": 3,
+    "fields": {
+      "name": "Otro",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.vehicleprocedence",
+    "pk": 1,
+    "fields": {
+      "name": "JNBC",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.vehicleprocedence",
+    "pk": 2,
+    "fields": {
+      "name": "Otro",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.fireenginecamivamodel",
+    "pk": 1,
+    "fields": {
+      "name": "CB90",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.fireenginecamivamodel",
+    "pk": 2,
+    "fields": {
+      "name": "CH90",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.fireenginecamivamodel",
+    "pk": 3,
+    "fields": {
+      "name": "CB180",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.fireenginecamivamodel",
+    "pk": 4,
+    "fields": {
+      "name": "CH180",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.codedalarmtype",
+    "pk": 1,
+    "fields": {
+      "name": "Claves",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.codedalarmtype",
+    "pk": 2,
+    "fields": {
+      "name": "Textual",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.codedkeystype",
+    "pk": 1,
+    "fields": {
+      "name": "Claves",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.codedkeystype",
+    "pk": 2,
+    "fields": {
+      "name": "Textual",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.operatingsystem",
+    "pk": 1,
+    "fields": {
+      "name": "Microsoft",
+      "ordering": "0"
+    }
+  },
+  {
+    "model": "censo.operatingsystem",
+    "pk": 2,
+    "fields": {
+      "name": "Linux",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.operatingsystem",
+    "pk": 3,
+    "fields": {
+      "name": "Novell",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.operatingsystem",
+    "pk": 4,
+    "fields": {
+      "name": "Otros",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.originsystem",
+    "pk": 1,
+    "fields": {
+      "name": "Desarrollo Propio",
+      "ordering": "0"
+    }
+  },
+  {
+    "model": "censo.originsystem",
+    "pk": 2,
+    "fields": {
+      "name": "Público",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.originsystem",
+    "pk": 3,
+    "fields": {
+      "name": "Adquirido",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.vhf",
+    "pk": 1,
+    "fields": {
+      "name": "VHF Análogo",
+      "ordering": "0"
+    }
+  },
+  {
+    "model": "censo.vhf",
+    "pk": 2,
+    "fields": {
+      "name": "VHF Digital",
+      "ordering": "1"
+    }
   }
 ]
-

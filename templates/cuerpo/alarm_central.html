@@ -2,7 +2,7 @@
 
 {% block title %}Central de Alarmas - {% endblock %}
 
-{% block nav_alarm_central%}<li class="current-tab"><a href="{% url cuerpo_alarm_central cuerpo.old_id %}">Central de Alarmas</a></li>{% endblock %}
+{% block nav_alarm_central%}<li class="current-tab"><a href="{% url cuerpo_alarm_central instance.cuerpo.old_id %}">Central de Alarmas</a></li>{% endblock %}
 
 {% block content %}
 	{% for error in form.errors %}
@@ -50,30 +50,37 @@
 
         <h3>Equipos de Radio (Fijos)</h3>
 	<a name="bases"></a>
-	<h4>Bases</h4>
-        {{ base_radio.management_form }}
-
+<h4 id="cuerpoalarmcentralbaseradioeq_set">Bases</h4>
+        {{ formsets.cuerpoalarmcentralbaseradioeq_set.management_form }}
         <table class="dynamic_form">
             <tr>
                 <th class="quantity">Cantidad</th>
                 <th>Marca</th>
-		<th>Modelo</th>
-		<th class="quantity">Potencia</th>
+                <th>Modelo</th>
+				<th class="quantity">Potencia(W)</th>
                 <th>¿Eliminar?</th>
             </tr>
-            {% for form in base_radio.forms %}
+             {% for form in formsets.cuerpoalarmcentralbaseradioeq_set.forms %}
+                {% if form.errors and not formsets_modified %}
+                    <tr class="errorrow">
+                        <td>{{ form.quantity.errors.0 }}</td>
+                        <td>{{ form.manufacturer.errors.0 }}</td>
+                        <td>{{ form.model.errors.0 }}</td>
+                        <td>{{ form.power.errors.0 }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     {{ form.id }}
                     <td class="quantity">{{ form.quantity }}</td>
                     <td>{{ form.manufacturer }}</td>
-		    <td>{{ form.model }}</td>
-		    <td class="quantity">{{ form.power }}</td>
+                    <td>{{ form.model }}</td>
+					<td class="quantity">{{ form.power }}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
             {% endfor %}
             <tr class="dynamic_form_buttons">
-                <td colspan=3 class="add_button"><input title="Agregar nuevo equipo de radio base" type="submit" name="add_new_base_radio_eq" value="Agregar nuevo equipo de radio base" /></td>
-                <td colspan=2 class="delete_button"><input type="submit" value="Eliminar seleccionados" name="delete_base_radio_eq" /></td>
+                <td colspan=2 class="add_button"><input title="Agregar Equipo de Radio Base" type="submit" name="{{ formsets.cuerpoalarmcentralbaseradioeq_set.prefix }}_add" value="Agregar Equipo de Radio Base" /></td>
+                <td colspan=3 class="delete_button"><input type="submit" value="Eliminar seleccionados" name="{{ formsets.cuerpoalarmcentralbaseradioeq_set.prefix }}_delete" /></td>
             </tr>
         </table>
 

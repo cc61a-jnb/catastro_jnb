@@ -6,9 +6,9 @@
 		<li class="current-tab"> to highlight selected tab
 		reference: http://stackoverflow.com/questions/340888/navigation-in-django
 	{% endcomment %}
-		{% block nav_portada %}<li><a href="{% url company company.old_id %}">Portada</a></li>{% endblock %}
-		{% block nav_volunteers %}<li><a href="{% url company_volunteers company.old_id %}">Voluntarios</a></li>{% endblock %}
-		{% block nav_infrastructure %}<li><a href="{% url company_infrastructure company.old_id %}">Infraestructura</a></li>{% endblock %}
-		{% block nav_minor_material %}<li><a href="{% url company_minor_material company.old_id %}">Material Menor</a></li>{% endblock %}
+		{% block nav_portada %}<li><a href="{% url company instance.company.old_id %}">Portada</a></li>{% endblock %}
+		{% block nav_volunteers %}<li><a href="{% url company_volunteers instance.company.old_id %}">Voluntarios</a></li>{% endblock %}
+		{% block nav_infrastructure %}<li><a href="{% url company_infrastructure instance.company.old_id %}">Infraestructura</a></li>{% endblock %}
+		{% block nav_minor_material %}<li><a href="{% url company_minor_material instance.company.old_id %}">Material Menor</a></li>{% endblock %}
 	</ul>
 {% endblock %}

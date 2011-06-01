@@ -3,7 +3,7 @@
 
 {% block title %}Material Mayor - {% endblock %}
 
-{% block nav_mayor_material %}<li class="current-tab"><a href="{% url cuerpo_mayor_material cuerpo.old_id %}">Material Mayor</a></li>{% endblock %}
+{% block nav_mayor_material %}<li class="current-tab"><a href="{% url cuerpo_mayor_material instance.cuerpo.old_id %}">Material Mayor</a></li>{% endblock %}
 
 {% block content %}
 

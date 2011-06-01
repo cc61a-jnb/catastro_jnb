@@ -3,7 +3,7 @@
 
 {% block title %}Infraestructura - {% endblock %}
 
-{% block nav_infrastructure %}<li class="current-tab"><a href="{% url company_infrastructure company.old_id %}">Infraestructura</a></li>{% endblock %}
+{% block nav_infrastructure %}<li class="current-tab"><a href="{% url company_infrastructure instance.company.old_id %}">Infraestructura</a></li>{% endblock %}
 
 {% block content %}
 <form method="post" class="catastro_form" enctype="multipart/form-data">
