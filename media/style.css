@@ -683,6 +683,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
     list-style: none;
     color: #b30a0a;
     margin-bottom: 15px;
+    text-align: left;
 }
 
 .table_quantities {
@@ -701,6 +702,25 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 .table_quantities td {
     text-align: center;
     width: 70px;
+}
+
+/* Dynamic forms */
+
+.dynamic_form .quantity input {
+    width: 50px;
+}
+
+.dynamic_form .quantity {
+    text-align: center;
+    width: 70px;
+}
+
+.dynamic_form_buttons .add_button {
+    text-align: left;
+}
+
+.dynamic_form_buttons .delete_button {
+    text-align: right;
 }
 
 /*service_acts*/
@@ -749,4 +769,13 @@ form.catastro_form ul li label {
 
 form.catastro_form ul {
     list-style: none;
+}
+
+.errorrow {
+    color: #B30A0A;
+}
+
+.errorrow td {
+    font-weight: bold;
+    font-size: 10px;
 }

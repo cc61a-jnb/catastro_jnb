@@ -1,6 +1,8 @@
 {% extends "company/base.html" %}
 {% load thumbnail %}
 
+{% block title %}Infraestructura - {% endblock %}
+
 {% block nav_infrastructure %}<li class="current-tab"><a href="{% url company_infrastructure %}">Infraestructura</a></li>{% endblock %}
 
 {% block content %}
@@ -102,7 +104,7 @@
 
     <br />
     <br />
-    {{ pair.0 }}
+    {{ pair.0 }} <input type="submit" value="Eliminar fotografía" name="{{ pair.0.name }}_delete" />
     <br/>
     <br />
 {% endfor %}

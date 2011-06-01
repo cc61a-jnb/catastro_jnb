@@ -1,11 +1,12 @@
 # coding: utf-8
 
-from utils import authorize
-
+import logging
+from utils import authorize, generic_edit
 from censo.forms import *
 from censo.models import *
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
+from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
@@ -310,7 +311,7 @@ def display_infrastructure_form(request):
                     if q.role_name == '':
                         q.delete()
                 # Redirect after POST
-                return HttpResponseRedirect('/cuerpo/mayor_material')
+                return redirect('cuerpo_mayor_material')
             # Else render the form again
             else:
                 return render_to_response('cuerpo/fourth_page.html', {
@@ -338,51 +339,73 @@ def display_infrastructure_form(request):
             'other_offices': new_other_offices,
             }, context_instance=RequestContext(request),
         )
+        
+# Show Mayor Material Index
+@authorize(roles=('cuerpo',))
+def display_mayor_material_index(request):
+    profile = request.user.get_profile()
+    cuerpo = profile.company.cuerpo
+    
+    # Get mayor material list
+    mayor_material_list = cuerpo.cuerpomayormaterialdata_set.all()
+    
+    return render_to_response('cuerpo/fifth_page.html', {
+                'cuerpo': cuerpo,
+                'mayor_material_list': mayor_material_list,
+                }, context_instance=RequestContext(request),
+                )
 
 # Show Mayor Material form
 @authorize(roles=('cuerpo',))
-def display_mayor_material_form(request):
+def edit_mayor_material_form(request, mayor_material_id):
     profile = request.user.get_profile()
     cuerpo = profile.company.cuerpo
     mayor_material_data = None
     # Attempt to load previously submitted data
     try:
-        mayor_material_data = cuerpo.cuerpomayormaterialdata
-    # If it fails, create blank data
-    except ObjectDoesNotExist:
-        mayor_material_data = CuerpoMayorMaterialData()
-        # Add cuerpo to blank data
-        mayor_material_data.cuerpo = cuerpo
-        mayor_material_data.save()
+        mayor_material_data = cuerpo.cuerpomayormaterialdata_set.get(pk=mayor_material_id)
+    except CuerpoMayorMaterialData.DoesNotExist:
+        # Redirect to default mayor material
+        logging.error("Requested mayor material data id:%d for cuerpo:%d doesn't exists", mayor_material_id, cuerpo.id)
+        request.flash['error'] = 'La planilla de material mayor consultada no existe'
+        return redirect('cuerpo_mayor_material')
 
-    # If the form has been submitted
+    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/fifth_page_edit.html', reverse('catastro_jnb.censo.views_cuerpo.display_mayor_material_index'), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data], [CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
+
+# Add New Mayor Material form
+@authorize(roles=('cuerpo',))
+def add_new_mayor_material(request):
+    profile = request.user.get_profile()
+    cuerpo = profile.company.cuerpo
+    mayor_material_data = CuerpoMayorMaterialData()
+    mayor_material_data.cuerpo = cuerpo
+    
+    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/fifth_page_edit.html', reverse('catastro_jnb.censo.views_cuerpo.display_mayor_material_index'), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data],[CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
+        
+
+# Remove Selected Material form
+@authorize(roles=('cuerpo',))
+def remove_mayor_material(request, mayor_material_id):
     if request.method == 'POST':
-        # A form bound to the POST data
-        form = CuerpoMayorMaterialForm(request.POST, instance=mayor_material_data)
-        # If the form is correctly validated
-        if form.is_valid():
-            form.save()
-            # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/mayor_material')
-        # Else render the form again
-        else:
-            return render_to_response('cuerpo/fifth_page.html', {
-                'form': form,
-                'cuerpo': cuerpo,
-                }, context_instance=RequestContext(request),
-                )
+        profile = request.user.get_profile()
+        cuerpo = profile.company.cuerpo
+        mayor_material_data = None
 
-    # If the form hasn't been submitted
-
-    # Load already submitted data as initial, to avoid triggering validation
-    form = CuerpoMayorMaterialForm(instance=mayor_material_data)
-
-    # Render the form
-    return render_to_response('cuerpo/fifth_page.html', {
-            'form': form,
-            'cuerpo': cuerpo,
-            }, context_instance=RequestContext(request),
-        )
+        try:
+            mayor_material_data = cuerpo.cuerpomayormaterialdata_set.get(pk=mayor_material_id)
+        # The id provided in the url does not exist
+        except CuerpoMayorMaterialData.DoesNotExist:
+            # Redirect to default mayor material
+            request.flash['error'] = 'La planilla de material mayor consultada no existe'
+            logging.error("Requested mayor material data id:%d for cuerpo:%d doesn't exists", mayor_material_id, cuerpo.id)
+            return redirect('cuerpo_mayor_material')
+        
+        logging.info("Deleting mayor material data object id:%d for cuerpo:%d", mayor_material_data.id, cuerpo.id)
+        mayor_material_data.delete()
+        request.flash['success'] = "Se ha eliminado la ficha seleccionada satisfactoriamente"
+        return redirect('cuerpo_mayor_material')
+    else:
+        return redirect('cuerpo_mayor_material')
 
 # Show Alarm Central form
 @authorize(roles=('cuerpo',))

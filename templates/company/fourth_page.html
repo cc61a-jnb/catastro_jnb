@@ -1,5 +1,7 @@
 {% extends "company/base.html" %}
 
+{% block title %}Material Menor - {% endblock %}
+
 {% block nav_minor_material %}<li class="current-tab"><a href="{% url company_minor_material %}">Material Menor</a></li>{% endblock %}
 
 {% block content %}
@@ -18,7 +20,6 @@
 
 <h3>Equipamiento ERA</h3>
 {{ form.render_era_equipment_to_table}}
-
 <br/>
 <hr/>
 
@@ -31,26 +32,21 @@
 
 <h4>Otro equipamiento</h4>
 {{ form.render_other_minor_equipment_to_list }}
-
 <br/>
 <hr/>
 
 <h3>Compresores de aire</h3>
 {{ form.render_air_compressor_to_list}}
-
 <br/>
 <hr/>
 
 <h3>Cascadas</h3>
 {{ form.render_cascade_to_list}}
-
 <br/>
 <hr/>
 
 <h3>Generadores Eléctricos</h3>
 {{ form.render_electric_generator_questions_to_table}}
-
-
 <br/>
 <hr/>
 
@@ -60,75 +56,115 @@
 <br/>
 <hr/>
 
-<h3>Equipos de Radio Base</h3>
 
-{{ form.render_base_radio_equipment_quantity }}
-{{ form.render_base_radio_equipment_make_to_list }}
-{{ form.render_base_radio_equipment_power }}
-
-   <a name="others_radio_base"></a>
-        <h4>Otras radio base</h4>
-        {{ others_radio_base.management_form }}
-
-        <table>
+<h3 id="companyotherradiobase_set">Equipos de Radio Base</h3>
+        <!--<h4>Otras radio base</h4>-->
+        {{ formsets.companyotherradiobase_set.management_form }}
+        <table class="dynamic_form">
             <tr>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>¿Eliminar?</th>
-            </tr>
-            {% for form in others_radio_base.forms %}
+				<th class="quantity">Cantidad</th>
+				<th>Marca</th>
+				<th>Modelo</th>
+				<th class="quantity">Potencia</th>
+				<th>¿Eliminar?</th>
+			</tr>
+              {% for form in formsets.companyotherradiobase_set.forms %}
+                {% if form.errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.radio_quantity.errors.0 }}</td>
+                        <td>{{ form.fk_radio_brand.errors.0 }}</td>
+                        <td>{{ form.radio_model.errors.0 }}</td>
+                        <td>{{ form.radio_power.errors.0 }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     {{ form.id }}
-                    <td>{{ form.radio_brand }}</td>
+                    <td class="quantity">{{ form.radio_quantity }}</td>
+                    <td>{{ form.fk_radio_brand }}</td>
                     <td>{{ form.radio_model }}</td>
+                    <td class="quantity">{{ form.radio_power }}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td><input title="Agregar radio Base" type="submit" name="add_radio_base" value="Agregar radio Base" /></td>
-                <td></td>
-                <td><input type="submit" value="Eliminar seleccionados" name="delete_other_radio_base" /></td>
+            <tr class="dynamic_form_buttons">
+                <td colspan=3 class="add_button"><input title="Agregar radio Base" type="submit" name="{{ formsets.companyotherradiobase_set.prefix }}_add" value="Agregar radio Base" /></td>
+                <td colspan=2 class="delete_button"><input type="submit" value="Eliminar seleccionados" name="{{ formsets.companyotherradiobase_set.prefix }}_delete" /></td>
             </tr>
         </table>
     <br />
 <br/>
 <hr/>
 
-<h3>Equipos de Radio Portátiles</h3>
-{{ form.render_portable_radio_equipment_quantity }}
-{{ form.render_portable_radio_equipment_make_to_list }}
-<a name="others_radio_portable"></a>
-        <h4>Otras radio portatiles</h4>
-        {{ others_radio_portable.management_form }}
-        <table>
+<h3 id="companyotherradioportable_set">Equipos de Radio Portátiles</h3>
+        <!--<h4>Otras radio portatiles</h4>-->
+        {{ formsets.companyotherradioportable_set.management_form }}
+        <table class="dynamic_form">
+        <tr>
+            <th class="quantity">Cantidad</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>¿Eliminar?</th>
+        </tr>
+             {% for form in formsets.companyotherradioportable_set.forms %}
+                {% if form.errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.radio_portable_quantity.errors.0 }}</td>
+                        <td>{{ form.fk_radio_portable_brand.errors.0 }}</td>
+                        <td>{{ form.radio_portable_model.errors.0 }}</td>
+                    </tr>
+                {% endif %}
+                <tr>  
+                    {{ form.id }}
+                    <td class="quantity">{{ form.radio_portable_quantity }}</td>
+                    <td>{{ form.fk_radio_portable_brand }}</td>
+                    <td>{{ form.radio_portable_model }}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr class="dynamic_form_buttons">
+                <td colspan=2 class="add_button"><input title="Agregar radio Portatil" type="submit" name="{{ formsets.companyotherradioportable_set.prefix }}_add" value="Agregar radio Portatil" /></td>
+                <td colspan=2 class="delete_button"><input type="submit" value="Eliminar seleccionados" name="{{ formsets.companyotherradioportable_set.prefix }}_delete" /></td>
+            </tr>
+        </table>
+    <br />
+<br/>
+<hr/>
+
+<h3 id="companyantenas_set">Antenas</h3>
+        <!--<h4>Otras antenas</h4>-->
+        {{ formsets.companyantenas_set.management_form }}
+        <table class="dynamic_form">
             <tr>
+                <th class="quantity">Cantidad</th>
                 <th>Marca</th>
                 <th>Modelo</th>
+				<th class="quantity">Decibeles</th>
                 <th>¿Eliminar?</th>
             </tr>
-            {% for form in others_radio_portable.forms %}
+             {% for form in formsets.companyantenas_set.forms %}
+                {% if form.errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.antennas_quantity.errors.0 }}</td>
+                        <td>{{ form.antennas_manufacturer.errors.0 }}</td>
+                        <td>{{ form.antennas_model.errors.0 }}</td>
+                        <td>{{ form.antennas_power.errors.0 }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     {{ form.id }}
-                    <td>{{ form.radio_portable_brand }}</td>
-                    <td>{{ form.radio_portable_model }}</td>
-                    <td>{{ form.radio_portable_power }}</td>
+                    <td class="quantity">{{ form.antennas_quantity }}</td>
+                    <td>{{ form.antennas_manufacturer }}</td>
+                    <td>{{ form.antennas_model }}</td>
+					<td class="quantity">{{ form.antennas_power }}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td><input title="Agregar radio Portatil" type="submit" name="add_radio_portatil" value="Agregar radio Portatil" /></td>
-                <td></td>
-                <td><input type="submit" value="Eliminar seleccionados" name="delete_radio_portable" /></td>
+            <tr class="dynamic_form_buttons">
+                <td colspan=2 class="add_button"><input title="Agregar Antena" type="submit" name="{{ formsets.companyantenas_set.prefix }}_add" value="Agregar Antena" /></td>
+                <td colspan=3 class="delete_button"><input type="submit" value="Eliminar seleccionados" name="{{ formsets.companyantenas_set.prefix }}_delete" /></td>
             </tr>
         </table>
     <br />
-<br/>
-<hr/>
-
-<h3>Antenas</h3>
-{{ form.render_antenna_equipment_quantity }}
-{{ form.render_antenna_equipment_make_to_list }}
-{{ form.render_antenna_equipment_power }}
 
 <br/>
 <hr/>

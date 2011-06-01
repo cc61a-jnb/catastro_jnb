@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from django.db import models
+from django.db import connections
 from . import Commune
 
 class Cuerpo(models.Model):
@@ -46,7 +47,20 @@ class Cuerpo(models.Model):
         cuerpo.decree_date = cuerpo_data[6]
         cuerpo.save()
         
+        cuerpo.fetch_related_company_ids(cursor)
+        
         return cuerpo
+
+    def fetch_related_company_ids(self, cursor):
+        from . import Company
+        
+        query = "SELECT comp_id FROM companias WHERE comp_fk_cuerpo = %s"
+        params = (self.old_id,)
+        cursor.execute(query, params)
+        rows = cursor.fetchall()
+        
+        for row in rows:
+            Company.fetch_from_db(cursor, row[0], cuerpo=self)
 
     def __unicode__(self):
         return u'Cuerpo de Bomberos de %s' % self.name

@@ -1,6 +1,6 @@
 {% extends "cuerpo/base.html" %}
 
-{% block title %}Catastro de cuerpo de bomberos: Central de Alarmas{% endblock %}
+{% block title %}Central de Alarmas - {% endblock %}
 
 {% block nav_alarm_central%}<li class="current-tab"><a href="{% url cuerpo_alarm_central %}">Central de Alarmas</a></li>{% endblock %}
 
@@ -53,28 +53,27 @@
 	<h4>Bases</h4>
         {{ base_radio.management_form }}
 
-        <table>
+        <table class="dynamic_form">
             <tr>
-                <th>Cantidad</th>
+                <th class="quantity">Cantidad</th>
                 <th>Marca</th>
 		<th>Modelo</th>
-		<th>Potencia</th>
+		<th class="quantity">Potencia</th>
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in base_radio.forms %}
                 <tr>
                     {{ form.id }}
-                    <td>{{ form.quantity }}</td>
+                    <td class="quantity">{{ form.quantity }}</td>
                     <td>{{ form.manufacturer }}</td>
 		    <td>{{ form.model }}</td>
-		    <td>{{ form.power }}</td>
+		    <td class="quantity">{{ form.power }}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td><input title="Agregar nuevo equipo de radio base" type="submit" name="add_new_base_radio_eq" value="Agregar nuevo equipo de radio base" /></td>
-                <td></td>
-                <td><input type="submit" value="Eliminar seleccionados" name="delete_base_radio_eq" /></td>
+            <tr class="dynamic_form_buttons">
+                <td colspan=3 class="add_button"><input title="Agregar nuevo equipo de radio base" type="submit" name="add_new_base_radio_eq" value="Agregar nuevo equipo de radio base" /></td>
+                <td colspan=2 class="delete_button"><input type="submit" value="Eliminar seleccionados" name="delete_base_radio_eq" /></td>
             </tr>
         </table>
 

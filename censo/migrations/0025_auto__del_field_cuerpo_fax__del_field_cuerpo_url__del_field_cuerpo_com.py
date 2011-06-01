@@ -42,13 +42,13 @@ class Migration(SchemaMigration):
         db.delete_table('censo_cuerpo_communes')
 
         # Changing field 'Cuerpo.commune'
-        db.alter_column('censo_cuerpo', 'commune_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.Commune']))
+        db.alter_column('censo_cuerpo', 'commune_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['censo.Commune'], blank=True, null=True))
 
         # Changing field 'Cuerpo.decree_date'
-        db.alter_column('censo_cuerpo', 'decree_date', self.gf('django.db.models.fields.CharField')(max_length=255))
+        db.alter_column('censo_cuerpo', 'decree_date', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True, null=True))
 
         # Changing field 'Cuerpo.foundation_date'
-        db.alter_column('censo_cuerpo', 'foundation_date', self.gf('django.db.models.fields.CharField')(max_length=255))
+        db.alter_column('censo_cuerpo', 'foundation_date', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True, null=True))
     
     
     def backwards(self, orm):

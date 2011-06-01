@@ -13,7 +13,13 @@
 	<!--[if lt IE 8]>
 	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/ie.css" type="text/css" media="screen, projection">
 	<![endif]-->
-	<title>{% block title %}Catastro de cuerpos y compañías de bomberos{% endblock %}</title>
+	{% block scripts %}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<script src="{{ MEDIA_URL }}/js/form_handler.js"></script>
+	<script src="{{ MEDIA_URL }}/js/default_submit_form_on_enter.js"></script>
+	{% endblock %}
+	{% block user_scripts %}{% endblock %}
+	<title>{% block title %}{% endblock %}Catastro Nacional de Bomberos de Chile</title>
 </head>
 
 <body>
@@ -53,6 +59,10 @@
 				
 				{% if flash.notice %}
 					<div class="notice">{{ flash.notice }}</div>
+				{% endif %}
+				
+				{% if flash.success %}
+					<div class="success">{{ flash.success }}</div>
 				{% endif %}
 			
 			{% endblock %}

@@ -1,0 +1,198 @@
+{% extends "cuerpo/base.html" %}
+{% load thumbnail %}
+
+{% block title %}Material Mayor - {% endblock %}
+
+{% block nav_mayor_material %}<li class="current-tab"><a href="{% url cuerpo_mayor_material %}">Material Mayor</a></li>{% endblock %}
+
+{% block content %}
+
+<form method="post" class="catastro_form" enctype="multipart/form-data">
+	{% csrf_token %}
+	<h2>Material Mayor</h2>
+	<h4>Cuerpo de bomberos {{ instance.cuerpo.name }}</h4>
+
+	{% if form.non_field_errors %}
+	    <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+	    </ul>
+	{% endif %}
+
+	<h3>Información del Vehículo</h3>
+    <h5>*Debe elegir una compañía o nivel central</h5>
+	
+	<!-- We need to create the select list only with related companies -->
+	{{ form.render_company_question_to_list }}
+
+	{{ form.render_vehicle_info_questions_to_list }}
+
+    <br />
+	<hr />
+
+	<h3>Registro Nacional de Vehiculos Motorizados - Registro Civil</h3>
+
+	{{ form.render_legal_status_questions_to_list }}
+
+    <br />
+	<hr />
+
+	<h3>Medidores de Uso</h3>
+
+	{{ form.render_kilometraje_horometraje_to_list }}
+
+	<br />
+	<hr />
+
+    <h3>Caracteristicas de la bomba</h3>
+    <h5>*Llenar sólo si aplica
+
+	{{ form.render_caracteristics_to_list }}
+
+	<br />
+	<hr />
+	<h3>Mantención </h3>
+	{{ form.render_maintenance_to_list }}
+	<br />
+	<hr />
+	<h3>Grandes reparaciones</h3>
+	<h5>*Llenar sólo si se han realizado cambios</h5>
+
+	<h4>Cambio Motor</h4>
+	{{ form.render_motor_change_to_list }}
+
+	<h4>Cambio Caja de cambio</h4>
+	{{ form.render_gearbox_change_to_list }}
+	
+	<h4>Reparaciones</h4>
+	{{ form.render_repairs_to_list }}
+
+	<br />
+	<hr />
+
+<h3 id="cuerpomaterialmayorinstalledradio_set">Equipos de Radio instalados en el carro</h3>
+
+        {{ formsets.cuerpomaterialmayorinstalledradio_set.management_form }}
+
+        <table class="dynamic_form">
+            <tr>
+                <th class="quantity">Cantidad</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th class="quantity">Potencia (W)</th>
+                <th>¿Eliminar?</th>
+            </tr>
+            {% for form in formsets.cuerpomaterialmayorinstalledradio_set.forms %}
+                <tr>
+                    {{ form.id }}
+                    <td class="quantity">{{ form.installed_radio_quantity}}</td>
+                    <td>{{ form.installed_radio_brand}}</td>
+                    <td>{{ form.installed_radio_model}}</td>
+                    <td class="quantity">{{ form.installed_radio_potency}}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr class="dynamic_form_buttons">
+                <td colspan=2 class="add_button"><input title="Agregar equipo de radio instalado" type="submit" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_add" value="Agregar equipo de radio instalado" /></td>
+                <td colspan=3 class="delete_button"><input type="submit" value="Eliminar equipo de radio instalado" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_delete" /></td>
+            </tr>
+        </table>
+<br/>
+<h3 id="cuerpomaterialmayorportableradio_set">Equipos de Radio Portátiles</h3>
+
+        {{ formsets.cuerpomaterialmayorportableradio_set.management_form }}
+
+        <table class="dynamic_form">
+            <tr>
+                <th class="quantity">Cantidad</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>¿Eliminar?</th>
+            </tr>
+            {% for form in formsets.cuerpomaterialmayorportableradio_set.forms %}
+                <tr>
+                    {{ form.id }}
+                    <td class="quantity">{{ form.portable_radio_quantity}}</td>
+                    <td>{{ form.portable_radio_brand}}</td>
+                    <td>{{ form.portable_radio_model}}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr class="dynamic_form_buttons">
+                <td colspan=2 class="add_button"><input title="Agregar equipo de radio portatil" type="submit" name="{{ formsets.cuerpomaterialmayorportableradio_set.prefix }}_add" value="Agregar equipo de radio portatil" /></td>
+                <td colspan=2 class="delete_button"><input type="submit" value="Eliminar equipo de radio portatil" name="{{ formsets.cuerpomaterialmayorportableradio_set.prefix }}_delete" /></td>
+            </tr>
+        </table>
+<br/>
+<h3 id="cuerpomaterialmayorantenna_set">Antena</h3>
+
+        {{ formsets.cuerpomaterialmayorantenna_set.management_form }}
+
+        <table class="dynamic_form">
+            <tr>
+                <th class="quantity">Cantidad</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th class="quantity">Decibeles</th>
+                <th>¿Eliminar?</th>
+            </tr>
+            {% for form in formsets.cuerpomaterialmayorantenna_set.forms %}
+                <tr>
+                    {{ form.id }}
+                    <td class="quantity">{{ form.antenna_quantity}}</td>
+                    <td>{{ form.antenna_brand}}</td>
+                    <td>{{ form.antenna_model}}</td>
+                    <td class="quantity">{{ form.antenna_decibel}}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr class="dynamic_form_buttons">
+                <td colspan=3 class="add_button"><input title="Agregar antena" type="submit" name="{{ formsets.cuerpomaterialmayorantenna_set.prefix }}_add" value="Agregar antena" /></td>
+                <td colspan=2 class="delete_button"><input type="submit" value="Eliminar antena" name="{{ formsets.cuerpomaterialmayorantenna_set.prefix }}_delete" /></td>
+            </tr>
+        </table>
+
+
+
+<br/>
+<hr/>
+
+	<h3>Generadores Eléctricos</h3>
+	{{ form.render_electric_generator_questions_to_table }}
+
+	<br />
+	<hr />
+
+	<h3>Fotografías</h3>
+	{% for pair in form.picture_fields %}
+    <h4>{{ pair.0.label }}</h4>
+
+    {% if pair.0.errors %}
+        <ul class="errorlist">
+            {% for error in pair.0.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% thumbnail pair.1 "300x300" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}
+
+    <br />
+    <br />
+    {{ pair.0 }}
+    <br/>
+    <br />
+{% endfor %}
+
+	<br />
+	<hr />
+<h3>Observaciones</h3>
+    <p>Ingrese cualquier información que estime de utilidad</p>
+	{{ form.render_observations_to_list }}
+	<p><input type="submit" value="Guardar y continuar" /></p>
+</form>
+
+{% endblock %}

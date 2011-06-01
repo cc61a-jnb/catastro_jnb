@@ -7,7 +7,7 @@ class MinorMaterialCompanyData(models.Model):
     company = models.OneToOneField('censo.Company', blank=True)
 
     def __unicode__(self):
-        return self.company.name
+        return unicode(self.company)
 
     class Meta:
         ordering = ['company']
@@ -97,10 +97,7 @@ class MinorMaterialCompanyData(models.Model):
     antenna_equipment_quantity = models.IntegerField(null=True, blank=True, verbose_name='Cantidad')
     antenna_equipment_manufacturer = models.CharField(max_length=255, null=True, blank=True, verbose_name='Marca')
     antenna_equipment_model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Modelo')
-    antenna_equipment_power = models.IntegerField(null=True, blank=True, verbose_name='Decíbeles')
+    antenna_equipment_power = models.IntegerField(null=True, blank=True, verbose_name='Decibeles')
 
     # Observaciones
-
     observations = models.TextField(null=True, blank=True, verbose_name='')
-
-

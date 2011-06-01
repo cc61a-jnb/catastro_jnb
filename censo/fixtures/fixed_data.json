@@ -1,0 +1,238 @@
+[
+  {
+    "model": "censo.speciality",
+    "pk": 1,
+    "fields": {
+      "name": "Agua"
+    }
+  },
+  {
+    "model": "censo.speciality",
+    "pk": 2,
+    "fields": {
+      "name": "Escala"
+    }
+  },
+  {
+    "model": "censo.speciality",
+    "pk": 3,
+    "fields": {
+      "name": "Salvamento"
+    }
+  },
+  {
+    "model": "censo.speciality",
+    "pk": 4,
+    "fields": {
+      "name": "Rescate Urbano"
+    }
+  },
+  {
+    "model": "censo.speciality",
+    "pk": 5,
+    "fields": {
+      "name": "Rescate Vehicular"
+    }
+  },
+  {
+    "model": "censo.speciality",
+    "pk": 6,
+    "fields": {
+      "name": "Incendios Forestales"
+    }
+  },
+  {
+    "model": "censo.speciality",
+    "pk": 7,
+    "fields": {
+      "name": "Haz Mat"
+    }
+  },
+  {
+    "model": "censo.speciality",
+    "pk": 8,
+    "fields": {
+      "name": "Gersa"
+    }
+  },
+  {
+    "model": "censo.speciality",
+    "pk": 9,
+    "fields": {
+      "name": "Rescate Minero"
+    }
+  },
+  {
+    "model": "censo.speciality",
+    "pk": 10,
+    "fields": {
+      "name": "Incendios Industriales"
+    }
+  },
+  {
+    "model": "censo.internetprovider",
+    "pk": 1,
+    "fields": {
+      "name": "Entel",
+      "ordering": "1"
+    }
+  }, 
+  {
+    "model": "censo.internetprovider",
+    "pk": 2,
+    "fields": {
+      "name": "VTR",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.internetprovider",
+    "pk": 3,
+    "fields": {
+      "name": "Movistar",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.internetprovider",
+    "pk": 4,
+    "fields": {
+      "name": "Claro",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.internetprovider",
+    "pk": 5,
+    "fields": {
+      "name": "TelSur",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.internetprovider",
+    "pk": 6,
+    "fields": {
+      "name": "Otro",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.propertytitletype",
+    "pk": 1,
+    "fields": {
+      "name": "Propio",
+      "ordering": "1",
+      "requires_end_year": false
+    }
+  },
+  {
+    "model": "censo.propertytitletype",
+    "pk": 2,
+    "fields": {
+      "name": "Arriendo",
+      "ordering": "2",
+      "requires_end_year": true
+    }
+  },
+  {
+    "model": "censo.propertytitletype",
+    "pk": 3,
+    "fields": {
+      "name": "Comodato Municipal",
+      "ordering": "3",
+      "requires_end_year": true
+    }
+  },
+  {
+    "model": "censo.propertytitletype",
+    "pk": 4,
+    "fields": {
+      "name": "Comodato Particular",
+      "ordering": "4",
+      "requires_end_year": true
+    }
+  },
+  {
+    "model": "censo.propertytitletype",
+    "pk": 5,
+    "fields": {
+      "name": "Comodato Bienes Nacionales",
+      "ordering": "5",
+      "requires_end_year": true
+    }
+  },
+  {
+    "model": "censo.potencyrange",
+    "pk": 1,
+    "fields": {
+      "name": "2 - 5 kW",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.potencyrange",
+    "pk": 2,
+    "fields": {
+      "name": "5 - 8 kW",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.potencyrange",
+    "pk": 3,
+    "fields": {
+      "name": "10 - 20 kW",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.potencyrange",
+    "pk": 4,
+    "fields": {
+      "name": "20 y más kW",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 1,
+    "fields": {
+      "name": "Motorola",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 2,
+    "fields": {
+      "name": "Kenwood",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 3,
+    "fields": {
+      "name": "Icom",
+      "ordering": "3"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 4,
+    "fields": {
+      "name": "Yaesu",
+      "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.portablebrand",
+    "pk": 5,
+    "fields": {
+      "name": "Otros",
+      "ordering": "5"
+    }
+  }
+]
+

@@ -1,69 +1,41 @@
 {% extends "cuerpo/base.html" %}
 
-{% block title %}Catastro de cuerpo de bomberos: Material Mayor{% endblock %}
+{% block title %}Material Mayor - {% endblock %}
 
 {% block nav_mayor_material %}<li class="current-tab"><a href="{% url cuerpo_mayor_material %}">Material Mayor</a></li>{% endblock %}
 
 {% block content %}
 
-<h2>Formulario disponible próximamente</h2>
-<br>
-<!--borrar cuando se implemente la solucion final>
--->
-<a href=/cuerpo/alarm_central> Continuar con catastro</a>
-{% comment %} 	<form method="post" class="catastro_form">
-	{% csrf_token %}
-	<h2>Material Mayor</h2>
-	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+<div>
 
-	{% if form.non_field_errors %}
-	    <ul class="errorlist">
-            {% for error in form.non_field_errors %}
-	            <li>{{ error }}</li>
-            {% endfor %}
-	    </ul>
-	{% endif %}
+<div class="add-button">
+    <a href="{% url cuerpo_add_new_mayor_material %}">Agregar Nueva Ficha</a>
+</div>
+<table>
+    <tr>
+        <th>Compañía</th>
+        <th>Denominación</th>
+        <th>Patente</th>
+        <th>Eliminar</th>
+    </tr>
+{% for mayor_material_data in mayor_material_list %}
+    <tr>
+        <td>
+        <a href="{% url cuerpo_edit_mayor_material mayor_material_data.id %}">{{forloop.counter}} - {{mayor_material_data }}</a>
+        </td>
+        <td>{{mayor_material_data.denomination|default:"no ingresada"}}</td>
+        <td>{{mayor_material_data.licence_plate|default:"no ingresada"}}</td>
+        <td>
+		    <form method="post" action="{% url cuerpo_remove_mayor_material mayor_material_data.id %}" onsubmit="return confirm('Está seguro que desea eliminar esta ficha?');">
+		    {% csrf_token %}
+			    <input type="submit" value="Eliminar ficha"/>
+		    </form>
+        </td>
+    </tr>
+{% empty %}
+    <tr><td colspan="4">Ud. no tiene fichas de Material Mayor</td></tr>
+{% endfor %}
+</table>
+</div>
 
-	<h3>Información del Vehículo</h3>
-
-	{{ form.render_vehicle_info_questions_to_list }}
-
-    <br />
-	<hr />
-
-	<h3>Situación Legal</h3>
-
-	{{ form.render_legal_status_questions_to_list }}
-
-    <br />
-	<hr />
-
-	<h3>Medidores de Uso</h3>
-
-	{{ form.render_kilometraje_horometraje_to_list }}
-
-	<br />
-	<hr />
-
-    <h3>Caracteristicas</h3>
-
-	{{ form.render_caracteristics_to_list }}
-
-	<br />
-	<hr />
-
-	<h3>Grandes reparaciones</h3>
-
-	<h4>Cambio Motor</h4>
-	{{ form.render_motor_change_to_list }}
-
-	<h4>Cambio Caja de cambio</h4>
-	{{ form.render_gearbox_change_to_list }}
-
-	<br />
-	<hr />
-
-	<p><input type="submit" value="Guardar y continuar" /></p>
-</form>
-{% endcomment %}
 {% endblock %}
