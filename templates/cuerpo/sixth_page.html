@@ -11,7 +11,7 @@
 	<form method="post" class="catastro_form" action="#bases">
 	{% csrf_token %}
 	<h2>Central de Alarmas</h2>
-	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+	<h4>Cuerpo de bomberos {{ instance.cuerpo.name }}</h4>
 
 	{% if form.non_field_errors %}
 	    <ul class="errorlist">
