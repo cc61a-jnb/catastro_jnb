@@ -167,7 +167,6 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     # Dictionary that holds the formsets after adding, deleting and validating them
     # Key is the default prefix of the class
     formsets = {}
-    #pdb.set_trace()
     # If one of the buttons has been pressed
     
     if request.method == 'POST':
@@ -203,7 +202,6 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                     formsets[prefix] = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
         else:
             valid_form_page = form.is_valid()
-            #pdb.set_trace()
             
             for GenericFormSet in GenericFormSets:
                 formset = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
@@ -236,6 +234,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     else:
         for idx, GenericFormSet in enumerate(GenericFormSets):
             prefix = GenericFormSet.get_default_prefix()
+            print prefix
             formsets[prefix] = GenericFormSet(instance=formset_pairs[idx][1])
         form = PageForm(instance=instance)
         if queryset_pair:

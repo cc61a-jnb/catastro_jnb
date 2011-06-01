@@ -6,7 +6,7 @@
 
 {% block content %}
     <h2>Catastro Nacional Bomberos de Chile</h2>
-    <h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+    <h4>Cuerpo de bomberos {{ instance.cuerpo.name }}</h4>
 
     <h3>Portada</h3>
     <br />
@@ -23,15 +23,15 @@
 	{% csrf_token %}
 
 	<ul>
-        <li><strong>Nombre de cuerpo:</strong> {{ cuerpo.name }}</li>
-        <li><strong>Comuna:</strong> {{ cuerpo.commune }}</li>
-        <li><strong>Provincia:</strong> {{ cuerpo.commune.province }}</li>
-        <li><strong>Región:</strong> {{ cuerpo.commune.province.region }}</li>
-        <li><strong>Teléfono:</strong> {{ cuerpo.phone }}</li>
-        <li><strong>Dirección Cuartel General:</strong> {{ cuerpo.address }}</li>
-        <li><strong>Fecha de Fundación:</strong> {{ cuerpo.foundation_date }}</li>
-        <li><strong>N° Personalidad Jurídica:</strong> {{ cuerpo.npers_juri }}</li>
-        <li><strong>Fecha de Decreto:</strong> {{ cuerpo.decree_date }}</li>
+        <li><strong>Nombre de cuerpo:</strong> {{ instance.cuerpo.name }}</li>
+        <li><strong>Comuna:</strong> {{ instance.cuerpo.commune }}</li>
+        <li><strong>Provincia:</strong> {{ instance.cuerpo.commune.province }}</li>
+        <li><strong>Región:</strong> {{ instance.cuerpo.commune.province.region }}</li>
+        <li><strong>Teléfono:</strong> {{ instance.cuerpo.phone }}</li>
+        <li><strong>Dirección Cuartel General:</strong> {{ instance.cuerpo.address }}</li>
+        <li><strong>Fecha de Fundación:</strong> {{ instance.cuerpo.foundation_date }}</li>
+        <li><strong>N° Personalidad Jurídica:</strong> {{ instance.cuerpo.npers_juri }}</li>
+        <li><strong>Fecha de Decreto:</strong> {{ instance.cuerpo.decree_date }}</li>
     </ul>
 
     <br />
@@ -50,8 +50,9 @@
             {% endfor %}
         </table>
 
+<a name="{{ formsets.cuerpootherofficial_set.prefix }}"></a>
  <h4 id="others_officials">Otros oficiales</h4>
-        {{ other_official.management_form }}
+        {{ formsets.cuerpootherofficial_set.management_form }}
 
         <table>
             <tr>
@@ -59,7 +60,7 @@
                 <th>Nombre</th>
                 <th>¿Eliminar?</th>
             </tr>
-            {% for form in other_official.forms %}
+            {% for form in formsets.cuerpootherofficial_set.forms %}
                 <tr>
                     {{ form.id }}
                     <td>{{ form.role_name }}</td>
@@ -68,9 +69,9 @@
                 </tr>
             {% endfor %}
             <tr>
-                <td><input title="Agregar nuevo oficial" type="submit" name="add_other_official" value="Agregar oficial" /></td>
+                <td><input title="Agregar nuevo oficial" type="submit" name="{{ formsets.cuerpootherofficial_set.prefix }}_add" value="Agregar oficial" /></td>
                 <td></td>
-                <td><input type="submit" value="Eliminar seleccionados" name="delete_other_official" /></td>
+                <td><input type="submit" value="Eliminar seleccionados" name="{{ formsets.cuerpootherofficial_set.prefix }}_delete" /></td>
             </tr>
         </table>
 

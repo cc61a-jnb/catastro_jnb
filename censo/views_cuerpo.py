@@ -11,7 +11,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import inlineformset_factory
-
+from utils import generic_edit
 
 # Show main form
 @authorize(roles=('cuerpo',))
@@ -25,117 +25,11 @@ def display_portada_form(request):
     # If it fails, create blank data
     except ObjectDoesNotExist:
         portada_data = PortadaCuerpoData()
-        # Add company to blank data
+        # Add cuerpo to blank data
         portada_data.cuerpo = cuerpo
         portada_data.save()
-    
-    #previene que se muestren los errores de envio al presionar el botón agregar otro
-    prevent_validation_error = False
-
-    AddOtherRoleCuerpoFormSet = inlineformset_factory(Cuerpo, CuerpoOtherOfficial, extra=0, can_delete=True)
-    # companies = cuerpo
-    # TODO: add company selector
-
-    # If the form has been submitted
-    if request.method == 'POST':
-        args = request.POST
-        main_form = CuerpoPortadaForm(request.POST, instance=portada_data)
-
-        if 'add_other_official' in request.POST:
-            
-            # Get the data from POST
-            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
-            prevent_validation_error = True
-            
-            # Saving Added Rows
-            for form in new_other_official.forms:
-                if form.has_changed():
-                    if form.is_valid():
-                        form.save()
-            ### Al usar sólo el request.POST para obtener y recargar los datos
-            ### del formulario, los datos no tenían id de la base de datos (pues
-            ### nunca eran cargados de ahí), luego al hacer cualquier modificación
-            ### sobre éstos, eran considerados nuevos datos y se guardaban en la BD
-            ### junto con la versión antigua (duplicación de líneas).
-            ### Ahora estamos creando líneas vacías en la BD al hacer el agregar,
-            ### para cargar de la base de datos. Toda línea que quede vacía después de
-            ### llenar los datos debería eliminarse al hacer el guardado del formulario
-            ### completo.
-            
-            # Create new empty line in DB
-            coo_new = CuerpoOtherOfficial(cuerpo=cuerpo, role_name='', person_name='')
-            coo_new.save()
-            
-            # Reload data from DB
-            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official',  instance=cuerpo)
-            if main_form.is_valid():
-                main_form.save()
         
-        elif 'delete_other_official' in request.POST:
-            prevent_validation_error = True
-            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
-            
-            # Saving Changed Rows
-            for form in new_other_official.forms:
-                if form.is_valid():
-                    if form.has_changed():
-                        form.save()
-                            
-            # Then we delete the appropiate rows
-            for form in new_other_official.deleted_forms:
-                if form.is_valid():
-                    coo_del = form.cleaned_data['id']
-                    coo_del.delete()
-                    
-            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', instance=cuerpo)
-            
-            if main_form.is_valid():
-                main_form.save()
-           
-        else:
-             # A form bound to the POST data
-            main_form = CuerpoPortadaForm(request.POST, instance=portada_data)
-            # If the form is correctly validated
-            new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official', data=request.POST, instance=cuerpo)
-            if new_other_official.is_valid() and main_form.is_valid():      
-                for fm in new_other_official.forms:
-                    if fm.has_changed():
-                        if fm.is_valid():
-                            fm.save()
-                main_form.save()
-                ## Delete empty entries
-                query = CuerpoOtherOfficial.objects.filter(cuerpo=cuerpo)
-                for q in query:
-                    if q.role_name == '' and q.person_name == '':
-                        q.delete()
-                # Redirect after POST
-                return HttpResponseRedirect('/cuerpo/general')
-            # Else render the form again
-            else:
-                return render_to_response('cuerpo/first_page.html', {
-                    'form': main_form,
-                    'cuerpo': cuerpo,
-                    'other_official': new_other_official,
-                    }, context_instance=RequestContext(request),
-                    )
-        # A form bound to the POST data
-        main_form = CuerpoPortadaForm(request.POST, instance=portada_data)
-
-    else:
-        # If the form hasn't been submitted
-        new_other_official = AddOtherRoleCuerpoFormSet(prefix='other_official',instance=cuerpo)
-    # If the form hasn't been submitted
-
-    # Load already submitted data as initial, to avoid triggering validation
-    main_form = CuerpoPortadaForm(instance=portada_data)
-
-    # Render the form
-    return render_to_response('cuerpo/first_page.html', {
-            'form': main_form,
-            'cuerpo': cuerpo,
-            'other_official': new_other_official,
-            }, context_instance=RequestContext(request),
-        )
+    return generic_edit(request, portada_data, CuerpoPortadaForm, 'cuerpo/first_page.html', reverse('catastro_jnb.censo.views_cuerpo.display_general_form'), [[CuerpoOtherOfficial, cuerpo]])
 
 # Show general info form
 @authorize(roles=('cuerpo',))
