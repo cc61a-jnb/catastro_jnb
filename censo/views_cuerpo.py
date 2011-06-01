@@ -12,6 +12,7 @@ from censo.models import *
 from django.db import connections
 from django.http import HttpResponseRedirect
 from django.template import RequestContext
+from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist

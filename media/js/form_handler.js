@@ -7,8 +7,6 @@ $(function() {
         if (prefix_index >= 0) {
             var prefix = '#' + button_name.substring(0, prefix_index + formset_suffix.length)
             $(this).parents('form').get(0).setAttribute('action', prefix)
-            console.log(prefix)
-            console.log($('form').attr('action'))
         }
     })
 })
