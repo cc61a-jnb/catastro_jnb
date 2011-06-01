@@ -50,7 +50,7 @@
 
         <h3>Equipos de Radio (Fijos)</h3>
 	<a name="bases"></a>
-<h3 id="cuerpoalarmcentralbaseradioeq_set">Bases</h3>
+<h4 id="cuerpoalarmcentralbaseradioeq_set">Bases</h4>
         {{ formsets.cuerpoalarmcentralbaseradioeq_set.management_form }}
         <table class="dynamic_form">
             <tr>
@@ -61,7 +61,7 @@
                 <th>¿Eliminar?</th>
             </tr>
              {% for form in formsets.cuerpoalarmcentralbaseradioeq_set.forms %}
-                {% if form.errors %}
+                {% if form.errors and not formsets_modified %}
                     <tr class="errorrow">
                         <td>{{ form.quantity.errors.0 }}</td>
                         <td>{{ form.manufacturer.errors.0 }}</td>
