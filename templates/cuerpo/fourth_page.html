@@ -57,28 +57,28 @@
 <br/>
 <hr/>
 
-<h3 id="other_offices">Otras oficinas</h3>
-	<a name="other_offices"></a>
-        {{ other_offices.management_form }}
+<h3 id="cuerpoinfrastructureotheroffices_set">Otras oficinas</h3>
 
-        <table>
+        {{ formsets.cuerpoinfrastructureotheroffices_set.management_form }}
+
+        <table class="dynamic_form">
             <tr>
                 <th>Nombre de cargo</th>
                 <th>¿Eliminar?</th>
             </tr>
-            {% for form in other_offices.forms %}
+            {% for form in formsets.cuerpoinfrastructureotheroffices_set.forms %}
                 <tr>
                     {{ form.id }}
-                    <td>{{ form.role_name }}</td>
+                    <td>{{ form.role_name}}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td><input title="Agregar nueva oficina" type="submit" name="add_other_offices" value="Agregar nueva oficina" /></td>
-                <td></td>
-                <td><input type="submit" value="Eliminar oficina" name="delete_other_offices" /></td>
+            <tr class="dynamic_form_buttons">
+                <td colspan=2 class="add_button"><input title="Agregar oficina" type="submit" name="{{ formsets.cuerpoinfrastructureotheroffices_set.prefix }}_add" value="Agregar oficina" /></td>
+                <td colspan=3 class="delete_button"><input type="submit" value="Eliminar oficina" name="{{ formsets.cuerpoinfrastructureotheroffices_set.prefix }}_delete" /></td>
             </tr>
         </table>
+
 <br/>
 <hr/>
 
