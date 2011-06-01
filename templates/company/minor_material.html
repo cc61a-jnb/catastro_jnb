@@ -2,7 +2,7 @@
 
 {% block title %}Material Menor - {% endblock %}
 
-{% block nav_minor_material %}<li class="current-tab"><a href="{% url company_minor_material %}">Material Menor</a></li>{% endblock %}
+{% block nav_minor_material %}<li class="current-tab"><a href="{% url company_minor_material company.old_id %}">Material Menor</a></li>{% endblock %}
 
 {% block content %}
 <form method="post" class="catastro_form">

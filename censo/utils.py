@@ -99,7 +99,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     PageForm: Class of the form associated with the page 
         e.g. CompanyPortadaForm
     template: The template that renders this page 
-        e.g. company/first_page.html
+        e.g. company/portada.html
     success_redirect: The URL of the page to redirect to if this form and its subforms are valid 
         e.g. /company/volunteers
     formset_pairs: Optional list of pairs for the data needed to analyze each formset, the first

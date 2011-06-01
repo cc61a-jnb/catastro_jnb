@@ -9,7 +9,7 @@
 <div>
 
 <div class="add-button">
-    <a href="{% url cuerpo_add_new_mayor_material %}">Agregar Nueva Ficha</a>
+    <a href="{% url cuerpo_add_new_mayor_material cuerpo.old_id %}">Agregar Nueva Ficha</a>
 </div>
 <table>
     <tr>
@@ -21,12 +21,12 @@
 {% for mayor_material_data in mayor_material_list %}
     <tr>
         <td>
-        <a href="{% url cuerpo_edit_mayor_material mayor_material_data.id %}">{{forloop.counter}} - {{mayor_material_data }}</a>
+        <a href="{% url cuerpo_edit_mayor_material cuerpo.old_id mayor_material_data.id %}">{{forloop.counter}} - {{mayor_material_data }}</a>
         </td>
         <td>{{mayor_material_data.denomination|default:"no ingresada"}}</td>
         <td>{{mayor_material_data.licence_plate|default:"no ingresada"}}</td>
         <td>
-		    <form method="post" action="{% url cuerpo_remove_mayor_material mayor_material_data.id %}" onsubmit="return confirm('Está seguro que desea eliminar esta ficha?');">
+		    <form method="post" action="{% url cuerpo_remove_mayor_material cuerpo.old_id mayor_material_data.id %}" onsubmit="return confirm('Está seguro que desea eliminar esta ficha?');">
 		    {% csrf_token %}
 			    <input type="submit" value="Eliminar ficha"/>
 		    </form>

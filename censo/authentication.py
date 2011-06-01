@@ -17,86 +17,101 @@ from django.contrib.auth.models import User, check_password
 # Check if user has the role required to the decorated view
 class authorize(object):
     """
-    roles tuple must contain at least one of these: 
+    Checks if user has permission over requested cuerpo_id or company_id,
+    if not then fallback to index.
+    Returns fetched Cuerpo or Company objects to decorated function
+    as cuerpo or company kwargs, and delete company_id and/or cuerpo_id
+
+    roles tuple is optional and can contain any of these: 
     'administrator', 'regional_operations_manager', 'cuerpo', 'company'
     e.g. @authorize(roles=('administrator','regional_operations_manager',))
     """
     def __init__(self, roles=()):
         self.roles = roles
 
-    def __call__(self, f):
+    def __call__(self, func):
 
-        @wraps(f)
+        @wraps(func)
         def wrap(request, *args, **kwargs):
             # If user isn't authenticated
             if not request.user.is_authenticated():
+                logging.info("User not authenticated tried to access the system")
                 request.flash['notice'] = 'Por favor inicie sesión primero'
                 return redirect('login')
 
-            # Get user role
+            # define basic data
             profile = request.user.get_profile()
-            role_name = None
+            cuerpo_id = kwargs.get('cuerpo_id', None)
+            company_id = kwargs.get('company_id', None)
+            cursor = connections['principal'].cursor()
 
-            # assign current role to human readable format
-            if profile.is_administrator():
-                role_name = 'administrator'
-            elif profile.is_regional_operations_manager():
-                role_name = 'regional_operations_manager'
-            elif profile.is_cuerpo_manager():
-                role_name = 'cuerpo'
-            elif profile.is_company_manager():
-                role_name = 'company'
+            # check role if defined at decorator instantiation
+            if self.roles:
+                role_name = None
+                # assign current role to human readable format
+                if profile.is_administrator():
+                    role_name = 'administrator'
+                elif profile.is_regional_operations_manager():
+                    role_name = 'regional_operations_manager'
+                elif profile.is_cuerpo_manager():
+                    role_name = 'cuerpo'
+                elif profile.is_company_manager():
+                    role_name = 'company'
 
-            # If user has access, grant
-            if role_name in self.roles:
-                return f(request, *args, **kwargs)
-            # redirect to base view in case the user doesn't have access
-            else:
-                request.flash['error'] = 'Usted no tiene permisos para realizar esta acción'
-                logging.info("User %s doesn't have permission to access %s", request.user.username, request.path)
-                return redirect(role_name)
+                # If user doesn't have access, redirect
+                if not (role_name in self.roles):
+                    request.flash['error'] = 'Usted no tiene permisos para realizar esta acción'
+                    logging.info("User %s doesn't have permission to access %s", request.user.username, request.path)
+                    return redirect('index')
+
+            # deliver cuerpo if requested
+            if cuerpo_id:
+                cuerpo = Cuerpo.fetch_from_db(cursor, cuerpo_id)
+
+                if not cuerpo:
+                    logging.info("Cuerpo:%s doesn't exist", cuerpo_id) # why %s: http://stackoverflow.com/questions/2796178/error-url-redirection
+                    request.flash["error"] = 'El cuerpo que ha ingresado no existe'
+                    cursor.close()
+                    return redirect('index')
+
+                # now we must check user's permissions
+                if not profile.has_cuerpo_permission(cursor, cuerpo):
+                    logging.warning("User:%s unauthorized to access Cuerpo:%s information", profile.old_id, cuerpo_id)
+                    request.flash["error"] = 'No tiene permiso para acceder a la información del cuerpo seleccionado'
+                    cursor.close()
+                    return redirect('index')
+                
+                # replace cuerpo_id with full cuerpo object
+                del kwargs['cuerpo_id']
+                kwargs['cuerpo'] = cuerpo
+
+            # deliver company if requested
+            if company_id:
+                company = Company.fetch_from_db(cursor, company_id)
+
+                if not company:
+                    logging.info("Company:%s doesn't exist", company_id) # why %s: http://stackoverflow.com/questions/2796178/error-url-redirection
+                    request.flash["error"] = 'La compañía que ha ingresado no existe'
+                    cursor.close()
+                    return redirect('index')
+
+                # now we must check user's permissions
+                if not profile.has_company_permission(cursor, company):
+                    logging.warning("User:%s unauthorized to access Company:%s information", profile.old_id, company_id)
+                    request.flash["error"] = 'No tiene permiso para acceder a la información de la compañía seleccionada'
+                    cursor.close()
+                    return redirect('index')
+                
+                # replace company_id with full company object
+                del kwargs['company_id']
+                kwargs['company'] = company
+            
+            # user has permission over cuerpo
+            cursor.close()
+            
+            return func(request, *args, **kwargs)
 
         return wrap
-
-
-def authorize_cuerpo(func):
-    """
-    Check if user has permission over requested cuerpo or redirect
-    Passes fetched Cuerpo object to decorated function
-    """
-
-    @wraps(func)
-    def wrap(request, *args, **kwargs):
-
-        # Get user role
-        profile = request.user.get_profile()
-        cuerpo_id = kwargs['cuerpo_id']
-        cursor = connections['principal'].cursor()
-
-        cuerpo = Cuerpo.fetch_from_db(cursor, cuerpo_id)
-
-        if not cuerpo:
-            logging.info("Cuerpo:%s doesn't exist", cuerpo_id) # why %s: http://stackoverflow.com/questions/2796178/error-url-redirection
-            request.flash["error"] = 'El cuerpo que ha ingresado no existe'
-            cursor.close()
-            return redirect('index')
-
-        # now we must check user's permissions
-        if not profile.has_cuerpo_permission(cursor, cuerpo):
-            logging.warning("User:%s unauthorized to access Cuerpo:%s information", profile.old_id, cuerpo_id)
-            request.flash["error"] = 'No tiene permiso para acceder a la información del cuerpo seleccionado'
-            cursor.close()
-            return redirect('index')
-        
-        # user has permission over cuerpo
-        cursor.close()
-        # replace cuerpo_id with full cuerpo object
-        del kwargs['cuerpo_id']
-        kwargs['cuerpo'] = cuerpo
-        
-        return func(request, *args, **kwargs)
-
-    return wrap
 
 
 class JNBBackend:

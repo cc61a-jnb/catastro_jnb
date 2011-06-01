@@ -27,10 +27,10 @@ urlpatterns += patterns('catastro_jnb.censo.views',
 #################
 
 urlpatterns += patterns('catastro_jnb.censo.views_company',
-    url(r'^company/$', 'display_portada_form', name='company'),
-    url(r'^company/volunteers$', 'display_volunteers_form', name='company_volunteers'),
-    url(r'^company/infrastructure$', 'display_infrastructure_form', name='company_infrastructure'),
-    url(r'^company/minor_material$', 'display_minor_material_form', name='company_minor_material'),
+    url(r'^company/(?P<company_id>\d+)/$', 'display_portada_form', name='company'),
+    url(r'^company/(?P<company_id>\d+)/volunteers$', 'display_volunteers_form', name='company_volunteers'),
+    url(r'^company/(?P<company_id>\d+)/infrastructure$', 'display_infrastructure_form', name='company_infrastructure'),
+    url(r'^company/(?P<company_id>\d+)/minor_material$', 'display_minor_material_form', name='company_minor_material'),
 )
 
 

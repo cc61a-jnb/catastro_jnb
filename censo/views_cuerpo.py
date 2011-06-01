@@ -4,13 +4,11 @@ import logging
 
 from utils import generic_edit
 from authentication import authorize
-from authentication import authorize_cuerpo
 
 from censo.forms import *
 from censo.models import *
 
 from django.db import connections
-from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
@@ -19,8 +17,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import inlineformset_factory
 
 # Show main form
-@authorize_cuerpo
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
+@authorize()
 def display_portada_form(request, cuerpo):
     
     try:
@@ -112,10 +109,10 @@ def display_portada_form(request, cuerpo):
                     if q.role_name == '' and q.person_name == '':
                         q.delete()
                 # Redirect after POST
-                return HttpResponseRedirect('/cuerpo/general')
+                return redirect('cuerpo_general', cuerpo_id=cuerpo.old_id)
             # Else render the form again
             else:
-                return render_to_response('cuerpo/first_page.html', {
+                return render_to_response('cuerpo/portada.html', {
                     'form': main_form,
                     'cuerpo': cuerpo,
                     'other_official': new_other_official,
@@ -133,7 +130,7 @@ def display_portada_form(request, cuerpo):
     main_form = CuerpoPortadaForm(instance=portada_data)
 
     # Render the form
-    return render_to_response('cuerpo/first_page.html', {
+    return render_to_response('cuerpo/portada.html', {
             'form': main_form,
             'cuerpo': cuerpo,
             'other_official': new_other_official,
@@ -141,10 +138,8 @@ def display_portada_form(request, cuerpo):
         )
 
 # Show general info form
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
-def display_general_form(request, cuerpo_id):
-    profile = request.user.get_profile()
-    cuerpo = profile.company.cuerpo
+@authorize()
+def display_general_form(request, cuerpo):
     general_data = None
     # Attempt to load previously submitted data
     try:
@@ -164,10 +159,10 @@ def display_general_form(request, cuerpo_id):
         if form.is_valid():
             form.save()
             # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/anb')
+            return redirect('cuerpo_anb', cuerpo_id=cuerpo.old_id)
         # Else render the form again
         else:
-            return render_to_response('cuerpo/second_page.html', {
+            return render_to_response('cuerpo/general.html', {
                 'form': form,
                 'cuerpo': cuerpo,
                 }, context_instance=RequestContext(request),
@@ -179,17 +174,15 @@ def display_general_form(request, cuerpo_id):
     form = CuerpoGeneralForm(instance=general_data)
 
     # Render the form
-    return render_to_response('cuerpo/second_page.html', {
+    return render_to_response('cuerpo/general.html', {
             'form': form,
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),
         )
 
 # Show ANB info form
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
-def display_anb_form(request, cuerpo_id):
-    profile = request.user.get_profile()
-    cuerpo = profile.company.cuerpo
+@authorize()
+def display_anb_form(request, cuerpo):
     anb_data = None
     # Attempt to load previously submitted data
     try:
@@ -209,10 +202,10 @@ def display_anb_form(request, cuerpo_id):
         if form.is_valid():
             form.save()
             # Redirect after POST
-            return redirect('cuerpo_infrastructure')
+            return redirect('cuerpo_infrastructure', cuerpo_id=cuerpo.old_id)
         # Else render the form again
         else:
-            return render_to_response('cuerpo/third_page.html', {
+            return render_to_response('cuerpo/anb.html', {
                 'form': form,
                 'cuerpo': cuerpo,
                 }, context_instance=RequestContext(request),
@@ -224,18 +217,15 @@ def display_anb_form(request, cuerpo_id):
     form = CuerpoANBForm(instance=anb_data)
 
     # Render the form
-    return render_to_response('cuerpo/third_page.html', {
+    return render_to_response('cuerpo/anb.html', {
             'form': form,
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),
         )
 
 # Show Infrastructure info form
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
-def display_infrastructure_form(request, cuerpo_id):
-    profile = request.user.get_profile()
-
-    cuerpo = profile.company.cuerpo
+@authorize()
+def display_infrastructure_form(request, cuerpo):
 
     infrastructure_data = None
     # Attempt to load previously submitted data
@@ -314,10 +304,10 @@ def display_infrastructure_form(request, cuerpo_id):
                     if q.role_name == '':
                         q.delete()
                 # Redirect after POST
-                return redirect('cuerpo_mayor_material')
+                return redirect('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id)
             # Else render the form again
             else:
-                return render_to_response('cuerpo/fourth_page.html', {
+                return render_to_response('cuerpo/infrastructure.html', {
                     'form': form,
                     'cuerpo': cuerpo,
                     'other_offices': new_other_offices,
@@ -336,7 +326,7 @@ def display_infrastructure_form(request, cuerpo_id):
     form = CuerpoInfrastructureForm(instance=infrastructure_data)
 
     # Render the form
-    return render_to_response('cuerpo/fourth_page.html', {
+    return render_to_response('cuerpo/infrastructure.html', {
             'form': form,
             'cuerpo': cuerpo,
             'other_offices': new_other_offices,
@@ -344,25 +334,21 @@ def display_infrastructure_form(request, cuerpo_id):
         )
         
 # Show Mayor Material Index
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
-def display_mayor_material_index(request, cuerpo_id):
-    profile = request.user.get_profile()
-    cuerpo = profile.company.cuerpo
+@authorize()
+def display_mayor_material_index(request, cuerpo):
     
     # Get mayor material list
     mayor_material_list = cuerpo.cuerpomayormaterialdata_set.all()
     
-    return render_to_response('cuerpo/fifth_page.html', {
+    return render_to_response('cuerpo/mayor_material.html', {
                 'cuerpo': cuerpo,
                 'mayor_material_list': mayor_material_list,
                 }, context_instance=RequestContext(request),
                 )
 
 # Show Mayor Material form
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
-def edit_mayor_material_form(request, cuerpo_id, mayor_material_id):
-    profile = request.user.get_profile()
-    cuerpo = profile.company.cuerpo
+@authorize()
+def edit_mayor_material_form(request, cuerpo, mayor_material_id):
     mayor_material_data = None
     # Attempt to load previously submitted data
     try:
@@ -371,27 +357,23 @@ def edit_mayor_material_form(request, cuerpo_id, mayor_material_id):
         # Redirect to default mayor material
         logging.error("Requested mayor material data id:%d for cuerpo:%d doesn't exists", mayor_material_id, cuerpo.id)
         request.flash['error'] = 'La planilla de material mayor consultada no existe'
-        return redirect('cuerpo_mayor_material')
+        return redirect('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id)
 
-    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/fifth_page_edit.html', reverse('catastro_jnb.censo.views_cuerpo.display_mayor_material_index'), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data], [CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
+    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/mayor_material_edit.html', reverse('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data], [CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', cuerpo.company_set.all()])
 
 # Add New Mayor Material form
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
-def add_new_mayor_material(request, cuerpo_id):
-    profile = request.user.get_profile()
-    cuerpo = profile.company.cuerpo
+@authorize()
+def add_new_mayor_material(request, cuerpo):
     mayor_material_data = CuerpoMayorMaterialData()
     mayor_material_data.cuerpo = cuerpo
     
-    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/fifth_page_edit.html', reverse('catastro_jnb.censo.views_cuerpo.display_mayor_material_index'), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data],[CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
+    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/mayor_material_edit.html', reverse('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data],[CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', cuerpo.company_set.all()])
         
 
 # Remove Selected Material form
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
-def remove_mayor_material(request, cuerpo_id, mayor_material_id):
+@authorize()
+def remove_mayor_material(request, cuerpo, mayor_material_id):
     if request.method == 'POST':
-        profile = request.user.get_profile()
-        cuerpo = profile.company.cuerpo
         mayor_material_data = None
 
         try:
@@ -401,22 +383,17 @@ def remove_mayor_material(request, cuerpo_id, mayor_material_id):
             # Redirect to default mayor material
             request.flash['error'] = 'La planilla de material mayor consultada no existe'
             logging.error("Requested mayor material data id:%d for cuerpo:%d doesn't exists", mayor_material_id, cuerpo.id)
-            return redirect('cuerpo_mayor_material')
+            return redirect('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id)
         
         logging.info("Deleting mayor material data object id:%d for cuerpo:%d", mayor_material_data.id, cuerpo.id)
         mayor_material_data.delete()
         request.flash['success'] = "Se ha eliminado la ficha seleccionada satisfactoriamente"
-        return redirect('cuerpo_mayor_material')
-    else:
-        return redirect('cuerpo_mayor_material')
+    
+    return redirect('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id)
 
 # Show Alarm Central form
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
-def display_alarm_central_form(request, cuerpo_id):
-    profile = request.user.get_profile()
-
-    cuerpo = profile.company.cuerpo
-
+@authorize()
+def display_alarm_central_form(request, cuerpo):
     alarm_central_cuerpo_data = None
     # Attempt to load previously submitted data
     try:
@@ -501,10 +478,10 @@ def display_alarm_central_form(request, cuerpo_id):
                     if q.manufacturer == '' and q.model == '':
                         q.delete()
                 # Redirect after POST
-                return HttpResponseRedirect('/cuerpo/service_acts')
+                return redirect('cuerpo_service_acts', cuerpo_id=cuerpo.old_id)
             # Else render the form again
             else:
-                return render_to_response('cuerpo/sixth_page.html', {
+                return render_to_response('cuerpo/alarm_central.html', {
                     'form': form,
                     'cuerpo': cuerpo,
                     'base_radio': new_base_radio_eq,
@@ -522,7 +499,7 @@ def display_alarm_central_form(request, cuerpo_id):
     form = CuerpoAlarmCentralForm(instance=alarm_central_cuerpo_data)
 
     # Render the form
-    return render_to_response('cuerpo/sixth_page.html', {
+    return render_to_response('cuerpo/alarm_central.html', {
             'form': form,
             'cuerpo': cuerpo,
             'base_radio': new_base_radio_eq,
@@ -531,10 +508,8 @@ def display_alarm_central_form(request, cuerpo_id):
 
 
 # Show Service acts form
-@authorize(roles=('administrator', 'regional_operations_manager', 'cuerpo',))
-def display_service_acts_form(request, cuerpo_id):
-    profile = request.user.get_profile()
-    cuerpo = profile.company.cuerpo
+@authorize()
+def display_service_acts_form(request, cuerpo):
     service_acts_data = None
     # Attempt to load previously submitted data
     try:
@@ -554,10 +529,10 @@ def display_service_acts_form(request, cuerpo_id):
         if form.is_valid():
             form.save()
             # Redirect after POST
-            return HttpResponseRedirect('/cuerpo/serviceacts')
+            return redirect('index')
         # Else render the form again
         else:
-            return render_to_response('cuerpo/seventh_page.html', {
+            return render_to_response('cuerpo/service_acts.html', {
                 'form': form,
                 'cuerpo': cuerpo,
                 }, context_instance=RequestContext(request),
@@ -569,7 +544,7 @@ def display_service_acts_form(request, cuerpo_id):
     form = CuerpoServiceActsForm(instance=service_acts_data)
 
     # Render the form
-    return render_to_response('cuerpo/seventh_page.html', {
+    return render_to_response('cuerpo/service_acts.html', {
             'form': form,
             'cuerpo': cuerpo,
             }, context_instance=RequestContext(request),

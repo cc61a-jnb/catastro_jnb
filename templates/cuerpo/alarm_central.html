@@ -2,7 +2,7 @@
 
 {% block title %}Central de Alarmas - {% endblock %}
 
-{% block nav_alarm_central%}<li class="current-tab"><a href="{% url cuerpo_alarm_central %}">Central de Alarmas</a></li>{% endblock %}
+{% block nav_alarm_central%}<li class="current-tab"><a href="{% url cuerpo_alarm_central cuerpo.old_id %}">Central de Alarmas</a></li>{% endblock %}
 
 {% block content %}
 	{% for error in form.errors %}
