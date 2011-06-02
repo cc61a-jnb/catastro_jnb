@@ -788,3 +788,7 @@ form.catastro_form ul {
     padding-bottom: 0px;
     margin-bottom: 0px; 
 }
+
+.nota {
+    font-style:italic;
+}
