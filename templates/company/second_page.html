@@ -23,7 +23,7 @@
 	{{ form.specialities.errors }}
 
     {{ form.specialities }}
-    <small>Indica solo las reconocidas por el directorio</small>
+    <p class="nota">Indique solo las reconocidas por el directorio</p>
     <div class="fieldWrapper">
 		{{ form.specialities_other.errors }}
 		{{ form.specialities_other.label_tag }}: {{ form.specialities_other }}
@@ -39,7 +39,7 @@
 	<br />
 	<hr />
 	<h3>Uso de tecnologías de Internet</h3>
-	<p><small>Deje en blanco si no tiene</small></p>
+	<p class="nota">Deje en blanco si no tiene</p>
 	{{ form.render_social_technologies_to_list }}
 
 	<br />
@@ -83,14 +83,14 @@
 	<br />
 	<hr />
 	<h3>Existe oficial o voluntario a cargo de las hojas de vida de voluntarios</h3>
-	<p><small>Deje en blanco si no existe</small></p>
+	<p class="nota">Deje en blanco si no existe</p>
 
 	{{ form.render_life_sheet_to_list }}
 
 	<br />
 	<hr />
 	<h3>Brigada Juvenil de Compañía</h3>
-	<p><small>Deje en blanco si no existe</small></p>
+	<p class="nota">Deje en blanco si no existe</p>
 
 	{{ form.render_brigade_number_to_list }}
 

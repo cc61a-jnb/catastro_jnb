@@ -35,9 +35,25 @@
 			</div>
 
 			<div class="left navigation" id="main-nav">
+			
+			    {% block messages %}
+
+				    {% if flash.error %}
+					    <div class="error">{{ flash.error }}</div>
+				    {% endif %}
+				
+				    {% if flash.notice %}
+					    <div class="notice">{{ flash.notice }}</div>
+				    {% endif %}
+				
+				    {% if flash.success %}
+					    <div class="success">{{ flash.success }}</div>
+				    {% endif %}
+			
+			    {% endblock %}
 
 				{% if user.is_authenticated %}
-				<div id="logo">
+				<div id="logout">
 					<a href="{% url logout %}">[Salir]</a>
 				</div>
 				{% endif %}
@@ -49,22 +65,6 @@
 					reference: http://stackoverflow.com/questions/340888/navigation-in-django
 				{% endcomment %}
 				</ul>
-			{% endblock %}
-
-			{% block messages %}
-
-				{% if flash.error %}
-					<div class="error">{{ flash.error }}</div>
-				{% endif %}
-				
-				{% if flash.notice %}
-					<div class="notice">{{ flash.notice }}</div>
-				{% endif %}
-				
-				{% if flash.success %}
-					<div class="success">{{ flash.success }}</div>
-				{% endif %}
-			
 			{% endblock %}
 
 				<div class="clearer">&nbsp;</div>

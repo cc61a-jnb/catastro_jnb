@@ -525,7 +525,7 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 
 /* Logo */
 #logo {	border-right: 1px solid #DDD;
-	padding: 10px 40px 10px 0;
+	padding: 10px 40px 0px 0;
 	margin-right: 40px;
 }
 #logo img {}
@@ -546,12 +546,18 @@ img.alignright, img.right {margin: 0 0 1em 1.5em;}
 
 /* Logout */
 #logout {
-	font-size: 1.6em;
+	/* font-size: 1.6em; */
+	font-size: 1em;
 	line-height: 2em;
-	padding-bottom: 2px;
+	padding-bottom: 10px;
 }
+
+#logout a {
+    color: #aaa;
+}
+
 /* Main navigation */
-#main-nav {padding-top: 72px; width: 700px;}
+#main-nav {padding-top: 50px; width: 700px;}
 #main-nav li {margin: 0 1.5em;}
 #main-nav a {
 	font-size: 1.6em;
@@ -778,4 +784,7 @@ form.catastro_form ul {
 .errorrow td {
     font-weight: bold;
     font-size: 10px;
+    padding-top: 15px;
+    padding-bottom: 0px;
+    margin-bottom: 0px; 
 }
