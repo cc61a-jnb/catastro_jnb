@@ -45,22 +45,29 @@ class CompanyVolunteerForm(BaseForm):
             local_errors = self.validate_field_range('volunteer_active_men_quantity', 'volunteer_honorary_women_quantity', 'Por favor defina el número de voluntarios activos y honorarios')
 
             if not local_errors:
+                error_messages = []
                 # Active + Honorary must equal total (men)
                 if data['volunteer_active_men_quantity'] + data['volunteer_honorary_men_quantity'] != total_men:
                     error_message = 'Suma de voluntarios activos y honorarios hombres no calza con el total'
-                    self._errors['volunteer_active_men_quantity'] = self.error_class([error_message])
+                    #self._errors['volunteer_active_men_quantity'] = self.error_class([error_message])
+                    error_messages.append(error_message)
                     self.custom_errors.append(error_message)
             
                 # Active + Honorary must equal total (women)
                 if data['volunteer_active_women_quantity'] + data['volunteer_honorary_women_quantity'] != total_women:
                     error_message = 'Suma de voluntarios activos y honorarios mujeres no calza con el total'
-                    self._errors['volunteer_active_men_quantity'] = self.error_class([error_message])
+                    #self._errors['volunteer_active_men_quantity'] = self.error_class([error_message])
+                    error_messages.append(error_message)
                     self.custom_errors.append(error_message)
             
+                if error_messages:
+                    self._errors['volunteer_active_men_quantity'] = self.error_class(error_messages)
             # Sum of age-range volunteers must equal total        
             local_errors = self.validate_field_range('volunteer_age_between_18_25_men_quantity', 'volunteer_age_60_or_more_women_quantity', 'Por favor defina el número de voluntarios por rango de edad')
 
             if not local_errors:
+                error_messages = []
+                
                 age_fields = self._field_range('volunteer_age_between_18_25_men_quantity', 'volunteer_age_60_or_more_women_quantity')
                 men_age_fields = age_fields[::2]
                 women_age_fields = age_fields[1::2]
@@ -72,7 +79,8 @@ class CompanyVolunteerForm(BaseForm):
                     
                 if sum_men_age_fields != total_men:
                     error_message = 'Suma de voluntarios hombres por edad no calza con el total'
-                    self._errors['volunteer_age_between_18_25_men_quantity'] = self.error_class([error_message])
+                    #self._errors['volunteer_age_between_18_25_men_quantity'] = self.error_class([error_message])
+                    error_messages.append(error_message)
                     self.custom_errors.append(error_message)
                 
                 # Sum of age-range volunteers must equal total (men)    
@@ -82,8 +90,12 @@ class CompanyVolunteerForm(BaseForm):
                     
                 if sum_women_age_fields != total_women:
                     error_message = 'Suma de voluntarios mujeres por edad no calza con el total'
-                    self._errors['volunteer_age_between_18_25_men_quantity'] = self.error_class([error_message])
+                    #self._errors['volunteer_age_between_18_25_men_quantity'] = self.error_class([error_message])
+                    error_messages.append(error_message)
                     self.custom_errors.append(error_message)
+                    
+                if error_messages:
+                    self._errors['volunteer_age_between_18_25_men_quantity'] = self.error_class(error_messages)
             
             # Sum of volunteer education must equal total    
             local_errors = self.validate_field_range('volunteer_education_basica_complete_quantity', 'volunteer_with_work_quantity', 'Por favor defina el número de voluntarios por educación / oficio')
