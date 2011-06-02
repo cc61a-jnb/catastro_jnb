@@ -11,6 +11,24 @@ from . import BaseForm
 class CuerpoInfrastructureForm(BaseForm):
     building_material_type = forms.ModelMultipleChoiceField(queryset=BuildingMaterialType.objects.all(), label='Tipo de Material', widget=forms.CheckboxSelectMultiple(), required=False)
     
+    def clean(self):
+        data = self.cleaned_data
+        
+        self.custom_errors = []
+        # If property type is rented or commodatum, specify end year
+        if data['fk_property_title_type']:
+            if data['fk_property_title_type'].name != 'Propio':
+                if not data['property_commodatum_end_year']:
+                    error_message = 'Debe ingresar un año de término de comodato/arriendo'
+                    self._errors['property_commodatum_end_year'] = self.error_class([error_message])
+                    self.custom_errors.append(error_message)
+        
+        # If any validation fails, raise error
+        if self.custom_errors:
+            raise forms.ValidationError(self.custom_errors)
+        
+        return self.cleaned_data
+    
     # Display built area questions as a table    
     def render_built_area_to_table(self):
         fields = self._field_range('built_area_surface_m2', 'built_area_total_m2')
