@@ -507,6 +507,14 @@
     }
   },
   {
+    "model": "censo.vehiclechassismanufacturer",
+    "pk": 9,
+    "fields": {
+      "name": "Otra marca",
+      "ordering": "9"
+    }
+  },
+  {
     "model": "censo.vehiclecarrosadomanufacturer",
     "pk": 1,
     "fields": {
@@ -559,6 +567,14 @@
     "pk": 7,
     "fields": {
       "name": "Iturry",
+      "ordering": "7"
+    }
+  },
+  {
+    "model": "censo.vehiclecarrosadomanufacturer",
+    "pk": 8,
+    "fields": {
+      "name": "Otra marca",
       "ordering": "8"
     }
   },
@@ -640,6 +656,14 @@
     "fields": {
       "name": "Blanco",
       "ordering": "8"
+    }
+  },
+  {
+    "model": "censo.color",
+    "pk": 9,
+    "fields": {
+      "name": "Otro",
+      "ordering": "9"
     }
   },
   {
@@ -726,6 +750,14 @@
     "fields": {
       "name": "CH180",
       "ordering": "4"
+    }
+  },
+  {
+    "model": "censo.fireenginecamivamodel",
+    "pk": 5,
+    "fields": {
+      "name": "Otra marca/modelo",
+      "ordering": "5"
     }
   },
   {
