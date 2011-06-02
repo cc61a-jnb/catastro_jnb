@@ -15,13 +15,20 @@ class CuerpoInfrastructureForm(BaseForm):
         data = self.cleaned_data
         
         self.custom_errors = []
-        # If property type is rented or commodatum, specify end year
-        if data['fk_property_title_type']:
-            if data['fk_property_title_type'].name != 'Propio':
-                if not data['property_commodatum_end_year']:
-                    error_message = 'Debe ingresar un año de término de comodato/arriendo'
-                    self._errors['property_commodatum_end_year'] = self.error_class([error_message])
-                    self.custom_errors.append(error_message)
+        
+        
+        self.validate_field_range('built_area_surface_m2', 'built_area_total_m2', 'Por favor corrija los errores en Terreno')
+        self.validate_field_range('building_initial_construction_year', 'building_extension_construction_legal', u'Por favor corrija los errores en Construcción') 
+        # Validate pictures?
+        self.validate_field_range('picture_general_view', 'picture_internal_distribution_view', u'Por favor ingrese fotografías válidas')
+        
+        # Validate existent end year when it's a commodatum/rental
+        if 'fk_property_title_type' in self.cleaned_data:
+            if 'property_commodatum_end_year' in self.cleaned_data:
+                if not self.cleaned_data['property_commodatum_end_year'] and self.cleaned_data['fk_property_title_type'].requires_end_year:
+                    self._errors['property_commodatum_end_year'] = self.error_class(['Por favor defina el año de término del arriendo o comodato'])
+                elif self.cleaned_data['property_commodatum_end_year'] and not self.cleaned_data['fk_property_title_type'].requires_end_year:
+                    self._errors['property_commodatum_end_year'] = self.error_class(['Sólo defina si la propiedad es un arriendo o comodato'])
         
         # If any validation fails, raise error
         if self.custom_errors:

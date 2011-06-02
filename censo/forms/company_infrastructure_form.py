@@ -10,50 +10,6 @@ from . import BaseForm
 
 class CompanyInfrastructureForm(BaseForm):
     building_material_type = forms.ModelMultipleChoiceField(queryset=BuildingMaterialType.objects.all(), label='Tipo de Material', widget=forms.CheckboxSelectMultiple(), required=False)
-    
-    def clean(self):
-        data = self.cleaned_data
-        
-        self.custom_errors = []
-        # If property type is rented or commodatum, specify end year
-        if data['fk_property_title_type']:
-            if data['fk_property_title_type'].name != 'Propio':
-                if not data['property_rental_commodatum_end_year']:
-                    error_message = 'Debe ingresar un año de término de comodato/arriendo'
-                    self._errors['property_rental_commodatum_end_year'] = self.error_class([error_message])
-                    self.custom_errors.append(error_message)
-        
-        # If any validation fails, raise error
-        if self.custom_errors:
-            raise forms.ValidationError(self.custom_errors)
-        return self.cleaned_data
-    
-    # Display built area questions as a table    
-    def render_built_area_to_table(self):
-        fields = self._field_range('built_area_surface_m2', 'built_area_total_m2')
-        table_fields = [fields]
-        
-        column_labels = [field.label for field in fields]
-        row_labels = ['Metros']
-        
-        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
-    
-    # Display land questions as a list
-    def render_land_questions_to_list(self):
-        fields = self._field_range('main_street_name', 'fk_property_title_type')
-        
-        return render_fields_as_list(fields)
-        
-    # Display rental/commodatum year end
-    def render_rental_commodatum_end_year_to_list(self):
-        fields = [self['property_rental_commodatum_end_year']]
-        
-        return render_fields_as_list(fields, 'list_quantities')
-    
-    # The list of all the picture fields in this form    
-    def picture_fields(self):
-        fields = self._field_range('picture_general_view', 'picture_internal_distribution_view')
-        return [(field, getattr(self.instance, field.name)) for field in fields]
         
     def clean(self):
         data = self.cleaned_data
@@ -83,6 +39,33 @@ class CompanyInfrastructureForm(BaseForm):
                     self._errors['property_rental_commodatum_end_year'] = self.error_class(['Sólo defina si la propiedad es un arriendo o comodato'])
         
         return self.cleaned_data
+    
+    # Display built area questions as a table    
+    def render_built_area_to_table(self):
+        fields = self._field_range('built_area_surface_m2', 'built_area_total_m2')
+        table_fields = [fields]
+        
+        column_labels = [field.label for field in fields]
+        row_labels = ['Metros']
+        
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
+    
+    # Display land questions as a list
+    def render_land_questions_to_list(self):
+        fields = self._field_range('main_street_name', 'fk_property_title_type')
+        
+        return render_fields_as_list(fields)
+        
+    # Display rental/commodatum year end
+    def render_rental_commodatum_end_year_to_list(self):
+        fields = [self['property_rental_commodatum_end_year']]
+        
+        return render_fields_as_list(fields, 'list_quantities')
+    
+    # The list of all the picture fields in this form    
+    def picture_fields(self):
+        fields = self._field_range('picture_general_view', 'picture_internal_distribution_view')
+        return [(field, getattr(self.instance, field.name)) for field in fields]
     
     # Display rol sii
     def render_rol_sii_to_list(self):

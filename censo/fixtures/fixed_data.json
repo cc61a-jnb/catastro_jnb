@@ -163,6 +163,15 @@
     }
   },
   {
+    "model": "censo.propertytitletype",
+    "pk": 6,
+    "fields": {
+      "name": "Otro",
+      "ordering": "6",
+      "requires_end_year": false
+    }
+  },
+  {
     "model": "censo.potencyrange",
     "pk": 1,
     "fields": {
