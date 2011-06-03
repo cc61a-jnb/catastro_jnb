@@ -1,5 +1,7 @@
 import logging
 
+from censo.utils import get_menu_data
+
 from django.db import models
 from django.db import connections
 from django.conf import settings
@@ -96,6 +98,16 @@ class UserProfile(models.Model):
             return cuerpo_region.old_id == self_region_id
 
         return False
+        
+    def get_menu(self):
+        from censo.models import *
+        if self.is_administrator():
+            return get_menu_data(Administrator())
+        if self.is_regional_operations_manager():
+            return get_menu_data(self.company.cuerpo.region)
+        if self.is_cuerpo_manager():
+            return get_menu_data(self.company.cuerpo)
+        return get_menu_data(None)
 
     class Meta:
         ordering = ['user']

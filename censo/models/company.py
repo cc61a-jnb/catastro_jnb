@@ -18,7 +18,17 @@ class Company(models.Model):
     foundation_date = models.CharField(max_length=255, verbose_name='fecha fundación')
     
     commune = models.ForeignKey('Commune', null=True, related_name='+')
-    cuerpo = models.ForeignKey('Cuerpo', null=True, related_name='cuerpo_company')    
+    cuerpo = models.ForeignKey('Cuerpo', null=True, related_name='cuerpo_company')   
+    
+    has_form = True 
+    
+    @classmethod
+    def menu_pack(self):
+        return [u'Compañías', self.__name__, True]
+    
+    @classmethod
+    def hierarchical_child(self):
+        return None
 
     @classmethod
     def fetch_from_db(self, cursor, old_id, cuerpo=None):

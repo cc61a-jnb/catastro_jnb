@@ -191,10 +191,32 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     if queryset_pair:
         form.fields[queryset_pair[0]].queryset = queryset_pair[1]
         
+    menu_titles, main_menu_choices, user_permission_instance = request.user.get_profile().get_menu()
+        
     return render_to_response(template, {
             'form': form,
             'formsets': formsets,
             'instance': instance,
+            'user_permission_instance': user_permission_instance,
             'formsets_modified': formsets_modified,
+            'menu_titles': menu_titles,
+            'main_menu_choices': main_menu_choices,
             }, context_instance=RequestContext(request),
         )
+        
+def get_menu_titles(Class):
+    if not Class:
+        return []
+    else:
+        titles = [Class.menu_pack()]
+        titles.extend(get_menu_titles(Class.hierarchical_child()))
+        return titles
+        
+def get_menu_data(instance):
+    if not instance:
+        return [[], None]
+        
+    choices = instance.referring_children()
+    titles = get_menu_titles(instance.hierarchical_child())
+    
+    return [titles, choices, instance]

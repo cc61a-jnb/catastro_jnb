@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+	<meta name="description" content=""/>
+	<meta name="keywords" content="" />
+	<meta name="author" content="" />
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/style.css" media="screen" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/src/forms.css" type="text/css" media="screen, projection">
+	<!--[if lt IE 8]>
+	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/ie.css" type="text/css" media="screen, projection">
+	<![endif]-->
+	{% block scripts %}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<script src="{{ MEDIA_URL }}js/form_handler.js"></script>
+	<script src="{{ MEDIA_URL }}js/menu_handler.js"></script>
+	{% block default_submit_form %}<script src="{{ MEDIA_URL }}js/default_submit_form_on_enter.js"></script>{% endblock %}
+	{% endblock %}
+	{% block user_scripts %}{% endblock %}
+	<title>{% block title %}{% endblock %}Catastro Nacional de Bomberos de Chile</title>
+</head>
+
+<body>
+
+<div id="site-wrapper">
+
+	<div id="header">
+
+		<div id="top">
+
+			<div class="left" id="logo">
+				<a href="{% url index %}"><img src="{{ MEDIA_URL }}/img/logo_bomberos.jpg" alt="" /></a>
+			</div>
+
+			<div class="left navigation" id="main-nav">
+			
+			    {% block messages %}
+
+				    {% if flash.error %}
+					    <div class="error">{{ flash.error }}</div>
+				    {% endif %}
+				
+				    {% if flash.notice %}
+					    <div class="notice">{{ flash.notice }}</div>
+				    {% endif %}
+				
+				    {% if flash.success %}
+					    <div class="success">{{ flash.success }}</div>
+				    {% endif %}
+			
+			    {% endblock %}
+
+				{% if user.is_authenticated %}
+				<div id="logout">
+					<a href="{% url logout %}">[Salir]</a>
+				</div>
+				{% endif %}
+				
+			{% block nav %}
+				<ul class="tabbed">
+				{% comment %}
+					<li class="current-tab"> to highlight selected tab
+					reference: http://stackoverflow.com/questions/340888/navigation-in-django
+				{% endcomment %}
+				</ul>
+			{% endblock %}
+
+				<div class="clearer">&nbsp;</div>
+
+			</div>
+
+			<div class="clearer">&nbsp;</div>
+
+		</div>
+
+	</div>
+
+    {% if menu_titles %}
+	    <div class="main" id="main-two-columns-left">
+	{% else %}
+	    <div class="main" id="main-two-columns">
+    {% endif %}
+
+        {% if menu_titles %}
+		    <div class="right" id="main-content">
+		{% else %}
+		    <div class="left" id="main-content">
+	    {% endif %}
+			{% block content %}
+			{% endblock %}
+		</div>
+		
+		{% if menu_titles %}
+		    <div id="sidebar" class="left sidebar">
+
+			    <div class="section">
+
+				    <div class="section-title">Selección de ficha</div>
+				    
+				    <p class="main_page_link">
+				        {% if user_permission_instance.has_form %}
+				            <a href="{% url index %}">Volver al formulario pricipal</a>
+				        {% else %}
+				            <a href="{% url index %}">Vovler a la página inicial</a>
+			            {% endif %}
+				    </p>
+				    <br />
+				
+				    <form>
+                        {% for menu_title in menu_titles %}
+                            <h4>{{ menu_title.0 }}</h4>
+                            {% ifequal forloop.counter 1 %}
+                                <select class="menu_choice_field" id="{{ menu_title.1 }}">
+                                    {% for elem in main_menu_choices %}
+                                        <option value="{{ elem.id }}">{{ elem }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <select class="menu_choice_field" id="{{ menu_title.1 }}">
+                                    <option>-------</option>
+                                </select>
+                            {% endifequal %}
+                            {% if menu_title.2 %}
+                                <input type="submit" value="Ingresar" />
+                            {% endif %}
+                            <br />
+                            <br />
+                        {% endfor %}
+                    </form>
+			    </div>
+
+		    </div>
+		{% endif %}
+
+		<div class="clearer">&nbsp;</div>
+
+	</div>
+
+	<div id="footer">
+
+		<div class="left" id="footer-left">
+			
+			<p>&copy; 2011 Junta Nacional de Bomberos</p>
+
+			<p class="quiet"><a href="http://templates.arcsin.se/">Website template</a> by <a href="http://arcsin.se/">Arcsin</a></p>
+			
+			<div class="clearer">&nbsp;</div>
+
+		</div>
+
+		<div class="clearer">&nbsp;</div>
+
+	</div>
+
+</div>
+
+</body>
+</html>

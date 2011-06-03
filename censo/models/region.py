@@ -5,6 +5,19 @@ from django.db import models
 class Region(models.Model):
     name = models.CharField(max_length = 100)
     old_id = models.IntegerField()
+    has_form = False
+    
+    @classmethod
+    def menu_pack(self):
+        return ['Regiones', self.__name__, False]
+    
+    @classmethod
+    def hierarchical_child(self):
+        from . import Cuerpo
+        return Cuerpo
+        
+    def referring_children(self):
+        return Cuerpo.objects.filter(region=self)
     
     @classmethod
     def fetch_from_db(self, cursor, old_id):

@@ -15,6 +15,20 @@ class Cuerpo(models.Model):
     foundation_date = models.CharField(max_length=255)
     npers_juri = models.CharField(max_length=255)
     decree_date = models.CharField(max_length=255)
+    has_form = True
+    
+    @classmethod
+    def menu_pack(self):
+        return ['Cuerpos', self.__name__, True]
+    
+    @classmethod
+    def hierarchical_child(self):
+        from . import Company
+        return Company
+        
+    def referring_children(self):
+        from . import Company
+        return Company.objects.filter(cuerpo=self)
     
     @classmethod
     def fetch_from_db(self, cursor, old_id):

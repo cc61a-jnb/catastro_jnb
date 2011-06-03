@@ -792,3 +792,11 @@ form.catastro_form ul {
 .nota {
     font-style:italic;
 }
+
+.menu_choice_field {
+    width: 200px;
+}
+
+.main_page_link {
+    font-size: 14px;
+}
