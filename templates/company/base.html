@@ -12,3 +12,19 @@
 		{% block nav_minor_material %}<li><a href="{% url company_minor_material instance.company.old_id %}">Material Menor</a></li>{% endblock %}
 	</ul>
 {% endblock %}
+
+{% block sidebar %}
+    {% if menu_titles %}
+	    <div id="sidebar" class="left sidebar">
+
+		    <div class="section">
+
+			    <div class="section-title">Navegación</div>
+			    <p class="main_page_link">
+			        <a href="{% url censo.views_cuerpo.display_portada_form instance.company.cuerpo.old_id %}">Volver a cuerpo</a>
+		        </p>
+		    </div>
+
+	    </div>
+	{% endif %}
+{% endblock %}

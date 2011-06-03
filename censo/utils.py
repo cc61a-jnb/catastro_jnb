@@ -214,7 +214,7 @@ def get_menu_titles(Class):
         
 def get_menu_data(instance):
     if not instance:
-        return [[], None]
+        return [[], None, False]
         
     choices = instance.referring_children()
     titles = get_menu_titles(instance.hierarchical_child())

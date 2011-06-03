@@ -93,23 +93,17 @@
 			{% endblock %}
 		</div>
 		
-		{% if menu_titles %}
-		    <div id="sidebar" class="left sidebar">
+		{% block sidebar %}
+            <div id="sidebar" class="left sidebar">
+	            <div class="section">
+		            <div class="section-title">Información Cuerpo</div>
+		            
+                    <p class="main_page_link">
+                        <a href="{% url index %}">Ir a la página principal</a>
+                    </p>
+                    <br />
 
-			    <div class="section">
-
-				    <div class="section-title">Selección de ficha</div>
-				    
-				    <p class="main_page_link">
-				        {% if user_permission_instance.has_form %}
-				            <a href="{% url index %}">Volver al formulario pricipal</a>
-				        {% else %}
-				            <a href="{% url index %}">Vovler a la página inicial</a>
-			            {% endif %}
-				    </p>
-				    <br />
-				
-				    <form>
+                    <form>
                         {% for menu_title in menu_titles %}
                             <h4>{{ menu_title.0 }}</h4>
                             {% ifequal forloop.counter 1 %}
@@ -124,16 +118,16 @@
                                 </select>
                             {% endifequal %}
                             {% if menu_title.2 %}
+                                <br />
                                 <input type="submit" value="Ingresar" />
                             {% endif %}
                             <br />
                             <br />
                         {% endfor %}
                     </form>
-			    </div>
-
-		    </div>
-		{% endif %}
+                </div>
+            </div>
+        {% endblock %}
 
 		<div class="clearer">&nbsp;</div>
 
