@@ -14,6 +14,19 @@ class CuerpoGeneralForm(BaseForm):
         super(CuerpoGeneralForm, self).__init__(*args, **kwargs)
         # Define empty label for ISP question
         self.fields['fk_internet_provider'].empty_label = 'No posee'
+        
+    def clean(self):
+        self.custom_errors = []
+    
+        self.validate_field_range('fk_accounting_system', 'accounting_system_other_name', 'Por favor corrija los errores en Sistema Contable')
+        
+        self.validate_field_range('personnel_guard', 'personnel_junior', 'Por favor corrija los errores en Personal Rentado')
+        
+        # If any validation fails, raise error
+        if self.custom_errors:
+            raise forms.ValidationError(self.custom_errors)
+        
+        return self.cleaned_data
     
     # Display hardware questions as a table    
     def render_hardware_to_table(self):
