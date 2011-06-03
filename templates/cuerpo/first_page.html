@@ -5,13 +5,17 @@
 {% block nav_portada %}<li class="current-tab"><a href="{% url cuerpo %}">Portada</a></li>{% endblock %}
 
 {% block content %}
+    {% for error in form.errors %}
+        {{error}}<br />
+    {% endfor %}
+    
     <h2>Catastro Nacional Bomberos de Chile</h2>
     <h4>Cuerpo de bomberos {{ instance.cuerpo.name }}</h4>
 
     <h3>Portada</h3>
     <br />
     <p>
-	     <small>Nota: Si alguno de estos datos es incorrecto por favor corregirlo en el <a href="http://www.bomberos.cl/ver2.0/index.php">sitio web de la JNB</a><br>
+	     <p class="nota">Nota: Si alguno de estos datos es incorrecto por favor corregirlo en el <a href="http://www.bomberos.cl/ver2.0/index.php">sitio web de la JNB</a><br>
             Cualquier duda contactarse con <a href="mailto:soporte@bomberos.cl">soporte@bomberos.cl</a>
           </small>
 
@@ -19,7 +23,7 @@
 	<br />
 
 
-    <form method="post" action="#others_officials">
+    <form method="post" action="">
 	{% csrf_token %}
 
 	<ul>
@@ -61,6 +65,12 @@
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in formsets.cuerpootherofficial_set.forms %}
+                {% if form.errors and not prevent_validation_errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.role_name.errors.0 }}</td>
+                        <td>{{ form.person_name.errors.0 }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     {{ form.id }}
                     <td>{{ form.role_name }}</td>
@@ -78,7 +88,7 @@
     <br />
 	<hr />
 	<h3>Observaciones</h3>
-    <p>Ingrese cualquier información que estime de utilidad</p>
+    <p class="nota">Ingrese cualquier información que estime de utilidad</p>
 	{{ form.observations }}
 
 	<p><input type="submit" value="Guardar y continuar" /></p>
