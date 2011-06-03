@@ -17,3 +17,25 @@
         {% block nav_service_acts %}<li class=""><a href="{% url cuerpo_service_acts instance.cuerpo.old_id %}">Actos de Servicio</a></li>{% endblock %}
 	</ul>
 {% endblock %}
+
+{% block sidebar %}
+    <div id="sidebar" class="left sidebar">
+        <div class="section">
+            <div class="section-title">Navegación</div>
+            
+            <p class="main_page_link">
+                <a href="{% url index %}">Ir a la página principal</a>
+            </p>
+            <br />
+            <form id="selector_form">
+                <select class="last_choice_field" id="company">
+                    {% for elem in instance.cuerpo.cuerpo_company.all %}
+                        <option value="{{ elem.old_id }}">{{ elem }}</option>
+                    {% endfor %}
+                </select>
+                <br />
+                <input type="submit" value="Ingresar" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -58,8 +58,15 @@ urlpatterns += patterns('catastro_jnb.censo.views_regional_operations_manager',
 )
 
 # Administrator url's #
-##################################
+#######################
 
 urlpatterns += patterns('catastro_jnb.censo.views_administrator',
     url(r'^administration/$', 'index', name='administrator'),
+)
+
+# AJAX Data url's #
+###################
+
+urlpatterns += patterns('catastro_jnb.censo.views_data',
+    url(r'^data/(?P<class_name>\w+)/(?P<entity_id>\d+)/get_related/$', 'get_related', name='data_get_related'),
 )

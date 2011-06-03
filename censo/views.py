@@ -3,9 +3,11 @@
 import logging
 
 from censo.forms import LoginForm
+from censo.models import Region
 
 from djangoflash.decorators import keep_messages
 
+from django.db import connections
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -61,6 +63,11 @@ def login(request):
         if user is not None:
             django_login(request, user)
             logging.info("User %s logged in", user.username)
+            
+            if user.get_profile().is_administrator():
+                cursor = connections['principal'].cursor()
+                Region.fetch_all(cursor)
+                cursor.close()
             return index(request)
         # If user is incorrect, error
         else:

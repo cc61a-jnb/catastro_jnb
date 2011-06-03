@@ -200,6 +200,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
             'user_permission_instance': user_permission_instance,
             'formsets_modified': formsets_modified,
             'menu_titles': menu_titles,
+            'real_menu_titles': menu_titles[:-1],
             'main_menu_choices': main_menu_choices,
             }, context_instance=RequestContext(request),
         )

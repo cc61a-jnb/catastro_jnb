@@ -92,28 +92,30 @@
 			{% block content %}
 			{% endblock %}
 		</div>
-		
+		    
+		</script>
 		{% block sidebar %}
+		
             <div id="sidebar" class="left sidebar">
 	            <div class="section">
-		            <div class="section-title">Información Cuerpo</div>
+		            <div class="section-title">Menú Principal</div>
 		            
                     <p class="main_page_link">
                         <a href="{% url index %}">Ir a la página principal</a>
                     </p>
                     <br />
 
-                    <form>
+                    <form id="selector_form">
                         {% for menu_title in menu_titles %}
                             <h4>{{ menu_title.0 }}</h4>
                             {% ifequal forloop.counter 1 %}
-                                <select class="menu_choice_field" id="{{ menu_title.1 }}">
+                                <select class="menu_choice_field" id="{{ menu_title.1|lower }}">
                                     {% for elem in main_menu_choices %}
-                                        <option value="{{ elem.id }}">{{ elem }}</option>
+                                        <option value="{{ elem.old_id }}">{{ elem }}</option>
                                     {% endfor %}
                                 </select>
                             {% else %}
-                                <select class="menu_choice_field" id="{{ menu_title.1 }}">
+                                <select class="{{ forloop.last|yesno:'last_choice_field,menu_choice_field' }}" id="{{ menu_title.1|lower }}">
                                     <option>-------</option>
                                 </select>
                             {% endifequal %}
