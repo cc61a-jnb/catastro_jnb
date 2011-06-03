@@ -9,11 +9,8 @@
 	<form method="post" class="catastro_form" action="#other_offices" enctype="multipart/form-data">
 	{% csrf_token %}
 	<h2>Infraestructura Cuartel General</h2>
-	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+	<h4>Cuerpo de bomberos {{ instance.cuerpo.name }}</h4>
 
-{% for error in form.errors %}
-	{{ error }}<br />
-{% endfor %}
 
 {% if form.non_field_errors %}
 	    <ul class="errorlist">
