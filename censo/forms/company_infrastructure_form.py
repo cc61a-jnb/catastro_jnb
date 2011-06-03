@@ -14,12 +14,15 @@ class CompanyInfrastructureForm(BaseForm):
     def clean(self):
         data = self.cleaned_data
     
-        # Pictures must be valid 
         self.custom_errors = []
         
         self.validate_field_range('built_area_surface_m2', 'built_area_total_m2', 'Por favor corrija los errores en Terreno')
         
-        self.validate_field_range('building_initial_construction_year', 'building_extension_construction_legal', u'Por favor corrija los errores en Construcción') 
+        self.validate_field_range('inscription_fojas', 'inscription_year', u'Por favor corrija los errores en Datos de Inscripción')
+        
+        self.validate_field_range('building_initial_construction_year', 'building_extension_construction_legal', u'Por favor corrija los errores en Construcción')
+        
+        self.validate_field_range('terrain_machine_room_m2', 'terrain_machine_room_m2', u'Por favor corrija los errores en Distribución')
         
         self.validate_field_range('night_guard_office_men_beds', 'night_guard_office_men_bathroom_urinary', u'Por favor corrija los errores en Guardia Nocturna - Hombres')
         

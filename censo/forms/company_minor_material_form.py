@@ -22,7 +22,19 @@ class CompanyMinorMaterialForm(BaseForm):
         
         self.validate_field_range('python_50adjustable_quantity', 'python_70tube_quantity', 'Por favor corrija los errores en Equipamiento Menor - Pitones')
         
+        self.validate_field_range('tripok_quantity', 'motorpump_quantity', 'Por favor corrija los errores en Equipamiento Menor - Otro equipamiento')
+        
+        self.validate_field_range('aircompressor_fixed_quantity', 'aircompressor_bycar_quantity', 'Por favor corrija los errores en Compresores de aire')
+        
+        self.validate_field_range('cascade_cylinder_quantity', 'cascade_bycar_quantity', 'Por favor corrija los errores en Cascadas')
+        
         self.validate_field_range('electricgenerator_fixed_in_car_quantity', 'fk_electricgenerator_fixed_in_barracks_potency', 'Por favor corrija los errores en Generadores Eléctricos')
+        
+        self.validate_field_range('airmattresses_quantity', 'hazmat_seal_kits_quantity', 'Por favor corrija los errores en Otros')
+        
+        # If any validation fails, raise error
+        if self.custom_errors:
+            raise forms.ValidationError(self.custom_errors)
         
         return self.cleaned_data
 
@@ -55,6 +67,22 @@ class CompanyMinorMaterialForm(BaseForm):
         row_labels = ['Nº']
 
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
+        
+    # Display python minor equipment questions as a table
+    def render_python_minor_equipment_to_table(self):
+        fields = self._field_range('python_50adjustable_quantity', 'python_70tube_quantity')
+        table_fields = [fields]
+
+        column_labels = [field.label for field in fields]
+        row_labels = ['Nº']
+
+        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
+
+    # Display other minor equipment questions as a list
+    def render_other_minor_equipment_to_list(self):
+        fields = self._field_range('tripok_quantity', 'motorpump_quantity')
+
+        return render_fields_as_list(fields, 'list_quantities')
       
 	#Display radio equipment
     def render_portable_radio_equipment_to_table(self):
@@ -78,21 +106,7 @@ class CompanyMinorMaterialForm(BaseForm):
 
         return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities_3')
 		
-    # Display python minor equipment questions as a table
-    def render_python_minor_equipment_to_table(self):
-        fields = self._field_range('python_50adjustable_quantity', 'python_70tube_quantity')
-        table_fields = [fields]
-
-        column_labels = [field.label for field in fields]
-        row_labels = ['Nº']
-
-        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_quantities')
-
-    # Display other minor equipment questions as a list
-    def render_other_minor_equipment_to_list(self):
-        fields = self._field_range('tripok_quantity', 'motorpump_quantity')
-
-        return render_fields_as_list(fields, 'list_quantities')
+    
 
     # Display air compressor questions as a list
     def render_air_compressor_to_list(self):

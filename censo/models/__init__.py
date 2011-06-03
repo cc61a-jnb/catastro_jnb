@@ -12,7 +12,7 @@ from infrastructure_company_data import InfrastructureCompanyData
 from building_material_type import BuildingMaterialType
 from property_title_type import PropertyTitleType
 from minor_material_company_data import MinorMaterialCompanyData
-from general_cuerpo_data import CuerpoGeneralData
+from cuerpo_general_data import CuerpoGeneralData
 from accounting_system import AccountingSystem
 from cuerpo_anb_data import CuerpoANBData
 from company_other_official import CompanyOtherOfficial

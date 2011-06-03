@@ -10,6 +10,14 @@
 	<h2>Material Menor</h2>
 	<h4>{{ company.cuerpo }}</h4>
 	<h4>{{ company.string_number }}</h4>
+	
+	{% if form.non_field_errors %}
+	    <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+	    </ul>
+	{% endif %}
 
 <h3>Uniformes Normados</h3>
 <p class="nota">Sólo uniformes normados</p>
