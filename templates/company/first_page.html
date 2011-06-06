@@ -12,6 +12,13 @@
     <h2>Catastro Nacional Bomberos de Chile</h2>
     <h4>{{ instance.company.cuerpo }}</h4>
     <h4>{{ instance.company.string_number }}</h4>
+
+    {% if formset_error %}
+    <ul class="errorlist">
+    <li>{{ formset_error }}</li>
+    </ul>
+    {% endif %}
+
     <h3>Portada</h3>
     <br />
     <p class="nota">

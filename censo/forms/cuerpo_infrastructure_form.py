@@ -29,7 +29,9 @@ class CuerpoInfrastructureForm(BaseForm):
                     self._errors['property_commodatum_end_year'] = self.error_class(['Por favor defina el año de término del arriendo o comodato'])
                 elif self.cleaned_data['property_commodatum_end_year'] and not self.cleaned_data['fk_property_title_type'].requires_end_year:
                     self._errors['property_commodatum_end_year'] = self.error_class(['Sólo defina si la propiedad es un arriendo o comodato'])
-        
+                    
+        self.validate_field_range('fk_property_title_type', 'property_commodatum_end_year', u'Por favor corrija los errores en Terreno')        
+
         # If any validation fails, raise error
         if self.custom_errors:
             raise forms.ValidationError(self.custom_errors)

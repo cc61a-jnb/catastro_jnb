@@ -20,6 +20,12 @@
 	    </ul>
 	{% endif %}
 
+    {% if formset_error %}
+    <ul class="errorlist">
+    <li>{{ formset_error }}</li>
+    </ul>
+    {% endif %}
+
 	<h3>Información del Vehículo</h3>
     <h5>*Debe elegir una compañía o nivel central</h5>
 

@@ -20,6 +20,12 @@
 	    </ul>
 	{% endif %}
 
+    {% if formset_error %}
+    <ul class="errorlist">
+    <li>{{ formset_error }}</li>
+    </ul>
+    {% endif %}
+
 <h3>Terreno</h3>
 {{ form.render_built_area_to_table }}
 

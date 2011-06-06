@@ -5,9 +5,6 @@
 {% block nav_alarm_central%}<li class="current-tab"><a href="{% url cuerpo_alarm_central %}">Central de Alarmas</a></li>{% endblock %}
 
 {% block content %}
-	{% for error in form.errors %}
-		{{ error }}<br />
-	{% endfor %}
 	<form method="post" class="catastro_form" action="#bases">
 	{% csrf_token %}
 	<h2>Central de Alarmas</h2>
@@ -20,6 +17,13 @@
             {% endfor %}
 	    </ul>
 	{% endif %}
+
+    {% if formset_error %}
+    <ul class="errorlist">
+    <li>{{ formset_error }}</li>
+    </ul>
+    {% endif %}
+    
    <br><b></b><h3>Debe ser respondido por Comandante del Área o Inspector en comunicaciones</h3><br></b>
 
 	<h3>Datos de contacto</h3>
