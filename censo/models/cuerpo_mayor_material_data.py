@@ -19,7 +19,6 @@ class CuerpoMayorMaterialData(models.Model):
     cuerpo_vehicle_own = models.IntegerField(choices=((0,"------"),(1, u"Superintendencia"), (2,u"Comandancia")), default=0, verbose_name='Nivel Central')
 
     # Informacion del vehiculo
-
     fk_vehicle_type = models.ForeignKey('VehicleType', verbose_name='Tipo de Vehículo', blank=True, null=True)
     denomination = models.CharField(max_length=255, null=True, blank=True, verbose_name='Denominación')
     fk_chassis_or_truck_manufacturer = models.ForeignKey('VehicleChassisManufacturer', verbose_name='Marca Chasis/Camión', blank=True, null=True)
@@ -44,7 +43,6 @@ class CuerpoMayorMaterialData(models.Model):
     fk_procedence = models.ForeignKey('VehicleProcedence', verbose_name='Procedencia', null=True, blank=True)
 
     # Situacion legal
-
     registered = models.NullBooleanField(verbose_name='Inscrito')
     licence_plate = models.CharField(max_length=255, null=True, blank=True, verbose_name='Patente')
 

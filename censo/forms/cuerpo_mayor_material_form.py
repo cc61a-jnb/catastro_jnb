@@ -14,12 +14,12 @@ class CuerpoMayorMaterialForm(BaseForm):
         data = self.cleaned_data
         
         self.custom_errors = []
-      
-      
+        #self.validate_field_range('fk_vehicle_type', 'fk_procedence','Corrija los campos')
+        #self.validate_field_range('registered', 'vehicle_checkup','Corrija los campos2 ')
         #Denomination is a required field
-        if data['denomination'] == u'':
-            error_message = 'Este campo es requerido'
-            self._errors['denomination'] = self.error_class([error_message])
+        #if data['denomination'] == u'':
+         #   error_message = 'Este campo es requerido'
+          #  self._errors['denomination'] = self.error_class([error_message])
 
         #The kilometers during the oil change cannot be higher that the current quantity
         if data['oil_change_kilometraje'] > data ['kilometraje']:
@@ -42,12 +42,21 @@ class CuerpoMayorMaterialForm(BaseForm):
             if data['fk_chassis_or_truck_manufacturer'].name== "Otra marca" and not data['chassis_or_truck_manufacturer_other']:
                 error_message ='Debe especificar otra marca de chasis'
                 self._errors['chassis_or_truck_manufacturer_other'] = self.error_class([error_message])
+                self.custom_errors.append(error_message)
                 
-         # case when there's no carrosado brand selected and the other field has no data
+         # case when there's other carrosado brand selected and the other field has no data
         if  data['fk_carrosado_manufacturer']:
             if data['fk_carrosado_manufacturer'].name== "Otra marca"  and not data['carrosado_manufacturer_other']:
                 error_message ='Debe especificar otra marca del carrosado'
-                self._errors['carrosado_manufacturer_other'] = self.error_class([error_message])       
+                self._errors['carrosado_manufacturer_other'] = self.error_class([error_message])  
+                self.custom_errors.append(error_message)
+                
+        #case when there's other bomb brand/model selected and the other fields have no data
+        if  data['fk_fire_engine_camiva_model']:
+            if data['fk_fire_engine_camiva_model'].name== "Otra marca/modelo"  and not data['fire_engine_other_manufacturer']:
+                error_message ='Debe especificar otra marca de la bomba'
+                self._errors['fire_engine_other_manufacturer'] = self.error_class([error_message])
+                self.custom_errors.append(error_message)
 
         # If any validation fails, raise error
         if self.custom_errors:
@@ -132,6 +141,24 @@ class CuerpoMayorMaterialForm(BaseForm):
         fields = [self['observations']]
 
         return render_fields_as_list(fields)
+     # Get a range of fields (ordered) between the given field names   
+    def _field_range(self, start_field_name, end_field_name):
+        fields = self.fields.items()
+        return_fields = []
+        
+        indexing = False;
+        
+        for idx, field in enumerate(fields):
+            if field[0] == start_field_name:
+                indexing = True
+                
+            if indexing:
+                return_fields.append(field[0])
+                
+            if field[0] == end_field_name:
+                indexing = False
+                
+        return [self[field] for field in return_fields]
 
     class Meta:
         model = CuerpoMayorMaterialData
