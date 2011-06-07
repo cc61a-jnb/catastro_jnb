@@ -17,9 +17,9 @@ class CuerpoMayorMaterialForm(BaseForm):
         #self.validate_field_range('fk_vehicle_type', 'fk_procedence','Corrija los campos')
         #self.validate_field_range('registered', 'vehicle_checkup','Corrija los campos2 ')
         #Denomination is a required field
-        #if data['denomination'] == u'':
-         #   error_message = 'Este campo es requerido'
-          #  self._errors['denomination'] = self.error_class([error_message])
+        if data['denomination'] == u'':
+            error_message = 'Este campo es requerido'
+            self._errors['denomination'] = self.error_class([error_message])
 
         #The kilometers during the oil change cannot be higher that the current quantity
         if data['oil_change_kilometraje'] > data ['kilometraje']:
