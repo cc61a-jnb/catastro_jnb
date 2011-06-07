@@ -7,7 +7,7 @@
     <form method="post" class="catastro_form">
 	{% csrf_token %}
  	<h2>Actos de Servicio</h2>
-	<h4>Cuerpo de bomberos {{ cuerpo.name }}</h4>
+	<h4>Cuerpo de bomberos {{ instance.cuerpo.name }}</h4>
 	<br />
 	<hr />
   <h4>Entre el 1 de enero de 2010 y 31 de diciembre de 2010</h4>

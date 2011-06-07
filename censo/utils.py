@@ -9,6 +9,31 @@ from django.shortcuts import render_to_response
 import re
 import pdb
 
+def render_service_acts(fields, column_labels, row_labels, css_class_name='table_service_acts'):
+    template = loader.get_template('tags/fields_table_service_acts.html')
+
+    #helper text array
+    helper_text = []
+    single_fields = []
+    for row_field in fields:
+        single_fields.extend(row_field)
+
+    for index, item in enumerate(fields):
+        helper_text.append(item[0].help_text)
+    errors = combine_fields_errors(single_fields)
+
+    for idx, row_fields in enumerate(fields):
+        row_fields.insert(0, "<b>%s</b> <p class='nota'>%s</p>" % (row_labels[idx], helper_text[idx]) )
+
+    c = Context({
+        'helper_text': helper_text,
+        'fields': fields,
+        'errors': errors,
+        'column_labels': column_labels,
+        'css_class_name': css_class_name,
+    })
+    return template.render(c)
+
 def render_fields_as_table(fields, column_labels, row_labels, css_class_name='table_service_acts'):
     template = loader.get_template('tags/fields_table.html')
 

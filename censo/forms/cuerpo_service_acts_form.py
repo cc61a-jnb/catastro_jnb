@@ -3,7 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from censo.models import *
 from django.template import Context, loader
-from censo.utils import render_fields_as_table, render_fields_as_list, split_list, combine_fields_errors
+from censo.utils import render_service_acts, render_fields_as_list, split_list, combine_fields_errors
 from . import BaseForm
 
 class CuerpoServiceActsForm(BaseForm):
@@ -17,7 +17,7 @@ class CuerpoServiceActsForm(BaseForm):
         row_labels = [fields.label for fields in fields]
         column_labels = ['Cantidad']
 
-        return render_fields_as_table(table_fields, column_labels, row_labels, 'table_service_acts')
+        return render_service_acts(table_fields, column_labels, row_labels, 'table_service_acts')
 
     def render_acts_to_list(self):
 

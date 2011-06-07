@@ -100,7 +100,6 @@ class UserProfile(models.Model):
         return False
         
     def get_menu(self):
-        from censo.models import *
         if self.is_administrator():
             return get_menu_data(Administrator())
         if self.is_regional_operations_manager():
