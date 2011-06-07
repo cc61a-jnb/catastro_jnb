@@ -1,6 +1,5 @@
 from authentication import authorize
 from censo.models import *
-import ipdb
 from django.db import connections
 from django.utils import simplejson
 from django.http import HttpResponse
