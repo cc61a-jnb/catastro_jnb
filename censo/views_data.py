@@ -17,5 +17,3 @@ def get_related(request, class_name, entity_id):
         simplejson.dumps(children),
         content_type = 'application/javascript; charset=utf8'
     )
- 
-    

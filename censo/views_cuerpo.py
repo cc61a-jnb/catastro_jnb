@@ -103,7 +103,7 @@ def edit_mayor_material_form(request, cuerpo, mayor_material_id):
         mayor_material_data = cuerpo.cuerpomayormaterialdata_set.get(pk=mayor_material_id)
     except CuerpoMayorMaterialData.DoesNotExist:
         # Redirect to default mayor material
-        logging.error("Requested mayor material data id:%d for cuerpo:%d doesn't exists", mayor_material_id, cuerpo.id)
+        logging.error("Requested mayor material data id:%s for cuerpo:%s doesn't exists", mayor_material_id, cuerpo.id)
         request.flash['error'] = 'La planilla de material mayor consultada no existe'
         return redirect('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id)
 
@@ -130,10 +130,10 @@ def remove_mayor_material(request, cuerpo, mayor_material_id):
         except CuerpoMayorMaterialData.DoesNotExist:
             # Redirect to default mayor material
             request.flash['error'] = 'La planilla de material mayor consultada no existe'
-            logging.error("Requested mayor material data id:%d for cuerpo:%d doesn't exists", mayor_material_id, cuerpo.id)
+            logging.error("Requested mayor material data id:%s for cuerpo:%s doesn't exists", mayor_material_id, cuerpo.id)
             return redirect('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id)
         
-        logging.info("Deleting mayor material data object id:%d for cuerpo:%d", mayor_material_data.id, cuerpo.id)
+        logging.info("Deleting mayor material data object id:%s for cuerpo:%s", mayor_material_data.id, cuerpo.id)
         mayor_material_data.delete()
         request.flash['success'] = "Se ha eliminado la ficha seleccionada satisfactoriamente"
     

@@ -1,3 +1,7 @@
+# coding: utf-8
+
+import logging
+
 from django.db import models
 
 class Commune(models.Model):
@@ -15,7 +19,7 @@ class Commune(models.Model):
         
         commune_data = cursor.fetchone()
         if not commune_data:
-            logging.info("Cannot find commune with id (%d)", old_id)
+            logging.info("Cannot find commune with id %s", old_id)
             return None
             
         province = Province.fetch_from_db(cursor, commune_data[1])

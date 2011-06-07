@@ -1,3 +1,7 @@
+# coding: utf-8
+
+import logging
+
 from django.db import models
 
 class Province(models.Model):
@@ -15,7 +19,7 @@ class Province(models.Model):
         
         province_data = cursor.fetchone()
         if not province_data:
-            logging.info("Cannot find province with id (%d)", old_id)
+            logging.info("Cannot find province with id (%s)", old_id)
             return None
             
         region = Region.fetch_from_db(cursor, province_data[1])
