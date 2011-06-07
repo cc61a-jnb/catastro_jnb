@@ -27,7 +27,9 @@ class CompanyVolunteerForm(BaseForm):
         local_errors = self.validate_field_range('computers_quantity', 'printers_quantity', 'Por favor corrija los errores en Soporte Tecnológico')
         
         # First validation: We need the total men and women
-        local_errors = self.validate_field_range('volunteer_total_men_quantity', 'volunteer_total_women_quantity', 'Por favor defina el total de hombres y mujeres de la compañía')
+        local_errors = self.validate_field_range('volunteer_total_men_quantity', 'volunteer_total_women_quantity', 'Por favor corrija los errores en el total de hombres y mujeres de la compañía')
+        
+        self.validate_field_range('volunteer_antiquity_required_to_honorary', 'volunteer_antiquity_required_to_honorary', 'Por favor corrija la antiguëdad requerida para ser honorario')
         
         if local_errors:
             # The required numbers were not supplied, so we invalidate the possible error messages of the 
@@ -42,7 +44,8 @@ class CompanyVolunteerForm(BaseForm):
             total_women = data['volunteer_total_women_quantity']
         
             # Active + Honorary must equal total
-            local_errors = self.validate_field_range('volunteer_active_men_quantity', 'volunteer_honorary_women_quantity', 'Por favor defina el número de voluntarios activos y honorarios')
+            local_errors = self.validate_field_range('volunteer_active_men_quantity', 'volunteer_honorary_women_quantity', 'Por favor corrija los errores en el número de voluntarios activos y honorarios')
+
 
             if not local_errors:
                 error_messages = []
@@ -63,7 +66,7 @@ class CompanyVolunteerForm(BaseForm):
                 if error_messages:
                     self._errors['volunteer_active_men_quantity'] = self.error_class(error_messages)
             # Sum of age-range volunteers must equal total        
-            local_errors = self.validate_field_range('volunteer_age_between_18_25_men_quantity', 'volunteer_age_60_or_more_women_quantity', 'Por favor defina el número de voluntarios por rango de edad')
+            local_errors = self.validate_field_range('volunteer_age_between_18_25_men_quantity', 'volunteer_age_60_or_more_women_quantity', 'Por favor corrija los errores en el número de voluntarios por rango de edad')
 
             if not local_errors:
                 error_messages = []
@@ -83,7 +86,7 @@ class CompanyVolunteerForm(BaseForm):
                     error_messages.append(error_message)
                     self.custom_errors.append(error_message)
                 
-                # Sum of age-range volunteers must equal total (men)    
+                # Sum of age-range volunteers must equal total (women)    
                 sum_women_age_fields = 0
                 for field in women_age_fields:
                     sum_women_age_fields += self.cleaned_data[field.name]
@@ -98,7 +101,7 @@ class CompanyVolunteerForm(BaseForm):
                     self._errors['volunteer_age_between_18_25_men_quantity'] = self.error_class(error_messages)
             
             # Sum of volunteer education must equal total    
-            local_errors = self.validate_field_range('volunteer_education_basica_complete_quantity', 'volunteer_with_work_quantity', 'Por favor defina el número de voluntarios por educación / oficio')
+            local_errors = self.validate_field_range('volunteer_education_basica_complete_quantity', 'volunteer_with_work_quantity', 'Por favor corrija los errores en el número de voluntarios por educación / oficio')
             
             if not local_errors:
                 education_fields = self._field_range('volunteer_education_basica_complete_quantity', 'volunteer_with_work_quantity')
@@ -114,6 +117,14 @@ class CompanyVolunteerForm(BaseForm):
         # Company must have at least 1 specialty    
         if not data['specialities'] and not data['specialities_other']:
             self._errors['specialities'] = self.error_class(['Debe especificar por lo menos una especialidad'])
+        
+        # Other validations....
+        self.validate_field_range('volunteer_lt_than_3_years_cuerpo_course_quantity', 'volunteer_gt_than_3_years_academia_course_quantity', 'Por favor corrija los errores en Formación Bomberil - ANB')
+        
+        self.validate_field_range('volunteer_class_f_bomberos_driver_quantity', 'volunteer_class_f_cuarteleros_driver_quantity', 'Por favor corrija los errores en Conductores clase F')
+        
+        self.validate_field_range('volunteer_brigada_juvenil_antiquity', 'volunteer_brigada_juvenil_members_quantity', 'Por favor corrija los errores en Brigada Juvenil de Compañía')
+            
         
         # If any validation fails, raise error
         if self.custom_errors:

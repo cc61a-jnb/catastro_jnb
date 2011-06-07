@@ -20,9 +20,15 @@
 	    </ul>
 	{% endif %}
 
+    {% if formset_error %}
+    <ul class="errorlist">
+    <li>{{ formset_error }}</li>
+    </ul>
+    {% endif %}
+
 	<h3>Información del Vehículo</h3>
     <h5>*Debe elegir una compañía o nivel central</h5>
-	
+
 	<!-- We need to create the select list only with related companies -->
 	{{ form.render_company_question_to_list }}
 
@@ -64,7 +70,7 @@
 
 	<h4>Cambio Caja de cambio</h4>
 	{{ form.render_gearbox_change_to_list }}
-	
+
 	<h4>Reparaciones</h4>
 	{{ form.render_repairs_to_list }}
 
@@ -94,8 +100,10 @@
                 </tr>
             {% endfor %}
             <tr class="dynamic_form_buttons">
-                <td colspan=2 class="add_button"><input title="Agregar equipo de radio instalado" type="submit" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_add" value="Agregar equipo de radio instalado" /></td>
-                <td colspan=3 class="delete_button"><input type="submit" value="Eliminar equipo de radio instalado" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_delete" /></td>
+                <td colspan=2 class="add_button">
+                    <input title="Agregar equipo de radio instalado" type="submit" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_add" value="Agregar equipo de radio instalado" /></td>
+                <td colspan=3 class="delete_button">
+                    <input type="submit" value="Eliminar equipo de radio instalado" name="{{ formsets.cuerpomaterialmayorinstalledradio_set.prefix }}_delete" /></td>
             </tr>
         </table>
 <br/>

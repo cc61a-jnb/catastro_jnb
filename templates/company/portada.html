@@ -9,17 +9,24 @@
         {{error}}<br />
     {% endfor %}
 
-    <h2>Catastro de compañía de bomberos</h2>
+    <h2>Catastro Nacional Bomberos de Chile</h2>
     <h4>{{ instance.company.cuerpo }}</h4>
     <h4>{{ instance.company.string_number }}</h4>
+
+    {% if formset_error %}
+    <ul class="errorlist">
+    <li>{{ formset_error }}</li>
+    </ul>
+    {% endif %}
+
     <h3>Portada</h3>
     <br />
     <p class="nota">
-
 	    Nota: Si alguno de estos datos es incorrecto por favor corregirlo en el <a href="http://www.bomberos.cl/ver2.0/index.php">sitio web de la JNB</a><br>
             Cualquier duda contactarse con <a href="mailto:soporte@bomberos.cl">soporte@bomberos.cl</a>
 	</p>
 	<br />
+
 	<ul>
 	    <li><strong>Nombre:</strong> {{ instance.company.string_number }}</li>
 	    <li><strong>Dirección:</strong> {{ instance.company.address }}</li>
@@ -84,7 +91,7 @@
 	<h3>Observaciones</h3>
     <p class="nota">Ingrese cualquier información que estime de utilidad</p>
 	{{ form.observations }}
-    
+
     <p><input title="Guardar y continuar" type="submit" name="submit_portada_form" value="Guardar y continuar" /></p>
     </form>
 

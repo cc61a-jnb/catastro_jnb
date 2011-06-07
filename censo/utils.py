@@ -48,9 +48,9 @@ def render_fields_as_list(fields, css_class_name='list_fields'):
 
 def combine_fields_errors(fields):
     '''
-    Method that combines the errors from multiple fields in
-    a single array.
-    '''
+Method that combines the errors from multiple fields in
+a single array.
+'''
     errors = []
     for field in fields:
         errors.extend(field.errors)
@@ -60,8 +60,7 @@ def split_list(alist, wanted_parts=1):
     length = len(alist)
     return [ alist[i*length // wanted_parts: (i+1)*length // wanted_parts]
              for i in range(wanted_parts) ]
-             
-             
+
 def remove_deleted_fields_from_data(data, prefix):
     total_forms = int(data['%s-TOTAL_FORMS' % prefix])
     
@@ -94,17 +93,17 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     '''
     Method that handles form with multiple (or no) formsets automagically
     request: Request sent to the original view
-    instance: data associated with the current page 
-        e.g. an instance of PortadaCompanyData
-    PageForm: Class of the form associated with the page 
-        e.g. CompanyPortadaForm
-    template: The template that renders this page 
-        e.g. company/portada.html
-    success_redirect: The URL of the page to redirect to if this form and its subforms are valid 
-        e.g. /company/volunteers
+    instance: data associated with the current page
+    e.g. an instance of PortadaCompanyData
+    PageForm: Class of the form associated with the page
+    e.g. CompanyPortadaForm
+    template: The template that renders this page
+    e.g. company/first_page.html
+    success_redirect: The URL of the page to redirect to if this form and its subforms are valid
+    e.g. /company/volunteers
     formset_pairs: Optional list of pairs for the data needed to analyze each formset, the first
-        one must be the model class that represents the formset (e.g CompanyOtherOfficial), the second
-        one must be the instance of the model the class refers to (e.g. company)
+    one must be the model class that represents the formset (e.g CompanyOtherOfficial), the second
+    one must be the instance of the model the class refers to (e.g. company)
     '''
     
     # First we generate all the formset classes with the given formset_pairs
@@ -114,6 +113,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     # sent to the template if we want to, for example, to prevent the showing of validation errors
     # on the main form
     formsets_modified = False
+    formset_error=None
     
     # Dictionary that holds the formsets after adding, deleting and validating them
     # Key is the default prefix of the class
@@ -158,9 +158,9 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                 formset = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
                 if not formset.is_valid():
                     valid_form_page = False
+                    formset_error=u'Por favor corrija los errores en la ficha'
                 formsets[GenericFormSet.get_default_prefix()] = formset
-                
-
+ 
             if valid_form_page and not formsets_modified:
                 form.save()
                 
@@ -196,6 +196,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     return render_to_response(template, {
             'form': form,
             'formsets': formsets,
+            'formset_error': formset_error,
             'instance': instance,
             'user_permission_instance': user_permission_instance,
             'formsets_modified': formsets_modified,
