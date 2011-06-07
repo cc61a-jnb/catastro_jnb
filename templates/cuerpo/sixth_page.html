@@ -24,13 +24,13 @@
     </ul>
     {% endif %}
     
-   <br><b></b><h3>Debe ser respondido por Comandante del Área o Inspector en comunicaciones</h3><br></b>
+   <br><b><h3>Debe ser respondido por Comandante del Área o Inspector en comunicaciones</h3><br></b>
 
 	<h3>Datos de contacto</h3>
 
 	{{ form.render_contacts_details_to_list}}
 
-        <small>Nota: Indicar un teléfono distinto del 132</small>
+        <p class="nota">Nota: Indicar un teléfono distinto del 132</p>
 
         <br />
     	<br />
@@ -120,13 +120,13 @@
 	<hr />
 
         <h3>Energía de Respaldo - (Solo Central)</h3>
-        <small>Responder sólamente si tiene disponible</small>
+        <p class="nota">Responder sólamente si tiene disponible</p>
 	{{form.render_backup_power_to_list}}
     	<br />
 	<hr />
 
         <h3>Observaciones</h3>
-        <p>Ingrese cualquier información que estime de utilidad</p>
+        <p class="nota">Ingrese cualquier información que estime de utilidad</p>
 	{{form.render_observations_to_list}}
     	<br />
 	<hr />

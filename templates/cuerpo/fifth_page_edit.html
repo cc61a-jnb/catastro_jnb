@@ -52,7 +52,8 @@
 	<hr />
 
     <h3>Caracteristicas de la bomba</h3>
-    <h5>*Llenar sólo si aplica
+    <p class="nota">Llenar sólo si aplica</p>
+    <br />
 
 	{{ form.render_caracteristics_to_list }}
 
@@ -63,8 +64,8 @@
 	<br />
 	<hr />
 	<h3>Grandes reparaciones</h3>
-	<h5>*Llenar sólo si se han realizado cambios</h5>
-
+	<p class="nota">Llenar sólo si se han realizado cambios</p>
+    <br />
 	<h4>Cambio Motor</h4>
 	{{ form.render_motor_change_to_list }}
 
@@ -198,7 +199,7 @@
 	<br />
 	<hr />
 <h3>Observaciones</h3>
-    <p>Ingrese cualquier información que estime de utilidad</p>
+    <p class="nota">Ingrese cualquier información que estime de utilidad</p>
 	{{ form.render_observations_to_list }}
 	<p><input type="submit" value="Guardar y continuar" /></p>
 </form>
