@@ -5,6 +5,7 @@ from region import Region
 from cuerpo import Cuerpo
 from volunteer_data import VolunteerData
 from company import Company
+from administrator import Administrator
 from user_profile import UserProfile
 from province import Province
 from internet_provider import InternetProvider
@@ -52,4 +53,3 @@ from cuerpo_materialmayor_installed_radio import CuerpoMaterialMayorInstalledRad
 from cuerpo_materialmayor_portable_radio import CuerpoMaterialMayorPortableRadio
 from cuerpo_materialmayor_antenna import CuerpoMaterialMayorAntenna
 from company_antenas import CompanyAntenas
-from administrator import Administrator

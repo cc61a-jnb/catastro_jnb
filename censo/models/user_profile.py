@@ -7,7 +7,7 @@ from django.db import connections
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from . import Occupation, Company
+from . import Occupation, Company, Administrator
 
 class UserProfile(models.Model):
     company = models.ForeignKey(Company, null=True)

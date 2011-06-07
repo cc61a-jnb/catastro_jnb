@@ -4,5 +4,37 @@
 
 {% block nav %}{% endblock %}
 
+{% block sidebar %}
+		
+            <div id="sidebar" class="left sidebar">
+	            <div class="section">
+		            <div class="section-title">Menú Principal</div>
+
+                    <form id="selector_form">
+                        {% for menu_title in menu_titles %}
+                            <h4>{{ menu_title.0 }}</h4>
+                            {% ifequal forloop.counter 1 %}
+                                <select class="menu_choice_field" id="{{ menu_title.1|lower }}">
+                                    {% for elem in main_menu_choices %}
+                                        <option value="{{ elem.old_id }}">{{ elem }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <select class="{{ forloop.last|yesno:'last_choice_field,menu_choice_field' }}" id="{{ menu_title.1|lower }}">
+                                    <option>-------</option>
+                                </select>
+                            {% endifequal %}
+                            {% if menu_title.2 %}
+                                <br />
+                                <input type="submit" value="Ingresar" />
+                            {% endif %}
+                            <br />
+                            <br />
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+        {% endblock %}
+
 {% block content %}
 {% endblock %}
