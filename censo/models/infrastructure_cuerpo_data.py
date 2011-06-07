@@ -25,7 +25,7 @@ class CuerpoInfrastructureData(models.Model):
     narrow_street_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Pasaje')
 
     # Use ChoiceField in form!
-    fk_property_title_type = models.ForeignKey('PropertyTitleType', verbose_name='Título de propiedad', null=True, blank=True)
+    fk_property_title_type = models.ForeignKey('PropertyTitleType', verbose_name='Título de propiedad', null=True, blank=False)
     #models.CharField(max_length=255, null=True, blank=True, verbose_name='Título de propiedad')
     property_commodatum_end_year = models.IntegerField(null=True, blank=True, verbose_name='Año término comodato o arriendo')
 
