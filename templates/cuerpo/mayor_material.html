@@ -6,8 +6,6 @@
 
 {% block content %}
 
-<div>
-
 <div class="add-button">
     <a href="{% url cuerpo_add_new_mayor_material instance.cuerpo.old_id %}">Agregar Nueva Ficha</a>
 </div>
@@ -36,6 +34,5 @@
     <tr><td colspan="4">Ud. no tiene fichas de Material Mayor</td></tr>
 {% endfor %}
 </table>
-</div>
 
 {% endblock %}

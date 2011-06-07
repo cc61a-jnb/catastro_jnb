@@ -17,16 +17,17 @@ function combobox_change_handler(combobox) {
     model_name = combobox.attr('id')
     model_id = combobox.val()
     
-    url = "/data/" + model_name + "/" + model_id + "/get_related/"
-    
-    $.getJSON(url, function(data) {
-        next_combobox = combobox.siblings('select').first()
-        next_combobox.empty();
-        $.each(data, function() {
-            next_combobox.append(new Option(this.name, this.id));
-        });
-
-    }) 
+    if(model_name && model_id){
+        url = "/data/" + model_name + "/" + model_id + "/get_related/"
+        
+        $.getJSON(url, function(data) {
+            next_combobox = combobox.siblings('select').first()
+            next_combobox.empty();
+            $.each(data, function() {
+                next_combobox.append(new Option(this.name, this.id))
+            })
+        })
+    }
 }
 
 

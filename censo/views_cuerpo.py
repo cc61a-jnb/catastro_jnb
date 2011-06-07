@@ -90,6 +90,7 @@ def display_mayor_material_index(request, cuerpo):
     return render_to_response('cuerpo/mayor_material.html', {
                 'instance': {'cuerpo':cuerpo},
                 'mayor_material_list': mayor_material_list,
+                'menu_titles': True,
                 }, context_instance=RequestContext(request),
                 )
 
