@@ -23,7 +23,7 @@
         <div class="section">
             <div class="section-title">Navegación</div>
             
-            {% if user.is_superuser %}
+            {% if user.is_superuser or user.get_profile.is_regional_operations_manager %}
             <p class="main_page_link">
                 <a href="{% url index %}">Ir a la página principal</a>
             </p>

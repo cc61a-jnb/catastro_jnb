@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block form_handler %}{% comment %}
+    disable form script
+{% endcomment %}{% endblock %}
+
 {% block default_submit_form %}{% comment %}
 	disable form script for login, in order to let firefox work ok with saved users and passwords
 {% endcomment %}{% endblock %}

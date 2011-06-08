@@ -54,7 +54,7 @@ urlpatterns += patterns('catastro_jnb.censo.views_cuerpo',
 ##################################
 
 urlpatterns += patterns('catastro_jnb.censo.views_regional_operations_manager',
-    url(r'^regional_operations_manager/$', 'index', name='regional_operations_manager'),
+    url(r'^regional_operations_manager/(?P<region_id>\d+)/$', 'index', name='regional_operations_manager'),
 )
 
 # Administrator url's #

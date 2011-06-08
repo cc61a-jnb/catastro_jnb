@@ -42,6 +42,12 @@ class UserProfile(models.Model):
 
     def is_regional_operations_manager(self):
         return self.role_id in settings.CARGO_ID_REGION_ID_DICT
+
+    def get_region_id(self):
+        try:
+            return settings.CARGO_ID_REGION_ID_DICT[self.role_id]
+        except KeyError:
+            return None
         
     def is_cuerpo_manager(self):
         if self.role_id in [1, 2]:
@@ -82,22 +88,33 @@ class UserProfile(models.Model):
         # now check if is user is regional operations manager
         if self.is_regional_operations_manager():
             cuerpo_region = cuerpo.commune.province.region
-            self_region_id = None
 
-            try:
-               self_region_id = settings.CARGO_ID_REGION_ID_DICT[self.role_id]
-            except KeyError:
+            self_region_id = self.get_region_id()
+            if not self_region_id:
                 logging.error("Cargo:%s is not defined at the settings CARGO_ID_REGION_ID_DICT dictionary", old_id)
                 return False
             return cuerpo_region.old_id == self_region_id
 
         return False
+
+    def has_region_permission(self, region):
+        # check if user is administrator
+        if self.is_administrator():
+            return True
+
+        self_region_id = self.get_region_id()
+        if self_region_id == region.old_id:
+            return True
+        
+        return False
+    
         
     def get_menu(self):
         if self.is_administrator():
             return get_menu_data(Administrator())
         if self.is_regional_operations_manager():
-            return get_menu_data(self.company.cuerpo.region)
+            from . import Region
+            return get_menu_data(Region.objects.get(pk=self.get_region_id()))
         if self.is_cuerpo_manager():
             return get_menu_data(self.company.cuerpo)
         return get_menu_data(None)
