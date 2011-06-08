@@ -56,7 +56,7 @@ def display_infrastructure_form(request, company):
         infrastructure_company_data.company = company
         infrastructure_company_data.save()
 
-    return generic_edit(request, infrastructure_company_data, CompanyInfrastructureForm, 'company/infrastructure.html', reverse('company_minor_material', kwargs={'company_id':company.old_id}))
+    return generic_edit(request, infrastructure_company_data, CompanyInfrastructureForm, 'company/infrastructure.html', reverse('company_minor_material', kwargs={'company_id':company.old_id}), [[CompanyElectGeneratorFixedBarracks, infrastructure_company_data]])
 
 # Show minor material form (stub)
 @authorize()

@@ -78,7 +78,7 @@ def display_infrastructure_form(request, cuerpo):
         infrastructure_data.save()
 
     #call to generic function to show dynamic fields    
-    return generic_edit(request, infrastructure_data, CuerpoInfrastructureForm, 'cuerpo/infrastructure.html', reverse('cuerpo_mayor_material', kwargs={'cuerpo_id':cuerpo.old_id}), [[CuerpoInfrastructureOtherOffices, cuerpo]])
+    return generic_edit(request, infrastructure_data, CuerpoInfrastructureForm, 'cuerpo/infrastructure.html', reverse('cuerpo_mayor_material', kwargs={'cuerpo_id':cuerpo.old_id}), [[CuerpoInfrastructureOtherOffices, cuerpo], [CuerpoElectGeneratorFixedBarracks, infrastructure_data]])
         
 # Show Mayor Material Index
 @authorize()
@@ -107,7 +107,7 @@ def edit_mayor_material_form(request, cuerpo, mayor_material_id):
         request.flash['error'] = 'La planilla de material mayor consultada no existe'
         return redirect('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id)
 
-    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/mayor_material_edit.html', reverse('cuerpo_mayor_material', kwargs={'cuerpo_id':cuerpo.old_id}), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data], [CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
+    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/mayor_material_edit.html', reverse('cuerpo_mayor_material', kwargs={'cuerpo_id':cuerpo.old_id}), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data], [CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data], [CuerpoMaterialMayorGeneratorFixed, mayor_material_data], [CuerpoMaterialMayorGeneratorPort, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
 
 # Add New Mayor Material form
 @authorize()
@@ -115,7 +115,7 @@ def add_new_mayor_material(request, cuerpo):
     mayor_material_data = CuerpoMayorMaterialData()
     mayor_material_data.cuerpo = cuerpo
     
-    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/mayor_material_edit.html', reverse('cuerpo_mayor_material', kwargs={'cuerpo_id':cuerpo.old_id}), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data],[CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
+    return generic_edit(request, mayor_material_data, CuerpoMayorMaterialForm, 'cuerpo/mayor_material_edit.html', reverse('cuerpo_mayor_material', kwargs={'cuerpo_id':cuerpo.old_id}), [[CuerpoMaterialMayorInstalledRadio, mayor_material_data],[CuerpoMaterialMayorPortableRadio, mayor_material_data], [CuerpoMaterialMayorAntenna, mayor_material_data], [CuerpoMaterialMayorGeneratorFixed, mayor_material_data], [CuerpoMaterialMayorGeneratorPort, mayor_material_data]], ['company', Company.objects.filter(cuerpo=cuerpo)])
         
 
 # Remove Selected Material form

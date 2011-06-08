@@ -98,15 +98,6 @@ class CuerpoMayorMaterialData(models.Model):
     antenna_model = models.CharField(max_length=255, null=True, blank=True, verbose_name='Modelo')
     antenna_decibels = models.IntegerField(null=True, blank=True, verbose_name='Decibeles')
 
-    # Iluminación
-
-    electricgenerator_fixed_in_car_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Generadores Electricos Fijos en Carros')
-    fk_electricgenerator_fixed_in_car_potency=models.ForeignKey('PotencyRange', null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Fijos en Carros', related_name='+')
-    electricgenerator_portable_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Generadores Electricos Portátiles')
-    fk_electricgenerator_portable_potency=models.ForeignKey('PotencyRange', null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Portátiles', related_name='+')
-    electricgenerator_fixed_in_barracks_quantity=models.IntegerField(null=True, blank=True, verbose_name='Nº de Generadores Electricos Fijos en cuarteles')
-    fk_electricgenerator_fixed_in_barracks_potency=models.ForeignKey('PotencyRange', null=True, blank=True, verbose_name='Potencia de los Generadores Electricos Fijos en cuarteles', related_name='+')
-
     # Fotografías requeridas
 
     picture_front_view = ImageField(upload_to = 'cuerpo_mayor_material_pics', verbose_name=u'Vista Frontal', blank=True, null=True)

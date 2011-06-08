@@ -15,5 +15,5 @@ def get_related(request, class_name, entity_id):
     cursor.close()
     return HttpResponse(
         simplejson.dumps(children),
-        content_type = 'application/javascript; charset=utf8'
+        content_type = 'application/javascript'
     )

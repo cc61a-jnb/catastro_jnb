@@ -93,6 +93,34 @@
 <br/>
 <hr/>
 
+<h3 id="cuerpoelectgeneratorfixedbarracks_set">Generadores Eléctricos Fijos en Cuartel</h3>
+
+{{ formsets.cuerpoelectgeneratorfixedbarracks_set.management_form }}
+
+        <table class="dynamic_form">
+            <tr>
+                <th class="quantity">Cantidad</th>
+                <th>Potencia</th>
+                <th>¿Eliminar?</th>
+            </tr>
+            {% for form in formsets.cuerpoelectgeneratorfixedbarracks_set.forms %}
+                <tr>
+                    {{ form.id }}
+                    <td class="quantity">{{ form.quantity}}</td>
+                    <td>{{ form.fk_potency}}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+            <tr class="dynamic_form_buttons">
+                <td colspan=2 class="add_button"><input title="Agregar oficina" type="submit" name="{{ formsets.cuerpoelectgeneratorfixedbarracks_set.prefix }}_add" value="Agregar generador" /></td>
+                <td colspan=3 class="delete_button"><input type="submit" value="Eliminar generador" name="{{ formsets.cuerpoelectgeneratorfixedbarracks_set.prefix }}_delete" /></td>
+            </tr>
+        </table>
+
+<br/>
+
+<hr />
+
 <h3>Fotografías Requeridas</h3>
 
 
