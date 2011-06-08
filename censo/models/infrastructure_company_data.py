@@ -81,6 +81,10 @@ class InfrastructureCompanyData(models.Model):
     storage = models.NullBooleanField(verbose_name='Bodega')
     others = models.CharField(max_length=255, null=True, blank=True, verbose_name='Otros')
     
+        # Generadores Eléctricos Fijos en Cuartel
+
+        # campo dinamico
+    
     # Fotografías requeridas. Al final las fotos SI se suben. Vijay vera esta parte
     # Vijay haciendo esa parte 
     picture_general_view = ImageField(upload_to = 'company_pics', verbose_name='Vista general', blank=True, null=True)
