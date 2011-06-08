@@ -114,7 +114,7 @@ class UserProfile(models.Model):
             return get_menu_data(Administrator())
         if self.is_regional_operations_manager():
             from . import Region
-            return get_menu_data(Region.objects.get(pk=self.get_region_id()))
+            return get_menu_data(Region.objects.get(old_id=self.get_region_id()))
         if self.is_cuerpo_manager():
             return get_menu_data(self.company.cuerpo)
         return get_menu_data(None)
