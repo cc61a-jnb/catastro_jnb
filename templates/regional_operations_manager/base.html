@@ -1,19 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_two_columns.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}Administración Regional - {% endblock %}
 
 {% block nav %}
-	<ul class="tabbed">
-	{% comment %}
-		<li class="current-tab"> to highlight selected tab
-		reference: http://stackoverflow.com/questions/340888/navigation-in-django
-	{% endcomment %}
-		{% block nav_portada %}<li class=""><a href="{% url cuerpo cuerpo.old_id %}">Portada</a></li>{% endblock %}
-		{% block nav_general %}<li class=""><a href="{% url cuerpo_general cuerpo.old_id %}">Inf. General</a></li>{% endblock %}
-		{% block nav_anb %}<li class=""><a href="{% url cuerpo_anb cuerpo.old_id %}">Inf. ANB</a></li>{% endblock %}
-		{% block nav_infrastructure %}<li class=""><a href="{% url cuerpo_infrastructure cuerpo.old_id %}">Infraestructura</a></li>{% endblock %}
-		{% block nav_mayor_material %}<li class=""><a href="{% url cuerpo_mayor_material cuerpo.old_id %}">Material Mayor</a></li>{% endblock %}
-        {% block nav_alarm_central %}<li class=""><a href="{% url cuerpo_alarm_central cuerpo.old_id %}">Central de Alarmas</a></li>{% endblock %}
-        {% block nav_service_acts %}<li class=""><a href="{% url cuerpo_service_acts cuerpo.old_id %}">Actos de Servicio</a></li>{% endblock %}
-	</ul>
 {% endblock %}

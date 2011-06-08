@@ -6,16 +6,16 @@
 	<meta name="description" content=""/>
 	<meta name="keywords" content="" />
 	<meta name="author" content="" />
-	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/style.css" media="screen" />
-	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/screen.css" type="text/css" media="screen, projection">
-	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/print.css" type="text/css" media="print">
-	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/src/forms.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style.css" media="screen" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/src/forms.css" type="text/css" media="screen, projection">
 	<!--[if lt IE 8]>
 	<link rel="stylesheet" href="{{ MEDIA_URL }}/css/blueprint/ie.css" type="text/css" media="screen, projection">
 	<![endif]-->
 	{% block scripts %}
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-	<script src="{{ MEDIA_URL }}js/form_handler.js"></script>
+	{% block form_handler %}<script src="{{ MEDIA_URL }}js/form_handler.js"></script>{% endblock %}
 	<script src="{{ MEDIA_URL }}js/menu_handler.js"></script>
 	{% block default_submit_form %}<script src="{{ MEDIA_URL }}js/default_submit_form_on_enter.js"></script>{% endblock %}
 	{% endblock %}
