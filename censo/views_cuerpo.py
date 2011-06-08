@@ -78,7 +78,7 @@ def display_infrastructure_form(request, cuerpo):
         infrastructure_data.save()
 
     #call to generic function to show dynamic fields    
-    return generic_edit(request, infrastructure_data, CuerpoInfrastructureForm, 'cuerpo/infrastructure.html', reverse('cuerpo_mayor_material', kwargs={'cuerpo_id':cuerpo.old_id}), [[CuerpoInfrastructureOtherOffices, cuerpo]])
+    return generic_edit(request, infrastructure_data, CuerpoInfrastructureForm, 'cuerpo/infrastructure.html', reverse('cuerpo_mayor_material', kwargs={'cuerpo_id':cuerpo.old_id}), [[CuerpoInfrastructureOtherOffices, cuerpo], [CuerpoElectGeneratorFixedBarracks, infrastructure_data]])
         
 # Show Mayor Material Index
 @authorize()
