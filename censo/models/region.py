@@ -34,7 +34,8 @@ class Region(models.Model):
                    FROM ((cuerpos as c 
                    INNER JOIN comuna as cm ON c.cuer_comuna = cm.comu_nombre) as c_cm
                    INNER JOIN provincias as p ON c_cm.prov_id = p.prov_id) as c_cm_p
-                   WHERE c_cm_p.prov_fk_region = %s'''
+                   WHERE c_cm_p.prov_fk_region = %s
+                   ORDER BY c_cm_p.cuer_nombre'''
         params = (self.old_id,)
         cursor.execute(query, params)
         cuerpo_data_set = cursor.fetchall()
