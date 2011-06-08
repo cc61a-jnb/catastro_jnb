@@ -217,9 +217,6 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
         form.fields[queryset_pair[0]].queryset = queryset_pair[1]
         
     menu_titles, main_menu_choices, user_permission_instance = request.user.get_profile().get_menu()
-    
-    for formset in formsets:
-        print formset
         
     return render_to_response(template, {
             'form': form,
