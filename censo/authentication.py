@@ -175,7 +175,7 @@ class JNBBackend:
 
         user_data = cursor.fetchone()
         if not user_data:
-            logging.info("User %s with correopk %d does not exist in table 'mail_usu'" % (username, correo_pk))
+            logging.info("User %s with correopk %s does not exist in table 'mail_usu'" % (username, correo_pk))
             profile.delete()
             user.delete()
             cursor.close()
@@ -196,7 +196,7 @@ class JNBBackend:
         if not user_data:
             # The user does not exist in the principal database (broken foreign key)
             # As always, burn and quit
-            logging.error("User %s with id %d does not exist in table 'usuarios'", username, profile.old_id)
+            logging.error("User %s with id %s does not exist in table 'usuarios'", username, profile.old_id)
             profile.delete()
             user.delete()
             cursor.close()

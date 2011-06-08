@@ -24,7 +24,8 @@ function combobox_change_handler(combobox) {
             next_combobox = combobox.siblings('select').first()
             next_combobox.empty();
             $.each(data, function() {
-                next_combobox.append(new Option(this.name, this.id))
+                // Reference: http://groups.google.com/group/jquery-en/browse_thread/thread/887c03f088ffb302
+                next_combobox[0].options[next_combobox[0].length] = new Option(this.name, this.id); 
             })
         })
     }

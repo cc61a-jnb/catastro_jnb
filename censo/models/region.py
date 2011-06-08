@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import logging
+
 from django.db import models
 
 class Region(models.Model):
@@ -52,7 +54,7 @@ class Region(models.Model):
         
         region_data = cursor.fetchone()
         if not region_data:
-            logging.info("Cannot find region with id (%d)", old_id)
+            logging.info("Cannot find region with id (%s)", old_id)
             return None
             
         try:
