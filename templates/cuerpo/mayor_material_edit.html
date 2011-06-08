@@ -95,7 +95,7 @@
                 <tr>
                     {{ form.id }}
                     <td class="quantity">{{ form.installed_radio_quantity}}</td>
-                    <td>{{ form.installed_radio_brand}}</td>
+                    <td>{{ form.fk_installed_radio_brand}}</td>
                     <td>{{ form.installed_radio_model}}</td>
                     <td class="quantity">{{ form.installed_radio_potency}}</td>
                     <td>{{ form.DELETE }}</td>
@@ -126,7 +126,7 @@
                 <tr>
                     {{ form.id }}
                     <td class="quantity">{{ form.portable_radio_quantity}}</td>
-                    <td>{{ form.portable_radio_brand}}</td>
+                    <td>{{ form.fk_portable_radio_brand}}</td>
                     <td>{{ form.portable_radio_model}}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
@@ -173,7 +173,7 @@
 <hr/>
 <a name="{{ formsets.cuerpomaterialmayorgeneratorfixed_set.prefix }}"></a>
 	<h3>Generadores Eléctricos</h3>
-    <h4>Fijos</h4>
+    <h4>Fijos instalados en el carro</h4>
     {{ formsets.cuerpomaterialmayorgeneratorfixed_set.management_form }}
 
         <table class="dynamic_form">
