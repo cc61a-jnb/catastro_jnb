@@ -37,17 +37,11 @@ class UserProfile(models.Model):
                 self.role_name = row[1]
                 self.role_id = row[0]
 
-    def highest_role(self):
-        return self.role_id
-
     def is_administrator(self):
         return self.user.is_superuser
 
     def is_regional_operations_manager(self):
-        if "Jefe Operaciones" in self.role_name:
-            return True
-        
-        return False
+        return self.role_id in settings.CARGO_ID_REGION_ID_DICT
         
     def is_cuerpo_manager(self):
         if self.role_id in [1, 2]:

@@ -184,37 +184,41 @@ class JNBBackend:
         profile.old_id = user_data[0]
         cursor.close()
 
-        # Try and get the user company
         cursor = connections['principal'].cursor()
 
-        query = "SELECT usu_fk_cia FROM usuarios WHERE usu_id = %s"
-        params = (profile.old_id,)
-        cursor.execute(query, params)
-
-        user_data = cursor.fetchone()
-        
-        if not user_data:
-            # The user does not exist in the principal database (broken foreign key)
-            # As always, burn and quit
-            logging.error("User %s with id %s does not exist in table 'usuarios'", username, profile.old_id)
-            profile.delete()
-            user.delete()
-            cursor.close()
-            return None
-            
-        old_company_id = user_data[0]
-        
-        company = Company.fetch_from_db(cursor, old_company_id)    
-        
-        if not company:
-            logging.error("User %s associated company is foreign key broken (in commune, province, region, or cuerpo)", username)
-            profile.delete()
-            user.delete()
-            cursor.close()
-            return None
-            
-        profile.company = company
+        # First of all, determine user role
         profile.determine_role(cursor)
+
+        # If user is not reg. op. manager, fetch company
+        if not profile.is_regional_operations_manager():
+            # Try and get the user company
+            query = "SELECT usu_fk_cia FROM usuarios WHERE usu_id = %s"
+            params = (profile.old_id,)
+            cursor.execute(query, params)
+
+            user_data = cursor.fetchone()
+            
+            if not user_data:
+                # The user does not exist in the principal database (broken foreign key)
+                # As always, burn and quit
+                logging.error("User %s with id %s does not exist in table 'usuarios'", username, profile.old_id)
+                profile.delete()
+                user.delete()
+                cursor.close()
+                return None
+                
+            old_company_id = user_data[0]
+            
+            company = Company.fetch_from_db(cursor, old_company_id)    
+            
+            if not company:
+                logging.error("User %s associated company is foreign key broken (in commune, province, region, or cuerpo)", username)
+                profile.delete()
+                user.delete()
+                cursor.close()
+                return None
+                
+            profile.company = company
         
         profile.save()
         user.save()

@@ -28,7 +28,7 @@ def index(request):
     if profile.is_administrator():
         return redirect('administrator')
 
-    role = profile.highest_role()
+    role = profile.role_id
     
     # If user doesn't have roles, notify and redirect to login
     if not role:
