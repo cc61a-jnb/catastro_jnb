@@ -88,14 +88,14 @@
 
         <table class="dynamic_form">
             <tr>
-                <th>Cantidad</th>
+                <th class="quantity">Cantidad</th>
                 <th>Potencia</th>
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in formsets.companyelectgeneratorfixedbarracks_set.forms %}
                 <tr>
                     {{ form.id }}
-                    <td>{{ form.quantity}}</td>
+                    <td class="quantity">{{ form.quantity}}</td>
                     <td>{{ form.fk_potency}}</td>
                     <td>{{ form.DELETE }}</td>
                 </tr>
