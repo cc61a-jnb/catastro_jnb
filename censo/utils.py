@@ -179,7 +179,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
         else:
             valid_form_page = form.is_valid()
             
-            for GenericFormSet in GenericFormSets:
+            for idx, GenericFormSet in enumerate(GenericFormSets):
                 formset = GenericFormSet(request.POST, instance=formset_pairs[idx][1])
                 if not formset.is_valid():
                     valid_form_page = False
