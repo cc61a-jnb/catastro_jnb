@@ -3,23 +3,22 @@
 from authentication import authorize
 
 from censo.models import Cuerpo
-from censo.models import Region
+from censo.models import Region, Administrator
 
-from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.shortcuts import redirect
 
 # Show first stub
-@authorize(roles=('regional_operations_manager',))
-def index(request):
-    profile = request.user.get_profile()
-    region = profile.region # this shouldn't fail
-    
-    # get all cuerpos which belong to this region
-    cuerpos = Cuerpo.objects.filter(commune__province__region=region)
+@authorize()
+def index(request, region):
+
+    menu_titles, main_menu_choices, user_permission_instance = request.user.get_profile().get_menu()
 
     # Render the form
     return render_to_response('regional_operations_manager/index.html', {
-            'cuerpos': cuerpos,
-            }, context_instance=RequestContext(request),
+        'menu_titles': menu_titles[:-1],
+        'main_menu_choices': main_menu_choices,
+        'user_permission_instance': user_permission_instance
+    }, context_instance=RequestContext(request),
         )

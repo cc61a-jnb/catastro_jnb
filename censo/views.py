@@ -28,7 +28,7 @@ def index(request):
     if profile.is_administrator():
         return redirect('administrator')
 
-    role = profile.highest_role()
+    role = profile.role_id
     
     # If user doesn't have roles, notify and redirect to login
     if not role:
@@ -42,7 +42,8 @@ def index(request):
     elif profile.is_cuerpo_manager():
         return redirect('cuerpo', cuerpo_id=profile.company.cuerpo.old_id)
     elif profile.is_regional_operations_manager():
-        return redirect('regional_operations_manager')
+        region_id = profile.get_region_id()
+        return redirect('regional_operations_manager', region_id=region_id)
     # If user's role doesn't grant access, error
     else:
         request.flash['error'] = 'Usted no tiene permisos para acceder al sistema'

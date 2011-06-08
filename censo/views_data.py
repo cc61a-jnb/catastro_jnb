@@ -11,7 +11,7 @@ def get_related(request, class_name, entity_id):
     entity = Class.objects.get(old_id=entity_id)
     
     cursor = connections['principal'].cursor()
-    children = entity.fetch_all_related(cursor)
+    children = Class.fetch_all_related(cursor, entity_id)
     cursor.close()
     return HttpResponse(
         simplejson.dumps(children),

@@ -8,6 +8,17 @@ from . import BaseForm
 
 class CuerpoServiceActsForm(BaseForm):
 
+    def clean(self):
+        data = self.cleaned_data
+        
+        self.custom_errors = []
+
+        # If any validation fails, raise error
+        if self.custom_errors:
+            raise forms.ValidationError(self.custom_errors)
+
+        return self.cleaned_data
+
     # Display service acts questions as a table
     def render_acts_to_table(self):
         fields = self._field_range('structural_fire_quantity', 'support_other_cuerpos_quantity')

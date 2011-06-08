@@ -8,15 +8,21 @@
 	{% csrf_token %}
  	<h2>Actos de Servicio</h2>
 	<h4>Cuerpo de bomberos {{ instance.cuerpo.name }}</h4>
-	<br />
-	<hr />
-  <h4>Entre el 1 de enero de 2010 y 31 de diciembre de 2010</h4>
-    <h3>Servicios</h3>
 
-{{ form.render_acts_to_table }}
-<br />
+    {% if form.non_field_errors %}
+	    <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+	            <li>{{ error }}</li>
+            {% endfor %}
+	    </ul>
+	{% endif %}
+
+    <h4>Entre el 1 de enero de 2010 y 31 de diciembre de 2010</h4>
+    <h3>Servicios</h3>
+    {{ form.render_acts_to_table }}
+    <br />
 	<hr />
-<h3>Observaciones</h3>
+    <h3>Observaciones</h3>
     <p class="nota">Ingrese cualquier información que estime de utilidad</p>
 	{{ form.observations }}
 	<p><input type="submit" value="Guardar y Terminar" /></p>

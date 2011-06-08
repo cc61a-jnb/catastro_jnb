@@ -28,15 +28,16 @@ class Region(models.Model):
     def hierarchical_child(self):
         from . import Cuerpo
         return Cuerpo
-        
-    def fetch_all_related(self, cursor):
+    
+    @classmethod
+    def fetch_all_related(self, cursor, region_id):
         query = '''SELECT c_cm_p.cuer_id, c_cm_p.cuer_nombre 
                    FROM ((cuerpos as c 
                    INNER JOIN comuna as cm ON c.cuer_comuna = cm.comu_nombre) as c_cm
                    INNER JOIN provincias as p ON c_cm.prov_id = p.prov_id) as c_cm_p
                    WHERE c_cm_p.prov_fk_region = %s
                    ORDER BY c_cm_p.cuer_nombre'''
-        params = (self.old_id,)
+        params = (region_id,)
         cursor.execute(query, params)
         cuerpo_data_set = cursor.fetchall()
         cuerpo_list = []
@@ -45,7 +46,8 @@ class Region(models.Model):
         return cuerpo_list
         
     def referring_children(self):
-        return Cuerpo.objects.filter(region=self)
+        from . import Cuerpo
+        return Cuerpo.objects.filter(commune__province__region=self)
     
     @classmethod
     def fetch_from_db(self, cursor, old_id):

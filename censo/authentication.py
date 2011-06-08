@@ -5,9 +5,9 @@ import logging
 from functools import wraps
 
 from censo.models import Cuerpo
+from censo.models import Region
 from censo.models import Company
 
-from django.conf import settings
 from django.db import connections
 from django.shortcuts import redirect
 from django.core.validators import validate_email
@@ -41,6 +41,7 @@ class authorize(object):
 
             # define basic data
             profile = request.user.get_profile()
+            region_id = kwargs.get('region_id', None)
             cuerpo_id = kwargs.get('cuerpo_id', None)
             company_id = kwargs.get('company_id', None)
             cursor = connections['principal'].cursor()
@@ -63,6 +64,27 @@ class authorize(object):
                     request.flash['error'] = 'Usted no tiene permisos para realizar esta acción'
                     logging.info("User %s doesn't have permission to access %s", request.user.username, request.path)
                     return redirect('index')
+
+            # deliver region if requested
+            if region_id:
+                region = Region.fetch_from_db(cursor, region_id)
+
+                if not region:
+                    logging.info("Region:%s doesn't exist", region_id) # why %s: http://stackoverflow.com/questions/2796178/error-url-redirection
+                    request.flash["error"] = 'La region que ha seleccionado no existe'
+                    cursor.close()
+                    return redirect('index')
+
+                # now we must check user's permissions
+                if not profile.has_region_permission(region):
+                    logging.warning("User:%s unauthorized to access Region:%s information", profile.old_id, region_id)
+                    request.flash["error"] = 'No tiene permiso para acceder a la información de la región seleccionada'
+                    cursor.close()
+                    return redirect('index')
+                
+                # replace region_id with full region object
+                del kwargs['region_id']
+                kwargs['region'] = region
 
             # deliver cuerpo if requested
             if cuerpo_id:
@@ -184,37 +206,48 @@ class JNBBackend:
         profile.old_id = user_data[0]
         cursor.close()
 
-        # Try and get the user company
         cursor = connections['principal'].cursor()
 
-        query = "SELECT usu_fk_cia FROM usuarios WHERE usu_id = %s"
-        params = (profile.old_id,)
-        cursor.execute(query, params)
-
-        user_data = cursor.fetchone()
-        
-        if not user_data:
-            # The user does not exist in the principal database (broken foreign key)
-            # As always, burn and quit
-            logging.error("User %s with id %s does not exist in table 'usuarios'", username, profile.old_id)
-            profile.delete()
-            user.delete()
-            cursor.close()
-            return None
-            
-        old_company_id = user_data[0]
-        
-        company = Company.fetch_from_db(cursor, old_company_id)    
-        
-        if not company:
-            logging.error("User %s associated company is foreign key broken (in commune, province, region, or cuerpo)", username)
-            profile.delete()
-            user.delete()
-            cursor.close()
-            return None
-            
-        profile.company = company
+        # First of all, determine user role
         profile.determine_role(cursor)
+
+        # If user is not reg. op. manager, fetch company
+        if profile.is_regional_operations_manager():
+            cuerpos = Region.fetch_all_related(cursor, profile.get_region_id())
+            for cuerpo_data in cuerpos:
+                cuerpo = Cuerpo.fetch_from_db(cursor, cuerpo_data["id"])
+                if cuerpo: # is null in case of virtual cuerpo or inconsistent db
+                    cuerpo.save()
+
+        else:
+            # Try and get the user company
+            query = "SELECT usu_fk_cia FROM usuarios WHERE usu_id = %s"
+            params = (profile.old_id,)
+            cursor.execute(query, params)
+
+            user_data = cursor.fetchone()
+            
+            if not user_data:
+                # The user does not exist in the principal database (broken foreign key)
+                # As always, burn and quit
+                logging.error("User %s with id %s does not exist in table 'usuarios'", username, profile.old_id)
+                profile.delete()
+                user.delete()
+                cursor.close()
+                return None
+                
+            old_company_id = user_data[0]
+            
+            company = Company.fetch_from_db(cursor, old_company_id)    
+            
+            if not company:
+                logging.error("User %s associated company is foreign key broken (in commune, province, region, or cuerpo)", username)
+                profile.delete()
+                user.delete()
+                cursor.close()
+                return None
+                
+            profile.company = company
         
         profile.save()
         user.save()
