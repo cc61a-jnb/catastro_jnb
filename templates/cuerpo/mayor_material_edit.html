@@ -92,6 +92,13 @@
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in formsets.cuerpomaterialmayorinstalledradio_set.forms %}
+                {% if form.errors and not prevent_validation_errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.installed_radio_quantity.errors.0 }}</td>
+                        <td>{{ form.installed_radio_brand.errors.0 }}</td>
+                        <td>{{ form.installed_radio_potency.errors.0 }}</td>
+                    </tr>
+                {% endif %} 
                 <tr>
                     {{ form.id }}
                     <td class="quantity">{{ form.installed_radio_quantity}}</td>
@@ -123,6 +130,13 @@
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in formsets.cuerpomaterialmayorportableradio_set.forms %}
+                {% if form.errors and not prevent_validation_errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.portable_radio_quantity.errors.0 }}</td>
+                        <td>{{ form.portable_radio_brand.errors.0 }}</td>
+                        <td>{{ form.portable_radio_model.errors.0 }}</td>
+                    </tr>
+                {% endif %}
                 <tr>
                     {{ form.id }}
                     <td class="quantity">{{ form.portable_radio_quantity}}</td>
@@ -152,6 +166,14 @@
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in formsets.cuerpomaterialmayorantenna_set.forms %}
+               {% if form.errors and not prevent_validation_errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.antenna_quantity.errors.0 }}</td>
+                        <td>{{ form.antenna_brand.errors.0 }}</td>
+                        <td>{{ form.antenna_model.errors.0 }}</td>
+                        <td>{{ form.antenna_decibel.errors.0 }}</td>
+                    </tr>
+                {% endif %}    
                 <tr>
                     {{ form.id }}
                     <td class="quantity">{{ form.antenna_quantity}}</td>
@@ -183,6 +205,12 @@
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in formsets.cuerpomaterialmayorgeneratorfixed_set.forms %}
+               {% if form.errors and not prevent_validation_errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.quantity.errors.0 }}</td>
+                        <td>{{ form.potency.errors.0 }}</td>
+                    </tr>
+                {% endif %}  
                 <tr>
                     {{ form.id }}
                     <td class="quantity">{{ form.quantity}}</td>
@@ -206,6 +234,12 @@
                 <th>¿Eliminar?</th>
             </tr>
             {% for form in formsets.cuerpomaterialmayorgeneratorport_set.forms %}
+                {% if form.errors and not prevent_validation_errors %}
+                    <tr class="errorrow">
+                        <td>{{ form.quantity.errors.0 }}</td>
+                        <td>{{ form.potency.errors.0 }}</td>
+                    </tr>
+                {% endif %} 
                 <tr>
                     {{ form.id }}
                     <td class="quantity">{{ form.quantity}}</td>
