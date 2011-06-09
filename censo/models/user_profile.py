@@ -69,6 +69,16 @@ class UserProfile(models.Model):
         # check first if user is company's cuerpo administrator
         if self.is_cuerpo_manager() and self.company.cuerpo == company.cuerpo:
             return True
+            
+        # now check if is user is regional operations manager
+        if self.is_regional_operations_manager():
+            company_region = company.commune.province.region
+
+            self_region_id = self.get_region_id()
+            if not self_region_id:
+                logging.error("Cargo:%s is not defined at the settings CARGO_ID_REGION_ID_DICT dictionary", old_id)
+                return False
+            return company_region.old_id == self_region_id
         
         # last case, company
         if self.is_company_manager() and self.company == company:
