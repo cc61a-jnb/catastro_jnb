@@ -5,6 +5,8 @@
 {% block nav_portada %}<li class="current-tab"><a href="{% url company instance.company.old_id %}">Portada</a></li>{% endblock %}
 
 {% block content %}
+    <!-- Link to instructive -->
+	<a class="ins-link" href="http://www.bomberos.cl/catastro/instructivocata.pdf">Descargue el instructivo aquí</a>
     {% for error in form.errors %}
         {{error}}<br />
     {% endfor %}

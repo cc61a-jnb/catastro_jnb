@@ -5,6 +5,8 @@
 {% block nav_anb %}<li class="current-tab"><a href="{% url cuerpo_anb instance.cuerpo.old_id %}">Inf. ANB</a></li>{% endblock %}
 
 {% block content %}
+    <!-- Link to instructive -->
+	<a class="ins-link" href="http://www.bomberos.cl/catastro/instructivocata.pdf">Descargue el instructivo aquí</a>
 	<form method="post" class="catastro_form">
 	{% csrf_token %}
 	<h2>Información ANB</h2>
