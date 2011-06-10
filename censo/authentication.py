@@ -130,7 +130,7 @@ class authorize(object):
             
             # user has permission over cuerpo
             cursor.close()
-            
+
             return func(request, *args, **kwargs)
 
         return wrap

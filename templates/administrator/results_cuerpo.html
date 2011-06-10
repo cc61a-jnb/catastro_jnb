@@ -1,40 +1,47 @@
 {% extends "administrator/base.html" %}
 
-{% block title %}Resultados de Cuerpo - {% endblock %}
+{% block title %}Listado de Completitud de Fichas de Cuerpo - {% endblock %}
+
+{% block scripts %}{% endblock %}
 
 {% block nav %}{% endblock %}
 
 {% block sidebar %}
 		
-            <div id="sidebar" class="left sidebar">
-	            <div class="section">
-		            <div class="section-title">Menú Principal</div>
+<div id="sidebar" class="left sidebar">
+    <div class="section">
+        <div class="section-title">Menú Principal</div>
 
-                    <form id="selector_form">
-                        {% for menu_title in menu_titles %}
-                            <h4>{{ menu_title.0 }}</h4>
-                            {% ifequal forloop.counter 1 %}
-                                <select class="menu_choice_field" id="{{ menu_title.1|lower }}">
-                                    {% for elem in main_menu_choices %}
-                                        <option value="{{ elem.old_id }}">{{ elem }}</option>
-                                    {% endfor %}
-                                </select>
-                            {% else %}
-                                <select class="{{ forloop.last|yesno:'last_choice_field,menu_choice_field' }}" id="{{ menu_title.1|lower }}">
-                                    <option>-------</option>
-                                </select>
-                            {% endifequal %}
-                            {% if menu_title.2 %}
-                                <br />
-                                <input type="submit" value="Ingresar" />
-                            {% endif %}
-                            <br />
-                            <br />
-                        {% endfor %}
-                    </form>
-                </div>
-            </div>
-        {% endblock %}
+        <form id="selector_form">
+            <h4>Regiones</h4>
+            {{ form.region }}
+            <input type="submit" value="Aceptar" />
+        </form>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
+
+{% if cuerpo_list %}
+    <table>
+    <thead>
+        <tr>
+            <th>Cuerpo</th>
+            <th>Información Completa</th>
+            <th>Información Correcta</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%for cuerpo in cuerpo_list %}
+        <tr>
+            <td>{{cuerpo}}</td>
+            <td>lala</td>
+            <td>po</td>
+        </tr>
+    {%endfor%}
+    </tbody>
+    </table>
+{% endif %}
+
 {% endblock %}
