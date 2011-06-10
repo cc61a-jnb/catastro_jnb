@@ -38,7 +38,7 @@ class UserProfile(models.Model):
                 self.role_id = row[0]
 
     def is_administrator(self):
-        return self.user.is_superuser
+        return self.user.is_staff
 
     def is_regional_operations_manager(self):
         return self.role_id in settings.CARGO_ID_REGION_ID_DICT

@@ -2,12 +2,15 @@
 
 from authentication import authorize
 
-from censo.models import Cuerpo
+from censo.models import Cuerpo, Administrator
 from censo.models import Region, Administrator
+from censo.utils import get_menu_data
 
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.shortcuts import redirect
+
+from censo.forms import AdministratorResultsCuerpoForm
 
 # Show first stub
 @authorize(roles=('administrator',))
@@ -22,3 +25,11 @@ def index(request):
         'user_permission_instance': user_permission_instance
     }, context_instance=RequestContext(request),
         )
+        
+@authorize(roles=('administrator',))  
+def results_cuerpo(request):
+    form = AdministratorResultsCuerpoForm()
+    
+    return render_to_response('administrator/results_cuerpo.html', {
+        'form': form,
+    }, context_instance=RequestContext(request))
