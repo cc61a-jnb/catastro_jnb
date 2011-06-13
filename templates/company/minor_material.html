@@ -185,6 +185,16 @@
     <p>Ingrese cualquier información que estime de utilidad</p>
 {{form.render_observations_to_list}}
 
+    {% if user.is_staff or user.is_superuser %}
+	    <br />
+	    <hr />
+	    <h3>Completitud/Correctitud Formulario</h3>
+        <p class="nota">Sólo para uso de la JNBC</p>
+        
+	    {{ form.render_staff_only_form_to_list }}
+	
+	{% endif %}
+
 <p><input type="submit" value="Guardar" /></p>
 </form>
 

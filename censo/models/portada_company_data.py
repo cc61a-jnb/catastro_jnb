@@ -14,6 +14,11 @@ class PortadaCompanyData(models.Model):
     lieutenant_4_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Teniente 4°')
     assistant_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='Ayudante')
     observations = models.TextField(blank=True, null=True)
+    #Internal only
+    is_valid = models.NullBooleanField(verbose_name='¿Formulario válido?')
+    #Staff only
+    is_complete = models.NullBooleanField(verbose_name='¿Formulario completo?')
+    is_correct = models.NullBooleanField(verbose_name='¿Formulario correcto?')
 
     def __unicode__(self):
         return unicode(self.company)

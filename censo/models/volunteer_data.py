@@ -102,3 +102,9 @@ class VolunteerData(models.Model):
     # observaciones
 
     observations = models.TextField(null=True, blank=True, verbose_name='')
+    
+    #Internal only
+    is_valid = models.NullBooleanField(verbose_name='¿Formulario válido?')
+    #Staff only
+    is_complete = models.NullBooleanField(verbose_name='¿Formulario completo?')
+    is_correct = models.NullBooleanField(verbose_name='¿Formulario correcto?')
