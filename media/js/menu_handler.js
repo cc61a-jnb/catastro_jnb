@@ -1,4 +1,4 @@
-first_ajax_call_ready = false
+var first_ajax_call_ready = false
 
 $(function() {
     $('.menu_choice_field').change(function() {
@@ -19,17 +19,14 @@ function combobox_change_handler(combobox) {
     $('#ajax_loader').show()
     model_name = combobox.attr('id')
     model_id = combobox.val()
+    next_combobox = combobox.siblings('select').first()
+    next_combobox.empty()
     
     if(model_name && model_id){
         url = "/data/" + model_name + "/" + model_id + "/get_related/"
         
         $.getJSON(url, function(data) {
-            if(!first_ajax_call_ready){
-                handleFirstAjaxCall()
-                first_ajax_call_ready = true
-            }
             $('#ajax_loader').hide()
-            next_combobox = combobox.siblings('select').first()
             next_combobox.empty();
             $.each(data, function() {
                 // Reference: http://groups.google.com/group/jquery-en/browse_thread/thread/887c03f088ffb302
