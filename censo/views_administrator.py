@@ -61,4 +61,12 @@ def results_cuerpo(request):
 
 @authorize(roles=('administrator',))
 def results_company(request):
-    pass
+    menu_titles, main_menu_choices, user_permission_instance = request.user.get_profile().get_menu()
+
+    # Render the form
+    return render_to_response('administrator/results_company.html', {
+        'menu_titles': menu_titles[:-1],
+        'main_menu_choices': main_menu_choices,
+        'user_permission_instance': user_permission_instance
+    }, context_instance=RequestContext(request),
+        )

@@ -1,3 +1,5 @@
+first_ajax_call_ready = false
+
 $(function() {
     $('.menu_choice_field').change(function() {
         combobox_change_handler($(this))
@@ -14,6 +16,7 @@ $(function() {
 })
 
 function combobox_change_handler(combobox) {
+    $('#ajax_loader').show()
     model_name = combobox.attr('id')
     model_id = combobox.val()
     
@@ -21,6 +24,11 @@ function combobox_change_handler(combobox) {
         url = "/data/" + model_name + "/" + model_id + "/get_related/"
         
         $.getJSON(url, function(data) {
+            if(!first_ajax_call_ready){
+                handleFirstAjaxCall()
+                first_ajax_call_ready = true
+            }
+            $('#ajax_loader').hide()
             next_combobox = combobox.siblings('select').first()
             next_combobox.empty();
             $.each(data, function() {
@@ -30,5 +38,3 @@ function combobox_change_handler(combobox) {
         })
     }
 }
-
-

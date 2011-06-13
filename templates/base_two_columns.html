@@ -15,8 +15,9 @@
 	<![endif]-->
 	{% block scripts %}
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-	{% block form_handler %}<script src="{{ MEDIA_URL }}js/form_handler.js"></script>{% endblock %}
+	<script src="{{ MEDIA_URL }}js/jquery.url.js"></script>
 	<script src="{{ MEDIA_URL }}js/menu_handler.js"></script>
+	{% block form_handler %}<script src="{{ MEDIA_URL }}js/form_handler.js"></script>{% endblock %}
 	{% block default_submit_form %}<script src="{{ MEDIA_URL }}js/default_submit_form_on_enter.js"></script>{% endblock %}
 	{% endblock %}
 	{% block user_scripts %}{% endblock %}
@@ -32,7 +33,7 @@
 		<div id="top">
 
 			<div class="left" id="logo">
-				<a href="{% url index %}"><img src="{{ MEDIA_URL }}/img/logo_bomberos.jpg" alt="" /></a>
+				<a href="{% url index %}"><img src="{{ MEDIA_URL }}img/logo_bomberos.jpg" alt="" /></a>
 			</div>
 
 			<div class="left navigation" id="main-nav">

@@ -1,6 +1,8 @@
 {% extends "base_two_columns.html" %}
 
-{% block title %}{% endblock %}
+{% comment %}disable unneeded scripts{% endcomment %}
+{% block form_handler %}{% endblock %}
+{% block default_submit_form %}{% endblock %}
 
 {% block nav %}
 	<ul class="tabbed">

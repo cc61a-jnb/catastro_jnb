@@ -1,8 +1,24 @@
 {% extends "administrator/base.html" %}
 
-{% block title %}Portada Administrador - {% endblock %}
+{% block title %}Listado de Completitud de Fichas de Compañías - {% endblock %}
 
-{% block nav_portada %}<li class="current-tab"><a href="{% url administrator %}">Portada</a></li>{% endblock %}
+{% block user_scripts %}
+<script type="text/javascript">
+function handleFirstAjaxCall() {
+    //handle selected option if its on url parameters
+    combobox = $('.last_choice_field')
+    model_name = combobox.attr('id')
+    //parse the url
+    url = $.url()
+    cuerpo_id = url.param('cuerpo_id')
+    if(cuerpo_id != undefined){
+        combobox.val(cuerpo_id)
+    }
+}
+</script>
+{% endblock %}
+
+{% block nav_results_company %}<li class="current-tab"><a href="{% url administrator_results_company %}">Estado Fichas Compañías</a></li>{% endblock %}
 
 {% block sidebar %}
 		
@@ -10,7 +26,8 @@
 	            <div class="section">
 		            <div class="section-title">Menú Principal</div>
 
-                    <form id="selector_form">
+                    <form>
+                        <input type="hidden" id="selected_option" value="{{request.company_id}}" />
                         {% for menu_title in menu_titles %}
                             <h4>{{ menu_title.0 }}</h4>
                             {% ifequal forloop.counter 1 %}
@@ -19,14 +36,14 @@
                                         <option value="{{ elem.old_id }}">{{ elem }}</option>
                                     {% endfor %}
                                 </select>
-                            {% else %}
-                                <select class="{{ forloop.last|yesno:'last_choice_field,menu_choice_field' }}" id="{{ menu_title.1|lower }}">
+                            {% else %}  
+                                <select name="cuerpo_id" id="cuerpo_id" class="{{ forloop.last|yesno:'last_choice_field,menu_choice_field' }}">
                                     <option>-------</option>
                                 </select> <img id="ajax_loader" src="{{ MEDIA_URL }}img/ajax-loader.gif" style="display: none;" />
                             {% endifequal %}
                             {% if menu_title.2 %}
                                 <br />
-                                <input type="submit" value="Ingresar" />
+                                <input type="submit" value="Aceptar" />
                             {% endif %}
                             <br />
                             <br />
