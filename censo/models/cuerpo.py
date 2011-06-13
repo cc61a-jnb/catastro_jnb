@@ -29,7 +29,7 @@ class Cuerpo(models.Model):
     def referring_children(self):
         from . import Company
         return Company.objects.filter(cuerpo=self)
-    
+
     @classmethod
     def fetch_from_db(self, cursor, old_id):
         from . import Province

@@ -187,6 +187,8 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                 formsets[GenericFormSet.get_default_prefix()] = formset
  
             if valid_form_page and not formsets_modified:
+                # mark instance as valid for future administrator revision
+                instance.is_valid = True
                 form.save()
                 
                 for idx, GenericFormSet in enumerate(GenericFormSets):

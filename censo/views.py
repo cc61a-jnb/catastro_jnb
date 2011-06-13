@@ -3,6 +3,7 @@
 import logging
 
 from censo.forms import LoginForm
+from censo.models import Cuerpo
 from censo.models import Region
 
 from djangoflash.decorators import keep_messages
