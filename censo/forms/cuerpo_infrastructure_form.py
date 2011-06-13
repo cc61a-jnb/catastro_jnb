@@ -107,6 +107,12 @@ class CuerpoInfrastructureForm(BaseForm):
         return render_fields_as_list(fields)
 
 
+    # Display infrastructure status question
+    def render_infrastructure_status_question(self):
+        fields = [self['fk_infrastructure_status']]
+        
+        return render_fields_as_list(fields)
+
     # Display observations area    
     def render_observations_to_list(self):
         fields = [self['observations']]

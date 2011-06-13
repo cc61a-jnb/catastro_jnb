@@ -15,6 +15,7 @@ from property_title_type import PropertyTitleType
 from minor_material_company_data import MinorMaterialCompanyData
 from cuerpo_general_data import CuerpoGeneralData
 from accounting_system import AccountingSystem
+from infrastructure_status import InfrastructureStatus
 from cuerpo_anb_data import CuerpoANBData
 from company_other_official import CompanyOtherOfficial
 from portada_cuerpo_data import PortadaCuerpoData

@@ -66,6 +66,7 @@ class CuerpoMayorMaterialForm(BaseForm):
 
     service_incorporation_date = forms.DateField(label='Fecha de incorporación', widget=SelectDateWidget(years=xrange(2011, 1899, -1)), required=False)
     last_oil_change_date = forms.DateField(label='Fecha último cambio de aceite', widget=SelectDateWidget(years=xrange(2011, 1899, -1)), required=False)
+    legal_registered_date = forms.DateField(label='Fecha de inscripción', widget=SelectDateWidget(years=xrange(2011, 1899, -1)), required=False)
 
 
     # Display company/central selector
@@ -79,10 +80,28 @@ class CuerpoMayorMaterialForm(BaseForm):
         fields = self._field_range('fk_vehicle_type', 'fk_procedence')
 
         return render_fields_as_list(fields)
+        
+    # Display vehicle staff-only questions as list
+    def render_vehicle_staff_only_questions_to_list(self):
+        fields = self._field_range('folio', 'approval_number')
+        
+        return render_fields_as_list(fields)
+
+    # Display legal registry questions as list
+    def render_legal_registry_questions_to_list(self):
+        fields = self._field_range('registered', 'licence_plate')
+        
+        return render_fields_as_list(fields)
+
+    # Display legal staff-only questions as a list
+    def render_legal_staff_only_questions_to_list(self):
+        fields = [self['legal_registered_name'], self['legal_registered_date'], self['legal_repertorio_escritura'], self['legal_notary']]
+        
+        return render_fields_as_list(fields)
 
     # Display legal status questions as a list
     def render_legal_status_questions_to_list(self):
-        fields = self._field_range('registered', 'vehicle_checkup')
+        fields = [self['vehicle_registration'], self['vehicle_checkup']]
 
         return render_fields_as_list(fields)
 

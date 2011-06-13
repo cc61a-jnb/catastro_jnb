@@ -95,6 +95,9 @@ class InfrastructureCompanyData(models.Model):
     picture_internal_distribution_view = ImageField(upload_to = 'company_pics', verbose_name=u'Distribución interior', blank=True, null=True)
     # Vijay termino esa parte 
     
+    # Estado infrastructura
+    fk_infrastructure_status = models.ForeignKey('InfrastructureStatus', verbose_name='Estado infrastructura', null=True, blank=True)
+    
     observations = models.TextField(null=True, blank=True, verbose_name='')
     
     #Internal only

@@ -36,11 +36,25 @@
 	{{ form.render_company_question_to_list }}
 
 	{{ form.render_vehicle_info_questions_to_list }}
+	
+	{% if user.is_staff or user.is_superuser %}
+	
+	    {{ form.render_vehicle_staff_only_questions_to_list }}
+	
+	{% endif %}
 
     <br />
 	<hr />
 
 	<h3>Registro Nacional de Vehiculos Motorizados - Registro Civil</h3>
+	
+	{{ form.render_legal_registry_questions_to_list }}
+	
+	{% if user.is_staff or user.is_superuser %}
+	
+	    {{ form.render_legal_staff_only_questions_to_list }}
+	
+	{% endif %}
 
 	{{ form.render_legal_status_questions_to_list }}
 

@@ -872,5 +872,29 @@
       "name": "VHF Digital",
       "ordering": "1"
     }
+  },
+  {
+    "model": "censo.infrastructurestatus",
+    "pk": 1,
+    "fields": {
+      "name": "Bueno",
+      "ordering": "1"
+    }
+  },
+  {
+    "model": "censo.infrastructurestatus",
+    "pk": 2,
+    "fields": {
+      "name": "Regular",
+      "ordering": "2"
+    }
+  },
+  {
+    "model": "censo.infrastructurestatus",
+    "pk": 3,
+    "fields": {
+      "name": "Deficiente",
+      "ordering": "3"
+    }
   }
 ]

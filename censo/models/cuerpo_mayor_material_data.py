@@ -41,16 +41,26 @@ class CuerpoMayorMaterialData(models.Model):
     # motor_type/Tipo de motor se refiere a la pregunta de "Combustible" de la ficha original
     motor_type = models.ForeignKey('MotorType', verbose_name='Tipo de motor (Combustible)', null=True, blank=True)
     fk_procedence = models.ForeignKey('VehicleProcedence', verbose_name='Procedencia', null=True, blank=True)
+    # Staff only
+    folio = models.IntegerField(null=True, blank = True, verbose_name='Folio')
+    approval_certificate = models.NullBooleanField(verbose_name='Certificado de Homologación', help_text='Norma EPA o EURO')
+    approval_number = models.IntegerField(blank=True, null=True, verbose_name='Número del certificado', help_text='Responder sólo si posee certificado')
 
     # Situacion legal
     registered = models.NullBooleanField(verbose_name='Inscrito')
     licence_plate = models.CharField(max_length=255, null=True, blank=True, verbose_name='Patente')
+    # Situación legal/sólo staff
+    legal_registered_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='A nombre de')
+    legal_registered_date = models.DateField(blank=True, null=True, verbose_name='Fecha de Inscripción')
+    legal_repertorio_escritura = models.CharField(max_length=255, null=True, blank=True, verbose_name='Repertorio Escritura')
+    legal_notary = models.CharField(max_length=255, null=True, blank=True, verbose_name='Notaría')
+
 
     #fk_vehicle_registration = models.ForeignKey('VehicleRegistrationStatus', verbose_name='Permiso de Circulación', null=True, blank=True)
     vehicle_registration = models.NullBooleanField(verbose_name='Permiso de Circulación')
     #fk_vehicle_checkup = models.ForeignKey('VehicleCheckupStatus', verbose_name='Revisión Técnica', null=True, blank=True)
     vehicle_checkup = models.NullBooleanField(verbose_name='Revisión Técnica')
-
+    
     # Kilometraje y Horometraje
 
     kilometraje = models.IntegerField(null=True, blank=True, verbose_name='Kilometraje (Kms)')

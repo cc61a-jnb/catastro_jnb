@@ -148,6 +148,17 @@
     <br/>
     <br />
 {% endfor %}
+
+    {% if user.is_staff or user.is_superuser %}
+	    <br />
+	    <hr />
+	    <h3>Estado de la infraestructura</h3>
+        <p class="nota">Sólo para uso de la JNBC</p>
+        
+	    {{ form.render_infrastructure_status_question }}
+	
+	{% endif %}
+	
 <br />
 
 <hr/>

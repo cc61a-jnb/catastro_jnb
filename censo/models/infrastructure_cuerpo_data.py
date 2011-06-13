@@ -80,9 +80,13 @@ class CuerpoInfrastructureData(models.Model):
     picture_machine_room_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True, verbose_name=u'Sala de máquinas')
     picture_office_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True, verbose_name='Oficinas')
     picture_internal_distribution_view = ImageField(upload_to = 'cuerpo_pics', blank=True, null=True, verbose_name=u'Distribución interior')
+    
+    # Estado infrastructura
+    fk_infrastructure_status = models.ForeignKey('InfrastructureStatus', verbose_name='Estado infrastructura', null=True, blank=True)
 
    #Observaciones
     observations = models.TextField(null=True, blank=True, verbose_name='')
+    
     #Internal only
     is_valid = models.NullBooleanField(verbose_name='¿Formulario válido?')
     #Staff only

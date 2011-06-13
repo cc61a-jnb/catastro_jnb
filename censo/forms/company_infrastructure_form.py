@@ -166,6 +166,12 @@ class CompanyInfrastructureForm(BaseForm):
         fields = [self['observations']]
         
         return render_fields_as_list(fields)
+        
+    # Display infrastructure status question
+    def render_infrastructure_status_question(self):
+        fields = [self['fk_infrastructure_status']]
+        
+        return render_fields_as_list(fields)
     
     # Display staff-only control fields
     def render_staff_only_form_to_list(self):

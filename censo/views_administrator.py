@@ -44,10 +44,10 @@ def results_cuerpo(request):
             cuerpo_data_list = Region.fetch_all_related(cursor, region.old_id)
             for cuerpo_data in cuerpo_data_list:
                 # try first to get cuerpo from our records
-                cuerpo = Cuerpo.objects.get(old_id=cuerpo_data["id"])
-                if cuerpo:
+                try:
+                    cuerpo = Cuerpo.objects.get(old_id=cuerpo_data["id"])
                     cuerpo_list.append(cuerpo)
-                else:
+                except Cuerpo.DoesNotExist:
                     cuerpo = Cuerpo.fetch_from_db(cursor, cuerpo_data["id"])
                     if cuerpo: # is null in case of virtual cuerpo or inconsistent db
                         cuerpo.save()
