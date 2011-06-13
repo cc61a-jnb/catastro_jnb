@@ -62,7 +62,8 @@ urlpatterns += patterns('catastro_jnb.censo.views_regional_operations_manager',
 
 urlpatterns += patterns('catastro_jnb.censo.views_administrator',
     url(r'^administration/$', 'index', name='administrator'),
-    url(r'^administration/results/cuerpo/$', 'results_cuerpo'),
+    url(r'^administration/results/cuerpo/$', 'results_cuerpo', name='administrator_results_cuerpo'),
+    url(r'^administration/results/company/$', 'results_company', name='administrator_results_company'),
 )
 
 # AJAX Data url's #

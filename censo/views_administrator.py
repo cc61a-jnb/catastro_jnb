@@ -58,3 +58,7 @@ def results_cuerpo(request):
         'cuerpo_list': cuerpo_list,
         'menu_titles': True,
     }, context_instance=RequestContext(request))
+
+@authorize(roles=('administrator',))
+def results_company(request):
+    pass
