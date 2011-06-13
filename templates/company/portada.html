@@ -94,6 +94,16 @@
 	<h3>Observaciones</h3>
     <p class="nota">Ingrese cualquier información que estime de utilidad</p>
 	{{ form.observations }}
+	
+	{% if user.is_staff or user.is_superuser %}
+	    <br />
+	    <hr />
+	    <h3>Completitud/Correctitud Formulario</h3>
+        <p class="nota">Sólo para uso de la JNBC</p>
+        
+	    {{ form.render_staff_only_form_to_list }}
+	
+	{% endif %}
 
     <p><input title="Guardar y continuar" type="submit" name="submit_portada_form" value="Guardar y continuar" /></p>
     </form>

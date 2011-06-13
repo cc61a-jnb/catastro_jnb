@@ -137,6 +137,12 @@ class CuerpoInfrastructureForm(BaseForm):
     def picture_fields(self):
         fields = self._field_range('picture_general_view', 'picture_internal_distribution_view')
         return [(field, getattr(self.instance, field.name)) for field in fields]
+        
+    # Display staff-only control fields    
+    def render_staff_only_form_to_list(self):
+        fields = [self['is_complete'], self['is_correct']]
+        
+        return render_fields_as_list(fields)
 
     class Meta:
         model = CuerpoInfrastructureData

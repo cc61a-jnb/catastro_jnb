@@ -166,7 +166,12 @@ class CompanyInfrastructureForm(BaseForm):
         fields = [self['observations']]
         
         return render_fields_as_list(fields)
+    
+    # Display staff-only control fields
+    def render_staff_only_form_to_list(self):
+        fields = [self['is_complete'], self['is_correct']]
         
+        return render_fields_as_list(fields)
         
     # Get a range of fields (ordered) between the given field names   
     def _field_range(self, start_field_name, end_field_name):

@@ -13,7 +13,13 @@ class CuerpoPortadaForm(BaseForm):
     def base_position_fields(self):
         fields = self._field_range('superintendent_name', 'intendent_name')
         return fields
+        
+    # Display staff-only control fields    
+    def render_staff_only_form_to_list(self):
+        fields = [self['is_complete'], self['is_correct']]
+        
+        return render_fields_as_list(fields)
 
     class Meta:
        model = PortadaCuerpoData
-       fields = ('superintendent_name', 'vice_superintendent_name', 'commander_name', 'second_commander_name', 'third_commander_name', 'forth_commander_name', 'secretary_name', 'treasury_name', 'intendent_name', 'observations')
+       fields = ('superintendent_name', 'vice_superintendent_name', 'commander_name', 'second_commander_name', 'third_commander_name', 'forth_commander_name', 'secretary_name', 'treasury_name', 'intendent_name', 'observations', 'is_complete', 'is_correct')

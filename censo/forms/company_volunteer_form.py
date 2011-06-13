@@ -232,6 +232,12 @@ class CompanyVolunteerForm(BaseForm):
         fields = [self['observations']]
         
         return render_fields_as_list(fields)
+        
+    # Display staff-only fields
+    def render_staff_only_form_to_list(self):
+        fields = [self['is_complete'], self['is_correct']]
+        
+        return render_fields_as_list(fields)
     
     # Display volunteer education level questions as a list    
     def render_volunteer_education_to_list(self):
