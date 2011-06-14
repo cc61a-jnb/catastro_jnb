@@ -3,7 +3,7 @@ from django import forms
 from censo.models import Region
 
 class AdministratorResultsCuerpoForm(forms.Form):
-    region = forms.ModelChoiceField(queryset=Region.objects.all(), required=False)
+    region = forms.ModelChoiceField(queryset=Region.objects.all(), empty_label=None)
 
     def __init__(self, *args, **kwargs):
         super(AdministratorResultsCuerpoForm, self).__init__(*args, **kwargs)
