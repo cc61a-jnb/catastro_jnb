@@ -63,24 +63,24 @@ $(function() {
         </tr>
         <tr class="even"><!--is_valid-->
             <td style="text-align: right;">Válido (Sistema Automático)</td>
-            <td><a href="{% url company company.old_id %}">{{company.portadacompanydata.is_valid|yesno:"si,no"}}</a></td>
-            <td><a href="{% url company_volunteers company.old_id %}">{{company.volunteerdata.is_valid|yesno:"si,no"}}</a></td>
-            <td><a href="{% url company_infrastructure company.old_id %}">{{company.infrastructurecompanydata.is_valid|yesno:"si,no"}}</a></td>
-            <td><a href="{% url company_minor_material company.old_id %}">{{company.minor_material_company_data.is_valid|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company company.old_id %}">{% if company.portadacompanydata %}{{company.portadacompanydata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url company_volunteers company.old_id %}">{% if company.volunteerdata %}{{company.volunteerdata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url company_infrastructure company.old_id %}">{% if company.infrastructurecompanydata %}{{company.infrastructurecompanydata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url company_minor_material company.old_id %}">{% if company.minormaterialcompanydata %}{{company.minormaterialcompanydata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
         </tr>
         <tr><!--is_complete-->
             <td style="text-align: right;">Completo (Manual)</td>
-            <td><a href="{% url company company.old_id %}">{{company.portadacompanydata.is_complete|yesno:"si,no"}}</a></td>
-            <td><a href="{% url company_volunteers company.old_id %}">{{company.volunteerdata.is_complete|yesno:"si,no"}}</a></td>
-            <td><a href="{% url company_infrastructure company.old_id %}">{{company.infrastructurecompanydata.is_complete|yesno:"si,no"}}</a></td>
-            <td><a href="{% url company_minor_material company.old_id %}">{{company.minor_material_company_data.is_complete|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company company.old_id %}">{% if company.portadacompanydata %}{{company.portadacompanydata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url company_volunteers company.old_id %}">{% if company.volunteerdata %}{{company.volunteerdata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url company_infrastructure company.old_id %}">{% if company.infrastructurecompanydata %}{{company.infrastructurecompanydata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url company_minor_material company.old_id %}">{% if company.minormaterialcompanydata %}{{company.minormaterialcompanydata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
         </tr>
         <tr class="even"><!--is_correct-->
             <td style="text-align: right;">Correcto (Manual)</td>
-            <td><a href="{% url company company.old_id %}">{{company.portadacompanydata.is_correct|yesno:"si,no"}}</a></td>
-            <td><a href="{% url company_volunteers company.old_id %}">{{company.volunteerdata.is_correct|yesno:"si,no"}}</a></td>
-            <td><a href="{% url company_infrastructure company.old_id %}">{{company.infrastructurecompanydata.is_correct|yesno:"si,no"}}</a></td>
-            <td><a href="{% url company_minor_material company.old_id %}">{{company.minor_material_company_data.is_correct|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company company.old_id %}">{% if company.portadacompanydata %}{{company.portadacompanydata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url company_volunteers company.old_id %}">{% if company.volunteerdata %}{{company.volunteerdata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url company_infrastructure company.old_id %}">{% if company.infrastructurecompanydata %}{{company.infrastructurecompanydata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url company_minor_material company.old_id %}">{% if company.minormaterialcompanydata %}{{company.minormaterialcompanydata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
         </tr>
     {%endfor%}
     </tbody>

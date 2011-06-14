@@ -44,51 +44,51 @@
         </tr>
         <tr class="even"><!--is_valid-->
             <td style="text-align: right;">Válido (Sistema Automático)</td>
-            <td><a href="{% url cuerpo cuerpo.old_id %}">{{cuerpo.portadacuerpodata.is_valid|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_general cuerpo.old_id %}">{{cuerpo.cuerpogeneraldata.is_valid|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_anb cuerpo.old_id %}">{{cuerpo.cuerpoanbdata.is_valid|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_infrastructure cuerpo.old_id %}">{{cuerpo.cuerpoinfrastructuredata.is_valid|yesno:"si,no"}}</a></td>
+            <td><a href="{% url cuerpo cuerpo.old_id %}">{%if cuerpo.portadacuerpodata %}{{cuerpo.portadacuerpodata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_general cuerpo.old_id %}">{%if cuerpo.cuerpogeneraldata %}{{cuerpo.cuerpogeneraldata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_anb cuerpo.old_id %}">{%if cuerpo.cuerpoanbdata %}{{cuerpo.cuerpoanbdata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_infrastructure cuerpo.old_id %}">{%if cuerpo.cuerpoinfrastructuredata %}{{cuerpo.cuerpoinfrastructuredata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
             <td>
                     {%for material in cuerpo.cuerpomayormaterialdata_set.all %}
-                        <a href="{% url cuerpo_edit_mayor_material cuerpo.old_id material.id %}">{{ material.is_valid|yesno:"si,no" }}</a>
+                        <a href="{% url cuerpo_edit_mayor_material cuerpo.old_id material.id %}">{{ material.is_valid|yesno:"si,no,no actualizado" }}</a>
                     {% empty %}
                         <a href="{% url cuerpo_mayor_material cuerpo.old_id %}">no hay fichas</a>
                     {% endfor %}
             </td>
-            <td><a href="{% url cuerpo_alarm_central cuerpo.old_id %}">{{cuerpo.cuerpoalarmcentraldata.is_valid|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_service_acts cuerpo.old_id %}">{{cuerpo.cuerposerviceactsdata.is_valid|yesno:"si,no"}}</a></td>
+            <td><a href="{% url cuerpo_alarm_central cuerpo.old_id %}">{%if cuerpo.cuerpoalarmcentraldata %}{{cuerpo.cuerpoalarmcentraldata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_service_acts cuerpo.old_id %}">{%if cuerpo.cuerposerviceactsdata %}{{cuerpo.cuerposerviceactsdata.is_valid|yesno:"si,no,no actualizado"}}{% else %}no hay ficha{% endif %}</a></td>
         </tr>
         <tr><!--is_complete-->
             <td style="text-align: right;">Completo (Manual)</td>
-            <td><a href="{% url cuerpo cuerpo.old_id %}">{{cuerpo.portadacuerpodata.is_complete|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_general cuerpo.old_id %}">{{cuerpo.cuerpogeneraldata.is_complete|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_anb cuerpo.old_id %}">{{cuerpo.cuerpoanbdata.is_complete|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_infrastructure cuerpo.old_id %}">{{cuerpo.cuerpoinfrastructuredata.is_complete|yesno:"si,no"}}</a></td>
+            <td><a href="{% url cuerpo cuerpo.old_id %}">{%if cuerpo.portadacuerpodata %}{{cuerpo.portadacuerpodata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_general cuerpo.old_id %}">{%if cuerpo.cuerpogeneraldata %}{{cuerpo.cuerpogeneraldata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_anb cuerpo.old_id %}">{%if cuerpo.cuerpoanbdata %}{{cuerpo.cuerpoanbdata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_infrastructure cuerpo.old_id %}">{%if cuerpo.cuerpoinfrastructuredata %}{{cuerpo.cuerpoinfrastructuredata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
             <td>
                     {%for material in cuerpo.cuerpomayormaterialdata_set.all %}
-                        <a href="{% url cuerpo_edit_mayor_material cuerpo.old_id material.id %}">{{ material.is_complete|yesno:"si,no" }}</a>
+                        <a href="{% url cuerpo_edit_mayor_material cuerpo.old_id material.id %}">{{ material.is_complete|yesno:"si,no,no revisado" }}</a>
                     {% empty %}
                         <a href="{% url cuerpo_mayor_material cuerpo.old_id %}">no hay fichas</a>
                     {% endfor %}
             </td>
-            <td><a href="{% url cuerpo_alarm_central cuerpo.old_id %}">{{cuerpo.cuerpoalarmcentraldata.is_complete|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_service_acts cuerpo.old_id %}">{{cuerpo.cuerposerviceactsdata.is_complete|yesno:"si,no"}}</a></td>
+            <td><a href="{% url cuerpo_alarm_central cuerpo.old_id %}">{%if cuerpo.cuerpoalarmcentraldata %}{{cuerpo.cuerpoalarmcentraldata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_service_acts cuerpo.old_id %}">{%if cuerpo.cuerposerviceactsdata %}{{cuerpo.cuerposerviceactsdata.is_complete|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
         </tr>
         <tr class="even"><!--is_correct-->
             <td style="text-align: right;">Correcto (Manual)</td>
-            <td><a href="{% url cuerpo cuerpo.old_id %}">{{cuerpo.portadacuerpodata.is_correct|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_general cuerpo.old_id %}">{{cuerpo.cuerpogeneraldata.is_correct|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_anb cuerpo.old_id %}">{{cuerpo.cuerpoanbdata.is_correct|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_infrastructure cuerpo.old_id %}">{{cuerpo.cuerpoinfrastructuredata.is_correct|yesno:"si,no"}}</a></td>
+            <td><a href="{% url cuerpo cuerpo.old_id %}">{%if cuerpo.portadacuerpodata %}{{cuerpo.portadacuerpodata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_general cuerpo.old_id %}">{%if cuerpo.cuerpogeneraldata %}{{cuerpo.cuerpogeneraldata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_anb cuerpo.old_id %}">{%if cuerpo.cuerpoanbdata %}{{cuerpo.cuerpoanbdata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_infrastructure cuerpo.old_id %}">{%if cuerpo.cuerpoinfrastructuredata %}{{cuerpo.cuerpoinfrastructuredata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
             <td>
                     {%for material in cuerpo.cuerpomayormaterialdata_set.all %}
-                        <a href="{% url cuerpo_edit_mayor_material cuerpo.old_id material.id %}">{{ material.is_correct|yesno:"si,no" }}</a>
+                        <a href="{% url cuerpo_edit_mayor_material cuerpo.old_id material.id %}">{{ material.is_correct|yesno:"si,no,no revisado" }}</a>
                     {% empty %}
                         <a href="{% url cuerpo_mayor_material cuerpo.old_id %}">no hay fichas</a>
                     {% endfor %}
             </td>
-            <td><a href="{% url cuerpo_alarm_central cuerpo.old_id %}">{{cuerpo.cuerpoalarmcentraldata.is_correct|yesno:"si,no"}}</a></td>
-            <td><a href="{% url cuerpo_service_acts cuerpo.old_id %}">{{cuerpo.cuerposerviceactsdata.is_correct|yesno:"si,no"}}</a></td>
+            <td><a href="{% url cuerpo_alarm_central cuerpo.old_id %}">{%if cuerpo.cuerpoalarmcentraldata %}{{cuerpo.cuerpoalarmcentraldata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
+            <td><a href="{% url cuerpo_service_acts cuerpo.old_id %}">{%if cuerpo.cuerposerviceactsdata %}{{cuerpo.cuerposerviceactsdata.is_correct|yesno:"si,no,no revisado"}}{% else %}no hay ficha{% endif %}</a></td>
         </tr>
     {%endfor%}
     </tbody>
