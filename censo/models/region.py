@@ -8,6 +8,14 @@ class Region(models.Model):
     name = models.CharField(max_length = 100)
     old_id = models.IntegerField()
     has_form = False
+
+    @classmethod
+    def get_old_id_name_tuples(self):
+        """
+        Returns a generator of tuples (old_id, name) for regions,
+        Useful to construct ChoiceFields
+        """
+        return ((r.old_id, r.name) for r in self.objects.all())
     
     @classmethod
     def fetch_all(self, cursor):

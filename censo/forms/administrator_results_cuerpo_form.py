@@ -1,6 +1,6 @@
 # encoding: utf-8
 from django import forms
-from censo.models import *
+from censo.models import Region
 
 class AdministratorResultsCuerpoForm(forms.Form):
     region = forms.ModelChoiceField(queryset=Region.objects.all(), required=False)

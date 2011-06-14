@@ -16,6 +16,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 
 from censo.forms import AdministratorResultsCuerpoForm
+from censo.forms import AdministratorResultsCompanyForm
 
 # Show first stub
 @authorize(roles=('administrator',))
@@ -63,7 +64,8 @@ def results_cuerpo(request):
 
 @authorize(roles=('administrator',))
 def results_company(request):
-    company_list = None
+    form = AdministratorResultsCompanyForm(request.GET)
+    company_list = [] # soon to be filled if form is submitted
 
     # check if user has specified a cuerpo_id
     cuerpo_id = request.GET.get('cuerpo_id', None)
@@ -87,6 +89,7 @@ def results_company(request):
     menu_titles, main_menu_choices, user_permission_instance = request.user.get_profile().get_menu()
     # Render the form
     return render_to_response('administrator/results_company.html', {
+        'form': form,
         'company_list': company_list,
         'menu_titles': menu_titles[:-1],
         'main_menu_choices': main_menu_choices,

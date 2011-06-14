@@ -26,37 +26,22 @@ $(function() {
 {% block nav_results_company %}<li class="current-tab"><a href="{% url administrator_results_company %}">Estado Fichas Compañías</a></li>{% endblock %}
 
 {% block sidebar %}
-		
-            <div id="sidebar" class="left sidebar">
-	            <div class="section">
-		            <div class="section-title">Menú Principal</div>
+<div id="sidebar" class="left sidebar">
+    <div class="section">
+        <div class="section-title">Menú Principal</div>
 
-                    <form>
-                        <input type="hidden" id="selected_option" value="{{request.company_id}}" />
-                        {% for menu_title in menu_titles %}
-                            <h4>{{ menu_title.0 }}</h4>
-                            {% ifequal forloop.counter 1 %}
-                                <select class="menu_choice_field" id="{{ menu_title.1|lower }}">
-                                    {% for elem in main_menu_choices %}
-                                        <option value="{{ elem.old_id }}">{{ elem }}</option>
-                                    {% endfor %}
-                                </select>
-                            {% else %}  
-                                <select name="cuerpo_id" id="cuerpo_id" class="{{ forloop.last|yesno:'last_choice_field,menu_choice_field' }}">
-                                    <option>-------</option>
-                                </select> <img id="ajax_loader" src="{{ MEDIA_URL }}img/ajax-loader.gif" style="display: none;" />
-                            {% endifequal %}
-                            {% if menu_title.2 %}
-                                <br />
-                                <input type="submit" value="Aceptar" />
-                            {% endif %}
-                            <br />
-                            <br />
-                        {% endfor %}
-                    </form>
-                </div>
-            </div>
-        {% endblock %}
+        <form>
+            {{ form.region }}
+            <br />
+            <select name="cuerpo_id" id="cuerpo_id" class="last_choice_field">
+                <option>-------</option>
+            </select> <img id="ajax_loader" src="{{ MEDIA_URL }}img/ajax-loader.gif" style="display: none;" />
+            <br />
+            <input type="submit" value="Aceptar" />
+        </form>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
 
