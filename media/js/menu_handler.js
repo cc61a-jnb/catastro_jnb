@@ -1,5 +1,3 @@
-var first_ajax_call_ready = false
-
 $(function() {
     $('.menu_choice_field').change(function() {
         combobox_change_handler($(this))

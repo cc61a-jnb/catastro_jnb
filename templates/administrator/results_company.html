@@ -4,17 +4,22 @@
 
 {% block user_scripts %}
 <script type="text/javascript">
-function handleFirstAjaxCall() {
+var first_ajax_call_ready = false
+
+$(function() {
     //handle selected option if its on url parameters
-    combobox = $('.last_choice_field')
-    model_name = combobox.attr('id')
-    //parse the url
-    url = $.url()
-    cuerpo_id = url.param('cuerpo_id')
-    if(cuerpo_id != undefined){
-        combobox.val(cuerpo_id)
-    }
-}
+    $('#cuerpo_id').ajaxSuccess(function() {
+        //parse the url
+        if(!first_ajax_call_ready){
+            url = $.url()
+            cuerpo_id = url.param('cuerpo_id')
+            if(cuerpo_id != undefined){
+                $(this).val(cuerpo_id)
+            }
+            first_ajax_call_ready = true
+        }
+    })
+})
 </script>
 {% endblock %}
 
@@ -54,4 +59,47 @@ function handleFirstAjaxCall() {
         {% endblock %}
 
 {% block content %}
+
+{% if company_list %}
+    <table>
+    <thead>
+        <tr>
+            <th>Compañía</th>
+            <th>Portada</th>
+            <th>Voluntarios</th>
+            <th>Infraestructura</th>
+            <th>M. Menor</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%for company in company_list %}
+        <tr>
+            <td><a href="{% url company company.old_id %}">{{company}}</a></td>
+        </tr>
+        <tr class="even"><!--is_valid-->
+            <td style="text-align: right;">Válido (Sistema Automático)</td>
+            <td><a href="{% url company company.old_id %}">{{company.portadacompanydata.is_valid|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company_volunteers company.old_id %}">{{company.volunteerdata.is_valid|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company_infrastructure company.old_id %}">{{company.infrastructurecompanydata.is_valid|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company_minor_material company.old_id %}">{{company.minor_material_company_data.is_valid|yesno:"si,no"}}</a></td>
+        </tr>
+        <tr><!--is_complete-->
+            <td style="text-align: right;">Completo (Manual)</td>
+            <td><a href="{% url company company.old_id %}">{{company.portadacompanydata.is_complete|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company_volunteers company.old_id %}">{{company.volunteerdata.is_complete|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company_infrastructure company.old_id %}">{{company.infrastructurecompanydata.is_complete|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company_minor_material company.old_id %}">{{company.minor_material_company_data.is_complete|yesno:"si,no"}}</a></td>
+        </tr>
+        <tr class="even"><!--is_correct-->
+            <td style="text-align: right;">Correcto (Manual)</td>
+            <td><a href="{% url company company.old_id %}">{{company.portadacompanydata.is_correct|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company_volunteers company.old_id %}">{{company.volunteerdata.is_correct|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company_infrastructure company.old_id %}">{{company.infrastructurecompanydata.is_correct|yesno:"si,no"}}</a></td>
+            <td><a href="{% url company_minor_material company.old_id %}">{{company.minor_material_company_data.is_correct|yesno:"si,no"}}</a></td>
+        </tr>
+    {%endfor%}
+    </tbody>
+    </table>
+{% endif %}
+
 {% endblock %}
