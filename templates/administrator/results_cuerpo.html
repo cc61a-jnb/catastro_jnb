@@ -7,7 +7,7 @@
 {% block nav_results_cuerpo %}<li class="current-tab"><a href="{% url administrator_results_cuerpo %}">Estado Fichas Cuerpos</a></li>{% endblock %}
 
 {% block sidebar %}
-		
+
 <div id="sidebar" class="left sidebar">
     <div class="section">
         <div class="section-title">Menú Principal</div>
@@ -27,7 +27,7 @@
     <table>
     <thead>
         <tr>
-            <th>Cuerpo</th>
+            <th></th>
             <th>Portada</th>
             <th>Inf. General</th>
             <th>Inf. ANB</th>
@@ -40,7 +40,7 @@
     <tbody>
     {%for cuerpo in cuerpo_list %}
         <tr>
-            <td><a href="{% url cuerpo cuerpo.old_id %}">{{cuerpo}}</a></td>
+            <td colspan="8"><a href="{% url cuerpo cuerpo.old_id %}">{{cuerpo}}</a></td>
         </tr>
         <tr class="even"><!--is_valid-->
             <td style="text-align: right;">Válido (Sistema Automático)</td>

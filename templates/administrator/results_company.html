@@ -49,7 +49,7 @@ $(function() {
     <table>
     <thead>
         <tr>
-            <th>Compañía</th>
+            <th></th>
             <th>Portada</th>
             <th>Voluntarios</th>
             <th>Infraestructura</th>
@@ -59,7 +59,7 @@ $(function() {
     <tbody>
     {%for company in company_list %}
         <tr>
-            <td><a href="{% url company company.old_id %}">{{company}}</a></td>
+            <td colspan="5"><a href="{% url company company.old_id %}">{{company}}</a></td>
         </tr>
         <tr class="even"><!--is_valid-->
             <td style="text-align: right;">Válido (Sistema Automático)</td>
