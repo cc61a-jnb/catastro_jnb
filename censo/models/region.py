@@ -83,5 +83,5 @@ class Region(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['name']
+        ordering = ['old_id']
         app_label = 'censo'
