@@ -72,3 +72,8 @@ urlpatterns += patterns('catastro_jnb.censo.views_administrator',
 urlpatterns += patterns('catastro_jnb.censo.views_data',
     url(r'^data/(?P<class_name>\w+)/(?P<entity_id>\d+)/get_related/$', 'get_related', name='data_get_related'),
 )
+
+# Errors #
+##########
+
+handler500 = 'censo.views.server_error'

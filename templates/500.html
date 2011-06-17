@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Error - {% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block content %}
+<h3>Lo sentimos, se ha producido un error en el sistema.</h3>
+<h4>Un correo ha sido enviado a <a href="mailto:soporte@bomberos.cl">soporte@bomberos.cl</a> notificando el problema</h4>
+
+<a href="{% url index %}">Volver al Sitio Principal</a>
+{% endblock %}
