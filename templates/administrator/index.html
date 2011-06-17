@@ -12,7 +12,7 @@
 
                     <form id="selector_form">
                         {% for menu_title in menu_titles %}
-                            <h4>{{ menu_title.0 }}</h4>
+                            <p><b>{{ menu_title.0 }}</b></p>
                             {% ifequal forloop.counter 1 %}
                                 <select class="menu_choice_field" id="{{ menu_title.1|lower }}">
                                     {% for elem in main_menu_choices %}
@@ -28,8 +28,6 @@
                                 <br />
                                 <input type="submit" value="Ingresar" />
                             {% endif %}
-                            <br />
-                            <br />
                         {% endfor %}
                     </form>
                 </div>
