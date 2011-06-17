@@ -50,6 +50,7 @@ def index(request):
     # If user's role doesn't grant access, error
     else:
         request.flash['error'] = 'Usted no tiene permisos para acceder al sistema'
+        logging.error("user %s doesn't have any valid roles for catastro application", request.user.username)
         return redirect('login')
 
 # Login form

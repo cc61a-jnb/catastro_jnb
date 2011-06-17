@@ -19,17 +19,20 @@ class Province(models.Model):
         
         province_data = cursor.fetchone()
         if not province_data:
-            logging.info("Cannot find province with id (%s)", old_id)
+            logging.error("Could not fetch province:%s", old_id)
             return None
             
         region = Region.fetch_from_db(cursor, province_data[1])
         
         if not region:
+            logging.error("Could not fetch province:%s's region", old_id)
             return None
             
         try:
             province = Province.objects.get(old_id = old_id)
+            logging.info("Successfully fetched existing province:%s", old_id)
         except Province.DoesNotExist:
+            logging.info("Successfully fetched province:%s for the first time", old_id)
             province = Province()
             province.old_id = old_id
             

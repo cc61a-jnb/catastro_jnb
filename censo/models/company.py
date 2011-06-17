@@ -38,24 +38,26 @@ class Company(models.Model):
         
         company_data = cursor.fetchone()
         if not company_data:
+            logging.error("Could not fetch company:%s", old_id)
             return None
             
         commune = Commune.fetch_from_db(cursor, company_data[3])
         
         if not commune:
+            logging.error("Could not fetch company:%s's commune", old_id)
             return None
-        
-        
-        
+
         if not cuerpo:
             cuerpo = Cuerpo.fetch_from_db(cursor, company_data[6])
-        
+            logging.error("Could not fetch company:%s's cuerpo", old_id)
             if not cuerpo:
                 return None
             
         try:
             company = Company.objects.get(old_id = old_id)
+            logging.info("Successfully fetched existing company:%s", old_id)
         except Company.DoesNotExist:
+            logging.info("Successfully fetched company:%s for the first time", old_id)
             company = Company()
             company.old_id = old_id
         

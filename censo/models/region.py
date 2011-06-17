@@ -65,12 +65,14 @@ class Region(models.Model):
         
         region_data = cursor.fetchone()
         if not region_data:
-            logging.info("Cannot find region with id (%s)", old_id)
+            logging.error("Could not fetch region:%s", old_id)
             return None
             
         try:
             region = Region.objects.get(old_id = old_id)
+            logging.info("Successfully fetched existing region:%s", old_id)
         except Region.DoesNotExist:
+            logging.info("Successfully fetched region:%s for the first time", old_id)
             region = Region()
             region.old_id = old_id
             

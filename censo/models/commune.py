@@ -18,18 +18,21 @@ class Commune(models.Model):
         cursor.execute(query, params)
         
         commune_data = cursor.fetchone()
-        if not commune_data:
-            logging.info("Cannot find commune with id %s", old_id)
+        if not commune_data
+            logging.error("Could not fetch commune:%s", old_id)
             return None
             
         province = Province.fetch_from_db(cursor, commune_data[1])
         
         if not province:
+            logging.error("Could not fetch commune:%s's province", old_id)
             return None
             
         try:
             commune = Commune.objects.get(old_id = commune_data[0])
+            logging.info("Successfully fetched existing commune:%s", old_id)
         except Commune.DoesNotExist:
+            logging.info("Successfully fetched commune:%s for the first time", old_id)
             commune = Commune()
             commune.old_id = commune_data[0]
             

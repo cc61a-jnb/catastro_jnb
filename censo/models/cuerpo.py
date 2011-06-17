@@ -40,18 +40,20 @@ class Cuerpo(models.Model):
         
         cuerpo_data = cursor.fetchone()
         if not cuerpo_data:
-            logging.error("Cannot find cuerpo:%s", old_id)
+            logging.error("Could not fetch cuerpo:%s", old_id)
             return None
             
         commune = Commune.fetch_from_db(cursor, cuerpo_data[1])
         
         if not commune:
-            logging.error("Cannot find cuerpo:%s commune", old_id)
+            logging.error("Could not fetch cuerpo:%s's commune", old_id)
             return None
             
         try:
             cuerpo = Cuerpo.objects.get(old_id = old_id)
+            logging.info("Successfully fetched existing cuerpo:%s", old_id)
         except Cuerpo.DoesNotExist:
+            logging.info("Successfully fetched cuerpo:%s for the first time", old_id)
             cuerpo = Cuerpo()
             cuerpo.old_id = old_id
             
@@ -71,6 +73,7 @@ class Cuerpo(models.Model):
     def fetch_related_company_ids(self, cursor):
         from . import Company
         
+        logging.info("Fetching cuerpo:%s's companies", self.old_id)
         query = "SELECT comp_id FROM companias WHERE comp_fk_cuerpo = %s"
         params = (self.old_id,)
         cursor.execute(query, params)
