@@ -8,9 +8,11 @@ from censo.models import Region
 
 from djangoflash.decorators import keep_messages
 
+from django.conf import settings
 from django.db import connections
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
+from django.template import Context, loader
 from django.template import RequestContext
 from django.contrib import auth
 from django.contrib.auth import authenticate
@@ -51,7 +53,7 @@ def index(request):
         return redirect('login')
 
 # Login form
-def login(request): 
+def login(request):
     error = None
     notice = None
     # If form has been submitted
@@ -91,3 +93,9 @@ def logout(request):
     logging.info("User %s logged out", request.user.username)
     auth.logout(request)
     return redirect('login')
+
+def server_error(request, template_name='500.html'):
+    "Always includes MEDIA_URL"
+    from django.http import HttpResponseServerError
+    t = loader.get_template(template_name)
+    return HttpResponseServerError(t.render(Context({'MEDIA_URL': settings.MEDIA_URL})))
