@@ -18,7 +18,7 @@ class Commune(models.Model):
         cursor.execute(query, params)
         
         commune_data = cursor.fetchone()
-        if not commune_data
+        if not commune_data:
             logging.error("Could not fetch commune:%s", old_id)
             return None
             
