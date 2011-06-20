@@ -17,11 +17,11 @@ def display_portada_form(request, company):
     # Attempt to load previously submitted data
     try:
         portada_data = company.portadacompanydata
-        logging.info("Successfully fetched company:%s's portadacompanydata", company.old_id)
+        logging.info("Successfully fetched company:%s's portadacompanydata for user:%s", company.old_id, request.user.username)
         # If it fails, create blank data
     except ObjectDoesNotExist:
         portada_data = PortadaCompanyData()
-        logging.info("Creating company:%s's portadacompanydata model", company.old_id)
+        logging.info("Creating company:%s's portadacompanydata model for user:%s", company.old_id, request.user.username)
         # Add company to blank data
         portada_data.company = company
         portada_data.save() 
@@ -36,10 +36,10 @@ def display_volunteers_form(request, company):
     # Attempt to load previously submitted data
     try:
         volunteer_data = company.volunteerdata
-        logging.info("Successfully fetched company:%s's volunteerdata", company.old_id)
+        logging.info("Successfully fetched company:%s's volunteerdata for user:%s", company.old_id, request.user.username)
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        logging.info("Creating company:%s's volunteerdata model", company.old_id)
+        logging.info("Creating company:%s's volunteerdata model for user:%s", company.old_id, request.user.username)
         volunteer_data = VolunteerData()
         # Add company to blank data
         volunteer_data.company = company
@@ -55,10 +55,10 @@ def display_infrastructure_form(request, company):
     # Attempt to load previously submitted data
     try:
         infrastructure_company_data = company.infrastructurecompanydata
-        logging.info("Successfully fetched company:%s's infrastructurecompanydata", company.old_id)
+        logging.info("Successfully fetched company:%s's infrastructurecompanydata for user:%s", company.old_id, request.user.username)
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        logging.info("Creating company:%s's infrastructurecompanydata model", company.old_id)
+        logging.info("Creating company:%s's infrastructurecompanydata model for user%s", company.old_id, request.user.username)
         infrastructure_company_data = InfrastructureCompanyData()
         # Add company to blank data
         infrastructure_company_data.company = company
@@ -74,10 +74,10 @@ def display_minor_material_form(request, company):
     # Attempt to load previously submitted data
     try:
         minor_material_company_data = company.minormaterialcompanydata
-        logging.info("Successfully fetched company:%s's minormaterialcompanydata", company.old_id)
+        logging.info("Successfully fetched company:%s's minormaterialcompanydata for user:%s", company.old_id, request.user.username)
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        logging.info("Creating company:%s's minormaterialcompanydata model", company.old_id)
+        logging.info("Creating company:%s's minormaterialcompanydata model for user:%s", company.old_id, request.user.username)
         minor_material_company_data = MinorMaterialCompanyData()
         # Add company to blank data
         minor_material_company_data.company = company

@@ -21,10 +21,10 @@ from utils import generic_edit
 def display_portada_form(request, cuerpo):
     try:
         portada_data = cuerpo.portadacuerpodata
-        logging.info("Successfully fetched cuerpo:%s's portadacuerpodata", cuerpo.old_id)
+        logging.info("Successfully fetched cuerpo:%s's portadacuerpodata for user:%s", cuerpo.old_id, request.user.username)
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        logging.info("Creating cuerpo:%s's portadacuerpodata model", cuerpo.old_id)
+        logging.info("Creating cuerpo:%s's portadacuerpodata model for user:%s", cuerpo.old_id, request.user.username)
         portada_data = PortadaCuerpoData()
         # Add cuerpo to blank data
         portada_data.cuerpo = cuerpo
@@ -39,10 +39,10 @@ def display_general_form(request, cuerpo):
     # Attempt to load previously submitted data
     try:
         general_data = cuerpo.cuerpogeneraldata
-        logging.info("Successfully fetched cuerpo:%s's cuerpogeneraldata", cuerpo.old_id)
+        logging.info("Successfully fetched cuerpo:%s's cuerpogeneraldata for user:%s", cuerpo.old_id, request.user.username)
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        logging.info("Creating cuerpo:%s's cuerpogeneraldata model", cuerpo.old_id)
+        logging.info("Creating cuerpo:%s's cuerpogeneraldata model for user:%s", cuerpo.old_id, request.user.username)
         general_data = CuerpoGeneralData()
         # Add cuerpo to blank data
         general_data.cuerpo = cuerpo
@@ -57,10 +57,10 @@ def display_anb_form(request, cuerpo):
     # Attempt to load previously submitted data
     try:
         anb_data = cuerpo.cuerpoanbdata
-        logging.info("Successfully fetched cuerpo:%s's cuerpoanbdata", cuerpo.old_id)
+        logging.info("Successfully fetched cuerpo:%s's cuerpoanbdata for user:%s", cuerpo.old_id, request.user.username)
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        logging.info("Creating cuerpo:%s's cuerpoanbdata model", cuerpo.old_id)
+        logging.info("Creating cuerpo:%s's cuerpoanbdata model for user:%s", cuerpo.old_id, request.user.username)
         anb_data = CuerpoANBData()
         # Add cuerpo to blank data
         anb_data.cuerpo = cuerpo
@@ -76,10 +76,10 @@ def display_infrastructure_form(request, cuerpo):
     # Attempt to load previously submitted data
     try:
         infrastructure_data = cuerpo.cuerpoinfrastructuredata
-        logging.info("Successfully fetched cuerpo:%s's cuerpoinfrastructuredata", cuerpo.old_id)
+        logging.info("Successfully fetched cuerpo:%s's cuerpoinfrastructuredata for user:%s", cuerpo.old_id, request.user.username)
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        logging.info("Creating cuerpo:%s's cuerpoinfrastructuredata model", cuerpo.old_id)
+        logging.info("Creating cuerpo:%s's cuerpoinfrastructuredata model for user:%s", cuerpo.old_id, request.user.username)
         infrastructure_data = CuerpoInfrastructureData()
         # Add cuerpo to blank data
         infrastructure_data.cuerpo = cuerpo
@@ -110,10 +110,10 @@ def edit_mayor_material_form(request, cuerpo, mayor_material_id):
     # Attempt to load previously submitted data
     try:
         mayor_material_data = cuerpo.cuerpomayormaterialdata_set.get(pk=mayor_material_id)
-        logging.info("Successfully fetched cuerpo:%s's portadacuerpodata", cuerpo.old_id)
+        logging.info("Successfully fetched cuerpo:%s's portadacuerpodata for user:%s", cuerpo.old_id, request.user.username)
     except CuerpoMayorMaterialData.DoesNotExist:
         # Redirect to default mayor material
-        logging.error("Requested mayor material data id:%s for cuerpo:%s doesn't exists", mayor_material_id, cuerpo.id)
+        logging.error("Requested mayor material data id:%s for cuerpo:%s doesn't exists, user:%s", mayor_material_id, cuerpo.id, request.user.username)
         request.flash['error'] = 'La planilla de material mayor consultada no existe'
         return redirect('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id)
 
@@ -122,7 +122,7 @@ def edit_mayor_material_form(request, cuerpo, mayor_material_id):
 # Add New Mayor Material form
 @authorize()
 def add_new_mayor_material(request, cuerpo):
-    logging.info("Creating cuerpo:%s's new mayor_material form", cuerpo.old_id)
+    logging.info("Creating cuerpo:%s's new mayor_material form for user:%s", cuerpo.old_id, request.user.username)
     mayor_material_data = CuerpoMayorMaterialData()
     mayor_material_data.cuerpo = cuerpo
     
@@ -137,15 +137,15 @@ def remove_mayor_material(request, cuerpo, mayor_material_id):
 
         try:
             mayor_material_data = cuerpo.cuerpomayormaterialdata_set.get(pk=mayor_material_id)
-            logging.info("Successfully fetched cuerpo:%s's mayor_material:%s", cuerpo.old_id, mayor_material_id)
+            logging.info("Successfully fetched cuerpo:%s's mayor_material:%s for user:%s", cuerpo.old_id, mayor_material_id, request.user.username)
         # The id provided in the url does not exist
         except CuerpoMayorMaterialData.DoesNotExist:
             # Redirect to default mayor material
             request.flash['error'] = 'La planilla de material mayor consultada no existe'
-            logging.error("Requested mayor material data id:%s for cuerpo:%s doesn't exists", mayor_material_id, cuerpo.id)
+            logging.error("Requested mayor material data id:%s for cuerpo:%s doesn't exists, user:%s", mayor_material_id, cuerpo.id, request.user.username)
             return redirect('cuerpo_mayor_material', cuerpo_id=cuerpo.old_id)
         
-        logging.info("Deleting mayor material data object id:%s for cuerpo:%s", mayor_material_data.id, cuerpo.id)
+        logging.info("Deleting mayor material data object id:%s for cuerpo:%s, user:%s", mayor_material_data.id, cuerpo.id, request.user.username)
         mayor_material_data.delete()
         request.flash['success'] = "Se ha eliminado la ficha seleccionada satisfactoriamente"
     
@@ -158,10 +158,10 @@ def display_alarm_central_form(request, cuerpo):
     # Attempt to load previously submitted data
     try:
         alarm_central_cuerpo_data = cuerpo.cuerpoalarmcentraldata
-        logging.info("Successfully fetched cuerpo:%s's cuerpoalarmcentraldata", cuerpo.old_id)
+        logging.info("Successfully fetched cuerpo:%s's cuerpoalarmcentraldata for user:%s", cuerpo.old_id, request.user.username)
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        logging.info("Creating cuerpo:%s's cuerpoalarmcentraldata model", cuerpo.old_id)
+        logging.info("Creating cuerpo:%s's cuerpoalarmcentraldata model for user:%s", cuerpo.old_id, request.user.username)
         alarm_central_cuerpo_data = CuerpoAlarmCentralData()
         # Add cuerpo to blank data
         alarm_central_cuerpo_data.cuerpo = cuerpo
@@ -178,10 +178,10 @@ def display_service_acts_form(request, cuerpo):
     # Attempt to load previously submitted data
     try:
         service_acts_data = cuerpo.cuerposerviceactsdata
-        logging.info("Successfully fetched cuerpo:%s's cuerposerviceactsdata", cuerpo.old_id)
+        logging.info("Successfully fetched cuerpo:%s's cuerposerviceactsdata for user:%s", cuerpo.old_id, request.user.username)
     # If it fails, create blank data
     except ObjectDoesNotExist:
-        logging.info("Creating cuerpo:%s's cuerposerviceactsdata model", cuerpo.old_id)
+        logging.info("Creating cuerpo:%s's cuerposerviceactsdata model for user:%s", cuerpo.old_id, request.user.username)
         service_acts_data = CuerpoServiceActsData()
         # Add cuerpo to blank data
         service_acts_data.cuerpo = cuerpo

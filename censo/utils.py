@@ -148,12 +148,13 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     # If one of the buttons has been pressed
     
     if request.method == 'POST':
-        logging.info("User:%s is initiating model:%s's form:%s saving procedure", user.username,instance.__class__.__name__,PageForm.__name__)
+        logging.info("user:%s is initiating model:%s's form:%s save procedure", user.username,instance.__class__.__name__, PageForm.__name__)
         form = PageForm(request.POST, request.FILES, instance=instance)
         
         for picture_field in form.picture_fields():
             picture_name = picture_field[0].name
             if '%s_delete' % picture_name in request.POST:
+                logging.info("user:%s deleted picture:%s from model:%s", user.username, picture_name, instance.__class__.__name__)
                 getattr(instance, picture_name).delete()
                 formsets_modified = True
         
@@ -161,6 +162,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
             prefix = GenericFormSet.get_default_prefix()
             
             if '%s_add' % prefix in request.POST:
+                logging.info("user:%s added new dynamic field to form:%s from model:%s", user.username, prefix, instance.__class__.__name__)
                 formset_data = request.POST.copy()
                 total_forms_field_name = '%s-TOTAL_FORMS' % prefix
                 total_forms_quantity = int(formset_data[total_forms_field_name])
@@ -170,6 +172,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
                 formsets_modified = True
                 break
             elif '%s_delete' % prefix in request.POST:
+                logging.info("user:%s removed dynamic field from form:%s, model:%s", user.username, prefix, instance.__class__.__name__)
                 new_data = remove_deleted_fields_from_data(request.POST, prefix)
                 formsets[prefix] = GenericFormSet(new_data, instance=formset_pairs[idx][1])
                 formsets_modified = True
@@ -192,6 +195,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
             if valid_form_page and not formsets_modified:
                 # mark instance as valid for future administrator revision
                 instance.is_valid = True
+                logging.info("user:%s successfully saved form:%s from model:%s", user.username, PageForm.__name__, instance.__class__.__name__)
                 form.save()
                 
                 for idx, GenericFormSet in enumerate(GenericFormSets):
