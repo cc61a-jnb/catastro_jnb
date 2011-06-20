@@ -132,6 +132,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     e.g. [('company', Company.objects.filter(cuerpo=cuerpo)] for CuerpoMayorMaterialData
     """
     
+    user = request.user
     # First we generate all the formset classes with the given formset_pairs
     GenericFormSets = [inlineformset_factory(pair[1].__class__, pair[0], extra=1) for pair in formset_pairs]
     
@@ -147,6 +148,7 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     # If one of the buttons has been pressed
     
     if request.method == 'POST':
+        logging.info("User:%s is initiating model:%s's form:%s saving procedure", user.username,instance.__class__.__name__,PageForm.__name__)
         form = PageForm(request.POST, request.FILES, instance=instance)
         
         for picture_field in form.picture_fields():
