@@ -1,13 +1,12 @@
 # coding: utf-8
 
+import re
 import logging
 
 from django.template import Context, loader, RequestContext
 from django.http import HttpResponseRedirect
 from django.forms.models import inlineformset_factory
 from django.shortcuts import render_to_response
-import re
-import pdb
 
 def render_service_acts(fields, column_labels, row_labels, css_class_name='table_service_acts'):
     template = loader.get_template('tags/fields_table_service_acts.html')
@@ -114,8 +113,8 @@ def find_foreign_key_field_name(ReferralClass, ReferredClass):
         if hasattr(field, 'related') and field.related.parent_model == ReferredClass:
             return field.name
 
-def generic_edit(request, instance, PageForm, template, success_redirect, formset_pairs=[], queryset_pair=[]):
-    '''
+def generic_edit(request, instance, PageForm, template, success_redirect, formset_pairs=[], queryset_pairs=[]):
+    """
     Method that handles form with multiple (or no) formsets automagically
     request: Request sent to the original view
     instance: data associated with the current page
@@ -129,7 +128,9 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
     formset_pairs: Optional list of pairs for the data needed to analyze each formset, the first
     one must be the model class that represents the formset (e.g CompanyOtherOfficial), the second
     one must be the instance of the model the class refers to (e.g. company)
-    '''
+    queryset_pairs: Optional list of paired values, the first one must be the name of a PageForm value and the second one must be the queryset to fill the options of the specified value
+    e.g. [('company', Company.objects.filter(cuerpo=cuerpo)] for CuerpoMayorMaterialData
+    """
     
     # First we generate all the formset classes with the given formset_pairs
     GenericFormSets = [inlineformset_factory(pair[1].__class__, pair[0], extra=1) for pair in formset_pairs]
@@ -214,9 +215,10 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
             prefix = GenericFormSet.get_default_prefix()
             formsets[prefix] = GenericFormSet(instance=formset_pairs[idx][1])
         form = PageForm(instance=instance)
-        
-    if queryset_pair:
-        form.fields[queryset_pair[0]].queryset = queryset_pair[1]
+    
+    # assign form fields querysets if specified
+    for pair in queryset_pairs:
+        form.fields[pair[0]].queryset = pair[1]
         
     menu_titles, main_menu_choices, user_permission_instance = request.user.get_profile().get_menu()
         
