@@ -10,7 +10,7 @@ class CuerpoMaterialMayorInstalledRadio(models.Model):
     installed_radio_potency=models.IntegerField(max_length = 4, verbose_name='Power', blank=True, null=True)
     
     def __unicode__(self):
-        return u'%s: %s' % (self.installed_radio_brand, self.installed_radio_model)
+        return u'%s: %s' % (unicode(self.fk_installed_radio_brand), self.installed_radio_model)
 
     class Meta:
         ordering = ['id']
