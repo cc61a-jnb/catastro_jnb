@@ -155,7 +155,11 @@ def generic_edit(request, instance, PageForm, template, success_redirect, formse
             picture_name = picture_field[0].name
             if '%s_delete' % picture_name in request.POST:
                 logging.info("user:%s deleted picture:%s from model:%s", user.username, picture_name, instance.__class__.__name__)
-                getattr(instance, picture_name).delete()
+                from ipdb import set_trace; set_trace()
+                picture_file = getattr(instance, picture_name)
+                if picture_file.name: # check if file has content
+                    picture_file.delete()
+                
                 formsets_modified = True
         
         for idx, GenericFormSet in enumerate(GenericFormSets):
