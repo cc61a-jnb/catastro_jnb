@@ -22,7 +22,7 @@ class CuerpoMayorMaterialForm(BaseForm):
             self._errors['denomination'] = self.error_class([error_message])
 
         #The kilometers during the oil change cannot be higher that the current quantity
-        if data['oil_change_kilometraje'] > data ['kilometraje']:
+        if 'oil_change_kilometraje' in data and 'kilometraje' in data and data['oil_change_kilometraje'] > data ['kilometraje']:
             error_message = 'El kilometraje del último cambio de aceite no puede ser mayor al kilometraje actual'
             self._errors['kilometraje'] = self.error_class([error_message])
             self._errors['oil_change_kilometraje'] = self.error_class([error_message])
