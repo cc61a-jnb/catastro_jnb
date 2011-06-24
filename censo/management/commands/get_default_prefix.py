@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 class Command(BaseCommand):
 
-    args = '<referenced_class referencing_class>'
+    args = 'referenced_class referencing_class'
     help = "Run this command to display the default form prefix of a model pointing with a foreign key to another, e.g. python manage.py get_default_prefix Cuerpo CuerpoOtherOfficial"
 
     def handle(self, *args, **options):
@@ -20,7 +20,7 @@ class Command(BaseCommand):
             f = inlineformset_factory(referenced_class, referencing_class)
             print "the prefix is %s" % f.get_default_prefix()
         except AttributeError:
-            raise CommandError('The values you entered are not classes, you must specify the class names')
+            raise CommandError('The values you entered are not classes, you must specify class names')
         except:
             raise CommandError('The classes you entered are not associated, maybe you specified them swapped?')
             
