@@ -137,23 +137,23 @@ class CuerpoAlarmCentralForm(BaseForm):
         # List of all the global errors found in the form so we can display them all at once at the end
         self.custom_errors = []
 
-        normalizado = data['normalized_frequency']
+        normalizado = data.get('normalized_frequency', None)
         #caso en que es Normalizada es Si
         if normalizado == 2:
-           #verificamos que estén decreto y fecha otorgada
-           decree = data['decree']
+            # verificamos que estén decreto y fecha otorgada
+            decree = data.get('decree', None)
 
-           if not decree:
-               self._errors['decree'] = self.error_class([u'Debe especificar el N° de decreto'])
-           date  = data['decree_date']
-           if not date:
-              self._errors['decree_date'] = self.error_class([u'Debe especificar la fecha de entrega de decreto'])
+            if not decree:
+                self._errors['decree'] = self.error_class([u'Debe especificar el N° de decreto'])
+           
+            date  = data.get('decree_date', None)
+            if not date:
+                self._errors['decree_date'] = self.error_class([u'Debe especificar la fecha de entrega de decreto'])
 
         #caso en que es Normalizada es No
         if normalizado == 1:
-           #dejamos pasar el decreto y fecha en blanco.
-           decree = data['decree']
-
+            # dejamos pasar el decreto y fecha en blanco.
+            decree = data.get('decree', None)
 
         return self.cleaned_data
 
